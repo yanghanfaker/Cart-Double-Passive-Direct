@@ -1,8 +1,8 @@
 """Single-input double inverted pendulum for Isaac Lab 3 multi-backend API.
 
 Install beside core/cartpole/cartpole_direct_env.py, then import this module
-from core/cartpole/__init__.py. This task starts upright; it is not
-a swing-up task. Only the slider receives commanded effort.
+from core/cartpole/__init__.py. Separate upright-balance and hanging swing-up
+tasks are registered. Only the slider receives commanded effort.
 """
 
 import copy
@@ -17,6 +17,7 @@ from isaaclab.envs import DirectRLEnv
 from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.utils import configclass
 from isaaclab.utils.math import sample_uniform, wrap_to_pi
+from isaaclab_rl.rsl_rl import RslRlMLPModelCfg
 from isaaclab_assets.robots.cart_double_pendulum import CART_DOUBLE_PENDULUM_CFG
 
 from .cartpole_direct_env_cfg import CartpoleEnvCfg
@@ -60,6 +61,8 @@ class PassiveDoubleCartpoleCfg(CartpoleEnvCfg):
     max_cart_pos = 2.5
     max_link_angle = 0.5  # radians, for each link's absolute tilt
     initial_angle = 0.0  # radians; zero starts both links exactly upright
+    initial_pole_angle = 0.0  # relative joint angle center, radians
+    initial_second_angle = 0.0
     # Additive rail-direction disturbance, disabled by default. -1 selects all envs.
     push_force = 0.0  # N, signed
     push_start_s = 2.0
@@ -113,7 +116,7 @@ class PassiveDoubleCartpoleEnv(DirectRLEnv):
             self._push_mask[:] = 1.0
         else:
             self._push_mask[cfg.push_env_id] = 1.0
-        print("[Passive double] actions=1; observations=6; max cart force=",
+        print(f"[Passive double] actions=1; observations={cfg.observation_space}; max cart force=",
               self.cfg.action_scale, "N; both pendulum effort targets=0")
 
     def _pre_physics_step(self, actions):
@@ -183,10 +186,11 @@ class PassiveDoubleCartpoleEnv(DirectRLEnv):
         q = self.cartpole.data.default_joint_pos.torch[env_ids].clone()
         dq = torch.zeros_like(q)
         q[:, cart] = 0.0
-        for ids in (pole, second):
-            q[:, ids] = sample_uniform(-self.cfg.initial_angle,
-                                      self.cfg.initial_angle,
-                                      q[:, ids].shape, self.device)
+        for ids, center in ((pole, self.cfg.initial_pole_angle),
+                            (second, self.cfg.initial_second_angle)):
+            q[:, ids] = center + sample_uniform(-self.cfg.initial_angle,
+                                               self.cfg.initial_angle,
+                                               q[:, ids].shape, self.device)
         pose = self.cartpole.data.default_root_pose.torch[env_ids].clone()
         pose[:, :3] += self.scene.env_origins[env_ids]
         vel = torch.zeros_like(self.cartpole.data.default_root_vel.torch[env_ids])
@@ -207,6 +211,145 @@ if TASK_ID not in gym.registry:
         kwargs={
             "env_cfg_entry_point": f"{__name__}:PassiveDoubleCartpoleCfg",
             "rsl_rl_cfg_entry_point": f"{__name__}:PassiveDoublePPORunnerCfg",
+            "default_agent": "rsl_rl",
+        },
+    )
+
+
+def hanging_robot_cfg():
+    cfg = passive_robot_cfg()
+    # Raise the rail to give the downward and rotating links ground clearance.
+    cfg.init_state.pos = (0.0, 0.0, 4.0)
+    cfg.init_state.joint_pos = {
+        "slider_to_cart": 0.0,
+        "cart_to_pole": math.pi,
+        "pole_to_pendulum": 0.0,
+    }
+    return cfg
+
+
+@configclass
+class PassiveDoubleSwingUpSceneCfg(PassiveDoubleSceneCfg):
+    robot: ArticulationCfg = hanging_robot_cfg()
+
+
+@configclass
+class PassiveDoubleSwingUpCfg(PassiveDoubleCartpoleCfg):
+    observation_space = 8
+    episode_length_s = 20.0
+    initial_pole_angle = math.pi
+    initial_second_angle = 0.0
+    initial_angle = 0.0
+    success_angle = 0.15  # radians, absolute angle of each physical link
+    success_angular_speed = 1.0  # rad/s
+    success_cart_position = 1.0  # m
+    success_cart_speed = 1.0  # m/s
+    success_hold_s = 1.0
+    scene: PassiveDoubleSwingUpSceneCfg = PassiveDoubleSwingUpSceneCfg(
+        num_envs=4096, env_spacing=4.0
+    )
+    robot_cfg = hanging_robot_cfg()
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.sim.gravity = (0.0, 0.0, -9.81)
+
+
+@configclass
+class PassiveDoubleSwingUpPPORunnerCfg(PassiveDoublePPORunnerCfg):
+    experiment_name = "passive_double_swingup"
+    num_steps_per_env = 32
+    max_iterations = 5000
+    actor = RslRlMLPModelCfg(
+        hidden_dims=[128, 128, 64], activation="elu", obs_normalization=True,
+        distribution_cfg=RslRlMLPModelCfg.GaussianDistributionCfg(init_std=1.0),
+    )
+    critic = RslRlMLPModelCfg(
+        hidden_dims=[128, 128, 64], activation="elu", obs_normalization=True,
+    )
+
+
+class PassiveDoubleSwingUpEnv(PassiveDoubleCartpoleEnv):
+    """Start hanging; swing up using cart force only, then stabilize both links."""
+
+    cfg: PassiveDoubleSwingUpCfg
+
+    def __init__(self, cfg, render_mode=None, **kwargs):
+        super().__init__(cfg, render_mode, **kwargs)
+        self._upright_steps = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
+        self._best_upright_steps = torch.zeros_like(self._upright_steps)
+        self._hold_steps = max(1, math.ceil(cfg.success_hold_s / self.step_dt))
+        print("[Swing-up] observations=8 (sin/cos); initial joint angles=(pi, 0);"
+              " both links hang down; no angle-based termination")
+
+    def _get_observations(self):
+        x, dx, a1, w1, a2, w2 = self._state()
+        # Continuous observations through the +/-pi wrap boundary.
+        obs = torch.stack((x, dx, torch.sin(a1), torch.cos(a1), w1,
+                           torch.sin(a2), torch.cos(a2), w2), dim=-1)
+        return {"policy": obs}
+
+    def _upright(self, state):
+        x, dx, a1, w1, a2, w2 = state
+        return ((a1.abs() < self.cfg.success_angle)
+                & (a2.abs() < self.cfg.success_angle)
+                & (w1.abs() < self.cfg.success_angular_speed)
+                & (w2.abs() < self.cfg.success_angular_speed)
+                & (x.abs() < self.cfg.success_cart_position)
+                & (dx.abs() < self.cfg.success_cart_speed))
+
+    def _get_dones(self):
+        state = self._state()
+        failed = ((state[0].abs() > self.cfg.max_cart_pos)
+                  | ~torch.isfinite(torch.stack(state, dim=-1)).all(dim=-1))
+        timeout = self.episode_length_buf >= self.max_episode_length - 1
+        if hasattr(self, "_upright_steps"):
+            self._upright_steps = torch.where(
+                self._upright(state), self._upright_steps + 1,
+                torch.zeros_like(self._upright_steps),
+            )
+            self._best_upright_steps = torch.maximum(
+                self._best_upright_steps, self._upright_steps
+            )
+        return failed, timeout
+
+    def _get_rewards(self):
+        state = self._state()
+        x, dx, a1, w1, a2, w2 = state
+        u = self._force[:, 0] / self.cfg.action_scale
+        # Dense lift reward: 0 for hanging, 2 for both links upright. Velocity
+        # penalties stay small enough to allow energy-building swing motion.
+        lift = 0.5 * (1.0 + torch.cos(a1)) + 0.5 * (1.0 + torch.cos(a2))
+        reward_rate = (lift + 3.0 * self._upright(state).float()
+                       - 0.05 * x.square() - 0.002 * dx.square()
+                       - 0.0005 * (w1.square() + w2.square())
+                       - 0.001 * u.square())
+        return reward_rate * self.step_dt - 2.0 * self.reset_terminated.float()
+
+    def _reset_idx(self, env_ids):
+        if env_ids is None:
+            env_ids = self.cartpole._ALL_INDICES
+        if hasattr(self, "_upright_steps"):
+            self.extras.setdefault("log", {})["Metrics/swingup_success_rate"] = (
+                (self._best_upright_steps[env_ids] >= self._hold_steps).float().mean()
+            )
+            self.extras["log"]["Metrics/best_upright_seconds"] = (
+                self._best_upright_steps[env_ids].float().mean() * self.step_dt
+            )
+            self._upright_steps[env_ids] = 0
+            self._best_upright_steps[env_ids] = 0
+        super()._reset_idx(env_ids)
+
+
+SWINGUP_TASK_ID = "Isaac-Cart-Double-Passive-SwingUp-Direct"
+if SWINGUP_TASK_ID not in gym.registry:
+    gym.register(
+        id=SWINGUP_TASK_ID,
+        entry_point=f"{__name__}:PassiveDoubleSwingUpEnv",
+        disable_env_checker=True,
+        kwargs={
+            "env_cfg_entry_point": f"{__name__}:PassiveDoubleSwingUpCfg",
+            "rsl_rl_cfg_entry_point": f"{__name__}:PassiveDoubleSwingUpPPORunnerCfg",
             "default_agent": "rsl_rl",
         },
     )

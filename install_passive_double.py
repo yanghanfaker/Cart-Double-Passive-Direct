@@ -31,4 +31,5 @@ if updated != original:
     init_file.write_text(updated, encoding="utf-8")
 print(f"Installed: {target}")
 print("Registered task: Isaac-Cart-Double-Passive-Direct")
+print("Registered task: Isaac-Cart-Double-Passive-SwingUp-Direct")
 print("Original task files preserved; __init__.py has one import added.")

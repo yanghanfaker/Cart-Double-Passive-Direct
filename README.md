@@ -1,6 +1,11 @@
 # 小车驱动的二级倒立摆（Isaac Lab）
 
-任务 ID：`Isaac-Cart-Double-Passive-Direct`。
+| 任务 ID | 初态与目标 |
+| --- | --- |
+| `Isaac-Cart-Double-Passive-SwingUp-Direct` | 两杆自然下垂，从下向上起摆并保持倒立（8 维观测） |
+| `Isaac-Cart-Double-Passive-Direct` | 从完全向上直立开始，保持平衡（6 维观测） |
+
+以下首先说明原有平衡任务；自然下垂起摆请使用后面的“从自然下垂起摆”命令。
 
 策略只控制小车水平推力，两个摆关节的驱动刚度、驱动阻尼和目标力矩均为零。观测为小车位置和速度、两根杆相对直立方向的绝对角度和角速度，共 6 维。动作只有 1 维，限制为 ±100 N。
 
@@ -64,6 +69,54 @@ ssh -N -o ExitOnForwardFailure=yes -L 127.0.0.1:18080:127.0.0.1:8080 test@SPARK_
 将 `SPARK_IP` 替换为实际地址，然后打开 `http://127.0.0.1:18080`。
 
 一级倒立摆和官方多智能体双摆的模型不适用于此任务，需要重新训练。
+
+## 从自然下垂起摆
+
+任务：`Isaac-Cart-Double-Passive-SwingUp-Direct`。
+
+- 重力为 `(0, 0, -9.81)` m/s²。第一摆关节为 π rad，第二个相对关节为 0；两个物理杆的绝对姿态均为竖直向下。
+- 小车在导轨中心，初速度为零。导轨根坐标高度改为 4 m，给下垂和旋转留出地面间隙；需要在实际资产上观察确认间隙。
+- 只有小车电机驱动，摆关节不锁定，不主动施力。
+- 使用 8 维观测：小车位置/速度、两个绝对角的 sin/cos、两个绝对角速度，避免角度绕过 ±π 时观测跳变。
+- 允许杆大角度旋转，不再因为倾斜而结束；小车越界或状态非有限时失败，20 秒超时重置。
+- 奖励鼓励两杆上升、直立并减速。`Metrics/swingup_success_rate` 表示该回合曾连续满足直立、低速和小车靠近中心条件至少 1 秒的比例。`survival_rate` 只表示未越界撑到超时，不代表起摆成功。
+
+先用零控制检查下垂姿态（不是训练）：
+
+```bash
+cd /home/test/Robot/IsaacLab
+uv run --extra viser isaaclab zero_agent \
+  --task Isaac-Cart-Double-Passive-SwingUp-Direct \
+  --num_envs 1 --viz viser physics=isaacsim_physx
+```
+
+停止零控制测试，先做 10 轮训练检查：
+
+```bash
+uv run isaaclab train --rl_library rsl_rl \
+  --task Isaac-Cart-Double-Passive-SwingUp-Direct \
+  --num_envs 64 --max_iterations 10 physics=isaacsim_physx
+```
+
+然后开始训练：
+
+```bash
+uv run isaaclab train --rl_library rsl_rl \
+  --task Isaac-Cart-Double-Passive-SwingUp-Direct \
+  --num_envs 1024 --max_iterations 5000 physics=isaacsim_physx
+```
+
+5000 轮只是初始实验预算，尚未在 DGX Spark 验证起摆收敛，可能需要调整奖励、探索、轨道范围或训练预算。新日志目录是 `logs/rsl_rl/passive_double_swingup/`。
+
+测试起摆模型：
+
+```bash
+uv run --extra viser isaaclab play --rl_library rsl_rl \
+  --task Isaac-Cart-Double-Passive-SwingUp-Direct \
+  --checkpoint latest --num_envs 4 --viz viser physics=isaacsim_physx
+```
+
+请勿加载原来的 6 维平衡模型；新的 8 维网络必须重新训练。周期扰动力参数也可用于这个任务，但初次训练先保持 `env.push_force=0.0`。
 
 若 Viser 报 `add_line_segments() ... unexpected keyword argument 'thickness'`，在 Isaac Lab 根目录执行 `uv add --optional viser "viser>=1.1.0"` 后重启回放。后续回放保留 `--extra viser`。若网页客户端版本不一致，关闭旧标签并强制刷新或用无痕窗口打开。
 
