@@ -6,17 +6,18 @@ a swing-up task. Only the slider receives commanded effort.
 """
 
 import copy
-import math
 
 import gymnasium as gym
 import torch
 
+import isaaclab.sim as sim_utils
+from isaaclab.assets import ArticulationCfg, AssetBaseCfg
 from isaaclab.envs import DirectRLEnv
+from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.utils import configclass
 from isaaclab.utils.math import sample_uniform, wrap_to_pi
 from isaaclab_assets.robots.cart_double_pendulum import CART_DOUBLE_PENDULUM_CFG
 
-from .cartpole_direct_env import CartpoleEnv
 from .cartpole_direct_env_cfg import CartpoleEnvCfg
 from .agents.rsl_rl_ppo_cfg import CartpoleDirectPPORunnerCfg
 
@@ -35,6 +36,20 @@ def passive_robot_cfg():
 
 
 @configclass
+class PassiveDoubleSceneCfg(InteractiveSceneCfg):
+    """Declare assets so InteractiveScene constructs and clones the double pendulum."""
+
+    ground = AssetBaseCfg(
+        prim_path="/World/ground", spawn=sim_utils.GroundPlaneCfg()
+    )
+    robot: ArticulationCfg = passive_robot_cfg()
+    light = AssetBaseCfg(
+        prim_path="/World/Light",
+        spawn=sim_utils.DomeLightCfg(intensity=2000.0, color=(0.75, 0.75, 0.75)),
+    )
+
+
+@configclass
 class PassiveDoubleCartpoleCfg(CartpoleEnvCfg):
     action_space = 1
     observation_space = 6
@@ -45,6 +60,9 @@ class PassiveDoubleCartpoleCfg(CartpoleEnvCfg):
     max_link_angle = 0.5  # radians, for each link's absolute tilt
     initial_angle = 0.03  # radians, each relative joint angle
     robot_cfg = passive_robot_cfg()
+    scene: PassiveDoubleSceneCfg = PassiveDoubleSceneCfg(
+        num_envs=4096, env_spacing=4.0
+    )
     events = None
 
 
@@ -59,11 +77,9 @@ class PassiveDoublePPORunnerCfg(CartpoleDirectPPORunnerCfg):
 class PassiveDoubleCartpoleEnv(DirectRLEnv):
     cfg: PassiveDoubleCartpoleCfg
 
-    # Reuse only scene construction (ground, cloning, lights, asset registration).
-    _setup_scene = CartpoleEnv._setup_scene
-
     def __init__(self, cfg, render_mode=None, **kwargs):
         super().__init__(cfg, render_mode, **kwargs)
+        self.cartpole = self.scene["robot"]
         self._cart_idx, _ = self.cartpole.find_joints("slider_to_cart")
         self._pole_idx, _ = self.cartpole.find_joints("cart_to_pole")
         self._second_idx, _ = self.cartpole.find_joints("pole_to_pendulum")
