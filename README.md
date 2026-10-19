@@ -47,7 +47,7 @@ uv run isaaclab train --rl_library rsl_rl \
 ## 浏览器测试
 
 ```bash
-uv run isaaclab play --rl_library rsl_rl \
+uv run --extra viser isaaclab play --rl_library rsl_rl \
   --task Isaac-Cart-Double-Passive-Direct \
   --checkpoint latest --num_envs 4 --viz viser \
   physics=isaacsim_physx
@@ -62,6 +62,33 @@ ssh -N -o ExitOnForwardFailure=yes -L 127.0.0.1:18080:127.0.0.1:8080 test@SPARK_
 将 `SPARK_IP` 替换为实际地址，然后打开 `http://127.0.0.1:18080`。
 
 一级倒立摆和官方多智能体双摆的模型不适用于此任务，需要重新训练。
+
+若 Viser 报 `add_line_segments() ... unexpected keyword argument 'thickness'`，在 Isaac Lab 根目录执行 `uv add --optional viser "viser>=1.1.0"` 后重启回放。后续回放保留 `--extra viser`。若网页客户端版本不一致，关闭旧标签并强制刷新或用无痕窗口打开。
+
+## 周期推力抗扰测试
+
+扰动默认关闭，可在加载已有模型时启用，无需重新训练：
+
+```bash
+cd /home/test/Robot/IsaacLab
+uv run --extra viser isaaclab play --rl_library rsl_rl \
+  --task Isaac-Cart-Double-Passive-Direct \
+  --checkpoint latest --num_envs 4 --viz viser \
+  physics=isaacsim_physx \
+  env.push_force=5.0 env.push_env_id=0
+```
+
+| 参数 | 默认值 | 含义 |
+| --- | --- | --- |
+| `env.push_force` | `0.0` | 附加力，单位 N；正负表示沿导轨的相反方向，0 关闭 |
+| `env.push_env_id` | `0` | 只扰动第 0 个环境；`-1` 扰动全部环境 |
+| `env.push_start_s` | `2.0` | 每回合第一次扰动开始的仿真时间 |
+| `env.push_duration_s` | `0.1` | 单次推力持续的仿真时间 |
+| `env.push_interval_s` | `3.0` | 推力开始时间之间的间隔 |
+
+默认时间设置下，在第 2、5、8 秒附近推第 0 个环境，其余环境作为对照。时间按控制步取整，短于一个控制步的脉冲至少持续一步；持续时间取整后必须小于周期。每次环境重置后重新计时，若回合在 2 秒前结束，就不会受到该次推力。
+
+实现把扰动力加在小车滑动关节的目标力上，在理想直线导轨模型中等效于沿轨道推小车。不是对摆杆任意位置施力，也不会在网页自动增加施力按钮。两个摆关节目标力矩仍为零。实际总推力仍受求解器/执行器上限影响。建议从 2 N、5 N、10 N 逐步测试；要做可复现实验，使用指定 checkpoint 路径替代 `latest`。
 
 ## 更新
 

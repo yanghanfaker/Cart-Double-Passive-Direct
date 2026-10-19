@@ -6,6 +6,7 @@ a swing-up task. Only the slider receives commanded effort.
 """
 
 import copy
+import math
 
 import gymnasium as gym
 import torch
@@ -59,6 +60,12 @@ class PassiveDoubleCartpoleCfg(CartpoleEnvCfg):
     max_cart_pos = 2.5
     max_link_angle = 0.5  # radians, for each link's absolute tilt
     initial_angle = 0.03  # radians, each relative joint angle
+    # Additive rail-direction disturbance, disabled by default. -1 selects all envs.
+    push_force = 0.0  # N, signed
+    push_start_s = 2.0
+    push_duration_s = 0.1
+    push_interval_s = 3.0
+    push_env_id = 0
     robot_cfg = passive_robot_cfg()
     scene: PassiveDoubleSceneCfg = PassiveDoubleSceneCfg(
         num_envs=4096, env_spacing=4.0
@@ -78,22 +85,52 @@ class PassiveDoubleCartpoleEnv(DirectRLEnv):
     cfg: PassiveDoubleCartpoleCfg
 
     def __init__(self, cfg, render_mode=None, **kwargs):
+        # Fail before starting simulation if timing or environment selection is invalid.
+        for name in ("push_force", "push_start_s", "push_duration_s", "push_interval_s"):
+            if not math.isfinite(getattr(cfg, name)):
+                raise ValueError(f"{name} must be finite")
+        if cfg.push_start_s < 0 or not 0 < cfg.push_duration_s < cfg.push_interval_s:
+            raise ValueError("Require push_start_s >= 0 and 0 < push_duration_s < push_interval_s")
+        if (not isinstance(cfg.push_env_id, int)
+                or not -1 <= cfg.push_env_id < cfg.scene.num_envs):
+            raise ValueError("push_env_id must be -1 (all) or a valid environment index")
         super().__init__(cfg, render_mode, **kwargs)
         self.cartpole = self.scene["robot"]
         self._cart_idx, _ = self.cartpole.find_joints("slider_to_cart")
         self._pole_idx, _ = self.cartpole.find_joints("cart_to_pole")
         self._second_idx, _ = self.cartpole.find_joints("pole_to_pendulum")
         self._force = torch.zeros((self.num_envs, 1), device=self.device)
+        self._push = torch.zeros_like(self._force)
+        # Schedule on integer control ticks to avoid floating-point modulo boundaries.
+        # Durations are quantized to the environment control interval, not wall time.
+        self._push_start_step = max(0, round(cfg.push_start_s / self.step_dt))
+        self._push_duration_steps = max(1, round(cfg.push_duration_s / self.step_dt))
+        self._push_interval_steps = max(1, round(cfg.push_interval_s / self.step_dt))
+        if self._push_duration_steps >= self._push_interval_steps:
+            raise ValueError("Push duration must be shorter than its period after control-step rounding")
+        self._push_mask = torch.zeros_like(self._force)
+        if cfg.push_env_id == -1:
+            self._push_mask[:] = 1.0
+        else:
+            self._push_mask[cfg.push_env_id] = 1.0
         print("[Passive double] actions=1; observations=6; max cart force=",
               self.cfg.action_scale, "N; both pendulum effort targets=0")
 
     def _pre_physics_step(self, actions):
         self._force = self.cfg.action_scale * actions.clamp(-1.0, 1.0)
+        elapsed = self.episode_length_buf - self._push_start_step
+        active = ((elapsed >= 0)
+                  & (torch.remainder(elapsed, self._push_interval_steps)
+                     < self._push_duration_steps))
+        self._push = (active.to(self._force.dtype).unsqueeze(-1)
+                      * self.cfg.push_force * self._push_mask)
 
     def _apply_action(self):
         # Explicitly write zero effort to ALL joints, then drive only the slider.
         effort = torch.zeros_like(self.cartpole.data.joint_pos.torch)
-        effort[:, self._cart_idx] = self._force
+        # Equivalent generalized disturbance force along the cart rail. The motor's
+        # action remains bounded separately; the solver may limit the summed effort.
+        effort[:, self._cart_idx] = self._force + self._push
         self.cartpole.set_joint_effort_target_index(target=effort)
 
     def _state(self):
@@ -136,6 +173,8 @@ class PassiveDoubleCartpoleEnv(DirectRLEnv):
                 self.reset_time_outs[env_ids].float().mean()
             )
             self._force[env_ids] = 0.0
+            if hasattr(self, "_push"):
+                self._push[env_ids] = 0.0
         super()._reset_idx(env_ids)
         # Resolve indices here too, for initialization-time reset compatibility.
         cart, _ = self.cartpole.find_joints("slider_to_cart")
