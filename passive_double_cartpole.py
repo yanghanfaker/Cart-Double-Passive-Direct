@@ -1,7 +1,7 @@
 """Single-input double inverted pendulum for Isaac Lab 3 multi-backend API.
 
 Install beside core/cartpole/cartpole_direct_env.py, then import this module
-from core/cartpole/__init__.py. This task balances near upright; it is not
+from core/cartpole/__init__.py. This task starts upright; it is not
 a swing-up task. Only the slider receives commanded effort.
 """
 
@@ -59,7 +59,7 @@ class PassiveDoubleCartpoleCfg(CartpoleEnvCfg):
     episode_length_s = 10.0
     max_cart_pos = 2.5
     max_link_angle = 0.5  # radians, for each link's absolute tilt
-    initial_angle = 0.03  # radians, each relative joint angle
+    initial_angle = 0.0  # radians; zero starts both links exactly upright
     # Additive rail-direction disturbance, disabled by default. -1 selects all envs.
     push_force = 0.0  # N, signed
     push_start_s = 2.0
