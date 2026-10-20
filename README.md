@@ -18,7 +18,7 @@
 - 面向具有 `isaaclab_tasks/core/cartpole` 目录和统一 `isaaclab train/play` 命令的 Isaac Lab 3 开发版本。
 - Isaac Lab 已能使用 `physics=isaacsim_physx` 运行官方 Cartpole 任务。
 - RSL-RL 已安装。
-- 本代码仅完成语法检查，尚未在 DGX Spark 上完成运行或收敛验证。开发分支 API 变化可能需要适配。
+- 原平衡与起摆任务已由用户在 DGX Spark 跑通训练。新增随机推力通过调度与安装测试，尚待 Spark 回放验证；开发分支 API 变化可能需要适配。
 
 ## 安装
 
@@ -28,7 +28,7 @@
 python3 install_passive_double.py /home/test/Robot/IsaacLab
 ```
 
-脚本新增任务文件，在官方 Cartpole 包的 `__init__.py` 末尾增加导入。修改前自动生成带时间戳的备份。不会覆盖官方 Cartpole 环境和训练配置。
+脚本新增任务文件和 `push_disturbance.py` 辅助模块，在官方 Cartpole 包的 `__init__.py` 末尾增加导入。修改前自动生成带时间戳的备份。不会覆盖官方 Cartpole 环境和训练配置。
 
 ## 短训练检查
 
@@ -145,7 +145,49 @@ uv run --extra viser isaaclab play --rl_library rsl_rl \
 
 实现把扰动力加在小车滑动关节的目标力上，在理想直线导轨模型中等效于沿轨道推小车。不是对摆杆任意位置施力，也不会在网页自动增加施力按钮。两个摆关节目标力矩仍为零。实际总推力仍受求解器/执行器上限影响。建议从 2 N、5 N、10 N 逐步测试；要做可复现实验，使用指定 checkpoint 路径替代 `latest`。
 
-## 更新
+## 外部随机推力测试
+
+加载已经训练的起摆模型，无需重新训练：
+
+```bash
+cd /home/test/Robot/IsaacLab
+uv run --extra viser isaaclab play --rl_library rsl_rl \
+  --task Isaac-Cart-Double-Passive-SwingUp-Direct \
+  --checkpoint latest --num_envs 4 --viz viser \
+  physics=isaacsim_physx \
+  env.push_mode=random env.push_env_id=0 \
+  env.push_start_s=5.0 env.push_random_seed=42 env.push_log=True
+```
+
+此命令只对第 0 个环境沿导轨施加随机方向的推力：幅值 2–5 N，持续时间 0.05–0.15 秒；每次结束后随机等待 2–4 秒。每回合重置后先留出 5 秒起摆，再等待 2–4 秒，因此第一次推力约在第 7–9 秒开始。回合提前结束时不会等到该次推力。其他三个环境不施加推力，可作定性对照。
+
+| 参数 | 默认值 | 含义 |
+| --- | --- | --- |
+| `env.push_mode` | `periodic` | `random` 启用随机脉冲，`periodic` 使用原周期模式 |
+| `env.random_push_force_min` | `2.0` | 随机力绝对值下限，N，须大于 0 |
+| `env.random_push_force_max` | `5.0` | 随机力绝对值上限，N；符号独立随机选择 |
+| `env.random_push_duration_min_s` | `0.05` | 持续时间下限 |
+| `env.random_push_duration_max_s` | `0.15` | 持续时间上限 |
+| `env.random_push_wait_min_s` | `2.0` | 脉冲结束至下次开始的等待时间下限 |
+| `env.random_push_wait_max_s` | `4.0` | 等待时间上限 |
+| `env.push_random_seed` | `42` | 扰动力专用种子，不修改策略或环境 RNG |
+| `env.push_log` | `False` | 打印每次力开始/结束的环境 ID、总仿真时间、力和持续时间 |
+
+随机模式不使用 `push_force`、`push_duration_s`、`push_interval_s` 来采样。要关闭扰动，使用 `env.push_mode=periodic env.push_force=0.0`。`push_env_id=-1` 表示给全部环境独立施力。随机调度使用每环境独立的 RNG，时间向上取整至控制步；相同种子、相同重置时序下可以复现。环境受力后重置时，旧推力立即清零，重新等待起摆宽限期。
+
+输出示例：`[Random push] env=0 sim_time=7.400s force=-3.200N duration=0.100s`。`force=0` 表示该次推力结束。总仿真时间不是墙上时间，也不一定是当前回合时间。
+
+该实现是加在小车滑动关节上的等效外部水平力，受求解器总力上限影响，不对摆杆任意位置施力。网页没有额外施力按钮。测试时固定 checkpoint，分别比较无扰动/2–5 N/5–10 N，多跑不同种子。`swingup_success_rate` 只要求回合内曾成功直立过，不能单独代表受力后的恢复能力；需观察受力后是否恢复、是否越界，以及连续直立时间。
+
+仅在有需要时用所有环境随机受力训练；本实现的 Python 调度适合少量环境的测试，大规模训练可能增加开销。
+
+调度器和安装脚本的独立检查（不需要安装 Isaac Lab）：
+
+```bash
+python3 -m unittest -v test_push_disturbance.py
+```
+
+## 更新安装
 
 在本仓库执行 `git pull` 后，重新运行安装脚本，然后重新启动训练或回放。不要在训练过程中更换任务代码。
 
