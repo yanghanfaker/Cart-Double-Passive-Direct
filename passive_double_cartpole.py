@@ -73,6 +73,8 @@ class PassiveDoubleCartpoleCfg(CartpoleEnvCfg):
     push_mode = "periodic"  # "random" enables independently sampled signed pulses
     push_random_seed = 42
     push_log = False
+    push_state_log = False  # opt-in CPU readback for small playback diagnostics
+    push_state_log_interval_s = 0.25
     random_push_force_min = 2.0  # absolute magnitude, N
     random_push_force_max = 5.0
     random_push_duration_min_s = 0.05
@@ -101,6 +103,9 @@ class PassiveDoubleCartpoleEnv(DirectRLEnv):
         # Fail before starting simulation if timing or environment selection is invalid.
         if cfg.push_mode not in ("periodic", "random"):
             raise ValueError("push_mode must be 'periodic' or 'random'")
+        if (not math.isfinite(cfg.push_state_log_interval_s)
+                or cfg.push_state_log_interval_s <= 0):
+            raise ValueError("push_state_log_interval_s must be finite and positive")
         if cfg.push_mode == "random":
             # Validate ranges before starting Kit. Construct the real scheduler below.
             RandomPushScheduler(
@@ -124,6 +129,7 @@ class PassiveDoubleCartpoleEnv(DirectRLEnv):
         self._second_idx, _ = self.cartpole.find_joints("pole_to_pendulum")
         self._force = torch.zeros((self.num_envs, 1), device=self.device)
         self._push = torch.zeros_like(self._force)
+        self._diagnostic_steps = 0
         # Schedule on integer control ticks to avoid floating-point modulo boundaries.
         # Durations are quantized to the environment control interval, not wall time.
         self._push_start_step = max(0, round(cfg.push_start_s / self.step_dt))
@@ -191,12 +197,42 @@ class PassiveDoubleCartpoleEnv(DirectRLEnv):
         return {"policy": torch.stack(self._state(), dim=-1)}
 
     def _get_dones(self):
-        x, _, a1, _, a2, _ = self._state()
+        state = self._state()
+        self._log_push_response(state)
+        x, _, a1, _, a2, _ = state
         failed = ((x.abs() > self.cfg.max_cart_pos)
                   | (a1.abs() > self.cfg.max_link_angle)
                   | (a2.abs() > self.cfg.max_link_angle))
         timeout = self.episode_length_buf >= self.max_episode_length - 1
         return failed, timeout
+
+    def _log_push_response(self, state):
+        """Print measured states and requested forces; this is not a force sensor."""
+        if not self.cfg.push_state_log or not hasattr(self, "_diagnostic_steps"):
+            return
+        self._diagnostic_steps += 1
+        interval = max(1, round(self.cfg.push_state_log_interval_s / self.step_dt))
+        if self._diagnostic_steps % interval:
+            return
+        selected = max(0, self.cfg.push_env_id)
+        other = 1 if selected == 0 and self.num_envs > 1 else 0
+        ids = [selected] if self.num_envs == 1 else [selected, other]
+        x, dx, a1, _, a2, _ = state
+        rows = torch.stack((x, dx, a1, a2), dim=-1)[ids].detach().cpu().tolist()
+        control = self._force[ids, 0].detach().cpu().tolist()
+        push = self._push[ids, 0].detach().cpu().tolist()
+        age = self.episode_length_buf[ids].detach().cpu().tolist()
+        for index, env_id in enumerate(ids):
+            px, vx, angle1, angle2 = rows[index]
+            print(f"[Push response] env={env_id} age={age[index] * self.step_dt:.3f}s "
+                  f"x={px:+.5f}m v={vx:+.5f}m/s "
+                  f"a1={math.degrees(angle1):+.3f}deg a2={math.degrees(angle2):+.3f}deg "
+                  f"policy={control[index]:+.3f}N push={push[index]:+.3f}N "
+                  f"target={control[index] + push[index]:+.3f}N")
+        if len(rows) == 2:
+            print(f"[Push difference] env={selected}-{other} "
+                  f"delta_x={rows[0][0] - rows[1][0]:+.6f}m "
+                  f"delta_v={rows[0][1] - rows[1][1]:+.6f}m/s")
 
     def _get_rewards(self):
         x, dx, a1, w1, a2, w2 = self._state()
@@ -342,6 +378,7 @@ class PassiveDoubleSwingUpEnv(PassiveDoubleCartpoleEnv):
 
     def _get_dones(self):
         state = self._state()
+        self._log_push_response(state)
         failed = ((state[0].abs() > self.cfg.max_cart_pos)
                   | ~torch.isfinite(torch.stack(state, dim=-1)).all(dim=-1))
         timeout = self.episode_length_buf >= self.max_episode_length - 1

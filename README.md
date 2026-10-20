@@ -187,6 +187,29 @@ uv run --extra viser isaaclab play --rl_library rsl_rl \
 python3 -m unittest -v test_push_disturbance.py
 ```
 
+### 四辆车看起来同步，怎样确认推力生效
+
+四个环境从相同状态开始、使用同一策略，施力前同步是预期行为。原先 2–5 N、约 0.1 秒的短脉冲可能被策略迅速补偿。默认回放也可能快于真实时间，使脉冲难以看见。日志中的 `[Random push]` 仅证明请求了扰动，不能证明求解器实际施加的力。
+
+下面只推第 0 个环境，以实时速度观察更大的推力：
+
+```bash
+uv run --extra viser isaaclab play --rl_library rsl_rl \
+  --task Isaac-Cart-Double-Passive-SwingUp-Direct \
+  --checkpoint latest --num_envs 4 --viz viser --real-time \
+  physics=isaacsim_physx \
+  env.push_mode=random env.push_env_id=0 env.push_start_s=5.0 \
+  env.random_push_force_min=20.0 env.random_push_force_max=30.0 \
+  env.random_push_duration_min_s=0.3 env.random_push_duration_max_s=0.3 \
+  env.push_log=True env.push_state_log=True
+```
+
+`[Push response]` 每 0.25 秒仿真时间打印第 0 和第 1 个环境的关节位置、速度、摆杆角度、策略力、扰动力与总目标力。`[Push difference]` 打印两者的位置差/速度差。`target` 是提交的目标力，不是测得的实际力；状态差是在仿真后的反馈。回合重置后比较时应同时检查 `age`，不同回合年龄会影响差值含义。
+
+若更强扰动后仍始终 `delta_x=0`、`delta_v=0`，请保留施力前后 1 秒的这些日志，进一步检查目标力到 PhysX 的传递。也可用 `isaaclab zero_agent` 替代 `isaaclab play`（删除 `--rl_library`、`--checkpoint`、`--real-time`），关闭策略输入验证推力能否让小车移动；起摆任务此时自然下垂，不会主动站立。
+
+诊断会读取 GPU 状态回 CPU，仅用于少量环境回放，默认关闭。强推力可能导致越界重置，目的是检查响应，并不预设旧模型能抵抗该强度。
+
 ## 更新安装
 
 在本仓库执行 `git pull` 后，重新运行安装脚本，然后重新启动训练或回放。不要在训练过程中更换任务代码。

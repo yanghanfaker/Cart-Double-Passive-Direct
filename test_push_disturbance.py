@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 
 from push_disturbance import RandomPushScheduler
 
@@ -95,6 +96,39 @@ class RandomPushTests(unittest.TestCase):
             for name in ('passive_double_cartpole.py', 'push_disturbance.py'):
                 self.assertEqual((target / name).read_bytes(), (root / name).read_bytes())
                 ast.parse((target / name).read_text(encoding='utf-8'))
+
+    def test_force_target_only_changes_selected_cart(self):
+        # Execute the actual environment method with small matrix stand-ins.
+        # Checks per-environment wiring without importing Isaac Sim or torch.
+        class Matrix:
+            def __init__(self, values): self.values = values
+            def __add__(self, other):
+                return Matrix([[a+b for a,b in zip(ar,br)]
+                               for ar,br in zip(self.values,other.values)])
+            def __setitem__(self, key, values):
+                rows, columns = key
+                for index, row in enumerate(range(len(self.values))[rows]):
+                    for j, column in enumerate(columns):
+                        self.values[row][column] = values.values[index][j]
+        root = Path(__file__).resolve().parent
+        tree = ast.parse((root / 'passive_double_cartpole.py').read_text(encoding='utf-8'))
+        cls = next(n for n in tree.body if isinstance(n,ast.ClassDef)
+                   and n.name == 'PassiveDoubleCartpoleEnv')
+        method = next(n for n in cls.body if isinstance(n,ast.FunctionDef)
+                      and n.name == '_apply_action')
+        scope = {'torch': SimpleNamespace(zeros_like=lambda matrix: Matrix(
+            [[0.0 for _ in row] for row in matrix.values]))}
+        exec(compile(ast.Module(body=[method],type_ignores=[]),'<actual force method>','exec'),scope)
+        captured = []
+        robot = SimpleNamespace(
+            data=SimpleNamespace(joint_pos=SimpleNamespace(torch=Matrix([[0,0,0] for _ in range(4)]))),
+            set_joint_effort_target_index=lambda target:captured.append(target.values),
+        )
+        env = SimpleNamespace(cartpole=robot,_cart_idx=[0],
+                              _force=Matrix([[1],[1],[1],[1]]),
+                              _push=Matrix([[25],[0],[0],[0]]))
+        scope['_apply_action'](env)
+        self.assertEqual(captured[0],[[26,0,0],[1,0,0],[1,0,0],[1,0,0]])
 
 
 if __name__ == '__main__':
