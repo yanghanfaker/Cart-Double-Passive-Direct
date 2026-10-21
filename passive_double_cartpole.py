@@ -7,6 +7,7 @@ tasks are registered. Only the slider receives commanded effort.
 
 import copy
 import math
+import os
 
 import gymnasium as gym
 import torch
@@ -27,6 +28,14 @@ from .push_disturbance import RandomPushScheduler
 
 def passive_robot_cfg():
     cfg = copy.deepcopy(CART_DOUBLE_PENDULUM_CFG)
+    # Use an editable local asset for both balance and swing-up tasks.
+    # An explicit override can also point to another local file or a remote URL.
+    cfg.spawn.usd_path = os.path.expanduser(
+        os.environ.get(
+            "PASSIVE_DOUBLE_USD_PATH",
+            "~/Robot/custom_assets/cart_double_pendulum.usd",
+        )
+    )
     cfg.prim_path = "{ENV_REGEX_NS}/Robot"
     # Zero drive gains: both revolute joints remain free, rather than locked.
     for actuator in cfg.actuators.values():

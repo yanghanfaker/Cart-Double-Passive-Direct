@@ -20,6 +20,33 @@
 - RSL-RL 已安装。
 - 原平衡与起摆任务已由用户在 DGX Spark 跑通训练。新增随机推力通过调度与安装测试，尚待 Spark 回放验证；开发分支 API 变化可能需要适配。
 
+## 本地双摆模型
+
+平衡和起摆任务默认加载 `~/Robot/custom_assets/cart_double_pendulum.usd`。
+对于 Spark 用户 `test`，完整路径是 `/home/test/Robot/custom_assets/cart_double_pendulum.usd`。
+首次运行前，在 Spark 下载模型（已有修改过的文件时不要覆盖）：
+
+```bash
+mkdir -p /home/test/Robot/custom_assets
+curl -fL \
+  'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/Classic/CartDoublePendulum/cart_double_pendulum.usd' \
+  -o /home/test/Robot/custom_assets/cart_double_pendulum.usd
+```
+
+用 Isaac Sim 打开本地 USD，修改刚体质量、惯量、杆的显示和碰撞几何，以及关节连接位置。
+若模型引用其他文件，还需确保依赖可以加载；单个 USD 下载不保证包含所有依赖。
+保存模型后重新启动训练或回放即可；只修改 USD 内容时无需重新安装 Python 任务。
+改变物理参数后，可先用旧策略测试，但可能需要重新训练。
+
+使用其他模型路径时，在启动进程前设置环境变量（关节名称需保持与本任务一致）：
+
+```bash
+export PASSIVE_DOUBLE_USD_PATH=/home/test/Robot/custom_assets/my_double_pendulum.usd
+```
+
+该变量优先于默认路径，也支持远程 URL。`unset PASSIVE_DOUBLE_USD_PATH` 恢复默认本地路径。
+本次更新改变了默认资产位置，已有用户也需要准备本地 USD，或显式指定远程 URL。
+
 ## 安装
 
 在本仓库目录执行，参数为已有的 Isaac Lab 根目录：
