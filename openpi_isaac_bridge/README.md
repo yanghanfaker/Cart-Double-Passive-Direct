@@ -40,11 +40,13 @@ uv add --optional openpi --editable /home/test/Robot/openpi/packages/openpi-clie
 
 ```bash
 cd /home/test/Robot/IsaacLab
-uv run --extra viser --extra openpi python \
+uv run --extra viser --extra openpi isaaclab -p \
   /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
   --viz viser
 ```
 
+源码版 Isaac Sim 需要通过 `isaaclab -p` 启动脚本，以激活 `_isaac_sim` 指向的运行环境；
+直接使用 `uv run python` 可能提示 Isaac Sim 不在 PYTHONPATH。
 本机版本的启动参数不支持 `--headless`，不要添加该参数；这里用 `--viz viser` 选择网页可视化。
 脚本使用框架的零/保持策略推进相机预热，完成后退出。
 默认输出在 `/home/test/Robot/IsaacLab/logs/openpi_camera_check/`：
@@ -66,7 +68,7 @@ uv run --extra viser --extra openpi python \
 
 ```bash
 cd /home/test/Robot/IsaacLab
-uv run --extra viser --extra openpi python \
+uv run --extra viser --extra openpi isaaclab -p \
   /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
   --viz viser --query
 ```
