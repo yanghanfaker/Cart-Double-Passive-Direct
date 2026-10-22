@@ -42,9 +42,10 @@ uv add --optional openpi --editable /home/test/Robot/openpi/packages/openpi-clie
 cd /home/test/Robot/IsaacLab
 uv run --extra viser --extra openpi python \
   /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
-  --headless --viz viser
+  --viz viser
 ```
 
+本机版本的启动参数不支持 `--headless`，不要添加该参数；这里用 `--viz viser` 选择网页可视化。
 脚本使用框架的零/保持策略推进相机预热，完成后退出。
 默认输出在 `/home/test/Robot/IsaacLab/logs/openpi_camera_check/`：
 
@@ -67,7 +68,7 @@ uv run --extra viser --extra openpi python \
 cd /home/test/Robot/IsaacLab
 uv run --extra viser --extra openpi python \
   /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
-  --headless --viz viser --query
+  --viz viser --query
 ```
 
 默认连接 `127.0.0.1:8000`，指令为 `pick up the cube`。
