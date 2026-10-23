@@ -7,6 +7,7 @@ the returned actions instead of applying them. Scene transfer is not validated.
 
 import argparse
 import json
+import math
 from pathlib import Path
 
 
@@ -33,10 +34,21 @@ def main():
     parser.add_argument("--server-host", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=8000)
     parser.add_argument("--prompt", default="pick up the cube")
+    parser.add_argument("--light-intensity", type=float, default=1000.0)
+    parser.add_argument("--external-eye", type=float, nargs=3, default=(0.95, -0.75, 0.65))
+    parser.add_argument("--external-target", type=float, nargs=3, default=(0.5, 0.0, 0.10))
+    parser.add_argument("--wrist-offset", type=float, nargs=3, default=(0.10, 0.0, 0.02))
     add_launcher_args(parser)
     args = parser.parse_args()
     if args.warmup_steps < 1:
         parser.error("--warmup-steps must be positive")
+    if not math.isfinite(args.light_intensity) or args.light_intensity <= 0:
+        parser.error("--light-intensity must be finite and positive")
+    for name in ("external_eye", "external_target", "wrist_offset"):
+        if not all(math.isfinite(value) for value in getattr(args, name)):
+            parser.error(f"--{name.replace('_', '-')} must contain finite coordinates")
+    if tuple(args.external_eye) == tuple(args.external_target):
+        parser.error("--external-eye and --external-target must differ")
     # Some Lab 3 revisions still expose this launcher flag; newer revisions
     # discover cameras from the scene configuration.
     if hasattr(args, "enable_cameras"):
@@ -45,6 +57,11 @@ def main():
     cfg = FrankaCubeLiftEnvCfg()
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
+    # The command target axes/spheres are real rendered geometry, so disable
+    # their creation before constructing the scene, not just in the web viewer.
+    cfg.commands.object_pose.debug_vis = False
+    cfg.scene.ee_frame.debug_vis = False
+    cfg.scene.light.spawn.intensity = args.light_intensity
     # Disambiguate this diagnostic from previous hand-edited lift rewards.
     # No learning or success evaluation is performed here.
     cfg.scene.external_camera = CameraCfg(
@@ -54,7 +71,7 @@ def main():
         data_types=["rgb"],
         update_period=0.0,
         spawn=sim_utils.PinholeCameraCfg(
-            focal_length=24.0,
+            focal_length=32.0,
             horizontal_aperture=36.0,
             clipping_range=(0.01, 20.0),
         ),
@@ -71,9 +88,10 @@ def main():
             horizontal_aperture=36.0,
             clipping_range=(0.01, 10.0),
         ),
-        # Identity rotation in the installed CameraCfg's quaternion convention.
-        # ROS optical +Z looks along the hand's +Z; verify the image before use.
-        offset=CameraCfg.OffsetCfg(pos=(0.05, 0.0, 0.03), convention="ros"),
+        # Keep the lens farther outside the palm. Set its initial orientation
+        # explicitly below instead of assuming the hand's optical axis/roll.
+        update_latest_camera_pose=True,
+        offset=CameraCfg.OffsetCfg(pos=tuple(args.wrist_offset), convention="ros"),
     )
 
     def tensor(value):
@@ -88,11 +106,25 @@ def main():
             origin = tensor(base.scene.env_origins)[0:1]
             camera = base.scene["external_camera"]
             camera.set_world_poses_from_view(
-                eyes=origin + torch.tensor([[1.2, -1.2, 1.1]], device=origin.device),
-                targets=origin + torch.tensor([[0.5, 0.0, 0.15]], device=origin.device),
+                eyes=origin + torch.tensor([args.external_eye], device=origin.device),
+                targets=origin + torch.tensor([args.external_target], device=origin.device),
             )
             with torch.inference_mode():
                 for _ in range(args.warmup_steps):
+                    env.step(hold())
+
+                # Calibration-only: aim at the settled cube ONCE using its
+                # ground-truth position. This is not a target-tracking camera
+                # and must not be copied as an online VLA observation policy.
+                # Parent-relative mounting remains on the hand after setting.
+                wrist = base.scene["wrist_camera"]
+                wrist_eye = tensor(wrist.data.pos_w).clone()
+                wrist_target = tensor(base.scene["object"].data.root_pos_w).clone()
+                wrist_target[:, 2] += 0.02
+                wrist.set_world_poses_from_view(eyes=wrist_eye, targets=wrist_target)
+                # Force fresh renders after changing the camera pose; reuse the
+                # exact sensor/step path already verified by the first capture.
+                for _ in range(5):
                     env.step(hold())
 
                 output = args.output.expanduser().resolve()
@@ -142,6 +174,16 @@ def main():
                 "state_layout": "EE xyz in robot root frame; rotation vector; two finger joint positions",
                 "finger_names": list(finger_names),
                 "images": image_report,
+                "camera_setup": {
+                    "debug_markers": False,
+                    "light_intensity": args.light_intensity,
+                    "external_eye_env": args.external_eye,
+                    "external_target_env": args.external_target,
+                    "wrist_offset_hand": args.wrist_offset,
+                    "wrist_initial_aim": "one-time calibration from ground-truth cube position; not for online tracking",
+                    "wrist_eye_world_at_calibration": wrist_eye[0].cpu().tolist(),
+                    "wrist_target_world_at_calibration": wrist_target[0].cpu().tolist(),
+                },
                 "validated": "capture only; LIBERO reference frames, cameras and action mapping are not calibrated",
             }
             (output / "observation.json").write_text(
