@@ -77,6 +77,7 @@ def main():
     from isaaclab.sensors import CameraCfg
     from isaaclab.utils.math import apply_delta_pose, axis_angle_from_quat, compute_pose_error, quat_apply_inverse, subtract_frame_transforms
     from libero_mapping import decode_libero_action, mapping_test_plan, stream_test_plan
+    from step_response import summarize_response
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -88,7 +89,7 @@ def main():
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
-        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream",
+        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response",
     ), default="none")
     parser.add_argument("--server-host", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=8000)
@@ -118,7 +119,7 @@ def main():
     cfg = FrankaCubeLiftEnvCfg()
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
-    if args.motion_test in ("libero-map", "libero-stream"):
+    if args.motion_test in ("libero-map", "libero-stream", "step-response"):
         # LIBERO's default 20 Hz is a simulation period, not wall-clock speed.
         decimation = round(0.05 / float(cfg.sim.dt))
         if decimation < 1 or not math.isclose(decimation * float(cfg.sim.dt), 0.05, abs_tol=1e-8):
@@ -315,7 +316,105 @@ def main():
                 with torch.inference_mode():
                     before, before_quat = read_pose()
                     measured = {"mode": args.motion_test, "ee_before_root": before.cpu().tolist()}
-                    if args.motion_test == "libero-stream":
+                    if args.motion_test == "step-response":
+                        if not math.isclose(float(base.step_dt), 0.05, abs_tol=1e-8):
+                            raise RuntimeError("Step response requires a 50 ms control period")
+                        if not callable(getattr(arm_term, "_compute_frame_pose", None)):
+                            raise RuntimeError("This diagnostic needs Differential IK _compute_frame_pose; report installed version")
+                        controller = getattr(arm_term, "_ik_controller", None)
+                        if controller is None or not all(hasattr(controller, name) for name in ("ee_pos_des", "ee_quat_des")):
+                            raise RuntimeError("This diagnostic needs IK controller desired pose access; report installed version")
+
+                        def read_ik_pose():
+                            pos, quat = arm_term._compute_frame_pose()
+                            return tensor(pos)[0].detach().clone(), tensor(quat)[0].detach().clone()
+
+                        sensor_pos, sensor_quat = read_pose()
+                        ik_pos, ik_quat = read_ik_pose()
+                        sensor_cfg = cfg.scene.ee_frame.target_frames[0]
+                        body_offset = arm_term.cfg.body_offset
+                        alignment = {
+                            "ik_body_name": arm_term.cfg.body_name,
+                            "ik_offset_pos": list(body_offset.pos) if body_offset is not None else None,
+                            "ik_offset_rot": list(body_offset.rot) if body_offset is not None else None,
+                            "sensor_target_prim": sensor_cfg.prim_path,
+                            "sensor_offset_pos": list(sensor_cfg.offset.pos),
+                            "sensor_offset_rot": list(sensor_cfg.offset.rot),
+                            "sensor_minus_ik_pos_root_m": (sensor_pos - ik_pos).cpu().tolist(),
+                            "sensor_to_ik_distance_m": float((sensor_pos - ik_pos).norm()),
+                            "sensor_to_ik_rotation_deg": math.degrees(float(rotation_delta(ik_pos, ik_quat, sensor_pos, sensor_quat).norm())),
+                        }
+                        phases = []
+                        for feedback_name, feedback_reader in (("sensor", read_pose), ("ik", read_ik_pose)):
+                            for axis_index, axis in ((0, "x"), (3, "rx")):
+                                start_pos, start_quat = feedback_reader()
+                                step_delta = torch.zeros((1, 6), device=base.device)
+                                step_delta[0, axis_index] = 0.001 if axis_index == 0 else math.radians(0.5)
+                                target_pos, target_quat = apply_delta_pose(start_pos[None], start_quat[None], step_delta)
+                                trace = []
+                                for step in range(60):
+                                    current_pos, current_quat = feedback_reader()
+                                    pos_error, rot_error = compute_pose_error(
+                                        current_pos[None], current_quat[None], target_pos, target_quat, rot_error_type="axis_angle",
+                                    )
+                                    command = tracking_action(pos_error[0].cpu().tolist(), rot_error[0].cpu().tolist(), float(arm_term.cfg.scale))
+                                    checked_step(torch.tensor([command], dtype=torch.float32, device=base.device), before)
+                                    actual_pos, actual_quat = feedback_reader()
+                                    remaining_pos, remaining_rot = compute_pose_error(
+                                        actual_pos[None], actual_quat[None], target_pos, target_quat, rot_error_type="axis_angle",
+                                    )
+                                    sensor_now, sensor_rot_now = read_pose()
+                                    ik_now, ik_rot_now = read_ik_pose()
+                                    actual_rotation = rotation_delta(start_pos, start_quat, actual_pos, actual_quat)
+                                    gain = float((actual_pos - start_pos)[0] / 0.001) if axis_index == 0 else float(actual_rotation[0] / math.radians(0.5))
+                                    desired_pos = tensor(controller.ee_pos_des)[0].detach().clone()
+                                    desired_quat = tensor(controller.ee_quat_des)[0].detach().clone()
+                                    trace.append({
+                                        "step": step + 1, "time_s": (step + 1) * 0.05, "gain": gain,
+                                        "position_error_m": float(remaining_pos.norm()),
+                                        "rotation_error_deg": math.degrees(float(remaining_rot.norm())),
+                                        "raw_isaac_action": command,
+                                        "feedback_pos_root_m": actual_pos.cpu().tolist(),
+                                        "feedback_quat_root": actual_quat.cpu().tolist(),
+                                        "sensor_pos_root_m": sensor_now.cpu().tolist(),
+                                        "sensor_quat_root": sensor_rot_now.cpu().tolist(),
+                                        "ik_pos_root_m": ik_now.cpu().tolist(), "ik_quat_root": ik_rot_now.cpu().tolist(),
+                                        "controller_target_pos_root_m": desired_pos.cpu().tolist(),
+                                        "controller_target_quat_root": desired_quat.cpu().tolist(),
+                                        "controller_target_minus_fixed_pos_m": (desired_pos - target_pos[0]).cpu().tolist(),
+                                        "controller_target_vs_fixed_position_m": float((desired_pos - target_pos[0]).norm()),
+                                        "controller_target_vs_fixed_rotation_deg": math.degrees(float(rotation_delta(
+                                            target_pos[0], target_quat[0], desired_pos, desired_quat,
+                                        ).norm())),
+                                    })
+                                response = summarize_response(trace)
+                                phase = {"feedback": feedback_name, "axis": axis,
+                                    "target_delta_root_m_rad": step_delta[0].cpu().tolist(),
+                                    "target_pos_root_m": target_pos[0].cpu().tolist(),
+                                    "target_quat_root": target_quat[0].cpu().tolist(),
+                                    **response, "trace": trace}
+                                phases.append(phase)
+                                checkpoint_gains = {round(r["time_s"], 2): round(r["gain"], 4) for r in response["checkpoints"]}
+                                print(f"[Step response] {feedback_name}/{axis}: gains={checkpoint_gains}, "
+                                      f"t90={response['t90_sustained_s']}, settle5pct={response['settling_5pct_s']}", flush=True)
+                                # Return to the same feedback point's starting
+                                # pose before the next case; do not score this
+                                # repositioning as part of the step response.
+                                for _ in range(60):
+                                    current_pos, current_quat = feedback_reader()
+                                    pos_error, rot_error = compute_pose_error(
+                                        current_pos[None], current_quat[None], start_pos[None], start_quat[None], rot_error_type="axis_angle",
+                                    )
+                                    command = tracking_action(pos_error[0].cpu().tolist(), rot_error[0].cpu().tolist(), float(arm_term.cfg.scale))
+                                    checked_step(torch.tensor([command], dtype=torch.float32, device=base.device), before)
+                                return_pos, return_quat = feedback_reader()
+                                phase["return_position_error_m"] = float((return_pos - start_pos).norm())
+                                phase["return_rotation_error_deg"] = math.degrees(float(rotation_delta(start_pos, start_quat, return_pos, return_quat).norm()))
+                        measured.update({"control_dt_s": 0.05, "frame_alignment": alignment, "phases": phases,
+                            "scope": "fixed-target closed-loop step response at x=1 mm and rx=0.5 deg; comparison of sensor and IK feedback points",
+                            "diagnostic_api": "private IK frame reader and desired-pose fields; read-only diagnostic access",
+                            "timing_note": "times are simulated, not wall-clock or inference latency; gain timing measures this IK/servo loop, not OSC equivalence"})
+                    elif args.motion_test == "libero-stream":
                         if not math.isclose(float(base.step_dt), 0.05, abs_tol=1e-8):
                             raise RuntimeError("Streaming test requires 20 Hz simulation control")
                         axes = []
@@ -611,7 +710,7 @@ def main():
                 report_path = output / f"motion_{args.motion_test}.json"
                 report_path.write_text(json.dumps(measured, indent=2), encoding="utf-8")
                 summary = {k: v for k, v in measured.items() if k != "trace"}
-                if args.motion_test == "libero-map":
+                if args.motion_test in ("libero-map", "step-response"):
                     summary["phases"] = [{
                         k: v for k, v in phase.items() if k not in ("trace", "first_period_response")
                     } for phase in measured["phases"]]

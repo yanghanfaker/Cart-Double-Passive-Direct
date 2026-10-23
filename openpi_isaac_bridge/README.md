@@ -256,3 +256,40 @@ uv run --extra viser isaaclab -p \
 这些是当前小幅诊断的工程判据，不是官方模型评测标准，也不证明 OSC 动态等价。
 任一轴未通过仍会保存完整轨迹，优先检查目标是否连续更新、实际响应比例、停止漂移与周期耗时。
 测试不调用模型，不覆盖异步推理、动作块队列或真实网络延迟；后续仍需单独验证。
+
+## 阶跃响应及控制点核对
+
+连续输入的实际行程偏小时，先运行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+cd /home/test/Robot/IsaacLab
+uv run --extra viser isaaclab -p \
+  /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
+  --viz viser --motion-test step-response
+```
+
+无需 OpenPI 服务，全程保持夹爪张开，不改执行器增益，不放大模型动作。
+固定目标为 X 轴 +1 mm 或 RX +0.5°，每个目标连续保持 60 个 50 ms 周期（3 秒）。
+分别用 `sensor`（现有 ee_frame 测量点）和 `ik`（动作项实际控制点）做反馈，共四项比较。
+各项结束后用 60 步返回该项起点，再进行下一项，总计约 24 秒仿真时间。
+每一步重算到同一个固定目标的误差，不累加期望目标。
+
+结果保存为 `logs/openpi_camera_check/motion_step-response.json`。终端包含：
+
+- `frame_alignment`：IK 的 body_name/body_offset、传感器目标 prim/offset、两个实测点之间的位置及姿态差。
+- 四项 `[Step response]`：50、100、250、500、1000、3000 ms 的行程比例 `gain`。
+- `t90_sustained_s`：达到 90% 且在剩余观测时间内始终不低于 90% 的首次采样时间。
+- `settling_5pct_s`：进入目标幅度 ±5% 且保持至观测结束的首次采样时间；`null` 表示 3 秒内未满足。
+- `checkpoints`：上述时间点的幅度、完整位姿误差，以及控制器内部目标相对固定目标的差。
+
+完整 `trace` 还记录每步指令、传感器位姿、IK 位姿和控制器内部期望位姿。
+`sensor` 模式中，传感器点和 IK 点偏移会反映在内部目标与传感器固定目标的差中；
+两者不是同一物理点时，该差本身不等于错误。应结合 `ik` 对照、随时间变化情况和真实跟踪误差判断。
+测试只读取私有 `_compute_frame_pose` 与 `_ik_controller` 诊断字段，不写这些字段；
+若安装版本缺少这些接口，会明确停止，不采用猜测控制点的替代结果。
+
+这些是当前 IK/伺服闭环的阶跃响应，不是单独电机性能，也不能据此推断 OSC、网络或模型推理延迟。
+先查看 50 ms 响应是否约为 20%，后续是否逐步趋近 100%，再比较两个反馈点的差异。
+需要 CPU 检查摘要计算时运行：`python3 openpi_isaac_bridge/test_step_response.py`。
