@@ -75,7 +75,8 @@ def main():
     import isaaclab_tasks  # noqa: F401 -- register official tasks
     from isaaclab.app import add_launcher_args, launch_simulation
     from isaaclab.sensors import CameraCfg
-    from isaaclab.utils.math import apply_delta_pose, axis_angle_from_quat, compute_pose_error, subtract_frame_transforms
+    from isaaclab.utils.math import apply_delta_pose, axis_angle_from_quat, compute_pose_error, quat_apply_inverse, subtract_frame_transforms
+    from libero_mapping import decode_libero_action, mapping_test_plan
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -87,7 +88,7 @@ def main():
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
-        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz",
+        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map",
     ), default="none")
     parser.add_argument("--server-host", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=8000)
@@ -117,6 +118,13 @@ def main():
     cfg = FrankaCubeLiftEnvCfg()
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
+    if args.motion_test == "libero-map":
+        # LIBERO's default 20 Hz is a simulation period, not wall-clock speed.
+        decimation = round(0.05 / float(cfg.sim.dt))
+        if decimation < 1 or not math.isclose(decimation * float(cfg.sim.dt), 0.05, abs_tol=1e-8):
+            raise RuntimeError("Physics dt cannot represent a 50 ms mapping test period")
+        cfg.decimation = decimation
+        cfg.episode_length_s = 300.0
     # The command target axes/spheres are real rendered geometry, so disable
     # their creation before constructing the scene, not just in the web viewer.
     cfg.commands.object_pose.debug_vis = False
@@ -307,7 +315,98 @@ def main():
                 with torch.inference_mode():
                     before, before_quat = read_pose()
                     measured = {"mode": args.motion_test, "ee_before_root": before.cpu().tolist()}
-                    if args.motion_test.startswith("track-"):
+                    if args.motion_test == "libero-map":
+                        if not math.isclose(float(base.step_dt), 0.05, abs_tol=1e-8):
+                            raise RuntimeError("Mapping test requires 20 Hz simulation control")
+                        phases = []
+                        previous_gripper = 1.0
+                        for label, libero_action in mapping_test_plan():
+                            decoded = decode_libero_action(libero_action, previous_gripper)
+                            previous_gripper = decoded["isaac_gripper"]
+                            start_pos, start_quat = read_pose()
+                            # OSC deltas use world axes. Do not assume the
+                            # robot base quaternion is identity in Isaac.
+                            root_quat = tensor(robot.data.root_quat_w).clone()
+                            world_pos_delta = torch.tensor([decoded["delta_world_m"]], device=base.device)
+                            world_rot_delta = torch.tensor([decoded["delta_world_rad"]], device=base.device)
+                            delta_root = torch.cat((
+                                quat_apply_inverse(root_quat, world_pos_delta),
+                                quat_apply_inverse(root_quat, world_rot_delta),
+                            ), dim=-1)
+                            target_pos, target_quat = apply_delta_pose(
+                                start_pos[None], start_quat[None], delta_root,
+                            )
+                            trace = []
+                            for step in range(60):
+                                current_pos, current_quat = read_pose()
+                                pos_error, rot_error = compute_pose_error(
+                                    current_pos[None], current_quat[None], target_pos, target_quat,
+                                    rot_error_type="axis_angle",
+                                )
+                                action_values = tracking_action(
+                                    pos_error[0].cpu().tolist(), rot_error[0].cpu().tolist(),
+                                    float(arm_term.cfg.scale),
+                                )
+                                action_values[6] = decoded["isaac_gripper"]
+                                checked_step(torch.tensor([action_values], dtype=torch.float32, device=base.device), before)
+                                actual_pos, actual_quat = read_pose()
+                                remaining_pos, remaining_rot = compute_pose_error(
+                                    actual_pos[None], actual_quat[None], target_pos, target_quat,
+                                    rot_error_type="axis_angle",
+                                )
+                                trace.append({
+                                    "step": step + 1,
+                                    "time_s": (step + 1) * float(base.step_dt),
+                                    "raw_isaac_action": action_values,
+                                    "ee_pos_root_m": actual_pos.cpu().tolist(),
+                                    "ee_quat_root": actual_quat.cpu().tolist(),
+                                    "delta_root_m": (actual_pos - start_pos).cpu().tolist(),
+                                    "delta_rotation_root_deg": torch.rad2deg(rotation_delta(
+                                        start_pos, start_quat, actual_pos, actual_quat,
+                                    )).cpu().tolist(),
+                                    "position_error_m": float(remaining_pos.norm()),
+                                    "rotation_error_deg": math.degrees(float(remaining_rot.norm())),
+                                })
+                            fingers_m = tensor(robot.data.joint_pos)[0, finger_ids].cpu().tolist()
+                            gripper_ok = (
+                                all(abs(q - 0.04) <= 0.002 for q in fingers_m)
+                                if decoded["isaac_gripper"] > 0 else
+                                all(abs(q) <= 0.002 for q in fingers_m)
+                            )
+                            phase = {
+                                "phase": label,
+                                "mapping": decoded,
+                                "target_delta_root_m_rad": delta_root[0].cpu().tolist(),
+                                "target_pos_root_m": target_pos[0].cpu().tolist(),
+                                "target_quat_root": target_quat[0].cpu().tolist(),
+                                "first_period_response": trace[0],
+                                "final_position_error_m": trace[-1]["position_error_m"],
+                                "final_rotation_error_deg": trace[-1]["rotation_error_deg"],
+                                "finger_positions_m": fingers_m,
+                                "gripper_position_passed": gripper_ok,
+                                "target_tracking_passed": all(
+                                    row["position_error_m"] <= 0.00025 and row["rotation_error_deg"] <= 0.1
+                                    for row in trace[-5:]
+                                ),
+                                "trace": trace,
+                            }
+                            phases.append(phase)
+                            print(f"[LIBERO mapping] {label}: target={phase['target_tracking_passed']}, "
+                                  f"gripper={gripper_ok}, pos_error={phase['final_position_error_m']:.6g} m, "
+                                  f"rot_error={phase['final_rotation_error_deg']:.6g} deg", flush=True)
+                        measured.update({
+                            "control_dt_s": float(base.step_dt),
+                            "ik_scale": float(arm_term.cfg.scale),
+                            "steps_per_target": 60,
+                            "phases": phases,
+                            "all_mapping_targets_passed": all(
+                                p["target_tracking_passed"] and p["gripper_position_passed"] for p in phases
+                            ),
+                            "scope": "default OSC mapping and settled IK targets only; not OSC dynamics equivalence",
+                            "frame_assumption": "LIBERO world axes aligned with Isaac world axes; scene registration unverified",
+                            "timing_note": "each mapped target held for 3 simulated seconds; first_period_response is after 50 ms; not model execution timing",
+                        })
+                    elif args.motion_test.startswith("track-"):
                         axis = args.motion_test.removeprefix("track-")
                         target_delta = torch.zeros((1, 6), device=base.device)
                         axis_index = ("x", "y", "z", "rx", "ry", "rz").index(axis)
@@ -406,7 +505,12 @@ def main():
                     measured["note"] = "deterministic diagnostic only; no OpenPI actions executed; inspect direction and achieved displacement"
                 report_path = output / f"motion_{args.motion_test}.json"
                 report_path.write_text(json.dumps(measured, indent=2), encoding="utf-8")
-                print("[Motion test] " + json.dumps({k: v for k, v in measured.items() if k != "trace"}, indent=2), flush=True)
+                summary = {k: v for k, v in measured.items() if k != "trace"}
+                if args.motion_test == "libero-map":
+                    summary["phases"] = [{
+                        k: v for k, v in phase.items() if k not in ("trace", "first_period_response")
+                    } for phase in measured["phases"]]
+                print("[Motion test] " + json.dumps(summary, indent=2), flush=True)
                 print(f"Saved calibration to: {report_path}", flush=True)
 
             if args.query:
@@ -424,6 +528,18 @@ def main():
                 if actions.ndim != 2 or actions.shape[1] != 7 or not np.isfinite(actions).all():
                     raise RuntimeError(f"Unexpected OpenPI action chunk: {actions.shape}")
                 np.save(output / "predicted_actions.npy", actions)
+                # Decode only: never execute model outputs in this script.
+                preview = []
+                previous_gripper = 1.0
+                for predicted_action in actions:
+                    decoded = decode_libero_action(predicted_action.tolist(), previous_gripper)
+                    previous_gripper = decoded["isaac_gripper"]
+                    preview.append(decoded)
+                (output / "predicted_action_mapping.json").write_text(json.dumps({
+                    "executed": False,
+                    "frame_assumption": "LIBERO world axes; registration to Isaac scene unverified",
+                    "actions": preview,
+                }, indent=2), encoding="utf-8")
                 print(f"OpenPI returned {actions.shape}; saved, NOT executed.", flush=True)
                 print(f"First predicted action: {actions[0]}", flush=True)
         finally:

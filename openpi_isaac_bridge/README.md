@@ -167,3 +167,57 @@ uv run --extra viser isaaclab -p \
 建议先运行 `track-x` 与 `track-rx`，查看摘要及轨迹，再扩展到其余四轴。
 此测试确认固定目标反馈是否收敛；不能据此把 OpenPI 原始动作解释为米或弧度。
 本地 CPU 检查覆盖限幅、符号和简化伺服收敛，不替代 Spark 上的真实仿真测试。
+
+## LIBERO 控制器动作映射验证
+
+六轴固定目标都通过后，运行一次自动映射测试：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+cd /home/test/Robot/IsaacLab
+uv run --extra viser isaaclab -p \
+  /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
+  --viz viser --motion-test libero-map
+```
+
+不需要 OpenPI 服务。自动执行六轴各一次正向与反向指令，再张开、闭合、重新张开。
+每个平移目标为 5 mm、旋转目标为 2°。测试使用以下明确的参考配置：
+
+- LIBERO 默认 `OSC_POSE`、`control_freq=20`。
+- robosuite 1.4.0 默认输入范围 [-1, 1]；平移乘 0.05 m，旋转乘 0.5 rad。
+- 例如控制器动作 x=0.1 对应 5 mm，rx=0.06981317 对应约 2°。
+- Panda 夹爪动作正值闭合、负值张开；适配为 Isaac 正值张开、负值闭合。
+- 零夹爪动作沿用上一个二值指令；二值适配不复现 robosuite 的手指渐进驱动。
+- 旋转为世界坐标系左乘增量。世界平移/旋转向量先按实际机器人根姿态变换到根坐标系。
+
+脚本只在 `libero-map` 模式把控制周期设为 0.05 s，保留物理步长，要求能用整数 decimation 表示。
+每个固定目标持续反馈 60 步（3 秒仿真时间），完整测试约 45 秒仿真时间。
+这是映射后的目标跟踪测试，**不是每个模型动作都执行 3 秒**，也不表示 IK 与 OSC 动态等价。
+完整轨迹中的 `first_period_response` 单独记录首个 50 ms 的响应，供后续时序比较。
+每次重置即退出，不继续使用旧目标。仍有实际位移 5 cm、旋转 15° 的中止条件。
+
+终端每阶段显示 `target=True, gripper=True`，最终 `all_mapping_targets_passed` 应为 `true`。
+输出 `logs/openpi_camera_check/motion_libero-map.json` 包含 15 个阶段、输入动作、映射后的目标、
+首周期响应、最终误差、手指位置和逐步轨迹。达标阈值沿用位置 0.25 mm、旋转 0.1°；
+手指位置应在张开 0.04 m 或闭合 0 m 的 0.002 m 范围内。
+
+此配置来自公开默认值，并未读取用户本机 LIBERO 配置。若本机修改过控制器或频率，需先对齐配置。
+当前假设两个场景的世界坐标轴对齐，尚未完成跨场景配准、末端参考点、相机外参及观测状态校准。
+因此通过测试也不代表 pi05_libero 可以零样本抓取。尤其当前 Isaac 两指关节值同为正数，
+不能仅凭状态为 8 维就认为已经匹配 LIBERO 的两指关节符号与范围。
+
+原有 `--query` 现在额外保存 `predicted_action_mapping.json`，展示模型输出的控制器映射与被裁剪的维度；
+仍然只保存，不执行模型动作。首次设置二值夹爪为张开，再按预测动作更新。
+不要对已经经过 OpenPI 服务输出变换的动作再次应用训练归一化统计。
+
+参考源码：
+
+- [LIBERO 环境默认控制器和频率](https://github.com/Lifelong-Robot-Learning/LIBERO/blob/master/libero/libero/envs/env_wrapper.py)
+- [LIBERO 依赖版本](https://github.com/Lifelong-Robot-Learning/LIBERO/blob/master/requirements.txt)
+- [robosuite 1.4.0 OSC_POSE 缩放](https://github.com/ARISE-Initiative/robosuite/blob/v1.4.0/robosuite/controllers/config/osc_pose.json)
+- [robosuite 1.4.0 旋转目标](https://github.com/ARISE-Initiative/robosuite/blob/v1.4.0/robosuite/utils/control_utils.py)
+- [Panda 夹爪方向](https://github.com/ARISE-Initiative/robosuite/blob/v1.4.0/robosuite/models/grippers/panda_gripper.py)
+- [OpenPI LIBERO 官方执行示例](https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/main.py)
+
+本地运行映射 CPU 检查：`python3 openpi_isaac_bridge/test_libero_mapping.py`。

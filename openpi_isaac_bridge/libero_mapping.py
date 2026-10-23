@@ -1,0 +1,46 @@
+"""Explicit robosuite 1.4.0 OSC_POSE defaults, not a scene calibration.
+
+Sources and version assumptions are documented in README.md. The returned
+vectors are in the OSC world frame; callers must transform to Isaac root axes.
+"""
+
+import math
+
+
+def decode_libero_action(action, previous_isaac_gripper=1.0):
+    """Decode controller-domain actions AFTER OpenPI server unnormalization.
+
+    Zero gripper input means keep the preceding command in this binary adapter.
+    This does not reproduce robosuite's incremental finger actuator dynamics.
+    """
+    if len(action) != 7 or not all(math.isfinite(value) for value in action):
+        raise ValueError("LIBERO action must contain seven finite values")
+    if previous_isaac_gripper not in (-1.0, 1.0):
+        raise ValueError("previous Isaac gripper must be -1 or +1")
+    clipped = [max(-1.0, min(1.0, float(value))) for value in action]
+    gripper = previous_isaac_gripper
+    if clipped[6] != 0:
+        gripper = -1.0 if clipped[6] > 0 else 1.0
+    return {
+        "profile": "robosuite-1.4.0-OSC_POSE-default",
+        "input_action": list(action),
+        "clipped_action": clipped,
+        "clipped_indices": [i for i, (a, b) in enumerate(zip(action, clipped)) if a != b],
+        "delta_world_m": [value * 0.05 for value in clipped[:3]],
+        "delta_world_rad": [value * 0.5 for value in clipped[3:6]],
+        "isaac_gripper": gripper,
+    }
+
+
+def mapping_test_plan():
+    """Signed small commands on all axes, followed by open/close/reopen."""
+    plan = []
+    for index, axis in enumerate(("x", "y", "z", "rx", "ry", "rz")):
+        amplitude = 0.1 if index < 3 else math.radians(2) / 0.5
+        for sign, suffix in ((1, "positive"), (-1, "negative")):
+            command = [0.0] * 6 + [-1.0]
+            command[index] = sign * amplitude
+            plan.append((axis + "_" + suffix, command))
+    for name, value in (("open", -1.0), ("close", 1.0), ("reopen", -1.0)):
+        plan.append((name, [0.0] * 6 + [value]))
+    return plan
