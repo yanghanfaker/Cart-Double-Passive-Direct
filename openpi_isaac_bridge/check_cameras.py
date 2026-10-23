@@ -49,6 +49,22 @@ def rotation_probe_action(axis, step_deg, ik_scale):
     return action
 
 
+def tracking_action(position_error, rotation_error, ik_scale):
+    """Convert root-frame pose errors to separately norm-limited IK commands."""
+    if not math.isfinite(ik_scale) or ik_scale <= 0:
+        raise ValueError("IK scale must be finite and positive")
+    action = []
+    for error, limit in ((position_error, 0.001), (rotation_error, math.radians(0.5))):
+        if len(error) != 3 or not all(math.isfinite(v) for v in error):
+            raise ValueError("pose errors must be finite three-vectors")
+        length = math.sqrt(sum(v * v for v in error))
+        factor = min(1.0, limit / length) if length else 1.0
+        action.extend(v * factor / ik_scale for v in error)
+    if max(abs(v) for v in action) > 1.0:
+        raise ValueError("tracking command would exceed normalized magnitude 1")
+    return action + [1.0]
+
+
 def main():
     import gymnasium as gym
     import numpy as np
@@ -59,7 +75,7 @@ def main():
     import isaaclab_tasks  # noqa: F401 -- register official tasks
     from isaaclab.app import add_launcher_args, launch_simulation
     from isaaclab.sensors import CameraCfg
-    from isaaclab.utils.math import axis_angle_from_quat, compute_pose_error, subtract_frame_transforms
+    from isaaclab.utils.math import apply_delta_pose, axis_angle_from_quat, compute_pose_error, subtract_frame_transforms
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -69,7 +85,10 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("logs/openpi_camera_check"))
     parser.add_argument("--warmup-steps", type=int, default=30)
     parser.add_argument("--query", action="store_true")
-    parser.add_argument("--motion-test", choices=("none", "x", "y", "z", "gripper", "rx", "ry", "rz"), default="none")
+    parser.add_argument("--motion-test", choices=(
+        "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
+        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz",
+    ), default="none")
     parser.add_argument("--server-host", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=8000)
     parser.add_argument("--prompt", default="pick up the cube")
@@ -288,7 +307,58 @@ def main():
                 with torch.inference_mode():
                     before, before_quat = read_pose()
                     measured = {"mode": args.motion_test, "ee_before_root": before.cpu().tolist()}
-                    if args.motion_test == "gripper":
+                    if args.motion_test.startswith("track-"):
+                        axis = args.motion_test.removeprefix("track-")
+                        target_delta = torch.zeros((1, 6), device=base.device)
+                        axis_index = ("x", "y", "z", "rx", "ry", "rz").index(axis)
+                        target_delta[0, axis_index] = 0.005 if axis_index < 3 else math.radians(2)
+                        target_pos, target_quat = apply_delta_pose(
+                            before[None], before_quat[None], target_delta,
+                        )
+                        trace = []
+                        for step in range(120):
+                            current_pos, current_quat = read_pose()
+                            pos_error, rot_error = compute_pose_error(
+                                current_pos[None], current_quat[None], target_pos, target_quat,
+                                rot_error_type="axis_angle",
+                            )
+                            action_values = tracking_action(
+                                pos_error[0].cpu().tolist(), rot_error[0].cpu().tolist(),
+                                float(arm_term.cfg.scale),
+                            )
+                            checked_step(torch.tensor([action_values], dtype=torch.float32, device=base.device), before)
+                            actual_pos, actual_quat = read_pose()
+                            remaining_pos, remaining_rot = compute_pose_error(
+                                actual_pos[None], actual_quat[None], target_pos, target_quat,
+                                rot_error_type="axis_angle",
+                            )
+                            trace.append({
+                                "step": step + 1,
+                                "time_s": (step + 1) * float(base.step_dt),
+                                "raw_isaac_action": action_values,
+                                "ee_pos_root_m": actual_pos.cpu().tolist(),
+                                "ee_quat_root": actual_quat.cpu().tolist(),
+                                "position_error_m": float(remaining_pos.norm()),
+                                "rotation_error_deg": math.degrees(float(remaining_rot.norm())),
+                            })
+                        measured.update({
+                            "target_pos_root_m": target_pos[0].cpu().tolist(),
+                            "target_quat_root": target_quat[0].cpu().tolist(),
+                            "target_delta_root_m_rad": target_delta[0].cpu().tolist(),
+                            "ik_scale": float(arm_term.cfg.scale),
+                            "control_dt_s": float(base.step_dt),
+                            "command_steps": len(trace),
+                            "position_tolerance_m": 0.00025,
+                            "rotation_tolerance_deg": 0.1,
+                            "reached_and_held_last_5_steps": all(
+                                row["position_error_m"] <= 0.00025 and row["rotation_error_deg"] <= 0.1
+                                for row in trace[-5:]
+                            ),
+                            "final_position_error_m": trace[-1]["position_error_m"],
+                            "final_rotation_error_deg": trace[-1]["rotation_error_deg"],
+                            "trace": trace,
+                        })
+                    elif args.motion_test == "gripper":
                         phases = []
                         for label, sign in (("open", 1.0), ("close", -1.0), ("reopen", 1.0)):
                             for _ in range(30):
@@ -336,7 +406,7 @@ def main():
                     measured["note"] = "deterministic diagnostic only; no OpenPI actions executed; inspect direction and achieved displacement"
                 report_path = output / f"motion_{args.motion_test}.json"
                 report_path.write_text(json.dumps(measured, indent=2), encoding="utf-8")
-                print("[Motion test] " + json.dumps(measured, indent=2), flush=True)
+                print("[Motion test] " + json.dumps({k: v for k, v in measured.items() if k != "trace"}, indent=2), flush=True)
                 print(f"Saved calibration to: {report_path}", flush=True)
 
             if args.query:

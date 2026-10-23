@@ -140,3 +140,30 @@ uv run --extra viser isaaclab -p \
 相对旋转由 `q_after * inverse(q_before)` 计算，不直接相减两个绝对旋转向量。
 四元数数组顺序沿用安装的 Isaac Lab 数学 API；本项目当前 Lab 3 为 xyzw。
 通过这一步仅确认 Isaac 相对 IK 的方向与响应，尚未验证 LIBERO 控制器缩放或模型抓取能力。
+
+## 固定目标跟踪验证
+
+平移与旋转方向通过后，用固定目标检查连续更新。无需启动 OpenPI 服务。
+每次从初始末端位姿生成一个目标，随后每步重新计算当前位姿到同一个目标的误差。
+位置与姿态均参与反馈，避免另一部分自由漂移。全程保持夹爪张开，不接触方块。
+
+```bash
+cd /home/test/Robot/IsaacLab
+uv run --extra viser isaaclab -p \
+  /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
+  --viz viser --motion-test track-x
+```
+
+`track-x` / `track-y` / `track-z` 的固定目标为对应根坐标轴正向 5 mm；
+`track-rx` / `track-ry` / `track-rz` 的固定目标为对应根坐标轴正向 2°。
+每步相对 IK 指令的平移向量范数最多 1 mm，旋转向量范数最多 0.5°，再按 IK scale 换算。
+各测试执行 120 个控制步，超过实际旋转 15°、位移 5 cm，或环境重置时停止。
+
+输出为 `logs/openpi_camera_check/motion_track-x.json` 等文件。
+终端只显示摘要，完整文件包含逐步 `trace`：指令、实际位姿、时间和目标误差。
+`reached_and_held_last_5_steps` 仅在最后 5 步均满足位置误差不超过 0.25 mm、
+旋转误差不超过 0.1° 时为 `true`。未达标也会保存轨迹，便于检查停滞、反向或振荡。
+
+建议先运行 `track-x` 与 `track-rx`，查看摘要及轨迹，再扩展到其余四轴。
+此测试确认固定目标反馈是否收敛；不能据此把 OpenPI 原始动作解释为米或弧度。
+本地 CPU 检查覆盖限幅、符号和简化伺服收敛，不替代 Spark 上的真实仿真测试。
