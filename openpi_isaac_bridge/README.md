@@ -4,7 +4,7 @@
 脚本采集两台相机和 8 维状态；可选请求 `pi05_libero` 模型，但只保存动作，不执行模型动作。
 它还不是闭环抓取控制器，尚未校准 LIBERO 与 Isaac 的坐标和动作映射。
 
-已通过本地 Python 语法检查；尚未在 DGX Spark 验证相机、渲染和实际 API 兼容性。
+用户已在 Spark 验证图片采集、模型查询、XYZ 平移与夹爪开合。新增旋转测试目前只通过本地 CPU 检查，仍需在 Spark 验证。
 这部分不需要运行双摆安装脚本，也不修改已有双摆任务。
 
 ## 准备
@@ -112,3 +112,31 @@ python3 openpi_isaac_bridge/test_motion_probe.py
 ```
 
 这些检查不验证 GPU、相机或物理运动。真实运动仍需在 Spark 检查。
+
+## 下一步：小角度旋转验证
+
+XYZ 和夹爪通过后，分别运行 `rx`、`ry`、`rz`，每次重新初始化环境：
+
+```bash
+cd /home/test/Robot/IsaacLab
+uv run --extra viser isaaclab -p \
+  /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
+  --viz viser --motion-test rx
+```
+
+把最后的 `rx` 分别换成 `ry`、`rz`。无需启动 OpenPI 服务。
+每个控制步向当前 IK 姿态增加正向 0.5° 目标，执行 10 步，再保持 5 步。
+按实际 IK scale 换算为弧度指令，夹爪保持张开。
+这不是固定的 5° 目标，也不保证累计转动 5°；请以测量值判断响应。
+超过 15° 实际旋转、5 cm 实际位移，或环境重置时停止。
+
+输出保存为 `logs/openpi_camera_check/motion_rx.json`、`motion_ry.json`、`motion_rz.json`。
+重点检查：
+
+- `delta_rotation_root_deg`：实际相对旋转向量，按机器人根坐标系 X/Y/Z 排列。相应轴应为正且占主导。
+- `delta_root_m` 和 `translation_drift_norm_m`：旋转伴随的位置漂移。
+- `requested_step_deg`、`ik_scale`、`raw_isaac_action`：目标与实际输入。
+
+相对旋转由 `q_after * inverse(q_before)` 计算，不直接相减两个绝对旋转向量。
+四元数数组顺序沿用安装的 Isaac Lab 数学 API；本项目当前 Lab 3 为 xyzw。
+通过这一步仅确认 Isaac 相对 IK 的方向与响应，尚未验证 LIBERO 控制器缩放或模型抓取能力。

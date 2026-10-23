@@ -5,10 +5,31 @@ from pathlib import Path
 import runpy
 import unittest
 
-make_action = runpy.run_path(str(Path(__file__).with_name("check_cameras.py")))["translation_probe_action"]
+probe = runpy.run_path(str(Path(__file__).with_name("check_cameras.py")))
+make_action = probe["translation_probe_action"]
+make_rotation = probe["rotation_probe_action"]
 
 
 class MotionProbeTests(unittest.TestCase):
+    def test_rotation_uses_radians_correct_axis_and_open_gripper(self):
+        for index, axis in enumerate(("rx", "ry", "rz"), start=3):
+            for scale in (0.25, 0.5, 1.0):
+                action = make_rotation(axis, 0.5, scale)
+                self.assertAlmostEqual(action[index] * scale, math.pi / 360)
+                self.assertEqual(action[:3], [0.0] * 3)
+                self.assertEqual(action[6], 1.0)
+                self.assertEqual(sum(value != 0 for value in action[:6]), 1)
+
+    def test_rotation_rejects_invalid_or_large_commands(self):
+        for step in (0, -0.5, 0.501, math.nan, math.inf):
+            with self.assertRaises(ValueError):
+                make_rotation("rx", step, 0.5)
+        for scale in (0, -1, math.nan, math.inf, 0.00001):
+            with self.assertRaises(ValueError):
+                make_rotation("rx", 0.5, scale)
+        with self.assertRaises(ValueError):
+            make_rotation("x", 0.5, 0.5)
+
     def test_ik_scale_is_compensated_and_gripper_stays_open(self):
         for i, axis in enumerate(("x", "y", "z")):
             for scale in (0.25, 0.5, 1.0):
