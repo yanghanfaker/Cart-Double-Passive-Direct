@@ -76,7 +76,7 @@ def main():
     from isaaclab.app import add_launcher_args, launch_simulation
     from isaaclab.sensors import CameraCfg
     from isaaclab.utils.math import apply_delta_pose, axis_angle_from_quat, compute_pose_error, quat_apply_inverse, subtract_frame_transforms
-    from libero_mapping import decode_libero_action, mapping_test_plan
+    from libero_mapping import decode_libero_action, mapping_test_plan, stream_test_plan
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -88,7 +88,7 @@ def main():
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
-        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map",
+        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream",
     ), default="none")
     parser.add_argument("--server-host", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=8000)
@@ -118,7 +118,7 @@ def main():
     cfg = FrankaCubeLiftEnvCfg()
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
-    if args.motion_test == "libero-map":
+    if args.motion_test in ("libero-map", "libero-stream"):
         # LIBERO's default 20 Hz is a simulation period, not wall-clock speed.
         decimation = round(0.05 / float(cfg.sim.dt))
         if decimation < 1 or not math.isclose(decimation * float(cfg.sim.dt), 0.05, abs_tol=1e-8):
@@ -315,7 +315,112 @@ def main():
                 with torch.inference_mode():
                     before, before_quat = read_pose()
                     measured = {"mode": args.motion_test, "ee_before_root": before.cpu().tolist()}
-                    if args.motion_test == "libero-map":
+                    if args.motion_test == "libero-stream":
+                        if not math.isclose(float(base.step_dt), 0.05, abs_tol=1e-8):
+                            raise RuntimeError("Streaming test requires 20 Hz simulation control")
+                        axes = []
+                        for axis in ("x", "y", "z", "rx", "ry", "rz"):
+                            axis_start_pos, axis_start_quat = read_pose()
+                            trace = []
+                            boundaries = {}
+                            stop_starts = {}
+                            last_phase = None
+                            for step, (phase, libero_action) in enumerate(stream_test_plan(axis)):
+                                wall_start = time.perf_counter()
+                                decoded = decode_libero_action(libero_action)
+                                current_pos, current_quat = read_pose()
+                                if phase != last_phase and phase.startswith("stop"):
+                                    stop_starts[phase] = (current_pos.clone(), current_quat.clone())
+                                root_quat = tensor(robot.data.root_quat_w).clone()
+                                delta_root = torch.cat((
+                                    quat_apply_inverse(root_quat, torch.tensor([decoded["delta_world_m"]], device=base.device)),
+                                    quat_apply_inverse(root_quat, torch.tensor([decoded["delta_world_rad"]], device=base.device)),
+                                ), dim=-1)
+                                # One target from measured CURRENT pose per
+                                # input period. Do not accumulate desired poses
+                                # or secretly wait for each target to converge.
+                                target_pos, target_quat = apply_delta_pose(current_pos[None], current_quat[None], delta_root)
+                                pos_error, rot_error = compute_pose_error(
+                                    current_pos[None], current_quat[None], target_pos, target_quat,
+                                    rot_error_type="axis_angle",
+                                )
+                                action_values = tracking_action(
+                                    pos_error[0].cpu().tolist(), rot_error[0].cpu().tolist(), float(arm_term.cfg.scale),
+                                )
+                                checked_step(torch.tensor([action_values], dtype=torch.float32, device=base.device), before)
+                                actual_pos, actual_quat = read_pose()
+                                remaining_pos, remaining_rot = compute_pose_error(
+                                    actual_pos[None], actual_quat[None], target_pos, target_quat,
+                                    rot_error_type="axis_angle",
+                                )
+                                trace.append({
+                                    "step": step + 1, "phase": phase, "time_s": (step + 1) * 0.05,
+                                    "libero_action": libero_action, "raw_isaac_action": action_values,
+                                    "target_pos_root_m": target_pos[0].cpu().tolist(),
+                                    "target_quat_root": target_quat[0].cpu().tolist(),
+                                    "ee_pos_root_m": actual_pos.cpu().tolist(),
+                                    "ee_quat_root": actual_quat.cpu().tolist(),
+                                    "position_error_m": float(remaining_pos.norm()),
+                                    "rotation_error_deg": math.degrees(float(remaining_rot.norm())),
+                                    "wall_period_s": time.perf_counter() - wall_start,
+                                })
+                                boundaries[phase] = (actual_pos.clone(), actual_quat.clone())
+                                if phase == "out":
+                                    nominal_out = delta_root[0] * 20
+                                last_phase = phase
+                            out_pos, out_quat = boundaries["out"]
+                            final_pos, final_quat = boundaries["stop_back"]
+                            out_delta_pos = out_pos - axis_start_pos
+                            out_delta_rot = rotation_delta(axis_start_pos, axis_start_quat, out_pos, out_quat)
+                            expected = nominal_out[:3] if axis in ("x", "y", "z") else nominal_out[3:]
+                            actual = out_delta_pos if axis in ("x", "y", "z") else out_delta_rot
+                            gain = float(torch.dot(actual, expected) / torch.dot(expected, expected))
+                            stop_drifts = []
+                            for phase in ("stop_out", "stop_back"):
+                                start_pos, start_quat = stop_starts[phase]
+                                end_pos, end_quat = boundaries[phase]
+                                stop_drifts.append({
+                                    "phase": phase,
+                                    "position_m": float((end_pos - start_pos).norm()),
+                                    "rotation_deg": math.degrees(float(rotation_delta(start_pos, start_quat, end_pos, end_quat).norm())),
+                                })
+                            final_pos_error = float((final_pos - axis_start_pos).norm())
+                            final_rot_error = math.degrees(float(rotation_delta(axis_start_pos, axis_start_quat, final_pos, final_quat).norm()))
+                            max_pos_error = max(row["position_error_m"] for row in trace)
+                            max_rot_error = max(row["rotation_error_deg"] for row in trace)
+                            fingers_m = tensor(robot.data.joint_pos)[0, finger_ids].cpu().tolist()
+                            passed = (
+                                0.7 <= gain <= 1.3 and final_pos_error <= 0.001 and final_rot_error <= 0.3
+                                and max_pos_error <= 0.001 and max_rot_error <= 0.5
+                                and all(d["position_m"] <= 0.0005 and d["rotation_deg"] <= 0.2 for d in stop_drifts)
+                                and all(abs(q - 0.04) <= 0.002 for q in fingers_m)
+                            )
+                            result = {
+                                "axis": axis, "passed": passed, "outbound_gain": gain,
+                                "nominal_out_delta_root_m_rad": nominal_out.cpu().tolist(),
+                                "actual_out_delta_root_m": out_delta_pos.cpu().tolist(),
+                                "actual_out_delta_rotation_root_deg": torch.rad2deg(out_delta_rot).cpu().tolist(),
+                                "return_position_error_m": final_pos_error, "return_rotation_error_deg": final_rot_error,
+                                "max_period_position_error_m": max_pos_error, "max_period_rotation_error_deg": max_rot_error,
+                                "rms_period_position_error_m": math.sqrt(sum(r["position_error_m"]**2 for r in trace) / len(trace)),
+                                "rms_period_rotation_error_deg": math.sqrt(sum(r["rotation_error_deg"]**2 for r in trace) / len(trace)),
+                                "mean_wall_period_s": sum(r["wall_period_s"] for r in trace) / len(trace),
+                                "stop_drifts": stop_drifts, "finger_positions_m": fingers_m, "trace": trace,
+                            }
+                            axes.append(result)
+                            print(f"[LIBERO stream] {axis}: passed={passed}, gain={gain:.4f}, "
+                                  f"return={final_pos_error:.6g} m / {final_rot_error:.6g} deg", flush=True)
+                        measured.update({
+                            "control_dt_s": 0.05, "axes": axes,
+                            "all_stream_tests_passed": all(a["passed"] for a in axes),
+                            "target_semantics": "current-pose-relative target per 50 ms; no desired-pose accumulation or extra settling steps",
+                            "scope": "small deterministic input stream only; no OpenPI inference or OSC dynamics equivalence",
+                            "wall_timing_note": "simulation runs synchronously; wall periods include compute/render and pacing, not a real-time guarantee",
+                            "thresholds": {"gain_range": [0.7, 1.3], "return_position_m": 0.001,
+                                "return_rotation_deg": 0.3, "max_period_position_m": 0.001,
+                                "max_period_rotation_deg": 0.5, "stop_drift_m": 0.0005, "stop_drift_deg": 0.2},
+                        })
+                    elif args.motion_test == "libero-map":
                         if not math.isclose(float(base.step_dt), 0.05, abs_tol=1e-8):
                             raise RuntimeError("Mapping test requires 20 Hz simulation control")
                         phases = []
@@ -510,6 +615,8 @@ def main():
                     summary["phases"] = [{
                         k: v for k, v in phase.items() if k not in ("trace", "first_period_response")
                     } for phase in measured["phases"]]
+                if args.motion_test == "libero-stream":
+                    summary["axes"] = [{k: v for k, v in axis.items() if k != "trace"} for axis in measured["axes"]]
                 print("[Motion test] " + json.dumps(summary, indent=2), flush=True)
                 print(f"Saved calibration to: {report_path}", flush=True)
 

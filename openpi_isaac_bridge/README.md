@@ -221,3 +221,38 @@ uv run --extra viser isaaclab -p \
 - [OpenPI LIBERO 官方执行示例](https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/main.py)
 
 本地运行映射 CPU 检查：`python3 openpi_isaac_bridge/test_libero_mapping.py`。
+
+## 连续动作时序测试
+
+`libero-map` 全部通过后，运行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+cd /home/test/Robot/IsaacLab
+uv run --extra viser isaaclab -p \
+  /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
+  --viz viser --motion-test libero-stream
+```
+
+无需 OpenPI 服务。对六轴逐一执行：正向 20 步、零动作 10 步、反向 20 步、零动作 20 步。
+每个输入只占一个 50 ms 仿真周期，周期内不额外等待目标收敛。
+每步目标基于当前实测末端位姿生成，不把增量加在上一期的期望目标上。
+平移每步目标 0.25 mm，20 步名义行程 5 mm；旋转每步目标 0.1°，名义行程 2°。
+这里的总行程是理想累计参考，实际响应由仿真决定，不能用固定目标测试的收敛结果替代。
+夹爪全程张开，六轴共 420 个控制步、21 秒仿真时间；墙钟时间可能更长。
+
+终端每轴显示 `passed=True`，最终 `all_stream_tests_passed` 应为 `true`。
+结果文件 `logs/openpi_camera_check/motion_libero-stream.json` 保存每步输入、目标、实际位姿及误差。
+关键指标：
+
+- `outbound_gain`：正向阶段实际位移/转角在名义方向上的投影比，诊断范围 0.7～1.3。
+- `max_period_*` / `rms_period_*`：当期目标与期末实际位姿的最大/RMS 误差，用于观察动态跟踪，不能直接解释为网络延迟。
+- `return_position_error_m` / `return_rotation_error_deg`：往返后的闭合误差，阈值 1 mm / 0.3°。
+- `stop_drifts`：每次输入归零后的位置/姿态变化，阈值 0.5 mm / 0.2°。
+- `mean_wall_period_s`：包括控制、渲染和主动等待的平均墙钟周期；0.05 s 仿真步长不保证真实时间 20 Hz。
+
+最大单周期位置误差阈值为 1 mm、姿态误差为 0.5°，夹爪还应保持张开。
+这些是当前小幅诊断的工程判据，不是官方模型评测标准，也不证明 OSC 动态等价。
+任一轴未通过仍会保存完整轨迹，优先检查目标是否连续更新、实际响应比例、停止漂移与周期耗时。
+测试不调用模型，不覆盖异步推理、动作块队列或真实网络延迟；后续仍需单独验证。

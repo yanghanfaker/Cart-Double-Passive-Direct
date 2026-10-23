@@ -44,3 +44,23 @@ def mapping_test_plan():
     for name, value in (("open", -1.0), ("close", 1.0), ("reopen", -1.0)):
         plan.append((name, [0.0] * 6 + [value]))
     return plan
+
+
+def stream_test_plan(axis):
+    """One command per 50 ms: 5 mm/2 deg out, stop, back, stop.
+
+    Commands are relative to the measured current pose, as in OSC set_goal;
+    the nominal cumulative path is a reference, not an accumulated target.
+    """
+    axes = ("x", "y", "z", "rx", "ry", "rz")
+    if axis not in axes:
+        raise ValueError("invalid streaming axis")
+    index = axes.index(axis)
+    amplitude = 0.005 / 20 / 0.05 if index < 3 else math.radians(2) / 20 / 0.5
+    plan = []
+    for phase, count, sign in (("out", 20, 1), ("stop_out", 10, 0), ("back", 20, -1), ("stop_back", 20, 0)):
+        for _ in range(count):
+            action = [0.0] * 6 + [-1.0]
+            action[index] = sign * amplitude
+            plan.append((phase, action))
+    return plan

@@ -3,10 +3,30 @@
 import math
 import unittest
 
-from libero_mapping import decode_libero_action, mapping_test_plan
+from libero_mapping import decode_libero_action, mapping_test_plan, stream_test_plan
 
 
 class LiberoMappingTests(unittest.TestCase):
+    def test_stream_has_exact_out_stop_back_stop_schedule(self):
+        for axis in ("x", "y", "z", "rx", "ry", "rz"):
+            plan = stream_test_plan(axis)
+            self.assertEqual(len(plan), 70)
+            self.assertEqual([p for p, _ in plan], ["out"]*20 + ["stop_out"]*10 + ["back"]*20 + ["stop_back"]*20)
+            decoded = [decode_libero_action(command) for _, command in plan]
+            deltas = [row["delta_world_m"] + row["delta_world_rad"] for row in decoded]
+            for dimension in range(6):
+                self.assertAlmostEqual(sum(v[dimension] for v in deltas), 0)
+            outbound = [sum(v[i] for v in deltas[:20]) for i in range(6)]
+            self.assertAlmostEqual(math.hypot(*outbound), 0.005 if len(axis) == 1 else math.radians(2))
+            for i in list(range(20, 30)) + list(range(50, 70)):
+                self.assertEqual(deltas[i], [0]*6)
+            self.assertTrue(all(row["isaac_gripper"] == 1 for row in decoded))
+
+    def test_stream_rejects_unknown_axes(self):
+        for axis in ("", "roll", "xy"):
+            with self.assertRaises(ValueError):
+                stream_test_plan(axis)
+
     def test_controller_scale_and_axis_order(self):
         result = decode_libero_action([0.1, -0.1, 0.02, 0.04, -0.04, 0.02, -1])
         for actual, expected in zip(result["delta_world_m"], [0.005, -0.005, 0.001]):
