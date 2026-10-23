@@ -48,7 +48,7 @@ uv run --extra viser --extra openpi isaaclab -p \
 源码版 Isaac Sim 需要通过 `isaaclab -p` 启动脚本，以激活 `_isaac_sim` 指向的运行环境；
 直接使用 `uv run python` 可能提示 Isaac Sim 不在 PYTHONPATH。
 本机版本的启动参数不支持 `--headless`，不要添加该参数；这里用 `--viz viser` 选择网页可视化。
-脚本使用框架的零/保持策略推进相机预热，完成后退出。
+脚本使用框架的零/保持策略推进相机预热，并显式保持夹爪张开（本任务 +1 是张开，0/负值是闭合），完成后退出。
 默认输出在 `/home/test/Robot/IsaacLab/logs/openpi_camera_check/`：
 
 - `external_camera.png`：外部相机。
@@ -85,3 +85,30 @@ uv run --extra viser --extra openpi isaaclab -p \
 如果 API 不兼容，请保留完整 traceback；不要仅凭状态维度正确就接入执行。
 闭环控制前还需验证相机视角、状态坐标、LIBERO 控制器缩放、Isaac IK 坐标与缩放、
 夹爪开合方向、控制周期及重置时的动作队列清理。
+
+## 小幅运动与夹爪标定（不执行模型动作）
+
+这是确定性仿真测试，与 `--query` 不能同时使用。每次启动都会重新初始化环境。
+先验证 +X 方向，默认每步向相对 IK 目标增加 1 mm，共 10 个控制步，随后短暂保持：
+
+```bash
+cd /home/test/Robot/IsaacLab
+uv run --extra viser --extra openpi isaaclab -p \
+  /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py \
+  --viz viser --motion-test x
+```
+
+将 `x` 换成 `y` 或 `z`，分别检查正方向；换成 `gripper`，执行张开、闭合、再张开。
+`delta_root_m` 是末端实际位移（机器人根坐标系，单位米），不是目标值。
+相对 IK 在每步按当前位置生成目标，伺服响应会影响累计位移，因此不保证实际移动 10 mm。
+单次测试超过 5 cm、状态无效或环境提前重置时会停止；动作按实际 IK scale 换算。
+日志与对应 `motion_x.json` / `motion_y.json` / `motion_z.json` / `motion_gripper.json` 保存测量结果。
+标定阶段不要求接触方块，夹爪测试也不证明能抓稳。
+
+CPU 上可检查小幅指令及其输入范围保护：
+
+```bash
+python3 openpi_isaac_bridge/test_motion_probe.py
+```
+
+这些检查不验证 GPU、相机或物理运动。真实运动仍需在 Spark 检查。
