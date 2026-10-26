@@ -293,3 +293,55 @@ uv run --extra viser isaaclab -p \
 这些是当前 IK/伺服闭环的阶跃响应，不是单独电机性能，也不能据此推断 OSC、网络或模型推理延迟。
 先查看 50 ms 响应是否约为 20%，后续是否逐步趋近 100%，再比较两个反馈点的差异。
 需要 CPU 检查摘要计算时运行：`python3 openpi_isaac_bridge/test_step_response.py`。
+
+## 执行器增益对照测试
+
+若阶跃在 50 ms 仅完成约 20%、长时间保持后却能到达目标，可用本轮对照检验执行器增益是否影响响应。
+这仍是假设检验，不预先认定刚度/阻尼就是唯一原因。
+三组分别为 `baseline`（原参数）、`kp1p5`（刚度 ×1.5，阻尼保持）、
+`kp1p5-damped`（刚度 ×1.5、阻尼 ×√1.5）。后者只是一个对照选择，不保证保持实际关节阻尼比。
+每组重新创建场景；只调整覆盖七个 Panda 机械臂关节的隐式执行器，手指、速度限制、力矩限制、IK 参数和物理步长不变。
+若增益由 USD 继承、配置混合机械臂和手指，或执行器不是隐式模型，会明确停止。
+
+一次执行三组的阶跃与连续测试（共六次独立仿真进程）：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab
+```
+
+这个外层程序只用 Python 标准库，不直接加载 Isaac Sim；每个子进程仍通过
+`uv run --extra viser isaaclab -p ...` 启动，激活源码版 Isaac Sim 环境。
+运行前结束已有测试进程，避免 Viser 端口冲突。无需 OpenPI 服务。
+每组总计约 45 秒仿真时间，墙钟时间还包括渲染与六次启动。
+
+输出写入独立时间戳目录 `/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/<UTC时间戳>/`，
+不会覆盖前一轮轨迹。每个配置、每种测试各自保存：
+
+- `console.log`：完整日志；外层终端只转发关键摘要。
+- `actuator_audit.json`：原始/实验配置、实际关节刚度/阻尼、速度/力矩限制及 IK 配置。
+- `joint_telemetry.json`：逐控制周期的关节速度与可用的力矩遥测。
+- `motion_step-response.json` 或 `motion_libero-stream.json`：完整轨迹和性能指标。
+
+外层每次运行后更新汇总：
+
+```bash
+cat /home/test/Robot/IsaacLab/logs/openpi_gain_sweep/latest_gain_sweep.json
+```
+
+`status=completed` 只表示六个进程完成，不表示运动测试全部通过；
+看 `responses` 中的 `t90_sustained_s`、`settling_5pct_s`、`overshoot_pct`、`tail_gain_peak_to_peak`，
+并比较连续测试各轴的 `outbound_gain`、返回误差和停止漂移。
+`joint_telemetry_summary` 给出逐关节采样速度/估算力矩的绝对峰值及其与已知限制的比例。
+隐式执行器力矩不是独立测力传感器读数；每 50 ms 采样也可能漏掉物理步内峰值和振荡。
+未提供的遥测或限制明确标为 unavailable/null，不能据此声称未触及限制。
+后 10 个采样的幅度峰峰值只是尾部变化指标，不单独证明存在或不存在振荡。
+
+若子进程报错，外层保存已完成的结果，显示日志尾部并停止；运动指标不达标则继续完成对照。
+脚本不会自动选择或永久应用某组参数，不修改 USD 或官方环境源码。
+如需单独运行某项，可使用原命令加 `--gain-profile kp1p5` 与独立 `--output` 目录；
+实验增益只允许用于 `step-response` / `libero-stream`。
+
+本地 CPU 检查：`python3 openpi_isaac_bridge/test_gain_probe.py`。

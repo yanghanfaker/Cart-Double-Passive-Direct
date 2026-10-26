@@ -14,6 +14,8 @@ def summarize_response(trace):
         ) if k in row} for row in trace if row["step"] in (1, 2, 5, 10, 20, 60)],
         "final_gain": trace[-1]["gain"],
         "peak_gain": max(row["gain"] for row in trace),
+        "overshoot_pct": max(0.0, max(row["gain"] for row in trace) - 1.0) * 100,
+        "tail_gain_peak_to_peak": max(row["gain"] for row in trace[-10:]) - min(row["gain"] for row in trace[-10:]),
         "t90_sustained_s": sustained_time(lambda row: row["gain"] >= 0.9),
         "settling_5pct_s": sustained_time(lambda row: abs(row["gain"] - 1) <= 0.05),
         "final_position_error_m": trace[-1]["position_error_m"],

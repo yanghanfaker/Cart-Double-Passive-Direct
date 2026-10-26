@@ -14,6 +14,8 @@ class StepResponseTests(unittest.TestCase):
         self.assertAlmostEqual(result["t90_sustained_s"], 0.2)
         self.assertAlmostEqual(result["settling_5pct_s"], 0.25)
         self.assertEqual(result["peak_gain"], 1.1)
+        self.assertAlmostEqual(result["overshoot_pct"], 10)
+        self.assertAlmostEqual(result["tail_gain_peak_to_peak"], 0.9)
 
     def test_nonconvergence_is_not_reported_as_success(self):
         result = summarize_response(self.trace([0.2] * 60))

@@ -78,6 +78,7 @@ def main():
     from isaaclab.utils.math import apply_delta_pose, axis_angle_from_quat, compute_pose_error, quat_apply_inverse, subtract_frame_transforms
     from libero_mapping import decode_libero_action, mapping_test_plan, stream_test_plan
     from step_response import summarize_response
+    from gain_probe import GAIN_PROFILES, configure_gain_profile
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -87,6 +88,7 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("logs/openpi_camera_check"))
     parser.add_argument("--warmup-steps", type=int, default=30)
     parser.add_argument("--query", action="store_true")
+    parser.add_argument("--gain-profile", choices=tuple(GAIN_PROFILES), default="baseline")
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
         "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response",
@@ -102,6 +104,8 @@ def main():
     args = parser.parse_args()
     if args.query and args.motion_test != "none":
         parser.error("run --query and --motion-test separately; VLA actions are never executed")
+    if args.gain_profile != "baseline" and args.motion_test not in ("step-response", "libero-stream"):
+        parser.error("experimental gain profiles are restricted to step-response and libero-stream")
     if args.warmup_steps < 1:
         parser.error("--warmup-steps must be positive")
     if not math.isfinite(args.light_intensity) or args.light_intensity <= 0:
@@ -117,6 +121,7 @@ def main():
         args.enable_cameras = True
 
     cfg = FrankaCubeLiftEnvCfg()
+    gain_config = configure_gain_profile(cfg.scene.robot.actuators, args.gain_profile)
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
     if args.motion_test in ("libero-map", "libero-stream", "step-response"):
@@ -236,6 +241,44 @@ def main():
                     }
 
                 robot = base.scene["robot"]
+                arm_ids, arm_names = robot.find_joints("panda_joint[1-7]")
+                if len(arm_ids) != 7:
+                    raise RuntimeError("Expected seven Panda arm joints for gain audit")
+
+                def joint_field(name):
+                    try:
+                        values = tensor(getattr(robot.data, name))[0, arm_ids].detach().clone()
+                        return values, None
+                    except (AttributeError, NotImplementedError) as error:
+                        return None, str(error)
+
+                def json_vector(values):
+                    return [float(v) if math.isfinite(float(v)) else str(float(v)) for v in values.cpu().tolist()]
+
+                runtime_audit = {}
+                for name in ("joint_stiffness", "joint_damping", "joint_vel_limits", "joint_effort_limits"):
+                    values, unavailable = joint_field(name)
+                    runtime_audit[name] = {"values": json_vector(values)} if values is not None else {"unavailable": unavailable}
+                actuator_audit = {"configuration": gain_config, "joint_names": arm_names, "runtime": runtime_audit,
+                    "ik_configuration": {name: getattr(arm_term.cfg.controller, name, None) for name in (
+                        "command_type", "use_relative_mode", "ik_method", "ik_params",
+                    )},
+                    "effort_note": "implicit-drive applied_torque is approximate telemetry; control-period samples do not capture physics-step peaks"}
+                (output / "actuator_audit.json").write_text(json.dumps(actuator_audit, indent=2, default=str), encoding="utf-8")
+                print(f"[Actuator audit] profile={args.gain_profile}; saved {output / 'actuator_audit.json'}", flush=True)
+                telemetry_samples = []
+
+                def sample_joint_telemetry():
+                    row = {}
+                    for field in ("joint_vel", "applied_torque"):
+                        values, unavailable = joint_field(field)
+                        if values is not None:
+                            if not bool(torch.isfinite(values).all()):
+                                raise RuntimeError(f"Non-finite {field} during actuator experiment")
+                            row[field] = values.cpu().tolist()
+                        else:
+                            row[field + "_unavailable"] = unavailable
+                    telemetry_samples.append(row)
                 ee = base.scene["ee_frame"]
                 ee_pos = tensor(ee.data.target_pos_w)[:, 0, :]
                 ee_quat = tensor(ee.data.target_quat_w)[:, 0, :]
@@ -312,10 +355,12 @@ def main():
                     if not bool(torch.isfinite(angle).all()) or float(angle.norm()) > math.radians(15):
                         raise RuntimeError("Calibration stopped: invalid orientation or rotation exceeded 15 degrees")
                     time.sleep(float(base.step_dt))
+                    sample_joint_telemetry()
 
                 with torch.inference_mode():
                     before, before_quat = read_pose()
-                    measured = {"mode": args.motion_test, "ee_before_root": before.cpu().tolist()}
+                    measured = {"mode": args.motion_test, "gain_profile": args.gain_profile,
+                        "actuator_audit": actuator_audit, "ee_before_root": before.cpu().tolist()}
                     if args.motion_test == "step-response":
                         if not math.isclose(float(base.step_dt), 0.05, abs_tol=1e-8):
                             raise RuntimeError("Step response requires a 50 ms control period")
@@ -708,6 +753,23 @@ def main():
                     measured["translation_drift_norm_m"] = float((after - before).norm())
                     measured["note"] = "deterministic diagnostic only; no OpenPI actions executed; inspect direction and achieved displacement"
                 report_path = output / f"motion_{args.motion_test}.json"
+                telemetry_summary = {"sample_count": len(telemetry_samples), "joint_names": arm_names,
+                    "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque"}
+                for field, limit_field in (("joint_vel", "joint_vel_limits"), ("applied_torque", "joint_effort_limits")):
+                    samples = [row[field] for row in telemetry_samples if field in row]
+                    if samples:
+                        peaks = [max(abs(row[i]) for row in samples) for i in range(7)]
+                        telemetry_summary[field + "_abs_peak"] = peaks
+                        limits = runtime_audit[limit_field].get("values")
+                        if limits is not None:
+                            telemetry_summary[field + "_peak_limit_ratio"] = [
+                                peak / limit if isinstance(limit, (int, float)) and limit > 0 else None
+                                for peak, limit in zip(peaks, limits)
+                            ]
+                    else:
+                        telemetry_summary[field + "_unavailable"] = True
+                measured["joint_telemetry_summary"] = telemetry_summary
+                (output / "joint_telemetry.json").write_text(json.dumps(telemetry_samples, indent=2), encoding="utf-8")
                 report_path.write_text(json.dumps(measured, indent=2), encoding="utf-8")
                 summary = {k: v for k, v in measured.items() if k != "trace"}
                 if args.motion_test in ("libero-map", "step-response"):
