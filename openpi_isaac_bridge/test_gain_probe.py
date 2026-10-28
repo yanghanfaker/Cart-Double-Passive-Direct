@@ -1,4 +1,6 @@
 import math
+import json
+from pathlib import Path
 from types import SimpleNamespace
 import unittest
 
@@ -10,6 +12,14 @@ class Implicit:
 
 
 class GainProbeTests(unittest.TestCase):
+    def test_recorded_data_candidate_changes_only_joint2_and_joint4_damping(self):
+        overrides = json.loads(Path(__file__).with_name("joint_gains_j2_j4_d40.json").read_text())
+        arm = self.actuator("panda_joint[1-7]", 400, 80)
+        configure_gain_profile({"arm": arm}, "kp2p25-kd0p25", overrides)
+        self.assertEqual(set(arm.stiffness.values()), {900})
+        self.assertEqual([arm.damping[f"panda_joint{i}"] for i in range(1, 8)], [20, 40, 20, 40, 20, 20, 20])
+        self.assertEqual((arm.effort_limit_sim, arm.velocity_limit_sim), (87, 2))
+
     def test_per_joint_override_changes_only_selected_gain_after_profile(self):
         arm = self.actuator("panda_joint[1-7]", 400, 80)
         hand = self.actuator("panda_finger_joint.*", None, None)

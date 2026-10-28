@@ -1,0 +1,4 @@
+{
+  "panda_joint2": {"damping": 40.0},
+  "panda_joint4": {"damping": 40.0}
+}

@@ -488,3 +488,35 @@ git push origin main
 `--joint-gains-json /home/test/Robot/joint_gains.json`。
 覆盖先应用profile，再应用逐关节值；最终每个关节实际增益仍由audit记录。
 首轮高分辨率采集不添加该参数，先确认哪些关节响应或目标更新异常，再选具体覆盖值。
+
+## 首个数据驱动的逐关节对照候选
+
+已上传的首轮物理轨迹（提交 `b6d2c1399a68e6787a2b56696430391cf5920289`）确认物理步长10 ms，
+每个50 ms动作周期有5条记录，共13500条物理样本。
+X向测试主要激励关节2、4、6。以各关节最终命令位置为参考，900/20时关节2、4分别在约100/90 ms
+出现约21.4%/27.3%的峰值越过终值；关节6约4.9%。
+这些数值是联合运动中的终值参考指标，不是独立关节阶跃的严格超调辨识。
+RX主要激励关节1、3、5、7，其目标也在随IK更新，不能把它们当作固定关节目标来直接拟合阻尼比。
+
+新增 `joint_gains_j2_j4_d40.json`：以900/20为基础，仅把关节2、4阻尼改为40。
+其它五个机械臂关节保持900/20，手指与执行器限制不变。
+这是尚未仿真验证的最小对照候选，不承诺达到50 ms或代表最终整定参数。
+它检验能否降低X向超调，同时减少统一提高阻尼对其它方向响应的影响。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --profiles kp2p25-kd0p25 \
+  --joint-gains-json /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/joint_gains_j2_j4_d40.json \
+  --record-physics
+```
+
+本轮只需要一个profile、两次测试。汇总显式保存逐关节覆盖值与各次运行的实际执行器审计，
+不能仅凭profile名称把这组误认作七个关节都是900/20。
+运行后仍用 `export_gain_results.py --include-physics-traces` 导出，再提交结果。
+
+另一个关键修正：物理采样显示首轮阶跃的估算力矩峰值可达约48.2%求解器上限，
+而先前50 ms采样最高约5.4%。因此不能沿用“力矩一直很小”的判断。
+这些仍是隐式执行器估算值而非真实测力，当前数据未显示触顶，后续保留原限制继续观察。

@@ -19,6 +19,10 @@ def main():
     parser.add_argument("--record-physics", action="store_true", help="capture each existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
     args = parser.parse_args()
+    joint_overrides = (
+        json.loads(args.joint_gains_json.expanduser().resolve().read_text(encoding="utf-8"))
+        if args.joint_gains_json else None
+    )
     root = args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():
         parser.error(f"Isaac Lab directory not found: {root}")
@@ -27,6 +31,7 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     manifest = {"output": str(output), "status": "running", "runs": [],
         "profiles": args.profiles, "record_physics": args.record_physics,
+        "joint_overrides": joint_overrides,
         "scope": "selected actuator gain profiles; no automatic selection or deployment; effort telemetry is approximate"}
     def save():
         (output / "sweep_summary.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -71,6 +76,7 @@ def main():
                 result = json.loads(report_file.read_text(encoding="utf-8"))
                 entry["status"] = "completed"
                 entry["joint_telemetry_summary"] = result["joint_telemetry_summary"]
+                entry["actuator_audit"] = result["actuator_audit"]
                 if args.record_physics:
                     entry["physics_joint_summary"] = result["physics_joint_summary"]
                 if mode == "step-response":
