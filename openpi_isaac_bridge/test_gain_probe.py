@@ -10,6 +10,26 @@ class Implicit:
 
 
 class GainProbeTests(unittest.TestCase):
+    def test_per_joint_override_changes_only_selected_gain_after_profile(self):
+        arm = self.actuator("panda_joint[1-7]", 400, 80)
+        hand = self.actuator("panda_finger_joint.*", None, None)
+        report = configure_gain_profile({"arm": arm, "hand": hand}, "kp2p25-kd0p375",
+                                        {"panda_joint2": {"damping": 35}})
+        self.assertEqual(arm.stiffness, {f"panda_joint{i}": 900 for i in range(1, 8)})
+        self.assertEqual(arm.damping["panda_joint1"], 30)
+        self.assertEqual(arm.damping["panda_joint2"], 35)
+        self.assertEqual((hand.stiffness, hand.damping), (None, None))
+        self.assertEqual(report["groups"][0]["experiment_damping"], arm.damping)
+        self.assertEqual(arm.effort_limit_sim, 87)
+
+    def test_per_joint_override_rejects_fingers_invalid_fields_and_invalid_values(self):
+        for override in ({"panda_finger_joint1": {"damping": 35}}, {"panda_joint2": {"force": 5}},
+                         {"panda_joint2": {"damping": 0}}, {"panda_joint2": {"stiffness": math.nan}}):
+            arm = self.actuator("panda_joint[1-7]", 400, 80)
+            with self.assertRaises(ValueError):
+                configure_gain_profile({"arm": arm}, "kp2p25-kd0p375", override)
+            self.assertEqual((arm.stiffness, arm.damping), (400, 80))
+
     def test_faster_profiles_start_from_original_gains(self):
         for profile, expected in (
             ("kp1p5-kd0p375", (600, 30)), ("kp1p5-kd0p25", (600, 20)),

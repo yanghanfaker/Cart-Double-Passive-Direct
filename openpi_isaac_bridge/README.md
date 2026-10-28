@@ -421,3 +421,70 @@ python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain
 它是本项目的诊断判据，不是LIBERO官方标准，也不代表所有轴或接触抓取已通过。
 当前阶跃仅验证X与RX，且采样周期50 ms，可能漏掉周期内峰值；不能据此声称所有关节都接近临界阻尼。
 若三组不能兼顾速度与超调，应考虑按关节整定或控制接口改进，不继续只按首周期幅度选配置。
+
+## 每个物理子步记录七关节目标与响应
+
+先采集900/20、900/30、900/40的高分辨率轨迹，不自动改变各关节增益：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --profiles kp2p25-kd0p25 kp2p25-kd0p375 kp2p25-kd0p5 \
+  --record-physics
+```
+
+动作周期仍为50 ms，物理步长不变；记录频率等于现有物理频率。
+例如物理步长为10 ms，每个动作应记录5条；若为5 ms，应记录10条，以启动日志为准。
+采样只增加读取和文件写入，不额外推进仿真，不以 `sleep` 制造数据点。
+同步读取GPU数据会增加墙钟耗时，这是诊断功能。
+
+记录器在场景 `write_data_to_sim` 后捕获此次物理积分实际使用的关节目标，
+在随后 `scene.update` 后捕获响应。IK可能在同一个50 ms动作周期内多次更新关节目标，
+所以不能简单拿动作周期结束时的目标与所有子步比较。
+记录器只在测试动作期间启用，恢复原场景方法后再关闭环境；不记录预热和相机初始化。
+若后端内部一次处理整个decimation、每周期没有完整子步、或更新dt不匹配，会明确停止，
+不把50 ms的批量状态冒充更高频率的数据。
+
+每个测试目录新增：
+
+- `physics_joint_trace.jsonl`：逐物理步的七关节实际目标、积分前位置、积分后位置/速度、可用的估算力矩。
+- `physics_joint_summary.json`：按case/phase、关节分别计算RMS/最大跟踪误差、目标跨度、速度及估算力矩峰值。
+
+`command_time_s`与`time_s`分别是该步起止时刻，时间原点是第一个记录的诊断动作。
+`control_index`、`physics_substep`和case/phase标签区分控制周期、子步、阶跃/返回/连续/停止。
+估算力矩在写命令后、积分前读取，不是求解器真实力矩；物理采样仍可能漏掉更高频的现象。
+`normalized_rms_error`以该case内目标相对初始位置的最大变化归一化，变化小于1e-5 rad时为null，
+避免把几乎未激励的关节噪声误判为慢响应。
+这些统计是IK运行中的联合跟踪结果，不是各关节独立阶跃辨识；仅凭它们不能直接估计每关节阻尼比。
+
+汇总自动包含关节统计。运行结束后，可用通用导出程序准备上传，避免每轮手改配置检查：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add physics substep joint target and response traces"
+git push origin main
+```
+
+导出程序先确认最新测试完成并读取全部必需文件，再更新仓库文件。
+它复制结果汇总、实际执行器参数、物理采样汇总和gzip压缩后的完整轨迹，不自动提交或推送。
+路径为 `diagnostics/gain_sweep/<profile>_<mode>_physics_joint_trace.jsonl.gz`。
+旧轮次的其他配置文件不会删除，分析时以新 `summary.json` 列出的本轮runs为准。
+
+### 数据分析后再按关节修改增益
+
+已增加 `--joint-gains-json`，仅允许指定 `panda_joint1` 至 `panda_joint7` 的正数stiffness/damping。
+未指定的关节/增益沿用所选profile，手指与速度/力矩限制保持不变。
+例如下面仅演示文件格式，不是已经验证的调参建议：
+
+```json
+{"panda_joint2": {"damping": 35}}
+```
+
+如将该文件保存为 `/home/test/Robot/joint_gains.json`，可在采样命令后追加
+`--joint-gains-json /home/test/Robot/joint_gains.json`。
+覆盖先应用profile，再应用逐关节值；最终每个关节实际增益仍由audit记录。
+首轮高分辨率采集不添加该参数，先确认哪些关节响应或目标更新异常，再选具体覆盖值。

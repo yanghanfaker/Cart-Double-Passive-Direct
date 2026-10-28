@@ -79,6 +79,7 @@ def main():
     from libero_mapping import decode_libero_action, mapping_test_plan, stream_test_plan
     from step_response import summarize_response
     from gain_probe import GAIN_PROFILES, configure_gain_profile
+    from physics_trace import PhysicsJointRecorder
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -89,6 +90,8 @@ def main():
     parser.add_argument("--warmup-steps", type=int, default=30)
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--gain-profile", choices=tuple(GAIN_PROFILES), default="baseline")
+    parser.add_argument("--record-physics", action="store_true", help="record actual joint targets/state at every existing physics substep")
+    parser.add_argument("--joint-gains-json", type=Path, help="optional explicit per-arm-joint gain overrides; no automatic tuning")
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
         "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response",
@@ -106,6 +109,10 @@ def main():
         parser.error("run --query and --motion-test separately; VLA actions are never executed")
     if args.gain_profile != "baseline" and args.motion_test not in ("step-response", "libero-stream"):
         parser.error("experimental gain profiles are restricted to step-response and libero-stream")
+    if args.record_physics and args.motion_test not in ("step-response", "libero-stream"):
+        parser.error("--record-physics requires step-response or libero-stream")
+    if args.joint_gains_json and args.motion_test not in ("step-response", "libero-stream"):
+        parser.error("per-joint gains require step-response or libero-stream")
     if args.warmup_steps < 1:
         parser.error("--warmup-steps must be positive")
     if not math.isfinite(args.light_intensity) or args.light_intensity <= 0:
@@ -121,7 +128,8 @@ def main():
         args.enable_cameras = True
 
     cfg = FrankaCubeLiftEnvCfg()
-    gain_config = configure_gain_profile(cfg.scene.robot.actuators, args.gain_profile)
+    joint_overrides = json.loads(args.joint_gains_json.read_text(encoding="utf-8")) if args.joint_gains_json else None
+    gain_config = configure_gain_profile(cfg.scene.robot.actuators, args.gain_profile, joint_overrides)
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
     if args.motion_test in ("libero-map", "libero-stream", "step-response"):
@@ -173,6 +181,7 @@ def main():
 
     with launch_simulation(cfg, args):
         env = gym.make("IsaacContrib-Lift-Cube-Franka-IK-Rel", cfg=cfg)
+        physics_recorder = None
         try:
             base = env.unwrapped
             env.reset()
@@ -323,6 +332,60 @@ def main():
             print(json.dumps(report, indent=2), flush=True)
             print(f"Saved camera check to: {output}", flush=True)
 
+            physics_context = {}
+            if args.record_physics:
+                if getattr(base, "_physics_handles_decimation", False):
+                    raise RuntimeError("Physics-owned decimation hides substeps; this recorder cannot label them as individual physics samples")
+                command_buffers = getattr(robot.actuators, "target_command", None)
+                if command_buffers is not None:
+                    position_target_buffer = command_buffers.position
+                    velocity_target_buffer = command_buffers.velocity
+                    command_source = "robot.actuators.target_command"
+                else:
+                    position_target_buffer = robot.data.joint_pos_target
+                    velocity_target_buffer = getattr(robot.data, "joint_vel_target", None)
+                    command_source = "robot.data.joint_pos_target (legacy)"
+
+                def required_joint_values(field):
+                    values, unavailable = joint_field(field)
+                    if values is None:
+                        raise RuntimeError(f"Required physics state {field} unavailable: {unavailable}")
+                    if not bool(torch.isfinite(values).all()):
+                        raise RuntimeError(f"Non-finite physics state {field}")
+                    return values.cpu().tolist()
+
+                def command_values(buffer):
+                    values = tensor(buffer)[0, arm_ids].detach().clone()
+                    if not bool(torch.isfinite(values).all()):
+                        raise RuntimeError("Non-finite joint target")
+                    return values.cpu().tolist()
+
+                def read_physics_command():
+                    effort, unavailable = joint_field("applied_torque")
+                    return {
+                        "position_target_rad": command_values(position_target_buffer),
+                        "velocity_target_rad_s": command_values(velocity_target_buffer) if velocity_target_buffer is not None else None,
+                        "position_before_rad": required_joint_values("joint_pos"),
+                        "estimated_effort_nm": effort.cpu().tolist() if effort is not None else None,
+                        "estimated_effort_unavailable": unavailable,
+                    }
+
+                def read_physics_state():
+                    return {"position_rad": required_joint_values("joint_pos"),
+                            "velocity_rad_s": required_joint_values("joint_vel")}
+
+                physics_recorder = PhysicsJointRecorder(
+                    base.scene, float(base.physics_dt), float(base.step_dt),
+                    read_physics_command, read_physics_state, output / "physics_joint_trace.jsonl",
+                    {"joint_names": arm_names, "gain_profile": args.gain_profile,
+                     "command_source": command_source,
+                     "time_origin": "first recorded diagnostic control period, excluding warmup",
+                     "effort_note": "estimate captured after command write before integration; not a measured solver torque",
+                     "target_note": "post-write position target used for the following physics integration; IK may update it every physics step"},
+                )
+                print(f"[Physics trace] physics_dt={base.physics_dt}; control_dt={base.step_dt}; "
+                      f"substeps={physics_recorder.expected_substeps}; joints={arm_names}", flush=True)
+
             if args.motion_test != "none":
                 def read_pose():
                     pose_pos, pose_quat = subtract_frame_transforms(
@@ -344,7 +407,11 @@ def main():
                     return delta[0]
 
                 def checked_step(action, initial_pos):
+                    if physics_recorder is not None:
+                        physics_recorder.begin_control({**physics_context, "raw_isaac_action": action[0].detach().cpu().tolist()})
                     result = env.step(action)
+                    if physics_recorder is not None:
+                        physics_recorder.end_control()
                     if bool(tensor(result[2]).any()) or bool(tensor(result[3]).any()):
                         raise RuntimeError("Environment reset during calibration; discard this measurement")
                     current_pos, current_quat = read_pose()
@@ -398,6 +465,7 @@ def main():
                                 target_pos, target_quat = apply_delta_pose(start_pos[None], start_quat[None], step_delta)
                                 trace = []
                                 for step in range(60):
+                                    physics_context.update(case=f"{feedback_name}/{axis}", phase="step", case_control_step=step + 1)
                                     current_pos, current_quat = feedback_reader()
                                     pos_error, rot_error = compute_pose_error(
                                         current_pos[None], current_quat[None], target_pos, target_quat, rot_error_type="axis_angle",
@@ -445,7 +513,8 @@ def main():
                                 # Return to the same feedback point's starting
                                 # pose before the next case; do not score this
                                 # repositioning as part of the step response.
-                                for _ in range(60):
+                                for return_step in range(60):
+                                    physics_context.update(case=f"{feedback_name}/{axis}", phase="return", case_control_step=return_step + 1)
                                     current_pos, current_quat = feedback_reader()
                                     pos_error, rot_error = compute_pose_error(
                                         current_pos[None], current_quat[None], start_pos[None], start_quat[None], rot_error_type="axis_angle",
@@ -470,6 +539,7 @@ def main():
                             stop_starts = {}
                             last_phase = None
                             for step, (phase, libero_action) in enumerate(stream_test_plan(axis)):
+                                physics_context.update(case=axis, phase=phase, case_control_step=step + 1)
                                 wall_start = time.perf_counter()
                                 decoded = decode_libero_action(libero_action)
                                 current_pos, current_quat = read_pose()
@@ -769,9 +839,17 @@ def main():
                     else:
                         telemetry_summary[field + "_unavailable"] = True
                 measured["joint_telemetry_summary"] = telemetry_summary
+                if physics_recorder is not None:
+                    highres_summary = physics_recorder.summary()
+                    (output / "physics_joint_summary.json").write_text(json.dumps(highres_summary, indent=2), encoding="utf-8")
+                    measured["physics_joint_summary"] = highres_summary
+                    print(f"[Physics trace] saved {highres_summary['recorded_substeps']} physics samples "
+                          f"in {highres_summary['recorded_controls']} controls", flush=True)
                 (output / "joint_telemetry.json").write_text(json.dumps(telemetry_samples, indent=2), encoding="utf-8")
                 report_path.write_text(json.dumps(measured, indent=2), encoding="utf-8")
                 summary = {k: v for k, v in measured.items() if k != "trace"}
+                if physics_recorder is not None:
+                    summary["physics_joint_summary"] = {k: v for k, v in measured["physics_joint_summary"].items() if k != "cases"}
                 if args.motion_test in ("libero-map", "step-response"):
                     summary["phases"] = [{
                         k: v for k, v in phase.items() if k not in ("trace", "first_period_response")
@@ -811,6 +889,8 @@ def main():
                 print(f"OpenPI returned {actions.shape}; saved, NOT executed.", flush=True)
                 print(f"First predicted action: {actions[0]}", flush=True)
         finally:
+            if physics_recorder is not None:
+                physics_recorder.close()
             env.close()
 
 

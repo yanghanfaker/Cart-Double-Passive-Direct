@@ -16,6 +16,8 @@ def main():
     parser.add_argument("--isaaclab-root", type=Path, default=Path("/home/test/Robot/IsaacLab"))
     parser.add_argument("--profiles", choices=tuple(GAIN_PROFILES), nargs="+",
                         default=["baseline", "kp1p5", "kp1p5-damped"])
+    parser.add_argument("--record-physics", action="store_true", help="capture each existing physics substep")
+    parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
     args = parser.parse_args()
     root = args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():
@@ -24,7 +26,7 @@ def main():
     output = root / "logs" / "openpi_gain_sweep" / stamp
     output.mkdir(parents=True, exist_ok=False)
     manifest = {"output": str(output), "status": "running", "runs": [],
-        "profiles": args.profiles,
+        "profiles": args.profiles, "record_physics": args.record_physics,
         "scope": "selected actuator gain profiles; no automatic selection or deployment; effort telemetry is approximate"}
     def save():
         (output / "sweep_summary.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -39,6 +41,10 @@ def main():
                 command = ["uv", "run", "--extra", "viser", "isaaclab", "-p", str(script),
                            "--viz", "viser", "--motion-test", mode, "--gain-profile", profile,
                            "--output", str(run_output)]
+                if args.record_physics:
+                    command.append("--record-physics")
+                if args.joint_gains_json:
+                    command.extend(["--joint-gains-json", str(args.joint_gains_json.expanduser().resolve())])
                 entry = {"profile": profile, "mode": mode, "output": str(run_output), "status": "running"}
                 manifest["runs"].append(entry)
                 save()
@@ -50,7 +56,7 @@ def main():
                         for line in process.stdout:
                             log.write(line)
                             recent.append(line)
-                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]")):
+                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]")):
                                 print(line, end="", flush=True)
                         code = process.wait()
                 entry["exit_code"] = code
@@ -65,6 +71,8 @@ def main():
                 result = json.loads(report_file.read_text(encoding="utf-8"))
                 entry["status"] = "completed"
                 entry["joint_telemetry_summary"] = result["joint_telemetry_summary"]
+                if args.record_physics:
+                    entry["physics_joint_summary"] = result["physics_joint_summary"]
                 if mode == "step-response":
                     entry["responses"] = [{key: phase[key] for key in (
                         "feedback", "axis", "gain_at_50ms", "within_10pct_at_50ms", "within_5pct_at_50ms",
