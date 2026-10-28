@@ -397,3 +397,27 @@ python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain
 例如首周期比例1.2虽然超过90%，也属于超调，不通过上述幅度范围判据。
 源码、USD、手指驱动、速度/力矩限制、物理步长不变，不执行模型动作。
 这些配置仅是待验证候选，不能保证达到目标；仿真仍同步运行，50 ms是仿真周期，不保证墙钟实时性。
+
+## 第四轮：以900/20为对照，抑制超调
+
+第三轮900/20的连续行程较接近名义值，但平移阶跃最大采样超调约21.6%。
+固定刚度900，比较阻尼20、30、40，检查增大阻尼能否降低超调，以及响应会慢多少：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --profiles kp2p25-kd0p25 kp2p25-kd0p375 kp2p25-kd0p5
+```
+
+三组从原始配置400/80分别乘以刚度2.25、阻尼0.25/0.375/0.5。
+若本机原配置不同，以实际加载参数审计为准。默认三组测试不变，本轮显式选择以上配置。
+仍为六次独立仿真：每组阶跃与六轴连续测试各一次，不更改USD、执行器限制或手指参数。
+
+本轮不预设提高阻尼后仍能满足50 ms指标，也不将降低超调等同于已经足够快。
+重点同时查看 `gain_at_50ms`、`overshoot_pct`、`settling_5pct_s`、连续行程比例和停止漂移。
+例如，可把首周期幅度在90%～110%、全程采样超调不超过5%作为待检验的组合目标；
+它是本项目的诊断判据，不是LIBERO官方标准，也不代表所有轴或接触抓取已通过。
+当前阶跃仅验证X与RX，且采样周期50 ms，可能漏掉周期内峰值；不能据此声称所有关节都接近临界阻尼。
+若三组不能兼顾速度与超调，应考虑按关节整定或控制接口改进，不继续只按首周期幅度选配置。

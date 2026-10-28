@@ -12,6 +12,8 @@ GAIN_PROFILES = {
     "kp1p5-kd0p375": (1.5, 0.375),
     "kp1p5-kd0p25": (1.5, 0.25),
     "kp2p25-kd0p25": (2.25, 0.25),
+    "kp2p25-kd0p375": (2.25, 0.375),
+    "kp2p25-kd0p5": (2.25, 0.5),
     "kp3-kd0p25": (3.0, 0.25),
 }
 LIMIT_FIELDS = ("joint_effort_limit", "joint_velocity_limit", "actuator_effort_limit",

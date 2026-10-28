@@ -14,12 +14,24 @@ class GainProbeTests(unittest.TestCase):
         for profile, expected in (
             ("kp1p5-kd0p375", (600, 30)), ("kp1p5-kd0p25", (600, 20)),
             ("kp2p25-kd0p25", (900, 20)), ("kp3-kd0p25", (1200, 20)),
+            ("kp2p25-kd0p375", (900, 30)), ("kp2p25-kd0p5", (900, 40)),
         ):
             with self.subTest(profile=profile):
                 arm = self.actuator("panda_joint[1-7]", 400, 80)
                 configure_gain_profile({"arm": arm}, profile)
                 self.assertEqual((arm.stiffness, arm.damping), expected)
                 self.assertEqual((arm.effort_limit_sim, arm.velocity_limit_sim), (87, 2))
+
+    def test_900_stiffness_comparison_keeps_hand_and_source_config(self):
+        for profile, damping in (("kp2p25-kd0p25", 20), ("kp2p25-kd0p375", 30), ("kp2p25-kd0p5", 40)):
+            with self.subTest(profile=profile):
+                arm = self.actuator("panda_joint[1-7]", 400, 80)
+                hand = self.actuator("panda_finger_joint.*", None, None)
+                report = configure_gain_profile({"arm": arm, "hand": hand}, profile)
+                self.assertEqual((arm.stiffness, arm.damping), (900, damping))
+                self.assertEqual((hand.stiffness, hand.damping), (None, None))
+                self.assertEqual(report["groups"][0]["original_stiffness"], 400)
+                self.assertEqual(report["groups"][0]["original_damping"], 80)
 
     def test_damping_sweep_holds_stiffness_and_keeps_hand_unchanged(self):
         for profile, damping in (("kp1p5", 80), ("kp1p5-kd0p75", 60), ("kp1p5-kd0p5", 40)):
