@@ -3,6 +3,7 @@
     "profile": "kp2p25-kd0p5",
     "kp_factor": 2.25,
     "kd_factor": 0.5,
+    "joint_overrides": {},
     "groups": [
       {
         "group": "panda_arm",
