@@ -9,6 +9,10 @@ GAIN_PROFILES = {
     "kp1p5-damped": (1.5, math.sqrt(1.5)),
     "kp1p5-kd0p75": (1.5, 0.75),
     "kp1p5-kd0p5": (1.5, 0.5),
+    "kp1p5-kd0p375": (1.5, 0.375),
+    "kp1p5-kd0p25": (1.5, 0.25),
+    "kp2p25-kd0p25": (2.25, 0.25),
+    "kp3-kd0p25": (3.0, 0.25),
 }
 LIMIT_FIELDS = ("joint_effort_limit", "joint_velocity_limit", "actuator_effort_limit",
                 "actuator_velocity_limit", "effort_limit", "velocity_limit", "effort_limit_sim", "velocity_limit_sim")

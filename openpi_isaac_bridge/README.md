@@ -368,3 +368,32 @@ python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain
 降低阻尼可能加快响应，也可能增加超调；不能仅选 `outbound_gain` 最大的一组。
 原有 5 cm / 15° 位姿中止条件继续生效；它不是物理步级振荡检测器。
 本轮完成后，将新汇总与各组 `actuator_audit.json` 上传到 `diagnostics/gain_sweep/`，再进行对比分析。
+
+## 第三轮：50 ms 完成比例验证
+
+保留已测试的 600/40，逐步对照 600/30、600/20、900/20、1200/20：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --profiles kp1p5-kd0p5 kp1p5-kd0p375 kp1p5-kd0p25 kp2p25-kd0p25 kp3-kd0p25
+```
+
+五组各运行阶跃和六轴连续测试，共十次独立仿真，总计约 225 秒仿真时间，另加启动及渲染耗时。
+上表数值以原始刚度400、阻尼80为前提；参数是相对于每次新建环境原配置的倍率，
+不是在上一组上叠加。实际加载值仍以 `actuator_audit.json` 核对。
+默认三组旧测试不变；本轮必须显式传 `--profiles`。
+
+阶跃与外层汇总新增：
+
+- `gain_at_50ms`：固定目标在首个 50 ms 后的实际幅度比例。
+- `within_10pct_at_50ms`：比例处于 [0.9, 1.1]。
+- `within_5pct_at_50ms`：比例处于 [0.95, 1.05]。
+
+这两个布尔值只表示被测轴的首周期幅度误差，不是完整位姿、连续运动或后续稳定性达标。
+仍需查看完整位置/姿态误差、`overshoot_pct`、`settling_5pct_s`、尾部变化、六轴行程比例、停止漂移及限制比例。
+例如首周期比例1.2虽然超过90%，也属于超调，不通过上述幅度范围判据。
+源码、USD、手指驱动、速度/力矩限制、物理步长不变，不执行模型动作。
+这些配置仅是待验证候选，不能保证达到目标；仿真仍同步运行，50 ms是仿真周期，不保证墙钟实时性。

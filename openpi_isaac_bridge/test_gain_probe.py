@@ -10,6 +10,17 @@ class Implicit:
 
 
 class GainProbeTests(unittest.TestCase):
+    def test_faster_profiles_start_from_original_gains(self):
+        for profile, expected in (
+            ("kp1p5-kd0p375", (600, 30)), ("kp1p5-kd0p25", (600, 20)),
+            ("kp2p25-kd0p25", (900, 20)), ("kp3-kd0p25", (1200, 20)),
+        ):
+            with self.subTest(profile=profile):
+                arm = self.actuator("panda_joint[1-7]", 400, 80)
+                configure_gain_profile({"arm": arm}, profile)
+                self.assertEqual((arm.stiffness, arm.damping), expected)
+                self.assertEqual((arm.effort_limit_sim, arm.velocity_limit_sim), (87, 2))
+
     def test_damping_sweep_holds_stiffness_and_keeps_hand_unchanged(self):
         for profile, damping in (("kp1p5", 80), ("kp1p5-kd0p75", 60), ("kp1p5-kd0p5", 40)):
             with self.subTest(profile=profile):

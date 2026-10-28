@@ -4,6 +4,22 @@ from step_response import summarize_response
 
 
 class StepResponseTests(unittest.TestCase):
+    def test_50ms_band_checks_reject_overshoot(self):
+        for gain, band10, band5 in ((0.53, False, False), (0.92, True, False),
+                                    (0.98, True, True), (1.2, False, False)):
+            with self.subTest(gain=gain):
+                result = summarize_response(self.trace([gain, 1.0]))
+                self.assertEqual(result["gain_at_50ms"], gain)
+                self.assertEqual(result["within_10pct_at_50ms"], band10)
+                self.assertEqual(result["within_5pct_at_50ms"], band5)
+
+    def test_missing_50ms_sample_is_marked_unavailable(self):
+        trace = self.trace([1.0])
+        trace[0]["time_s"] = 0.1
+        result = summarize_response(trace)
+        self.assertIsNone(result["gain_at_50ms"])
+        self.assertIsNone(result["within_5pct_at_50ms"])
+
     def trace(self, gains):
         return [{"step": i + 1, "time_s": (i + 1) * 0.05, "gain": gain,
                  "position_error_m": abs(1 - gain) * 0.001, "rotation_error_deg": 0}

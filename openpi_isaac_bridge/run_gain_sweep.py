@@ -67,7 +67,8 @@ def main():
                 entry["joint_telemetry_summary"] = result["joint_telemetry_summary"]
                 if mode == "step-response":
                     entry["responses"] = [{key: phase[key] for key in (
-                        "feedback", "axis", "final_gain", "peak_gain", "overshoot_pct", "tail_gain_peak_to_peak",
+                        "feedback", "axis", "gain_at_50ms", "within_10pct_at_50ms", "within_5pct_at_50ms",
+                        "final_gain", "peak_gain", "overshoot_pct", "tail_gain_peak_to_peak",
                         "t90_sustained_s", "settling_5pct_s", "final_position_error_m", "final_rotation_error_deg",
                     )} for phase in result["phases"]]
                 else:
