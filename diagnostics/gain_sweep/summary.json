@@ -1,1370 +1,11 @@
 {
-  "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z",
+  "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T092833743527Z",
   "status": "completed",
   "runs": [
     {
-      "profile": "kp1p5-kd0p5",
-      "mode": "step-response",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp1p5-kd0p5/step-response",
-      "status": "completed",
-      "exit_code": 0,
-      "joint_telemetry_summary": {
-        "sample_count": 480,
-        "joint_names": [
-          "panda_joint1",
-          "panda_joint2",
-          "panda_joint3",
-          "panda_joint4",
-          "panda_joint5",
-          "panda_joint6",
-          "panda_joint7"
-        ],
-        "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
-        "joint_vel_abs_peak": [
-          0.08719134330749512,
-          0.03696979954838753,
-          0.0930233970284462,
-          0.028293205425143242,
-          0.050088025629520416,
-          0.008708108216524124,
-          0.02638612501323223
-        ],
-        "joint_vel_peak_limit_ratio": [
-          0.0043595671653747555,
-          0.0018484899774193764,
-          0.0046511698514223095,
-          0.001414660271257162,
-          0.0020035210251808165,
-          0.000348324328660965,
-          0.0010554450005292892
-        ],
-        "applied_torque_abs_peak": [
-          0.47875064611434937,
-          0.2769021987915039,
-          0.28261008858680725,
-          0.22297978401184082,
-          0.10532023757696152,
-          0.046227335929870605,
-          0.050188422203063965
-        ],
-        "applied_torque_peak_limit_ratio": [
-          0.005502880989820108,
-          0.003182783894155217,
-          0.003248391822836865,
-          0.002562986023124607,
-          0.008776686464746794,
-          0.003852277994155884,
-          0.004182368516921997
-        ]
-      },
-      "responses": [
-        {
-          "feedback": "sensor",
-          "axis": "x",
-          "gain_at_50ms": 0.46950578689575195,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 0.9994804859161377,
-          "peak_gain": 0.9995102882385254,
-          "overshoot_pct": 0.0,
-          "tail_gain_peak_to_peak": 5.9604644775390625e-05,
-          "t90_sustained_s": 0.15000000000000002,
-          "settling_5pct_s": 0.2,
-          "final_position_error_m": 6.218963903847907e-07,
-          "final_rotation_error_deg": 0.0003065714921806435
-        },
-        {
-          "feedback": "sensor",
-          "axis": "rx",
-          "gain_at_50ms": 0.4962212145328522,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 1.0000255107879639,
-          "peak_gain": 1.000092625617981,
-          "overshoot_pct": 0.009262561798095703,
-          "tail_gain_peak_to_peak": 7.963180541992188e-05,
-          "t90_sustained_s": 0.15000000000000002,
-          "settling_5pct_s": 0.2,
-          "final_position_error_m": 8.169811735569965e-06,
-          "final_rotation_error_deg": 0.0007625176769629037
-        },
-        {
-          "feedback": "ik",
-          "axis": "x",
-          "gain_at_50ms": 0.47072768211364746,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 0.9995102882385254,
-          "peak_gain": 0.9995400905609131,
-          "overshoot_pct": 0.0,
-          "tail_gain_peak_to_peak": 5.9604644775390625e-05,
-          "t90_sustained_s": 0.15000000000000002,
-          "settling_5pct_s": 0.2,
-          "final_position_error_m": 5.008416223972745e-07,
-          "final_rotation_error_deg": 0.00030472197062671375
-        },
-        {
-          "feedback": "ik",
-          "axis": "rx",
-          "gain_at_50ms": 0.49622610211372375,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 1.0000561475753784,
-          "peak_gain": 1.0001356601715088,
-          "overshoot_pct": 0.013566017150878906,
-          "tail_gain_peak_to_peak": 6.479024887084961e-05,
-          "t90_sustained_s": 0.15000000000000002,
-          "settling_5pct_s": 0.2,
-          "final_position_error_m": 7.890659617260098e-06,
-          "final_rotation_error_deg": 0.0007442237631567284
-        }
-      ]
-    },
-    {
-      "profile": "kp1p5-kd0p5",
-      "mode": "libero-stream",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp1p5-kd0p5/libero-stream",
-      "status": "completed",
-      "exit_code": 0,
-      "joint_telemetry_summary": {
-        "sample_count": 420,
-        "joint_names": [
-          "panda_joint1",
-          "panda_joint2",
-          "panda_joint3",
-          "panda_joint4",
-          "panda_joint5",
-          "panda_joint6",
-          "panda_joint7"
-        ],
-        "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
-        "joint_vel_abs_peak": [
-          0.020110979676246643,
-          0.00925200991332531,
-          0.022759363055229187,
-          0.008747000247240067,
-          0.010014976374804974,
-          0.021484127268195152,
-          0.018836408853530884
-        ],
-        "joint_vel_peak_limit_ratio": [
-          0.0010055489838123322,
-          0.0004626004956662655,
-          0.0011379681527614594,
-          0.0004373500123620033,
-          0.00040059905499219896,
-          0.0008593650907278061,
-          0.0007534563541412353
-        ],
-        "applied_torque_abs_peak": [
-          0.10904587805271149,
-          0.0964219868183136,
-          0.09808856248855591,
-          0.07617200911045074,
-          0.027486346662044525,
-          0.05858898162841797,
-          0.037601351737976074
-        ],
-        "applied_torque_peak_limit_ratio": [
-          0.0012534008971576032,
-          0.001108298699061076,
-          0.001127454741247769,
-          0.0008755403346028821,
-          0.0022905288885037103,
-          0.004882415135701497,
-          0.003133445978164673
-        ]
-      },
-      "all_stream_tests_passed": false,
-      "axes": [
-        {
-          "axis": "x",
-          "passed": false,
-          "outbound_gain": 0.535392701625824,
-          "nominal_out_delta_root_m_rad": [
-            0.005000000353902578,
-            1.3474510136141093e-12,
-            -1.185071624165701e-10,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "actual_out_delta_root_m": [
-            0.0026769638061523438,
-            3.368827265148866e-06,
-            1.963973045349121e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            -7.512447336921468e-05,
-            -0.001278164447285235,
-            0.00041175566730089486
-          ],
-          "return_position_error_m": 1.5776263353473041e-06,
-          "return_rotation_error_deg": 0.0001503863471502566,
-          "max_period_position_error_m": 0.00013680076517630368,
-          "max_period_rotation_error_deg": 0.004454084168523337,
-          "rms_period_position_error_m": 8.82829709767504e-05,
-          "rms_period_rotation_error_deg": 0.0010867145112238485,
-          "mean_wall_period_s": 0.10339939761906862,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 4.365562563179992e-05,
-              "rotation_deg": 0.005341819496349899
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 4.3214604374952614e-05,
-              "rotation_deg": 0.005310810587595439
-            }
-          ],
-          "finger_positions_m": [
-            0.03999999910593033,
-            0.03999999910593033
-          ]
-        },
-        {
-          "axis": "y",
-          "passed": false,
-          "outbound_gain": 0.5308358669281006,
-          "nominal_out_delta_root_m_rad": [
-            -1.3474510136141093e-12,
-            0.005000000353902578,
-            4.2267257402417435e-12,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "actual_out_delta_root_m": [
-            -6.4373016357421875e-06,
-            0.0026541794650256634,
-            -1.043081283569336e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            -0.0013385284692049026,
-            0.0004214828659314662,
-            0.001325320336036384
-          ],
-          "return_position_error_m": 1.2922340602017357e-06,
-          "return_rotation_error_deg": 0.00017981754119519814,
-          "max_period_position_error_m": 0.00017613617819733918,
-          "max_period_rotation_error_deg": 0.00791724562617935,
-          "rms_period_position_error_m": 8.987029747912656e-05,
-          "rms_period_rotation_error_deg": 0.0018716354679441318,
-          "mean_wall_period_s": 0.09862884813919663,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 6.384368316503242e-05,
-              "rotation_deg": 0.008170037664169199
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 6.384097650879994e-05,
-              "rotation_deg": 0.008202817903110633
-            }
-          ],
-          "finger_positions_m": [
-            0.03999997675418854,
-            0.03999997675418854
-          ]
-        },
-        {
-          "axis": "z",
-          "passed": false,
-          "outbound_gain": 0.5242347717285156,
-          "nominal_out_delta_root_m_rad": [
-            1.185071624165701e-10,
-            -4.2267257402417435e-12,
-            0.005000000353902578,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "actual_out_delta_root_m": [
-            -7.927417755126953e-06,
-            -6.723206524839043e-08,
-            0.002621173858642578
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            -4.553395774564706e-05,
-            0.0028033771086484194,
-            3.196611942257732e-05
-          ],
-          "return_position_error_m": 1.8019151184489601e-06,
-          "return_rotation_error_deg": 9.070692962446822e-05,
-          "max_period_position_error_m": 0.00020589517953339964,
-          "max_period_rotation_error_deg": 0.010578924155245036,
-          "rms_period_position_error_m": 9.259464421703978e-05,
-          "rms_period_rotation_error_deg": 0.002503840386385369,
-          "mean_wall_period_s": 0.10300836654912149,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 0.00010657675011316314,
-              "rotation_deg": 0.01203334006808452
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 0.00010617764928610995,
-              "rotation_deg": 0.01200088999942035
-            }
-          ],
-          "finger_positions_m": [
-            0.03999997675418854,
-            0.03999997675418854
-          ]
-        },
-        {
-          "axis": "rx",
-          "passed": false,
-          "outbound_gain": 0.5319313406944275,
-          "nominal_out_delta_root_m_rad": [
-            0.0,
-            0.0,
-            0.0,
-            0.03490658476948738,
-            9.406982137694087e-12,
-            -8.273360330157686e-10
-          ],
-          "actual_out_delta_root_m": [
-            -4.738569259643555e-06,
-            -3.3945427276194096e-05,
-            -1.1235475540161133e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            1.0638628005981445,
-            0.0014181445585563779,
-            -0.0003567779785953462
-          ],
-          "return_position_error_m": 9.064029882210889e-07,
-          "return_rotation_error_deg": 0.00017328591746135474,
-          "max_period_position_error_m": 4.089247522642836e-05,
-          "max_period_rotation_error_deg": 0.050637298283915506,
-          "rms_period_position_error_m": 9.754840057740664e-06,
-          "rms_period_rotation_error_deg": 0.03541613343760784,
-          "mean_wall_period_s": 0.09789197958473649,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 4.2666295485105366e-05,
-              "rotation_deg": 0.006577302499885353
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 4.2652587580960244e-05,
-              "rotation_deg": 0.006544461813102755
-            }
-          ],
-          "finger_positions_m": [
-            0.039999980479478836,
-            0.039999984204769135
-          ]
-        },
-        {
-          "axis": "ry",
-          "passed": false,
-          "outbound_gain": 0.5303226113319397,
-          "nominal_out_delta_root_m_rad": [
-            0.0,
-            0.0,
-            0.0,
-            -9.406982137694087e-12,
-            0.03490658476948738,
-            2.950811123225705e-11
-          ],
-          "actual_out_delta_root_m": [
-            6.070733070373535e-05,
-            1.5024561434984207e-06,
-            3.838539123535156e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            4.416490628500469e-05,
-            1.0606452226638794,
-            0.00020708268857561052
-          ],
-          "return_position_error_m": 1.8091996025759727e-06,
-          "return_rotation_error_deg": 0.0001924437664043224,
-          "max_period_position_error_m": 7.674703374505043e-05,
-          "max_period_rotation_error_deg": 0.047453909862373876,
-          "rms_period_position_error_m": 1.7995726842194636e-05,
-          "rms_period_rotation_error_deg": 0.03553769822869058,
-          "mean_wall_period_s": 0.09301795175831233,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 8.021602116059512e-05,
-              "rotation_deg": 0.00770685128710116
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 8.288169192383066e-05,
-              "rotation_deg": 0.008059037084996574
-            }
-          ],
-          "finger_positions_m": [
-            0.03999997675418854,
-            0.03999997675418854
-          ]
-        },
-        {
-          "axis": "rz",
-          "passed": false,
-          "outbound_gain": 0.5296435356140137,
-          "nominal_out_delta_root_m_rad": [
-            0.0,
-            0.0,
-            0.0,
-            8.273360330157686e-10,
-            -2.950811123225705e-11,
-            0.03490658476948738
-          ],
-          "actual_out_delta_root_m": [
-            -6.943941116333008e-06,
-            -2.8357897463138215e-05,
-            -1.6987323760986328e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            0.004652717150747776,
-            0.0006993552669882774,
-            1.0592870712280273
-          ],
-          "return_position_error_m": 7.831781658751424e-06,
-          "return_rotation_error_deg": 0.001060288693012794,
-          "max_period_position_error_m": 4.5316592149902135e-05,
-          "max_period_rotation_error_deg": 0.047314564665156364,
-          "rms_period_position_error_m": 1.0778408639754397e-05,
-          "rms_period_rotation_error_deg": 0.03558195953811591,
-          "mean_wall_period_s": 0.10488796666530627,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 4.717372576124035e-05,
-              "rotation_deg": 0.005739933980844351
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 4.6613851736765355e-05,
-              "rotation_deg": 0.005699053314305108
-            }
-          ],
-          "finger_positions_m": [
-            0.03999999165534973,
-            0.03999999538064003
-          ]
-        }
-      ]
-    },
-    {
-      "profile": "kp1p5-kd0p375",
-      "mode": "step-response",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp1p5-kd0p375/step-response",
-      "status": "completed",
-      "exit_code": 0,
-      "joint_telemetry_summary": {
-        "sample_count": 480,
-        "joint_names": [
-          "panda_joint1",
-          "panda_joint2",
-          "panda_joint3",
-          "panda_joint4",
-          "panda_joint5",
-          "panda_joint6",
-          "panda_joint7"
-        ],
-        "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
-        "joint_vel_abs_peak": [
-          0.09780377894639969,
-          0.04457295313477516,
-          0.10517684370279312,
-          0.035382941365242004,
-          0.05507917329668999,
-          0.009718296118080616,
-          0.02860860712826252
-        ],
-        "joint_vel_peak_limit_ratio": [
-          0.004890188947319985,
-          0.0022286476567387583,
-          0.005258842185139656,
-          0.0017691470682621002,
-          0.0022031669318675995,
-          0.00038873184472322465,
-          0.0011443442851305009
-        ],
-        "applied_torque_abs_peak": [
-          0.7534210085868835,
-          0.3869955539703369,
-          0.35069361329078674,
-          0.2755865454673767,
-          0.17696024477481842,
-          0.06041902303695679,
-          0.08255863189697266
-        ],
-        "applied_torque_peak_limit_ratio": [
-          0.008660011592952684,
-          0.004448224758279735,
-          0.004030961072307894,
-          0.0031676614421537555,
-          0.014746687064568201,
-          0.005034918586413066,
-          0.006879885991414388
-        ]
-      },
-      "responses": [
-        {
-          "feedback": "sensor",
-          "axis": "x",
-          "gain_at_50ms": 0.5513131618499756,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 1.000434160232544,
-          "peak_gain": 1.0063350200653076,
-          "overshoot_pct": 0.6335020065307617,
-          "tail_gain_peak_to_peak": 5.9604644775390625e-05,
-          "t90_sustained_s": 0.1,
-          "settling_5pct_s": 0.15000000000000002,
-          "final_position_error_m": 4.5901887801846897e-07,
-          "final_rotation_error_deg": 8.080438122059061e-05
-        },
-        {
-          "feedback": "sensor",
-          "axis": "rx",
-          "gain_at_50ms": 0.5981618165969849,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 0.9999833703041077,
-          "peak_gain": 1.0013940334320068,
-          "overshoot_pct": 0.1394033432006836,
-          "tail_gain_peak_to_peak": 4.214048385620117e-05,
-          "t90_sustained_s": 0.15000000000000002,
-          "settling_5pct_s": 0.15000000000000002,
-          "final_position_error_m": 4.895338747701317e-07,
-          "final_rotation_error_deg": 0.0001545707447345069
-        },
-        {
-          "feedback": "ik",
-          "axis": "x",
-          "gain_at_50ms": 0.5523860454559326,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 1.0002553462982178,
-          "peak_gain": 1.005023717880249,
-          "overshoot_pct": 0.5023717880249023,
-          "tail_gain_peak_to_peak": 8.940696716308594e-05,
-          "t90_sustained_s": 0.1,
-          "settling_5pct_s": 0.15000000000000002,
-          "final_position_error_m": 3.466940938778862e-07,
-          "final_rotation_error_deg": 0.00011934288932795906
-        },
-        {
-          "feedback": "ik",
-          "axis": "rx",
-          "gain_at_50ms": 0.5981433987617493,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 0.9999759793281555,
-          "peak_gain": 1.0016968250274658,
-          "overshoot_pct": 0.16968250274658203,
-          "tail_gain_peak_to_peak": 4.225969314575195e-05,
-          "t90_sustained_s": 0.15000000000000002,
-          "settling_5pct_s": 0.15000000000000002,
-          "final_position_error_m": 7.18897467777424e-07,
-          "final_rotation_error_deg": 0.00011605921668727925
-        }
-      ]
-    },
-    {
-      "profile": "kp1p5-kd0p375",
-      "mode": "libero-stream",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp1p5-kd0p375/libero-stream",
-      "status": "completed",
-      "exit_code": 0,
-      "joint_telemetry_summary": {
-        "sample_count": 420,
-        "joint_names": [
-          "panda_joint1",
-          "panda_joint2",
-          "panda_joint3",
-          "panda_joint4",
-          "panda_joint5",
-          "panda_joint6",
-          "panda_joint7"
-        ],
-        "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
-        "joint_vel_abs_peak": [
-          0.022568952292203903,
-          0.011153860948979855,
-          0.025660738348960876,
-          0.010209372267127037,
-          0.011017921380698681,
-          0.023239288479089737,
-          0.020304689183831215
-        ],
-        "joint_vel_peak_limit_ratio": [
-          0.001128447614610195,
-          0.0005576930474489927,
-          0.0012830369174480437,
-          0.0005104686133563519,
-          0.00044071685522794723,
-          0.0009295715391635894,
-          0.0008121875673532486
-        ],
-        "applied_torque_abs_peak": [
-          0.1714533269405365,
-          0.12387010455131531,
-          0.14956998825073242,
-          0.10382485389709473,
-          0.0436476469039917,
-          0.09206706285476685,
-          0.060124874114990234
-        ],
-        "applied_torque_peak_limit_ratio": [
-          0.0019707278958682357,
-          0.0014237943051875323,
-          0.001719195267249798,
-          0.0011933891252539624,
-          0.003637303908665975,
-          0.007672255237897237,
-          0.0050104061762491865
-        ]
-      },
-      "all_stream_tests_passed": false,
-      "axes": [
-        {
-          "axis": "x",
-          "passed": false,
-          "outbound_gain": 0.6536960601806641,
-          "nominal_out_delta_root_m_rad": [
-            0.005000000353902578,
-            1.3474510136141093e-12,
-            -1.185071624165701e-10,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "actual_out_delta_root_m": [
-            0.0032684803009033203,
-            5.262933882477228e-06,
-            4.1037797927856445e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            -7.828786328900605e-05,
-            -0.0026896181516349316,
-            0.0006198111223056912
-          ],
-          "return_position_error_m": 1.794360514395521e-06,
-          "return_rotation_error_deg": 8.092893113125022e-05,
-          "max_period_position_error_m": 0.00012012595107080415,
-          "max_period_rotation_error_deg": 0.006460690693525939,
-          "rms_period_position_error_m": 6.673705869145107e-05,
-          "rms_period_rotation_error_deg": 0.001547695026257361,
-          "mean_wall_period_s": 0.09552507103819932,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 6.548235978698358e-05,
-              "rotation_deg": 0.00822027607340249
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 6.553898856509477e-05,
-              "rotation_deg": 0.008333194308225874
-            }
-          ],
-          "finger_positions_m": [
-            0.03999999910593033,
-            0.03999999910593033
-          ]
-        },
-        {
-          "axis": "y",
-          "passed": false,
-          "outbound_gain": 0.6457326412200928,
-          "nominal_out_delta_root_m_rad": [
-            -1.3474510136141093e-12,
-            0.005000000353902578,
-            4.2267257402417435e-12,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "actual_out_delta_root_m": [
-            -9.238719940185547e-06,
-            0.003228663234040141,
-            -1.6480684280395508e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            -0.00409270916134119,
-            0.0007666834280826151,
-            0.0046850889921188354
-          ],
-          "return_position_error_m": 6.678400268356199e-07,
-          "return_rotation_error_deg": 0.00013717207127252046,
-          "max_period_position_error_m": 0.00017070410831365734,
-          "max_period_rotation_error_deg": 0.011222574435499524,
-          "rms_period_position_error_m": 7.001840449619817e-05,
-          "rms_period_rotation_error_deg": 0.0026579601192527028,
-          "mean_wall_period_s": 0.0952505703350263,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 9.467626659898087e-05,
-              "rotation_deg": 0.012251499245021637
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 9.425466851098463e-05,
-              "rotation_deg": 0.012233463276744573
-            }
-          ],
-          "finger_positions_m": [
-            0.03999997302889824,
-            0.03999997302889824
-          ]
-        },
-        {
-          "axis": "z",
-          "passed": false,
-          "outbound_gain": 0.6395041346549988,
-          "nominal_out_delta_root_m_rad": [
-            1.185071624165701e-10,
-            -4.2267257402417435e-12,
-            0.005000000353902578,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "actual_out_delta_root_m": [
-            -3.0100345611572266e-06,
-            -3.2299703889293596e-07,
-            0.0031975209712982178
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            0.00016440075705759227,
-            -1.607739250175655e-05,
-            -6.547017983393744e-05
-          ],
-          "return_position_error_m": 2.872585127988714e-06,
-          "return_rotation_error_deg": 0.00012815198969811997,
-          "max_period_position_error_m": 0.00020947579469066113,
-          "max_period_rotation_error_deg": 0.014576269021621858,
-          "rms_period_position_error_m": 7.472655969248481e-05,
-          "rms_period_rotation_error_deg": 0.0034869345127924237,
-          "mean_wall_period_s": 0.0894132664161069,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 0.00015743727271910757,
-              "rotation_deg": 0.017897828701617404
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 0.0001575837522977963,
-              "rotation_deg": 0.01793302185162549
-            }
-          ],
-          "finger_positions_m": [
-            0.03999997302889824,
-            0.03999997302889824
-          ]
-        },
-        {
-          "axis": "rx",
-          "passed": false,
-          "outbound_gain": 0.6452777981758118,
-          "nominal_out_delta_root_m_rad": [
-            0.0,
-            0.0,
-            0.0,
-            0.03490658476948738,
-            9.406982137694087e-12,
-            -8.273360330157686e-10
-          ],
-          "actual_out_delta_root_m": [
-            -6.258487701416016e-06,
-            -4.822268965654075e-05,
-            -1.5527009963989258e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            1.2905555963516235,
-            0.0019578002393245697,
-            -0.0015371438348665833
-          ],
-          "return_position_error_m": 9.424782092537498e-07,
-          "return_rotation_error_deg": 0.00019804764605179862,
-          "max_period_position_error_m": 5.7370121794519946e-05,
-          "max_period_rotation_error_deg": 0.04074775799490562,
-          "rms_period_position_error_m": 1.36749911499612e-05,
-          "rms_period_rotation_error_deg": 0.026896418076594937,
-          "mean_wall_period_s": 0.10187948990081037,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 6.340310210362077e-05,
-              "rotation_deg": 0.009508106907387072
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 6.341185508063063e-05,
-              "rotation_deg": 0.009432582957753516
-            }
-          ],
-          "finger_positions_m": [
-            0.03999998793005943,
-            0.03999999165534973
-          ]
-        },
-        {
-          "axis": "ry",
-          "passed": false,
-          "outbound_gain": 0.6393959522247314,
-          "nominal_out_delta_root_m_rad": [
-            0.0,
-            0.0,
-            0.0,
-            -9.406982137694087e-12,
-            0.03490658476948738,
-            2.950811123225705e-11
-          ],
-          "actual_out_delta_root_m": [
-            8.96155834197998e-05,
-            1.6716949176043272e-06,
-            7.113814353942871e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            0.0007338147843256593,
-            1.2787920236587524,
-            -0.00018551383982412517
-          ],
-          "return_position_error_m": 3.2437965273857117e-06,
-          "return_rotation_error_deg": 0.00021921305378170807,
-          "max_period_position_error_m": 0.00010665985610103235,
-          "max_period_rotation_error_deg": 0.036815836869226126,
-          "rms_period_position_error_m": 2.5392429527839484e-05,
-          "rms_period_rotation_error_deg": 0.027348663864485936,
-          "mean_wall_period_s": 0.09944987620360085,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 0.0001233713555848226,
-              "rotation_deg": 0.012169394401452668
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 0.00012787841842509806,
-              "rotation_deg": 0.012815767752731237
-            }
-          ],
-          "finger_positions_m": [
-            0.039999980479478836,
-            0.039999980479478836
-          ]
-        },
-        {
-          "axis": "rz",
-          "passed": false,
-          "outbound_gain": 0.6386382579803467,
-          "nominal_out_delta_root_m_rad": [
-            0.0,
-            0.0,
-            0.0,
-            8.273360330157686e-10,
-            -2.950811123225705e-11,
-            0.03490658476948738
-          ],
-          "actual_out_delta_root_m": [
-            5.841255187988281e-06,
-            -4.2928586481139064e-05,
-            9.47713851928711e-06
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            0.012816406786441803,
-            -0.0018081852467730641,
-            1.2772765159606934
-          ],
-          "return_position_error_m": 7.334311703743879e-06,
-          "return_rotation_error_deg": 0.0013261905128859857,
-          "max_period_position_error_m": 6.321839464362711e-05,
-          "max_period_rotation_error_deg": 0.03656019502818658,
-          "rms_period_position_error_m": 1.5062837018329373e-05,
-          "rms_period_rotation_error_deg": 0.02738537522266555,
-          "mean_wall_period_s": 0.09093782386875578,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 7.013153663137928e-05,
-              "rotation_deg": 0.00877620111150463
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 6.92818284733221e-05,
-              "rotation_deg": 0.008614003295273334
-            }
-          ],
-          "finger_positions_m": [
-            0.03999998793005943,
-            0.03999999165534973
-          ]
-        }
-      ]
-    },
-    {
-      "profile": "kp1p5-kd0p25",
-      "mode": "step-response",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp1p5-kd0p25/step-response",
-      "status": "completed",
-      "exit_code": 0,
-      "joint_telemetry_summary": {
-        "sample_count": 480,
-        "joint_names": [
-          "panda_joint1",
-          "panda_joint2",
-          "panda_joint3",
-          "panda_joint4",
-          "panda_joint5",
-          "panda_joint6",
-          "panda_joint7"
-        ],
-        "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
-        "joint_vel_abs_peak": [
-          0.10983777791261673,
-          0.055732373148202896,
-          0.11976750195026398,
-          0.046451713889837265,
-          0.057775676250457764,
-          0.010437688790261745,
-          0.028611481189727783
-        ],
-        "joint_vel_peak_limit_ratio": [
-          0.005491888895630836,
-          0.002786618657410145,
-          0.005988375097513199,
-          0.002322585694491863,
-          0.0023110270500183105,
-          0.0004175075516104698,
-          0.0011444592475891113
-        ],
-        "applied_torque_abs_peak": [
-          1.2994457483291626,
-          0.5825207233428955,
-          0.692787766456604,
-          0.5019174814224243,
-          0.35369551181793213,
-          0.08707752823829651,
-          0.16070818901062012
-        ],
-        "applied_torque_peak_limit_ratio": [
-          0.014936158026771984,
-          0.006695640498194201,
-          0.007963077775363264,
-          0.005769166453131314,
-          0.02947462598482768,
-          0.007256460686524709,
-          0.013392349084218344
-        ]
-      },
-      "responses": [
-        {
-          "feedback": "sensor",
-          "axis": "x",
-          "gain_at_50ms": 0.6635189056396484,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 1.0016858577728271,
-          "peak_gain": 1.1349618434906006,
-          "overshoot_pct": 13.496184349060059,
-          "tail_gain_peak_to_peak": 8.940696716308594e-05,
-          "t90_sustained_s": 0.1,
-          "settling_5pct_s": 0.2,
-          "final_position_error_m": 3.2271179861709243e-06,
-          "final_rotation_error_deg": 0.0002830900332330178
-        },
-        {
-          "feedback": "sensor",
-          "axis": "rx",
-          "gain_at_50ms": 0.7575790286064148,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 1.0000003576278687,
-          "peak_gain": 1.0273345708847046,
-          "overshoot_pct": 2.733457088470459,
-          "tail_gain_peak_to_peak": 2.7298927307128906e-05,
-          "t90_sustained_s": 0.1,
-          "settling_5pct_s": 0.1,
-          "final_position_error_m": 4.4025682655046694e-07,
-          "final_rotation_error_deg": 1.99337275990711e-05
-        },
-        {
-          "feedback": "ik",
-          "axis": "x",
-          "gain_at_50ms": 0.6645917892456055,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 1.0007023811340332,
-          "peak_gain": 1.134425401687622,
-          "overshoot_pct": 13.442540168762207,
-          "tail_gain_peak_to_peak": 8.940696716308594e-05,
-          "t90_sustained_s": 0.1,
-          "settling_5pct_s": 0.2,
-          "final_position_error_m": 1.4434789363804157e-06,
-          "final_rotation_error_deg": 5.430777027671143e-05
-        },
-        {
-          "feedback": "ik",
-          "axis": "rx",
-          "gain_at_50ms": 0.7577033042907715,
-          "within_10pct_at_50ms": false,
-          "within_5pct_at_50ms": false,
-          "final_gain": 1.0000568628311157,
-          "peak_gain": 1.027384638786316,
-          "overshoot_pct": 2.738463878631592,
-          "tail_gain_peak_to_peak": 5.221366882324219e-05,
-          "t90_sustained_s": 0.1,
-          "settling_5pct_s": 0.1,
-          "final_position_error_m": 4.0377435084337776e-07,
-          "final_rotation_error_deg": 0.0001044190078045076
-        }
-      ]
-    },
-    {
-      "profile": "kp1p5-kd0p25",
-      "mode": "libero-stream",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp1p5-kd0p25/libero-stream",
-      "status": "completed",
-      "exit_code": 0,
-      "joint_telemetry_summary": {
-        "sample_count": 420,
-        "joint_names": [
-          "panda_joint1",
-          "panda_joint2",
-          "panda_joint3",
-          "panda_joint4",
-          "panda_joint5",
-          "panda_joint6",
-          "panda_joint7"
-        ],
-        "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
-        "joint_vel_abs_peak": [
-          0.02536783739924431,
-          0.013947625644505024,
-          0.02900131605565548,
-          0.012073121033608913,
-          0.011549843475222588,
-          0.02303929813206196,
-          0.019946986809372902
-        ],
-        "joint_vel_peak_limit_ratio": [
-          0.0012683918699622153,
-          0.0006973812822252512,
-          0.001450065802782774,
-          0.0006036560516804457,
-          0.0004619937390089035,
-          0.0009215719252824783,
-          0.0007978794723749161
-        ],
-        "applied_torque_abs_peak": [
-          0.29646897315979004,
-          0.1899370402097702,
-          0.2604185938835144,
-          0.15211594104766846,
-          0.0819641649723053,
-          0.17101621627807617,
-          0.11454266309738159
-        ],
-        "applied_torque_peak_limit_ratio": [
-          0.0034076893466642535,
-          0.0021831843702272437,
-          0.0029933171710748783,
-          0.0017484590925019362,
-          0.006830347081025441,
-          0.014251351356506348,
-          0.0095452219247818
-        ]
-      },
-      "all_stream_tests_passed": true,
-      "axes": [
-        {
-          "axis": "x",
-          "passed": true,
-          "outbound_gain": 0.8385300040245056,
-          "nominal_out_delta_root_m_rad": [
-            0.005000000353902578,
-            1.3474510136141093e-12,
-            -1.185071624165701e-10,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "actual_out_delta_root_m": [
-            0.004192650318145752,
-            9.030250112118665e-06,
-            7.63237476348877e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            -0.00010189627209911123,
-            -0.0041128285229206085,
-            0.001007750746794045
-          ],
-          "return_position_error_m": 2.206735416621086e-06,
-          "return_rotation_error_deg": 0.00020187567495176528,
-          "max_period_position_error_m": 0.00010275066597387195,
-          "max_period_rotation_error_deg": 0.008891637311573794,
-          "rms_period_position_error_m": 3.6457729588797085e-05,
-          "rms_period_rotation_error_deg": 0.00224661672533682,
-          "mean_wall_period_s": 0.09300958496917572,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 0.00010572200699243695,
-              "rotation_deg": 0.013247108539546757
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 0.00010573397594271228,
-              "rotation_deg": 0.013406757541289194
-            }
-          ],
-          "finger_positions_m": [
-            0.03999999910593033,
-            0.03999999910593033
-          ]
-        },
-        {
-          "axis": "y",
-          "passed": true,
-          "outbound_gain": 0.8239716291427612,
-          "nominal_out_delta_root_m_rad": [
-            -1.3474510136141093e-12,
-            0.005000000353902578,
-            4.2267257402417435e-12,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "actual_out_delta_root_m": [
-            -1.1324882507324219e-05,
-            0.004119858145713806,
-            -1.8656253814697266e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            -0.013063873164355755,
-            0.00041055455221794546,
-            0.014126564376056194
-          ],
-          "return_position_error_m": 6.5300687310809735e-06,
-          "return_rotation_error_deg": 0.00041535660586435253,
-          "max_period_position_error_m": 0.0001658867986407131,
-          "max_period_rotation_error_deg": 0.016935265616534845,
-          "rms_period_position_error_m": 4.5364306360042926e-05,
-          "rms_period_rotation_error_deg": 0.004101588718804029,
-          "mean_wall_period_s": 0.09655688564692225,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 0.00015428030746988952,
-              "rotation_deg": 0.020258984743545812
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 0.00015430116036441177,
-              "rotation_deg": 0.020301103131743124
-            }
-          ],
-          "finger_positions_m": [
-            0.03999996930360794,
-            0.03999996930360794
-          ]
-        },
-        {
-          "axis": "z",
-          "passed": true,
-          "outbound_gain": 0.8163690567016602,
-          "nominal_out_delta_root_m_rad": [
-            1.185071624165701e-10,
-            -4.2267257402417435e-12,
-            0.005000000353902578,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "actual_out_delta_root_m": [
-            1.0728836059570312e-06,
-            -1.1189001725142589e-06,
-            0.004081845283508301
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            0.0007260052370838821,
-            -0.0065529197454452515,
-            -0.0004147231811657548
-          ],
-          "return_position_error_m": 6.105129614297766e-06,
-          "return_rotation_error_deg": 0.00035914084312355836,
-          "max_period_position_error_m": 0.00022210909810382873,
-          "max_period_rotation_error_deg": 0.021464029549323742,
-          "rms_period_position_error_m": 5.748559343781634e-05,
-          "rms_period_rotation_error_deg": 0.005255703927413301,
-          "mean_wall_period_s": 0.08669514346069523,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 0.0002609356015454978,
-              "rotation_deg": 0.029884658950064376
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 0.0002621463791001588,
-              "rotation_deg": 0.03006952762490429
-            }
-          ],
-          "finger_positions_m": [
-            0.03999996930360794,
-            0.03999996930360794
-          ]
-        },
-        {
-          "axis": "rx",
-          "passed": true,
-          "outbound_gain": 0.821223258972168,
-          "nominal_out_delta_root_m_rad": [
-            0.0,
-            0.0,
-            0.0,
-            0.03490658476948738,
-            9.406982137694087e-12,
-            -8.273360330157686e-10
-          ],
-          "actual_out_delta_root_m": [
-            1.1920928955078125e-05,
-            -6.998353637754917e-05,
-            2.3424625396728516e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            1.642446517944336,
-            -0.0035346392542123795,
-            -0.004077631514519453
-          ],
-          "return_position_error_m": 6.045282134437002e-06,
-          "return_rotation_error_deg": 0.0013411844956666163,
-          "max_period_position_error_m": 8.59872016008012e-05,
-          "max_period_rotation_error_deg": 0.026232897309801065,
-          "rms_period_position_error_m": 2.0687736844073902e-05,
-          "rms_period_rotation_error_deg": 0.013852481703656432,
-          "mean_wall_period_s": 0.10099756033825023,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 0.00010449645924381912,
-              "rotation_deg": 0.014959186501965697
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 0.00010387512156739831,
-              "rotation_deg": 0.014883334049581533
-            }
-          ],
-          "finger_positions_m": [
-            0.039999984204769135,
-            0.03999998793005943
-          ]
-        },
-        {
-          "axis": "ry",
-          "passed": true,
-          "outbound_gain": 0.8021245002746582,
-          "nominal_out_delta_root_m_rad": [
-            0.0,
-            0.0,
-            0.0,
-            -9.406982137694087e-12,
-            0.03490658476948738,
-            2.950811123225705e-11
-          ],
-          "actual_out_delta_root_m": [
-            0.00015559792518615723,
-            3.0577066354453564e-06,
-            0.00015497207641601562
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            0.003378006862476468,
-            1.6042490005493164,
-            -0.0018816390074789524
-          ],
-          "return_position_error_m": 6.092825515224831e-06,
-          "return_rotation_error_deg": 0.0004746377515849288,
-          "max_period_position_error_m": 0.0001605346769792959,
-          "max_period_rotation_error_deg": 0.020993183388575906,
-          "rms_period_position_error_m": 3.874239031422868e-05,
-          "rms_period_rotation_error_deg": 0.015394339096551388,
-          "mean_wall_period_s": 0.10817226943160807,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 0.00020210634102113545,
-              "rotation_deg": 0.020888244268786337
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 0.00021093727264087647,
-              "rotation_deg": 0.022096969305887074
-            }
-          ],
-          "finger_positions_m": [
-            0.03999995067715645,
-            0.03999995067715645
-          ]
-        },
-        {
-          "axis": "rz",
-          "passed": true,
-          "outbound_gain": 0.8015060424804688,
-          "nominal_out_delta_root_m_rad": [
-            0.0,
-            0.0,
-            0.0,
-            8.273360330157686e-10,
-            -2.950811123225705e-11,
-            0.03490658476948738
-          ],
-          "actual_out_delta_root_m": [
-            7.420778274536133e-06,
-            -6.20261998847127e-05,
-            1.3053417205810547e-05
-          ],
-          "actual_out_delta_rotation_root_deg": [
-            0.03945391625165939,
-            -0.0017962498823180795,
-            1.6030120849609375
-          ],
-          "return_position_error_m": 5.883856829314027e-06,
-          "return_rotation_error_deg": 0.0017668618408670286,
-          "max_period_position_error_m": 9.523370681563392e-05,
-          "max_period_rotation_error_deg": 0.020683580385050616,
-          "rms_period_position_error_m": 2.2741956960634824e-05,
-          "rms_period_rotation_error_deg": 0.01536853460959013,
-          "mean_wall_period_s": 0.09542253032060606,
-          "stop_drifts": [
-            {
-              "phase": "stop_out",
-              "position_m": 0.0001154922429122962,
-              "rotation_deg": 0.014970667422970468
-            },
-            {
-              "phase": "stop_back",
-              "position_m": 0.00011433542385930195,
-              "rotation_deg": 0.0148301149364563
-            }
-          ],
-          "finger_positions_m": [
-            0.039999980479478836,
-            0.039999984204769135
-          ]
-        }
-      ]
-    },
-    {
       "profile": "kp2p25-kd0p25",
       "mode": "step-response",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp2p25-kd0p25/step-response",
+      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T092833743527Z/kp2p25-kd0p25/step-response",
       "status": "completed",
       "exit_code": 0,
       "joint_telemetry_summary": {
@@ -1482,7 +123,7 @@
     {
       "profile": "kp2p25-kd0p25",
       "mode": "libero-stream",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp2p25-kd0p25/libero-stream",
+      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T092833743527Z/kp2p25-kd0p25/libero-stream",
       "status": "completed",
       "exit_code": 0,
       "joint_telemetry_summary": {
@@ -1564,7 +205,7 @@
           "max_period_rotation_error_deg": 0.010609449064388508,
           "rms_period_position_error_m": 2.169152169493535e-05,
           "rms_period_rotation_error_deg": 0.0025748816459501386,
-          "mean_wall_period_s": 0.09532205246921097,
+          "mean_wall_period_s": 0.09869486061590059,
           "stop_drifts": [
             {
               "phase": "stop_out",
@@ -1610,7 +251,7 @@
           "max_period_rotation_error_deg": 0.018101005151578798,
           "rms_period_position_error_m": 3.282830070806001e-05,
           "rms_period_rotation_error_deg": 0.005048666500152006,
-          "mean_wall_period_s": 0.0995947521978191,
+          "mean_wall_period_s": 0.10056244889274239,
           "stop_drifts": [
             {
               "phase": "stop_out",
@@ -1656,7 +297,7 @@
           "max_period_rotation_error_deg": 0.024072127945743853,
           "rms_period_position_error_m": 5.001974342941723e-05,
           "rms_period_rotation_error_deg": 0.006141527139545626,
-          "mean_wall_period_s": 0.08942342319392732,
+          "mean_wall_period_s": 0.0910471779294312,
           "stop_drifts": [
             {
               "phase": "stop_out",
@@ -1702,7 +343,7 @@
           "max_period_rotation_error_deg": 0.012882460481211378,
           "rms_period_position_error_m": 2.431269976788748e-05,
           "rms_period_rotation_error_deg": 0.0034929739493959884,
-          "mean_wall_period_s": 0.0939804859193308,
+          "mean_wall_period_s": 0.10637562419953091,
           "stop_drifts": [
             {
               "phase": "stop_out",
@@ -1748,7 +389,7 @@
           "max_period_rotation_error_deg": 0.018660940591281004,
           "rms_period_position_error_m": 4.762386533827626e-05,
           "rms_period_rotation_error_deg": 0.0074453973928547525,
-          "mean_wall_period_s": 0.08988316963825907,
+          "mean_wall_period_s": 0.10115066263824701,
           "stop_drifts": [
             {
               "phase": "stop_out",
@@ -1794,7 +435,7 @@
           "max_period_rotation_error_deg": 0.013912495029720954,
           "rms_period_position_error_m": 2.6617720886372375e-05,
           "rms_period_rotation_error_deg": 0.007510454357308935,
-          "mean_wall_period_s": 0.09390294896438718,
+          "mean_wall_period_s": 0.09296571714803577,
           "stop_drifts": [
             {
               "phase": "stop_out",
@@ -1815,9 +456,9 @@
       ]
     },
     {
-      "profile": "kp3-kd0p25",
+      "profile": "kp2p25-kd0p375",
       "mode": "step-response",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp3-kd0p25/step-response",
+      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T092833743527Z/kp2p25-kd0p375/step-response",
       "status": "completed",
       "exit_code": 0,
       "joint_telemetry_summary": {
@@ -1833,109 +474,109 @@
         ],
         "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
         "joint_vel_abs_peak": [
-          0.010746931657195091,
-          0.07194827497005463,
-          0.05284895747900009,
-          0.05430951714515686,
-          0.007729967590421438,
-          0.003966194111853838,
-          0.001217524753883481
+          0.08614769577980042,
+          0.05509990081191063,
+          0.10418479144573212,
+          0.041894301772117615,
+          0.050686318427324295,
+          0.009252254851162434,
+          0.025623271241784096
         ],
         "joint_vel_peak_limit_ratio": [
-          0.0005373465828597546,
-          0.0035974137485027314,
-          0.0026424478739500044,
-          0.002715475857257843,
-          0.00030919870361685754,
-          0.0001586477644741535,
-          4.870099015533924e-05
+          0.004307384788990021,
+          0.0027549950405955314,
+          0.005209239572286606,
+          0.002094715088605881,
+          0.0020274527370929716,
+          0.00037009019404649735,
+          0.001024930849671364
         ],
         "applied_torque_abs_peak": [
-          2.7035086154937744,
-          1.0981464385986328,
-          1.9695167541503906,
-          1.0946654081344604,
-          0.88982093334198,
-          0.1950681060552597,
-          0.37149694561958313
+          1.2111603021621704,
+          0.6408131718635559,
+          0.7568991184234619,
+          0.5397922992706299,
+          0.34161901473999023,
+          0.10385358333587646,
+          0.1494208574295044
         ],
         "applied_torque_peak_limit_ratio": [
-          0.031074811672342235,
-          0.012622372857455549,
-          0.02263812361092403,
-          0.012582361013039776,
-          0.074151744445165,
-          0.016255675504604977,
-          0.030958078801631927
+          0.013921382783473223,
+          0.007365668642109838,
+          0.008699989866936344,
+          0.006204509187018734,
+          0.02846825122833252,
+          0.008654465277989706,
+          0.012451738119125366
         ]
       },
       "responses": [
         {
           "feedback": "sensor",
           "axis": "x",
-          "gain_at_50ms": 1.0780096054077148,
-          "within_10pct_at_50ms": true,
+          "gain_at_50ms": 0.7529854774475098,
+          "within_10pct_at_50ms": false,
           "within_5pct_at_50ms": false,
-          "final_gain": 0.9996294975280762,
-          "peak_gain": 1.161515712738037,
-          "overshoot_pct": 16.15157127380371,
-          "tail_gain_peak_to_peak": 8.940696716308594e-05,
-          "t90_sustained_s": 0.2,
-          "settling_5pct_s": 0.30000000000000004,
-          "final_position_error_m": 9.353889822705241e-07,
-          "final_rotation_error_deg": 0.00014889793630952952
+          "final_gain": 0.9996891021728516,
+          "peak_gain": 1.070857048034668,
+          "overshoot_pct": 7.085704803466797,
+          "tail_gain_peak_to_peak": 0.00011920928955078125,
+          "t90_sustained_s": 0.1,
+          "settling_5pct_s": 0.15000000000000002,
+          "final_position_error_m": 3.1181735948848655e-07,
+          "final_rotation_error_deg": 9.374384740318435e-05
         },
         {
           "feedback": "sensor",
           "axis": "rx",
-          "gain_at_50ms": 1.0281339883804321,
-          "within_10pct_at_50ms": true,
-          "within_5pct_at_50ms": true,
-          "final_gain": 1.0000178813934326,
-          "peak_gain": 1.0363320112228394,
-          "overshoot_pct": 3.6332011222839355,
-          "tail_gain_peak_to_peak": 3.2067298889160156e-05,
-          "t90_sustained_s": 0.05,
-          "settling_5pct_s": 0.05,
-          "final_position_error_m": 1.484312861066428e-06,
-          "final_rotation_error_deg": 0.00018572049435337074
+          "gain_at_50ms": 0.7688218355178833,
+          "within_10pct_at_50ms": false,
+          "within_5pct_at_50ms": false,
+          "final_gain": 1.0000011920928955,
+          "peak_gain": 1.015137791633606,
+          "overshoot_pct": 1.5137791633605957,
+          "tail_gain_peak_to_peak": 5.233287811279297e-05,
+          "t90_sustained_s": 0.1,
+          "settling_5pct_s": 0.1,
+          "final_position_error_m": 4.904276465822477e-06,
+          "final_rotation_error_deg": 0.0005183914623265912
         },
         {
           "feedback": "ik",
           "axis": "x",
-          "gain_at_50ms": 1.0796189308166504,
-          "within_10pct_at_50ms": true,
+          "gain_at_50ms": 0.7535815238952637,
+          "within_10pct_at_50ms": false,
           "within_5pct_at_50ms": false,
-          "final_gain": 0.9994804859161377,
-          "peak_gain": 1.1587142944335938,
-          "overshoot_pct": 15.871429443359375,
-          "tail_gain_peak_to_peak": 5.9604644775390625e-05,
-          "t90_sustained_s": 0.2,
-          "settling_5pct_s": 0.30000000000000004,
-          "final_position_error_m": 9.333065804639773e-07,
-          "final_rotation_error_deg": 6.15466044401966e-05
+          "final_gain": 0.9996891021728516,
+          "peak_gain": 1.0700225830078125,
+          "overshoot_pct": 7.00225830078125,
+          "tail_gain_peak_to_peak": 8.940696716308594e-05,
+          "t90_sustained_s": 0.1,
+          "settling_5pct_s": 0.15000000000000002,
+          "final_position_error_m": 3.956456566811539e-07,
+          "final_rotation_error_deg": 5.068024842919623e-05
         },
         {
           "feedback": "ik",
           "axis": "rx",
-          "gain_at_50ms": 1.0281609296798706,
-          "within_10pct_at_50ms": true,
-          "within_5pct_at_50ms": true,
-          "final_gain": 1.0000483989715576,
-          "peak_gain": 1.0359580516815186,
-          "overshoot_pct": 3.5958051681518555,
-          "tail_gain_peak_to_peak": 9.328126907348633e-05,
-          "t90_sustained_s": 0.05,
-          "settling_5pct_s": 0.05,
-          "final_position_error_m": 1.4140069879431394e-06,
-          "final_rotation_error_deg": 0.0001482331794148872
+          "gain_at_50ms": 0.7687607407569885,
+          "within_10pct_at_50ms": false,
+          "within_5pct_at_50ms": false,
+          "final_gain": 1.000005841255188,
+          "peak_gain": 1.0153461694717407,
+          "overshoot_pct": 1.5346169471740723,
+          "tail_gain_peak_to_peak": 5.1140785217285156e-05,
+          "t90_sustained_s": 0.1,
+          "settling_5pct_s": 0.1,
+          "final_position_error_m": 5.125075858813943e-06,
+          "final_rotation_error_deg": 0.0005445176446007174
         }
       ]
     },
     {
-      "profile": "kp3-kd0p25",
+      "profile": "kp2p25-kd0p375",
       "mode": "libero-stream",
-      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T085655335590Z/kp3-kd0p25/libero-stream",
+      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T092833743527Z/kp2p25-kd0p375/libero-stream",
       "status": "completed",
       "exit_code": 0,
       "joint_telemetry_summary": {
@@ -1951,40 +592,40 @@
         ],
         "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
         "joint_vel_abs_peak": [
-          0.005207158625125885,
-          0.017982138320803642,
-          0.012391621246933937,
-          0.013609355315566063,
-          0.001551190740428865,
-          0.002795073203742504,
-          0.0027734406758099794
+          0.019941799342632294,
+          0.01379360444843769,
+          0.02526189014315605,
+          0.01193568017333746,
+          0.010137071833014488,
+          0.02081708237528801,
+          0.018333952873945236
         ],
         "joint_vel_peak_limit_ratio": [
-          0.00026035793125629426,
-          0.0008991069160401821,
-          0.0006195810623466968,
-          0.0006804677657783031,
-          6.20476296171546e-05,
-          0.00011180292814970016,
-          0.00011093762703239917
+          0.0009970899671316146,
+          0.0006896802224218845,
+          0.0012630945071578025,
+          0.0005967840086668729,
+          0.0004054828733205795,
+          0.0008326832950115204,
+          0.0007333581149578095
         ],
         "applied_torque_abs_peak": [
-          0.618582010269165,
-          0.4304352402687073,
-          0.6251268982887268,
-          0.35381320118904114,
-          0.19994495809078217,
-          0.2787870168685913,
-          0.20936018228530884
+          0.2766416668891907,
+          0.2004195749759674,
+          0.2684926390647888,
+          0.16270148754119873,
+          0.07890032231807709,
+          0.14602011442184448,
+          0.10174262523651123
         ],
         "applied_torque_peak_limit_ratio": [
-          0.007110138049070862,
-          0.004947531497341463,
-          0.00718536664699686,
-          0.004066818404471737,
-          0.016662079840898514,
-          0.023232251405715942,
-          0.01744668185710907
+          0.0031797892745883986,
+          0.0023036732755858324,
+          0.003086122288101021,
+          0.0018701320407034337,
+          0.006575026859839757,
+          0.01216834286848704,
+          0.008478552103042603
         ]
       },
       "all_stream_tests_passed": true,
@@ -1992,7 +633,7 @@
         {
           "axis": "x",
           "passed": true,
-          "outbound_gain": 1.157456636428833,
+          "outbound_gain": 0.8354961276054382,
           "nominal_out_delta_root_m_rad": [
             0.005000000353902578,
             1.3474510136141093e-12,
@@ -2002,32 +643,32 @@
             0.0
           ],
           "actual_out_delta_root_m": [
-            0.005787283182144165,
-            2.9439413538057124e-06,
-            -5.2362680435180664e-05
+            0.004177480936050415,
+            3.6050344078830676e-06,
+            1.195073127746582e-05
           ],
           "actual_out_delta_rotation_root_deg": [
-            0.001944724004715681,
-            0.030240952968597412,
-            -0.000734517932869494
+            0.00023676666023675352,
+            0.00529099814593792,
+            0.0002707398380152881
           ],
-          "return_position_error_m": 4.5662022785109e-06,
-          "return_rotation_error_deg": 0.00015541284569418865,
-          "max_period_position_error_m": 8.712056296644732e-05,
-          "max_period_rotation_error_deg": 0.011249049756166588,
-          "rms_period_position_error_m": 3.6490901992174736e-05,
-          "rms_period_rotation_error_deg": 0.0028708260157445306,
-          "mean_wall_period_s": 0.09687820347025991,
+          "return_position_error_m": 1.5675043414375978e-06,
+          "return_rotation_error_deg": 0.0001050208220817814,
+          "max_period_position_error_m": 8.173147944035009e-05,
+          "max_period_rotation_error_deg": 0.007744299766907205,
+          "rms_period_position_error_m": 3.436874318099594e-05,
+          "rms_period_rotation_error_deg": 0.001831373428992577,
+          "mean_wall_period_s": 0.08565254892621721,
           "stop_drifts": [
             {
               "phase": "stop_out",
-              "position_m": 0.00010020587069448084,
-              "rotation_deg": 0.012591116894534633
+              "position_m": 6.908941577421501e-05,
+              "rotation_deg": 0.008779142628520229
             },
             {
               "phase": "stop_back",
-              "position_m": 0.00010049290722236037,
-              "rotation_deg": 0.012755328249199227
+              "position_m": 6.848793418612331e-05,
+              "rotation_deg": 0.008796908457479536
             }
           ],
           "finger_positions_m": [
@@ -2038,7 +679,7 @@
         {
           "axis": "y",
           "passed": true,
-          "outbound_gain": 1.1826707124710083,
+          "outbound_gain": 0.8375548124313354,
           "nominal_out_delta_root_m_rad": [
             -1.3474510136141093e-12,
             0.005000000353902578,
@@ -2048,32 +689,485 @@
             0.0
           ],
           "actual_out_delta_root_m": [
-            -2.9206275939941406e-06,
-            0.005913353990763426,
-            1.4901161193847656e-06
+            -9.98377799987793e-06,
+            0.004187774378806353,
+            -1.4722347259521484e-05
           ],
           "actual_out_delta_rotation_root_deg": [
-            -0.06854051351547241,
-            -0.0009039444266818464,
-            0.11621450632810593
+            -0.016608141362667084,
+            9.179642802337185e-05,
+            0.028818579390645027
           ],
-          "return_position_error_m": 3.4298673199373297e-06,
-          "return_rotation_error_deg": 0.00029522191495488825,
-          "max_period_position_error_m": 0.00013081880751997232,
-          "max_period_rotation_error_deg": 0.017334693278268407,
-          "rms_period_position_error_m": 4.6458959937598894e-05,
-          "rms_period_rotation_error_deg": 0.006557214228706687,
-          "mean_wall_period_s": 0.0967987590602466,
+          "return_position_error_m": 2.9860696031391853e-06,
+          "return_rotation_error_deg": 8.393383370098711e-05,
+          "max_period_position_error_m": 0.00013173116894904524,
+          "max_period_rotation_error_deg": 0.01253596845307207,
+          "rms_period_position_error_m": 3.813932844271893e-05,
+          "rms_period_rotation_error_deg": 0.0032149465392590534,
+          "mean_wall_period_s": 0.09995225930054273,
           "stop_drifts": [
             {
               "phase": "stop_out",
-              "position_m": 0.00011972118954872712,
-              "rotation_deg": 0.01587238746307103
+              "position_m": 9.383759606862441e-05,
+              "rotation_deg": 0.012308330220876912
             },
             {
               "phase": "stop_back",
-              "position_m": 0.00012064113252563402,
-              "rotation_deg": 0.016040350752704505
+              "position_m": 9.334403875982389e-05,
+              "rotation_deg": 0.012253552804094604
+            }
+          ],
+          "finger_positions_m": [
+            0.03999996930360794,
+            0.03999996930360794
+          ]
+        },
+        {
+          "axis": "z",
+          "passed": true,
+          "outbound_gain": 0.840192973613739,
+          "nominal_out_delta_root_m_rad": [
+            1.185071624165701e-10,
+            -4.2267257402417435e-12,
+            0.005000000353902578,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "actual_out_delta_root_m": [
+            3.0100345611572266e-05,
+            -1.7793826145862113e-06,
+            0.004200965166091919
+          ],
+          "actual_out_delta_rotation_root_deg": [
+            0.0006656376644968987,
+            -0.02714347466826439,
+            -0.0004262797301635146
+          ],
+          "return_position_error_m": 4.214152795611881e-06,
+          "return_rotation_error_deg": 0.0001772212282518378,
+          "max_period_position_error_m": 0.0001801874313969165,
+          "max_period_rotation_error_deg": 0.017069748306032695,
+          "rms_period_position_error_m": 4.62818973277618e-05,
+          "rms_period_rotation_error_deg": 0.004159174650651767,
+          "mean_wall_period_s": 0.09674558813816735,
+          "stop_drifts": [
+            {
+              "phase": "stop_out",
+              "position_m": 0.0001631800550967455,
+              "rotation_deg": 0.018753910204756523
+            },
+            {
+              "phase": "stop_back",
+              "position_m": 0.00016322619921993464,
+              "rotation_deg": 0.0188145664867534
+            }
+          ],
+          "finger_positions_m": [
+            0.03999996930360794,
+            0.03999996930360794
+          ]
+        },
+        {
+          "axis": "rx",
+          "passed": true,
+          "outbound_gain": 0.8095933794975281,
+          "nominal_out_delta_root_m_rad": [
+            0.0,
+            0.0,
+            0.0,
+            0.03490658476948738,
+            9.406982137694087e-12,
+            -8.273360330157686e-10
+          ],
+          "actual_out_delta_root_m": [
+            1.6689300537109375e-05,
+            -0.00016476449673064053,
+            3.457069396972656e-05
+          ],
+          "actual_out_delta_rotation_root_deg": [
+            1.6191868782043457,
+            -0.004747701343148947,
+            -0.015283659100532532
+          ],
+          "return_position_error_m": 2.448701025059563e-06,
+          "return_rotation_error_deg": 0.0006067162845310525,
+          "max_period_position_error_m": 6.584606308024377e-05,
+          "max_period_rotation_error_deg": 0.02421341914656523,
+          "rms_period_position_error_m": 1.6788641289520475e-05,
+          "rms_period_rotation_error_deg": 0.01457507770894648,
+          "mean_wall_period_s": 0.10080909081069486,
+          "stop_drifts": [
+            {
+              "phase": "stop_out",
+              "position_m": 6.449576176237315e-05,
+              "rotation_deg": 0.009154477865173628
+            },
+            {
+              "phase": "stop_back",
+              "position_m": 6.402863073162735e-05,
+              "rotation_deg": 0.009083617153824726
+            }
+          ],
+          "finger_positions_m": [
+            0.039999984204769135,
+            0.03999998793005943
+          ]
+        },
+        {
+          "axis": "ry",
+          "passed": true,
+          "outbound_gain": 0.7830275297164917,
+          "nominal_out_delta_root_m_rad": [
+            0.0,
+            0.0,
+            0.0,
+            -9.406982137694087e-12,
+            0.03490658476948738,
+            2.950811123225705e-11
+          ],
+          "actual_out_delta_root_m": [
+            0.00020590424537658691,
+            -3.4264814985363046e-06,
+            0.0002956986427307129
+          ],
+          "actual_out_delta_rotation_root_deg": [
+            0.003022954100742936,
+            1.566055178642273,
+            -0.0022389276418834925
+          ],
+          "return_position_error_m": 5.30910938323359e-06,
+          "return_rotation_error_deg": 0.00040019553170208725,
+          "max_period_position_error_m": 0.0001219847981701605,
+          "max_period_rotation_error_deg": 0.022508920092783425,
+          "rms_period_position_error_m": 3.110157461136088e-05,
+          "rms_period_rotation_error_deg": 0.016630136523510572,
+          "mean_wall_period_s": 0.09644071785733103,
+          "stop_drifts": [
+            {
+              "phase": "stop_out",
+              "position_m": 0.00012523835175670683,
+              "rotation_deg": 0.013112008031424033
+            },
+            {
+              "phase": "stop_back",
+              "position_m": 0.00013205295545049012,
+              "rotation_deg": 0.013997108667139114
+            }
+          ],
+          "finger_positions_m": [
+            0.03999996557831764,
+            0.03999996557831764
+          ]
+        },
+        {
+          "axis": "rz",
+          "passed": true,
+          "outbound_gain": 0.7851172685623169,
+          "nominal_out_delta_root_m_rad": [
+            0.0,
+            0.0,
+            0.0,
+            8.273360330157686e-10,
+            -2.950811123225705e-11,
+            0.03490658476948738
+          ],
+          "actual_out_delta_root_m": [
+            1.1622905731201172e-05,
+            -0.00016744539607316256,
+            2.4557113647460938e-05
+          ],
+          "actual_out_delta_rotation_root_deg": [
+            0.036238040775060654,
+            -0.002972421934828162,
+            1.5702345371246338
+          ],
+          "return_position_error_m": 3.787224613915896e-06,
+          "return_rotation_error_deg": 0.0011854823210706088,
+          "max_period_position_error_m": 7.309567445190623e-05,
+          "max_period_rotation_error_deg": 0.02216443076415417,
+          "rms_period_position_error_m": 1.831183729374139e-05,
+          "rms_period_rotation_error_deg": 0.016451494403326414,
+          "mean_wall_period_s": 0.09473189949723226,
+          "stop_drifts": [
+            {
+              "phase": "stop_out",
+              "position_m": 7.180123793659732e-05,
+              "rotation_deg": 0.009182351406939094
+            },
+            {
+              "phase": "stop_back",
+              "position_m": 7.056045433273539e-05,
+              "rotation_deg": 0.009001498136279205
+            }
+          ],
+          "finger_positions_m": [
+            0.039999984204769135,
+            0.03999998793005943
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "kp2p25-kd0p5",
+      "mode": "step-response",
+      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T092833743527Z/kp2p25-kd0p5/step-response",
+      "status": "completed",
+      "exit_code": 0,
+      "joint_telemetry_summary": {
+        "sample_count": 480,
+        "joint_names": [
+          "panda_joint1",
+          "panda_joint2",
+          "panda_joint3",
+          "panda_joint4",
+          "panda_joint5",
+          "panda_joint6",
+          "panda_joint7"
+        ],
+        "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
+        "joint_vel_abs_peak": [
+          0.08909086138010025,
+          0.04645051062107086,
+          0.10217667371034622,
+          0.034033600240945816,
+          0.052882302552461624,
+          0.0091982027515769,
+          0.027445968240499496
+        ],
+        "joint_vel_peak_limit_ratio": [
+          0.004454543069005013,
+          0.002322525531053543,
+          0.0051088336855173114,
+          0.0017016800120472908,
+          0.002115292102098465,
+          0.000367928110063076,
+          0.00109783872961998
+        ],
+        "applied_torque_abs_peak": [
+          0.7645601034164429,
+          0.47287726402282715,
+          0.485505610704422,
+          0.4752817153930664,
+          0.21422696113586426,
+          0.07860127091407776,
+          0.09318161010742188
+        ],
+        "applied_torque_peak_limit_ratio": [
+          0.00878804716570624,
+          0.005435370850837094,
+          0.005580524260970368,
+          0.00546300822290881,
+          0.01785224676132202,
+          0.00655010590950648,
+          0.007765134175618489
+        ]
+      },
+      "responses": [
+        {
+          "feedback": "sensor",
+          "axis": "x",
+          "gain_at_50ms": 0.6462931632995605,
+          "within_10pct_at_50ms": false,
+          "within_5pct_at_50ms": false,
+          "final_gain": 1.0010898113250732,
+          "peak_gain": 1.0027289390563965,
+          "overshoot_pct": 0.27289390563964844,
+          "tail_gain_peak_to_peak": 8.940696716308594e-05,
+          "t90_sustained_s": 0.1,
+          "settling_5pct_s": 0.1,
+          "final_position_error_m": 1.8301635691386764e-06,
+          "final_rotation_error_deg": 8.800046221538092e-05
+        },
+        {
+          "feedback": "sensor",
+          "axis": "rx",
+          "gain_at_50ms": 0.6554555296897888,
+          "within_10pct_at_50ms": false,
+          "within_5pct_at_50ms": false,
+          "final_gain": 1.0000232458114624,
+          "peak_gain": 1.0001522302627563,
+          "overshoot_pct": 0.015223026275634766,
+          "tail_gain_peak_to_peak": 6.479024887084961e-05,
+          "t90_sustained_s": 0.1,
+          "settling_5pct_s": 0.15000000000000002,
+          "final_position_error_m": 1.050777200362063e-06,
+          "final_rotation_error_deg": 6.049399778192238e-05
+        },
+        {
+          "feedback": "ik",
+          "axis": "x",
+          "gain_at_50ms": 0.6474554538726807,
+          "within_10pct_at_50ms": false,
+          "within_5pct_at_50ms": false,
+          "final_gain": 1.0009706020355225,
+          "peak_gain": 1.002877950668335,
+          "overshoot_pct": 0.2877950668334961,
+          "tail_gain_peak_to_peak": 8.940696716308594e-05,
+          "t90_sustained_s": 0.1,
+          "settling_5pct_s": 0.1,
+          "final_position_error_m": 1.3500570048563532e-06,
+          "final_rotation_error_deg": 4.312214479256501e-05
+        },
+        {
+          "feedback": "ik",
+          "axis": "rx",
+          "gain_at_50ms": 0.6553882360458374,
+          "within_10pct_at_50ms": false,
+          "within_5pct_at_50ms": false,
+          "final_gain": 1.0000171661376953,
+          "peak_gain": 1.0002095699310303,
+          "overshoot_pct": 0.020956993103027344,
+          "tail_gain_peak_to_peak": 5.0961971282958984e-05,
+          "t90_sustained_s": 0.1,
+          "settling_5pct_s": 0.15000000000000002,
+          "final_position_error_m": 1.0810040294018108e-06,
+          "final_rotation_error_deg": 3.791224437192506e-05
+        }
+      ]
+    },
+    {
+      "profile": "kp2p25-kd0p5",
+      "mode": "libero-stream",
+      "output": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261028T092833743527Z/kp2p25-kd0p5/libero-stream",
+      "status": "completed",
+      "exit_code": 0,
+      "joint_telemetry_summary": {
+        "sample_count": 420,
+        "joint_names": [
+          "panda_joint1",
+          "panda_joint2",
+          "panda_joint3",
+          "panda_joint4",
+          "panda_joint5",
+          "panda_joint6",
+          "panda_joint7"
+        ],
+        "note": "sampled once per control step, includes repositioning; implicit effort is estimated, not a measured torque",
+        "joint_vel_abs_peak": [
+          0.020590445026755333,
+          0.011624235659837723,
+          0.024896180257201195,
+          0.010622299276292324,
+          0.01057732105255127,
+          0.022298689931631088,
+          0.01962190680205822
+        ],
+        "joint_vel_peak_limit_ratio": [
+          0.0010295222513377667,
+          0.0005812117829918862,
+          0.0012448090128600597,
+          0.0005311149638146162,
+          0.00042309284210205076,
+          0.0008919475972652435,
+          0.0007848762720823288
+        ],
+        "applied_torque_abs_peak": [
+          0.17475426197052002,
+          0.1524328887462616,
+          0.18403542041778564,
+          0.11938107013702393,
+          0.05149596184492111,
+          0.0967397689819336,
+          0.06681287288665771
+        ],
+        "applied_torque_peak_limit_ratio": [
+          0.002008669677822069,
+          0.0017521021694972597,
+          0.0021153496599745475,
+          0.0013721962084715393,
+          0.004291330153743426,
+          0.008061647415161133,
+          0.0055677394072214765
+        ]
+      },
+      "all_stream_tests_passed": false,
+      "axes": [
+        {
+          "axis": "x",
+          "passed": true,
+          "outbound_gain": 0.7035731673240662,
+          "nominal_out_delta_root_m_rad": [
+            0.005000000353902578,
+            1.3474510136141093e-12,
+            -1.185071624165701e-10,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "actual_out_delta_root_m": [
+            0.0035178661346435547,
+            2.1900932551943697e-06,
+            1.1831521987915039e-05
+          ],
+          "actual_out_delta_rotation_root_deg": [
+            0.00016011240950319916,
+            0.0021510219667106867,
+            0.00018316622299607843
+          ],
+          "return_position_error_m": 1.147208308793779e-06,
+          "return_rotation_error_deg": 6.005846717806099e-05,
+          "max_period_position_error_m": 9.756319195730612e-05,
+          "max_period_rotation_error_deg": 0.005796575275542866,
+          "rms_period_position_error_m": 5.706455311219196e-05,
+          "rms_period_rotation_error_deg": 0.0013546650616770314,
+          "mean_wall_period_s": 0.08554398691547768,
+          "stop_drifts": [
+            {
+              "phase": "stop_out",
+              "position_m": 4.928726048092358e-05,
+              "rotation_deg": 0.006206137330509032
+            },
+            {
+              "phase": "stop_back",
+              "position_m": 4.969599103787914e-05,
+              "rotation_deg": 0.006287672713726059
+            }
+          ],
+          "finger_positions_m": [
+            0.03999999910593033,
+            0.03999999910593033
+          ]
+        },
+        {
+          "axis": "y",
+          "passed": true,
+          "outbound_gain": 0.7048786282539368,
+          "nominal_out_delta_root_m_rad": [
+            -1.3474510136141093e-12,
+            0.005000000353902578,
+            4.2267257402417435e-12,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "actual_out_delta_root_m": [
+            -1.1265277862548828e-05,
+            0.0035243930760771036,
+            -1.850724220275879e-05
+          ],
+          "actual_out_delta_rotation_root_deg": [
+            -0.008095822297036648,
+            0.0008387147099711001,
+            0.015279790386557579
+          ],
+          "return_position_error_m": 2.5362414817209356e-06,
+          "return_rotation_error_deg": 0.00014732570619939352,
+          "max_period_position_error_m": 0.00014115545491222292,
+          "max_period_rotation_error_deg": 0.009141155994744129,
+          "rms_period_position_error_m": 5.8222437272150535e-05,
+          "rms_period_rotation_error_deg": 0.002260307834800282,
+          "mean_wall_period_s": 0.09862863012988653,
+          "stop_drifts": [
+            {
+              "phase": "stop_out",
+              "position_m": 6.704111001454294e-05,
+              "rotation_deg": 0.008684987403594547
+            },
+            {
+              "phase": "stop_back",
+              "position_m": 6.658598431386054e-05,
+              "rotation_deg": 0.008632823834840557
             }
           ],
           "finger_positions_m": [
@@ -2084,7 +1178,7 @@
         {
           "axis": "z",
           "passed": true,
-          "outbound_gain": 1.2174962759017944,
+          "outbound_gain": 0.7045566439628601,
           "nominal_out_delta_root_m_rad": [
             1.185071624165701e-10,
             -4.2267257402417435e-12,
@@ -2094,43 +1188,43 @@
             0.0
           ],
           "actual_out_delta_root_m": [
-            0.00014534592628479004,
-            -5.849787612532964e-06,
-            0.00608748197555542
+            1.475214958190918e-05,
+            -9.130483249464305e-07,
+            0.0035227835178375244
           ],
           "actual_out_delta_rotation_root_deg": [
-            0.0036887165624648333,
-            -0.1248437836766243,
-            -0.0029099443927407265
+            0.00025444914354011416,
+            -0.013464429415762424,
+            -0.00020512430637609214
           ],
-          "return_position_error_m": 7.552607712568715e-06,
-          "return_rotation_error_deg": 0.00037716563376102846,
-          "max_period_position_error_m": 0.00020832775044254959,
-          "max_period_rotation_error_deg": 0.024283055059587624,
-          "rms_period_position_error_m": 6.426233415713461e-05,
-          "rms_period_rotation_error_deg": 0.007412602086276678,
-          "mean_wall_period_s": 0.10358489840956671,
+          "return_position_error_m": 2.7034038794226944e-06,
+          "return_rotation_error_deg": 0.00018619779780264085,
+          "max_period_position_error_m": 0.00017751046107150614,
+          "max_period_rotation_error_deg": 0.01276889607981002,
+          "rms_period_position_error_m": 6.167138325857532e-05,
+          "rms_period_rotation_error_deg": 0.0030257455008369954,
+          "mean_wall_period_s": 0.09097537575289608,
           "stop_drifts": [
             {
               "phase": "stop_out",
-              "position_m": 0.0002210905367974192,
-              "rotation_deg": 0.02563333143166758
+              "position_m": 0.00011539909610291943,
+              "rotation_deg": 0.013224788695298558
             },
             {
               "phase": "stop_back",
-              "position_m": 0.0002222703187726438,
-              "rotation_deg": 0.02581660428350073
+              "position_m": 0.00011602439917623997,
+              "rotation_deg": 0.013281136088424511
             }
           ],
           "finger_positions_m": [
-            0.039999980479478836,
-            0.039999984204769135
+            0.03999996557831764,
+            0.03999996557831764
           ]
         },
         {
           "axis": "rx",
-          "passed": true,
-          "outbound_gain": 1.0677247047424316,
+          "passed": false,
+          "outbound_gain": 0.6893212795257568,
           "nominal_out_delta_root_m_rad": [
             0.0,
             0.0,
@@ -2140,43 +1234,43 @@
             -8.273360330157686e-10
           ],
           "actual_out_delta_root_m": [
-            2.6404857635498047e-05,
-            -0.0005013654590584338,
-            5.59389591217041e-05
+            -7.3015689849853516e-06,
+            -0.00010927964467555285,
+            -1.8715858459472656e-05
           ],
           "actual_out_delta_rotation_root_deg": [
-            2.1354494094848633,
-            -0.002809981582686305,
-            -0.05929190665483475
+            1.3786426782608032,
+            0.0019706704188138247,
+            -0.008713933639228344
           ],
-          "return_position_error_m": 1.3991289051773492e-05,
-          "return_rotation_error_deg": 0.002447417404120403,
-          "max_period_position_error_m": 9.290395973948762e-05,
-          "max_period_rotation_error_deg": 0.012291558237802697,
-          "rms_period_position_error_m": 2.9090537893123788e-05,
-          "rms_period_rotation_error_deg": 0.00629777874927207,
-          "mean_wall_period_s": 0.10736988428980113,
+          "return_position_error_m": 9.365076607537048e-07,
+          "return_rotation_error_deg": 0.0001600249508373392,
+          "max_period_position_error_m": 4.824375719181262e-05,
+          "max_period_rotation_error_deg": 0.034866408165622594,
+          "rms_period_position_error_m": 1.2106176211382131e-05,
+          "rms_period_rotation_error_deg": 0.023549183232131562,
+          "mean_wall_period_s": 0.09101698787084647,
           "stop_drifts": [
             {
               "phase": "stop_out",
-              "position_m": 8.584374154452235e-05,
-              "rotation_deg": 0.011378213035641894
+              "position_m": 4.5982847950654104e-05,
+              "rotation_deg": 0.006694808100530687
             },
             {
               "phase": "stop_back",
-              "position_m": 8.448254084214568e-05,
-              "rotation_deg": 0.011210213894185384
+              "position_m": 4.559993976727128e-05,
+              "rotation_deg": 0.006682711862191021
             }
           ],
           "finger_positions_m": [
-            0.039999984204769135,
+            0.039999980479478836,
             0.039999984204769135
           ]
         },
         {
           "axis": "ry",
-          "passed": true,
-          "outbound_gain": 0.9542624950408936,
+          "passed": false,
+          "outbound_gain": 0.676533579826355,
           "nominal_out_delta_root_m_rad": [
             0.0,
             0.0,
@@ -2186,43 +1280,43 @@
             2.950811123225705e-11
           ],
           "actual_out_delta_root_m": [
-            0.0006270706653594971,
-            -1.6002566553652287e-05,
-            0.00109177827835083
+            0.00013071298599243164,
+            -1.2651436236410518e-06,
+            0.00017023086547851562
           ],
           "actual_out_delta_rotation_root_deg": [
-            0.01227069552987814,
-            1.908524990081787,
-            -0.009370289742946625
+            0.0013570123119279742,
+            1.35306715965271,
+            -0.0008954157819971442
           ],
-          "return_position_error_m": 7.723383532720618e-06,
-          "return_rotation_error_deg": 0.0009915392788472119,
-          "max_period_position_error_m": 0.00017110450426116586,
-          "max_period_rotation_error_deg": 0.018930042707462236,
-          "rms_period_position_error_m": 6.130900774257827e-05,
-          "rms_period_rotation_error_deg": 0.005504136672239566,
-          "mean_wall_period_s": 0.09849964160738246,
+          "return_position_error_m": 2.2670749331155093e-06,
+          "return_rotation_error_deg": 0.00032252013397002206,
+          "max_period_position_error_m": 8.9937740995083e-05,
+          "max_period_rotation_error_deg": 0.03287762916806545,
+          "rms_period_position_error_m": 2.2220704515811372e-05,
+          "rms_period_rotation_error_deg": 0.02452891009456267,
+          "mean_wall_period_s": 0.09631271354321923,
           "stop_drifts": [
             {
               "phase": "stop_out",
-              "position_m": 0.00016570024308748543,
-              "rotation_deg": 0.018414243363207267
+              "position_m": 8.714842988410965e-05,
+              "rotation_deg": 0.008843165646829182
             },
             {
               "phase": "stop_back",
-              "position_m": 0.00017907176516018808,
-              "rotation_deg": 0.02006141952077121
+              "position_m": 9.18731966521591e-05,
+              "rotation_deg": 0.009417032437952501
             }
           ],
           "finger_positions_m": [
-            0.039999980479478836,
-            0.039999980479478836
+            0.03999995067715645,
+            0.03999995067715645
           ]
         },
         {
           "axis": "rz",
-          "passed": true,
-          "outbound_gain": 0.9680214524269104,
+          "passed": false,
+          "outbound_gain": 0.6771657466888428,
           "nominal_out_delta_root_m_rad": [
             0.0,
             0.0,
@@ -2232,36 +1326,36 @@
             0.03490658476948738
           ],
           "actual_out_delta_root_m": [
-            2.849102020263672e-05,
-            -0.0005298172472976148,
-            7.194280624389648e-05
+            1.0460615158081055e-05,
+            -0.00011025444837287068,
+            2.2798776626586914e-05
           ],
           "actual_out_delta_rotation_root_deg": [
-            0.152055561542511,
-            -0.006902070716023445,
-            1.9360430240631104
+            0.016283489763736725,
+            -0.0030717425979673862,
+            1.3543314933776855
           ],
-          "return_position_error_m": 1.5702178643550724e-05,
-          "return_rotation_error_deg": 0.002822974004936965,
-          "max_period_position_error_m": 0.0001032369036693126,
-          "max_period_rotation_error_deg": 0.013616769183000556,
-          "rms_period_position_error_m": 3.1643577124904854e-05,
-          "rms_period_rotation_error_deg": 0.007019293544525257,
-          "mean_wall_period_s": 0.09943303145202143,
+          "return_position_error_m": 4.538869234238518e-06,
+          "return_rotation_error_deg": 0.001153896135433021,
+          "max_period_position_error_m": 5.31930236320477e-05,
+          "max_period_rotation_error_deg": 0.03287893317390797,
+          "rms_period_position_error_m": 1.326173212496983e-05,
+          "rms_period_rotation_error_deg": 0.02446275288037719,
+          "mean_wall_period_s": 0.10157188701310328,
           "stop_drifts": [
             {
               "phase": "stop_out",
-              "position_m": 9.531613613944501e-05,
-              "rotation_deg": 0.012589639465920222
+              "position_m": 5.085584780317731e-05,
+              "rotation_deg": 0.006394897178793339
             },
             {
               "phase": "stop_back",
-              "position_m": 9.28320805542171e-05,
-              "rotation_deg": 0.012246184003815726
+              "position_m": 4.9965903599513695e-05,
+              "rotation_deg": 0.006257889437061434
             }
           ],
           "finger_positions_m": [
-            0.039999984204769135,
+            0.039999980479478836,
             0.039999984204769135
           ]
         }
@@ -2269,11 +1363,9 @@
     }
   ],
   "profiles": [
-    "kp1p5-kd0p5",
-    "kp1p5-kd0p375",
-    "kp1p5-kd0p25",
     "kp2p25-kd0p25",
-    "kp3-kd0p25"
+    "kp2p25-kd0p375",
+    "kp2p25-kd0p5"
   ],
   "scope": "selected actuator gain profiles; no automatic selection or deployment; effort telemetry is approximate"
 }
