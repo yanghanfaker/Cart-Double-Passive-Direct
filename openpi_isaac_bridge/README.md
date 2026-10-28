@@ -345,3 +345,26 @@ cat /home/test/Robot/IsaacLab/logs/openpi_gain_sweep/latest_gain_sweep.json
 实验增益只允许用于 `step-response` / `libero-stream`。
 
 本地 CPU 检查：`python3 openpi_isaac_bridge/test_gain_probe.py`。
+
+## 第二轮：固定刚度，降低阻尼
+
+首轮实际加载的机械臂参数为刚度 400、阻尼 80。固定刚度 600，对照阻尼 80、60、40：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --profiles kp1p5 kp1p5-kd0p75 kp1p5-kd0p5
+```
+
+参数仍按新建环境的原始增益缩放：三组均为原始刚度 ×1.5，阻尼分别为 ×1、×0.75、×0.5。
+若本机原始配置已改动，实际值可能不是 600/80、600/60、600/40，以 `actuator_audit.json` 为准。
+每组从新进程重新创建环境，不在前一组参数上继续相乘。
+不传 `--profiles` 时仍保持首轮三组默认行为，不会自动运行新增的全部配置。
+
+本轮仍运行阶跃与六轴连续测试，保持手指参数及速度/力矩限制不变，保存独立时间戳目录。
+重点比较：50 ms 目标完成比例、达到90%的时间、超调、尾部变化、停止漂移、以及采样关节限制比例。
+降低阻尼可能加快响应，也可能增加超调；不能仅选 `outbound_gain` 最大的一组。
+原有 5 cm / 15° 位姿中止条件继续生效；它不是物理步级振荡检测器。
+本轮完成后，将新汇总与各组 `actuator_audit.json` 上传到 `diagnostics/gain_sweep/`，再进行对比分析。

@@ -10,6 +10,16 @@ class Implicit:
 
 
 class GainProbeTests(unittest.TestCase):
+    def test_damping_sweep_holds_stiffness_and_keeps_hand_unchanged(self):
+        for profile, damping in (("kp1p5", 80), ("kp1p5-kd0p75", 60), ("kp1p5-kd0p5", 40)):
+            with self.subTest(profile=profile):
+                arm = self.actuator("panda_joint[1-7]", 400, 80)
+                hand = self.actuator("panda_finger_joint.*", 2000, 100)
+                configure_gain_profile({"arm": arm, "hand": hand}, profile)
+                self.assertEqual((arm.stiffness, arm.damping), (600, damping))
+                self.assertEqual((hand.stiffness, hand.damping), (2000, 100))
+                self.assertEqual((arm.effort_limit_sim, arm.velocity_limit_sim), (87, 2))
+
     def actuator(self, pattern, kp=80, kd=4):
         return SimpleNamespace(joint_names_expr=[pattern], stiffness=kp, damping=kd, class_type=Implicit,
                                effort_limit_sim=87, velocity_limit_sim=2)

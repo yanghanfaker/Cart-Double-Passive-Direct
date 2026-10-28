@@ -3,7 +3,13 @@
 import math
 import re
 
-GAIN_PROFILES = {"baseline": (1.0, 1.0), "kp1p5": (1.5, 1.0), "kp1p5-damped": (1.5, math.sqrt(1.5))}
+GAIN_PROFILES = {
+    "baseline": (1.0, 1.0),
+    "kp1p5": (1.5, 1.0),
+    "kp1p5-damped": (1.5, math.sqrt(1.5)),
+    "kp1p5-kd0p75": (1.5, 0.75),
+    "kp1p5-kd0p5": (1.5, 0.5),
+}
 LIMIT_FIELDS = ("joint_effort_limit", "joint_velocity_limit", "actuator_effort_limit",
                 "actuator_velocity_limit", "effort_limit", "velocity_limit", "effort_limit_sim", "velocity_limit_sim")
 

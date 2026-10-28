@@ -14,7 +14,8 @@ from gain_probe import GAIN_PROFILES
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--isaaclab-root", type=Path, default=Path("/home/test/Robot/IsaacLab"))
-    parser.add_argument("--profiles", choices=tuple(GAIN_PROFILES), nargs="+", default=list(GAIN_PROFILES))
+    parser.add_argument("--profiles", choices=tuple(GAIN_PROFILES), nargs="+",
+                        default=["baseline", "kp1p5", "kp1p5-damped"])
     args = parser.parse_args()
     root = args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():
@@ -23,7 +24,8 @@ def main():
     output = root / "logs" / "openpi_gain_sweep" / stamp
     output.mkdir(parents=True, exist_ok=False)
     manifest = {"output": str(output), "status": "running", "runs": [],
-        "scope": "three small-gain profiles; no automatic selection or deployment; effort telemetry is approximate"}
+        "profiles": args.profiles,
+        "scope": "selected actuator gain profiles; no automatic selection or deployment; effort telemetry is approximate"}
     def save():
         (output / "sweep_summary.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
         (output.parent / "latest_gain_sweep.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
