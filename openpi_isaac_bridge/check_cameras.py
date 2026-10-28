@@ -80,6 +80,7 @@ def main():
     from step_response import summarize_response
     from gain_probe import GAIN_PROFILES, configure_gain_profile
     from physics_trace import PhysicsJointRecorder
+    from joint_identification import summarize_joint_step
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -92,9 +93,10 @@ def main():
     parser.add_argument("--gain-profile", choices=tuple(GAIN_PROFILES), default="baseline")
     parser.add_argument("--record-physics", action="store_true", help="record actual joint targets/state at every existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional explicit per-arm-joint gain overrides; no automatic tuning")
+    parser.add_argument("--joint-step-rad", type=float, default=0.003, help="isolated joint-step magnitude, at most 0.005 rad")
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
-        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response",
+        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response", "joint-step",
     ), default="none")
     parser.add_argument("--server-host", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=8000)
@@ -107,12 +109,16 @@ def main():
     args = parser.parse_args()
     if args.query and args.motion_test != "none":
         parser.error("run --query and --motion-test separately; VLA actions are never executed")
-    if args.gain_profile != "baseline" and args.motion_test not in ("step-response", "libero-stream"):
-        parser.error("experimental gain profiles are restricted to step-response and libero-stream")
-    if args.record_physics and args.motion_test not in ("step-response", "libero-stream"):
-        parser.error("--record-physics requires step-response or libero-stream")
-    if args.joint_gains_json and args.motion_test not in ("step-response", "libero-stream"):
-        parser.error("per-joint gains require step-response or libero-stream")
+    if args.motion_test == "joint-step":
+        args.record_physics = True
+    if not math.isfinite(args.joint_step_rad) or not 0 < args.joint_step_rad <= 0.005:
+        parser.error("--joint-step-rad must be finite and in (0, 0.005]")
+    if args.gain_profile != "baseline" and args.motion_test not in ("step-response", "libero-stream", "joint-step"):
+        parser.error("experimental gain profiles require step-response, libero-stream, or joint-step")
+    if args.record_physics and args.motion_test not in ("step-response", "libero-stream", "joint-step"):
+        parser.error("--record-physics requires step-response, libero-stream, or joint-step")
+    if args.joint_gains_json and args.motion_test not in ("step-response", "libero-stream", "joint-step"):
+        parser.error("per-joint gains require step-response, libero-stream, or joint-step")
     if args.warmup_steps < 1:
         parser.error("--warmup-steps must be positive")
     if not math.isfinite(args.light_intensity) or args.light_intensity <= 0:
@@ -132,7 +138,7 @@ def main():
     gain_config = configure_gain_profile(cfg.scene.robot.actuators, args.gain_profile, joint_overrides)
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
-    if args.motion_test in ("libero-map", "libero-stream", "step-response"):
+    if args.motion_test in ("libero-map", "libero-stream", "step-response", "joint-step"):
         # LIBERO's default 20 Hz is a simulation period, not wall-clock speed.
         decimation = round(0.05 / float(cfg.sim.dt))
         if decimation < 1 or not math.isclose(decimation * float(cfg.sim.dt), 0.05, abs_tol=1e-8):
@@ -182,6 +188,9 @@ def main():
     with launch_simulation(cfg, args):
         env = gym.make("IsaacContrib-Lift-Cube-Franka-IK-Rel", cfg=cfg)
         physics_recorder = None
+        direct_joint_target = None
+        original_arm_apply = None
+        had_arm_apply = False
         try:
             base = env.unwrapped
             env.reset()
@@ -362,8 +371,13 @@ def main():
 
                 def read_physics_command():
                     effort, unavailable = joint_field("applied_torque")
+                    actual_target = command_values(position_target_buffer)
+                    if direct_joint_target is not None:
+                        expected_target = direct_joint_target[0].detach().cpu().tolist()
+                        if max(abs(a-b) for a, b in zip(actual_target, expected_target)) > 1e-6:
+                            raise RuntimeError("Fixed joint target was overwritten; discard isolated-step run")
                     return {
-                        "position_target_rad": command_values(position_target_buffer),
+                        "position_target_rad": actual_target,
                         "velocity_target_rad_s": command_values(velocity_target_buffer) if velocity_target_buffer is not None else None,
                         "position_before_rad": required_joint_values("joint_pos"),
                         "estimated_effort_nm": effort.cpu().tolist() if effort is not None else None,
@@ -381,7 +395,8 @@ def main():
                      "command_source": command_source,
                      "time_origin": "first recorded diagnostic control period, excluding warmup",
                      "effort_note": "estimate captured after command write before integration; not a measured solver torque",
-                     "target_note": "post-write position target used for the following physics integration; IK may update it every physics step"},
+                     "target_note": ("fixed seven-joint targets; IK arm application bypassed" if args.motion_test == "joint-step" else
+                                     "post-write position target used for the following physics integration; IK may update it every physics step")},
                 )
                 print(f"[Physics trace] physics_dt={base.physics_dt}; control_dt={base.step_dt}; "
                       f"substeps={physics_recorder.expected_substeps}; joints={arm_names}", flush=True)
@@ -428,7 +443,67 @@ def main():
                     before, before_quat = read_pose()
                     measured = {"mode": args.motion_test, "gain_profile": args.gain_profile,
                         "actuator_audit": actuator_audit, "ee_before_root": before.cpu().tolist()}
-                    if args.motion_test == "step-response":
+                    if args.motion_test == "joint-step":
+                        if physics_recorder is None:
+                            raise RuntimeError("Isolated joint steps require physics tracing")
+                        arm_positions = tensor(robot.data.joint_pos)[:, arm_ids].detach().clone()
+                        anchor = arm_positions.clone()
+                        direct_joint_target = anchor.clone()
+                        commands = getattr(robot.actuators, "target_command", None)
+                        def apply_fixed_arm_targets():
+                            if commands is not None and callable(getattr(commands, "set_position_index", None)):
+                                commands.set_position_index(value=direct_joint_target, joint_ids=arm_ids)
+                                commands.set_velocity_index(value=torch.zeros_like(direct_joint_target), joint_ids=arm_ids)
+                            else:
+                                robot.set_joint_position_target_index(target=direct_joint_target, joint_ids=arm_ids)
+                                robot.set_joint_velocity_target_index(target=torch.zeros_like(direct_joint_target), joint_ids=arm_ids)
+                        # Hand action remains normal/open. Only the arm's final
+                        # application is replaced; no IK position target reaches
+                        # the actuator. The trace checks every written target.
+                        had_arm_apply = "apply_actions" in arm_term.__dict__
+                        original_arm_apply = arm_term.apply_actions
+                        arm_term.apply_actions = apply_fixed_arm_targets
+                        limits = tensor(robot.data.soft_joint_pos_limits)[0, arm_ids].detach().clone()
+                        phases = []
+                        for step in range(20):
+                            physics_context.update(case="joint-settle", phase="settle", case_control_step=step+1)
+                            checked_step(hold(), before)
+                        for joint_name in ("panda_joint2", "panda_joint4", "panda_joint6"):
+                            index = arm_names.index(joint_name)
+                            for sign in (1.0, -1.0):
+                                label = f"{joint_name}/{'positive' if sign > 0 else 'negative'}"
+                                initial_positions = required_joint_values("joint_pos")
+                                step_rad = sign * args.joint_step_rad
+                                direct_joint_target = anchor.clone()
+                                direct_joint_target[0, index] += step_rad
+                                if not bool(((direct_joint_target[0] >= limits[:, 0]) &
+                                             (direct_joint_target[0] <= limits[:, 1])).all()):
+                                    raise RuntimeError("Joint step target is outside soft joint limits")
+                                first_row = len(physics_recorder.rows)
+                                for step in range(60):
+                                    physics_context.update(case=label, phase="step", case_control_step=step+1)
+                                    checked_step(hold(), before)
+                                rows = physics_recorder.rows[first_row:]
+                                phase = summarize_joint_step(rows, index, initial_positions, step_rad, arm_names)
+                                phase["fixed_position_targets_rad"] = direct_joint_target[0].cpu().tolist()
+                                phases.append(phase)
+                                print(f"[Joint step] {label}: gain50={phase['gain_at_50ms']}, "
+                                      f"overshoot={phase['overshoot_pct']:.4f}%, "
+                                      f"settle5pct={phase['settling_5pct_s']}", flush=True)
+                                direct_joint_target = anchor.clone()
+                                for step in range(60):
+                                    physics_context.update(case=label, phase="return", case_control_step=step+1)
+                                    checked_step(hold(), before)
+                                returned = required_joint_values("joint_pos")
+                                phase["return_max_joint_error_rad"] = max(abs(a-b) for a,b in zip(returned, anchor[0].cpu().tolist()))
+                                if phase["return_max_joint_error_rad"] > 0.0003:
+                                    raise RuntimeError("Joint did not return within 0.0003 rad; stop before the next case")
+                        measured.update({"joint_steps": phases, "control_dt_s": float(base.step_dt),
+                            "joint_step_rad": args.joint_step_rad,
+                            "anchor_position_targets_rad": anchor[0].cpu().tolist(),
+                            "scope": "fixed joint-space position steps for joints 2/4/6; all other arm position targets held, hand open, IK arm application bypassed",
+                            "target_validation": "every physics write checked against the seven fixed position targets within 1e-6 rad"})
+                    elif args.motion_test == "step-response":
                         if not math.isclose(float(base.step_dt), 0.05, abs_tol=1e-8):
                             raise RuntimeError("Step response requires a 50 ms control period")
                         if not callable(getattr(arm_term, "_compute_frame_pose", None)):
@@ -891,6 +966,11 @@ def main():
         finally:
             if physics_recorder is not None:
                 physics_recorder.close()
+            if original_arm_apply is not None:
+                if had_arm_apply:
+                    arm_term.apply_actions = original_arm_apply
+                else:
+                    del arm_term.apply_actions
             env.close()
 
 

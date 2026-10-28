@@ -14,7 +14,10 @@ def main():
     args = parser.parse_args()
     data = json.loads(args.latest.read_text(encoding="utf-8"))
     runs = data["runs"]
-    expected = {(profile, mode) for profile in data["profiles"] for mode in ("step-response", "libero-stream")}
+    modes = data.get("modes", ["step-response", "libero-stream"])
+    if not modes or set(modes) - {"step-response", "libero-stream", "joint-step"}:
+        raise SystemExit("Unknown test mode; no files exported")
+    expected = {(profile, mode) for profile in data["profiles"] for mode in modes}
     if (data["status"] != "completed" or len(runs) != len(expected)
             or {(run["profile"], run["mode"]) for run in runs} != expected
             or any(run["status"] != "completed" for run in runs)):

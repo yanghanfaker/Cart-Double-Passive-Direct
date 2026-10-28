@@ -520,3 +520,48 @@ python3 /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_gain
 另一个关键修正：物理采样显示首轮阶跃的估算力矩峰值可达约48.2%求解器上限，
 而先前50 ms采样最高约5.4%。因此不能沿用“力矩一直很小”的判断。
 这些仍是隐式执行器估算值而非真实测力，当前数据未显示触顶，后续保留原限制继续观察。
+
+## 下一轮：关节2、4、6固定关节目标阶跃
+
+逐关节候选的实测结果（提交 `143b8600f65c9153fffd1895f1af8219e3880c6e`）显示：
+仅提高关节2、4阻尼后，X方向超调降低，但50 ms响应降至约67%，连续Z向增益约0.507。
+这组候选不能作为最终参数。下一轮直接测关节响应，进一步区分执行器动态与IK、多关节耦合。
+
+`joint-step` 模式绕过机械臂IK动作的最终应用，直接写入七个关节的位置目标和零速度目标。
+依次对 `panda_joint2/4/6` 各施加正、负0.003 rad（约0.172度）阶跃；
+其余机械臂关节的位置目标保持起始值，夹爪保持打开。
+其它关节仍由执行器保持位置，实际位置可以因耦合而变化，并非机械锁死。
+每个方向保持3秒、回到起点3秒；每组配置约37秒仿真时间，另加启动和渲染耗时。
+
+本轮比较七关节统一Kp=900、Kd=20/30/40三个配置，命令不添加之前的逐关节覆盖文件：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --profiles kp2p25-kd0p25 kp2p25-kd0p375 kp2p25-kd0p5 \
+  --modes joint-step \
+  --record-physics
+```
+
+该模式自动启用物理采样，在每次物理写入后检查七个目标是否与固定命令一致（容差1e-6 rad）；
+目标被IK覆盖、越过软限位、回位误差超过0.0003 rad，均停止本轮。
+控制周期仍为50 ms，沿用物理步长逐步采样；当前环境实测10 ms，不通过额外推进仿真来增加样本。
+本轮不会请求或执行OpenPI动作。
+
+每组包含六个阶跃，输出 `[Joint step]` 日志与 `motion_joint-step.json`，
+记录50 ms位移/名义阶跃幅度、峰值、超调、持续达到90%的时间、5%调节时间、
+最终目标误差和其它关节最大位置偏移（`coupling_peak_rad`）。
+完整物理轨迹、执行器参数审计同时保存；正负响应差异及起始静态误差需结合原始轨迹解释。
+这些仍是当前姿态下的耦合机械系统响应，不能直接当作准确惯量或极点辨识。
+
+脚本的CPU检查不替代Spark上的Isaac运行验证。若运行报错，保留本轮console.log用于定位。
+完成后使用同一导出入口上传结果（现在支持只运行一个测试模式）：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add isolated joint 2 4 6 step response results"
+git push origin main
+```

@@ -18,7 +18,11 @@ def main():
                         default=["baseline", "kp1p5", "kp1p5-damped"])
     parser.add_argument("--record-physics", action="store_true", help="capture each existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
+    parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step"), nargs="+",
+                        default=["step-response", "libero-stream"])
     args = parser.parse_args()
+    if "joint-step" in args.modes:
+        args.record_physics = True
     joint_overrides = (
         json.loads(args.joint_gains_json.expanduser().resolve().read_text(encoding="utf-8"))
         if args.joint_gains_json else None
@@ -30,7 +34,7 @@ def main():
     output = root / "logs" / "openpi_gain_sweep" / stamp
     output.mkdir(parents=True, exist_ok=False)
     manifest = {"output": str(output), "status": "running", "runs": [],
-        "profiles": args.profiles, "record_physics": args.record_physics,
+        "profiles": args.profiles, "modes": args.modes, "record_physics": args.record_physics,
         "joint_overrides": joint_overrides,
         "scope": "selected actuator gain profiles; no automatic selection or deployment; effort telemetry is approximate"}
     def save():
@@ -40,7 +44,7 @@ def main():
     script = Path(__file__).with_name("check_cameras.py").resolve()
     try:
         for profile in args.profiles:
-            for mode in ("step-response", "libero-stream"):
+            for mode in args.modes:
                 run_output = output / profile / mode
                 run_output.mkdir(parents=True)
                 command = ["uv", "run", "--extra", "viser", "isaaclab", "-p", str(script),
@@ -61,7 +65,7 @@ def main():
                         for line in process.stdout:
                             log.write(line)
                             recent.append(line)
-                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]")):
+                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]")):
                                 print(line, end="", flush=True)
                         code = process.wait()
                 entry["exit_code"] = code
@@ -85,6 +89,8 @@ def main():
                         "final_gain", "peak_gain", "overshoot_pct", "tail_gain_peak_to_peak",
                         "t90_sustained_s", "settling_5pct_s", "final_position_error_m", "final_rotation_error_deg",
                     )} for phase in result["phases"]]
+                elif mode == "joint-step":
+                    entry["joint_steps"] = result["joint_steps"]
                 else:
                     entry["all_stream_tests_passed"] = result["all_stream_tests_passed"]
                     entry["axes"] = [{k: v for k, v in axis.items() if k != "trace"} for axis in result["axes"]]
