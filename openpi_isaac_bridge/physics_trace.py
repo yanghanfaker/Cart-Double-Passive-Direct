@@ -112,7 +112,7 @@ class PhysicsJointRecorder:
             "expected_substeps_per_control": self.expected_substeps,
             "recorded_controls": self.control_count, "recorded_substeps": self.substep_count,
             "trace_file": str(self.path), "cases": cases,
-            "scope": "IK joint targets may move within a control period; these are tracking statistics, not isolated-joint step identification",
+            "scope": self.metadata.get("target_note", "joint target tracking statistics; interpret with test-specific command semantics"),
         }
 
     def close(self):

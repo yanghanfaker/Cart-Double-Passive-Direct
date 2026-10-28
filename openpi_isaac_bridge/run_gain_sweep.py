@@ -9,13 +9,15 @@ import subprocess
 import sys
 
 from gain_probe import GAIN_PROFILES
+from gain_cases import validate_gain_cases
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--isaaclab-root", type=Path, default=Path("/home/test/Robot/IsaacLab"))
-    parser.add_argument("--profiles", choices=tuple(GAIN_PROFILES), nargs="+",
-                        default=["baseline", "kp1p5", "kp1p5-damped"])
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument("--profiles", choices=tuple(GAIN_PROFILES), nargs="+")
+    selection.add_argument("--gain-cases-json", type=Path, help="named base profiles and per-joint overrides")
     parser.add_argument("--record-physics", action="store_true", help="capture each existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
     parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step"), nargs="+",
@@ -27,6 +29,15 @@ def main():
         json.loads(args.joint_gains_json.expanduser().resolve().read_text(encoding="utf-8"))
         if args.joint_gains_json else None
     )
+    if args.gain_cases_json and args.joint_gains_json:
+        parser.error("--gain-cases-json already defines overrides; omit --joint-gains-json")
+    try:
+        cases = validate_gain_cases(
+            json.loads(args.gain_cases_json.read_text(encoding="utf-8")) if args.gain_cases_json else
+            [{"name": profile, "profile": profile, "joint_overrides": joint_overrides}
+             for profile in (args.profiles or ["baseline", "kp1p5", "kp1p5-damped"])])
+    except ValueError as error:
+        parser.error(str(error))
     root = args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():
         parser.error(f"Isaac Lab directory not found: {root}")
@@ -34,7 +45,8 @@ def main():
     output = root / "logs" / "openpi_gain_sweep" / stamp
     output.mkdir(parents=True, exist_ok=False)
     manifest = {"output": str(output), "status": "running", "runs": [],
-        "profiles": args.profiles, "modes": args.modes, "record_physics": args.record_physics,
+        "profiles": [case["name"] for case in cases], "cases": cases,
+        "modes": args.modes, "record_physics": args.record_physics,
         "joint_overrides": joint_overrides,
         "scope": "selected actuator gain profiles; no automatic selection or deployment; effort telemetry is approximate"}
     def save():
@@ -43,18 +55,24 @@ def main():
     save()
     script = Path(__file__).with_name("check_cameras.py").resolve()
     try:
-        for profile in args.profiles:
+        for case in cases:
+            profile = case["name"]
+            override_path = output / f"{profile}_joint_gains.json"
+            if case["joint_overrides"]:
+                override_path.write_text(json.dumps(case["joint_overrides"], indent=2), encoding="utf-8")
             for mode in args.modes:
                 run_output = output / profile / mode
                 run_output.mkdir(parents=True)
                 command = ["uv", "run", "--extra", "viser", "isaaclab", "-p", str(script),
-                           "--viz", "viser", "--motion-test", mode, "--gain-profile", profile,
+                           "--viz", "viser", "--motion-test", mode, "--gain-profile", case["profile"],
                            "--output", str(run_output)]
                 if args.record_physics:
                     command.append("--record-physics")
-                if args.joint_gains_json:
-                    command.extend(["--joint-gains-json", str(args.joint_gains_json.expanduser().resolve())])
-                entry = {"profile": profile, "mode": mode, "output": str(run_output), "status": "running"}
+                if case["joint_overrides"]:
+                    command.extend(["--joint-gains-json", str(override_path)])
+                entry = {"profile": profile, "base_profile": case["profile"],
+                         "joint_overrides": case["joint_overrides"], "command": command,
+                         "mode": mode, "output": str(run_output), "status": "running"}
                 manifest["runs"].append(entry)
                 save()
                 print(f"[Gain sweep] START {profile}/{mode}; log={run_output / 'console.log'}", flush=True)

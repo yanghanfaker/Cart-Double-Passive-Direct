@@ -37,10 +37,7 @@ def resolve_joint_gain(value, joint):
     return scaled_gain(value, 1.0)
 
 
-def configure_gain_profile(actuators, profile, joint_overrides=None):
-    if profile not in GAIN_PROFILES:
-        raise ValueError("unknown gain profile")
-    kp_factor, kd_factor = GAIN_PROFILES[profile]
+def validate_joint_overrides(joint_overrides):
     arm_names = [f"panda_joint{i}" for i in range(1, 8)]
     joint_overrides = {} if joint_overrides is None else joint_overrides
     if not isinstance(joint_overrides, dict) or set(joint_overrides) - set(arm_names):
@@ -51,6 +48,15 @@ def configure_gain_profile(actuators, profile, joint_overrides=None):
         for value in gains.values():
             if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
                 raise ValueError(f"{joint}: per-joint gains must be finite positive scalars")
+    return joint_overrides
+
+
+def configure_gain_profile(actuators, profile, joint_overrides=None):
+    if profile not in GAIN_PROFILES:
+        raise ValueError("unknown gain profile")
+    kp_factor, kd_factor = GAIN_PROFILES[profile]
+    arm_names = [f"panda_joint{i}" for i in range(1, 8)]
+    joint_overrides = validate_joint_overrides(joint_overrides)
     finger_names = ["panda_finger_joint1", "panda_finger_joint2"]
     covered = set()
     plans = []

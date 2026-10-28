@@ -565,3 +565,60 @@ git add -- diagnostics/gain_sweep/
 git commit -m "Add isolated joint 2 4 6 step response results"
 git push origin main
 ```
+
+## 关节2、4联合调整刚度和阻尼
+
+固定关节阶跃结果（提交 `47579c0c92e20e8f875871880a04b6a78b31aa58`）已完成三组对照：
+3700条物理样本/配置，共11100条；逐步核对固定位置目标和零速度目标。
+900/20时关节2/4的50 ms响应约63.4%/69.9%，超调约28.0%/23.6%；
+900/40时50 ms响应仅49.6%/53.3%，超调仍约9.5%/6.9%。
+关节6在900/20时50 ms达到93.5%，超调约0.7%。
+关节2与4之间还存在约阶跃幅度21%的非激励关节瞬态偏移，因此这些不是完全解耦的对象。
+
+下一轮使用 `joint_gain_cases.json`，只覆盖关节2、4，其余五个机械臂关节均保持900/20：
+
+|case|关节2/4 Kp|关节2/4 Kd|用途|
+|---|---:|---:|---|
+|control-900-20|900|20|复测基准|
+|j24-kp900-kd40|900|40|逐关节高阻尼对照|
+|j24-kp1800-kd56p57|1800|56.5685|从900/40沿近似等阻尼比路线提高带宽|
+|j24-kp3600-kd80|3600|80|同路线更高刚度|
+|j24-kp1800-kd42p43|1800|42.4264|从900/30沿较低阻尼比路线对照|
+|j24-kp3600-kd60|3600|60|同路线更高刚度|
+
+路线依据是局部二阶近似：Kp乘以a，Kd乘以sqrt(a)，有望在提高自然频率时近似保持阻尼比。
+实际系统有多关节耦合、隐式驱动和离散求解，这不是已辨识参数，不保证等阻尼或50 ms达标。
+本轮不改变物理步长、控制周期、速度限制、力矩限制和手指参数。
+关节2/4最大刚度3600下，0.003 rad阶跃对应初始纯比例项约10.8 Nm；实际估算力矩和响应仍以轨迹为准。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/joint_gain_cases.json \
+  --modes joint-step \
+  --record-physics
+```
+
+共六个独立仿真进程；每组约37秒仿真时间，启动、渲染及日志读回另外耗时。
+仍测关节2/4/6的正负0.003 rad阶跃，关节6用于检查参数变化引发的耦合影响。
+输入case名称用于文件夹和导出前缀；真实base_profile、每关节覆盖值、启动命令及实际审计均存入汇总，
+避免不同覆盖值共用同一基础profile名称而覆盖结果。
+`--gain-cases-json`不能与`--profiles`或`--joint-gains-json`同时指定。
+
+先比较50 ms增益是否达到0.9至1.1、超调是否不超过5%，同时检查调节时间、回位、耦合和估算力矩。
+这些是本项目筛选目标，不是模型官方标准。没有候选满足时保留失败数据，不自动选参数或扩大动作。
+即使单关节测试达标，仍须再测末端XYZ/RXYZ连续动作及其它姿态，才能判断实际使用效果。
+修正了physics summary的scope：现在直接使用本轮target_note，不再给固定关节测试标注旧的IK目标说明。
+
+运行完成后：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add joint 2 4 stiffness damping sweep results"
+git push origin main
+```
+
+本轮脚本仅完成CPU配置、路由及统计检查，新的增益候选尚待Spark仿真验证。
