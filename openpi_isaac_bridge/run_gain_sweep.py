@@ -12,6 +12,7 @@ from gain_probe import GAIN_PROFILES
 from gain_cases import validate_gain_cases
 from joint_identification import screen_joint_steps
 from stream_screen import screen_cartesian_stream
+from stream_scenarios import expand_stream_cases
 
 
 def main():
@@ -22,6 +23,7 @@ def main():
     selection.add_argument("--gain-cases-json", type=Path, help="named base profiles and per-joint overrides")
     parser.add_argument("--record-physics", action="store_true", help="capture each existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
+    parser.add_argument("--stream-scenarios-json", type=Path, help="cross gain cases with bounded stream start positions/amplitudes")
     parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step"), nargs="+",
                         default=["step-response", "libero-stream"])
     args = parser.parse_args()
@@ -38,6 +40,10 @@ def main():
             json.loads(args.gain_cases_json.read_text(encoding="utf-8")) if args.gain_cases_json else
             [{"name": profile, "profile": profile, "joint_overrides": joint_overrides}
              for profile in (args.profiles or ["baseline", "kp1p5", "kp1p5-damped"])])
+        if args.stream_scenarios_json:
+            if args.modes != ["libero-stream"]:
+                parser.error("--stream-scenarios-json requires --modes libero-stream only")
+            cases = expand_stream_cases(cases, json.loads(args.stream_scenarios_json.read_text(encoding="utf-8")))
     except ValueError as error:
         parser.error(str(error))
     root = args.isaaclab_root.expanduser().resolve()
@@ -72,9 +78,15 @@ def main():
                     command.append("--record-physics")
                 if case["joint_overrides"]:
                     command.extend(["--joint-gains-json", str(override_path)])
+                if case.get("stream_scenario"):
+                    scenario = case["stream_scenario"]
+                    command.extend(["--stream-start-offset", *map(str, scenario["start_offset_m"]),
+                                    "--stream-amplitude-scale", str(scenario["amplitude_scale"])])
                 entry = {"profile": profile, "base_profile": case["profile"],
                          "joint_overrides": case["joint_overrides"], "command": command,
                          "mode": mode, "output": str(run_output), "status": "running"}
+                if case.get("stream_scenario"):
+                    entry.update(base_case=case["base_case"], stream_scenario=case["stream_scenario"])
                 manifest["runs"].append(entry)
                 save()
                 print(f"[Gain sweep] START {profile}/{mode}; log={run_output / 'console.log'}", flush=True)
@@ -85,7 +97,7 @@ def main():
                         for line in process.stdout:
                             log.write(line)
                             recent.append(line)
-                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]")):
+                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]", "[Stream start]")):
                                 print(line, end="", flush=True)
                         code = process.wait()
                 entry["exit_code"] = code
@@ -121,6 +133,7 @@ def main():
                     entry["axes"] = result["axes"]
                     entry["stream_thresholds"] = result["thresholds"]
                     entry["stream_target_semantics"] = result["target_semantics"]
+                    entry["stream_condition"] = {k: result[k] for k in ("stream_amplitude_scale", "stream_start") if k in result}
                     entry["cartesian_stream_screen"] = screen_cartesian_stream(result["axes"])
                     print(f"[Cartesian screen] {profile}: complete={entry['cartesian_stream_screen']['complete']}, "
                           f"all_passed={entry['cartesian_stream_screen']['all_passed']}", flush=True)

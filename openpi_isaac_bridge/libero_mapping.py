@@ -46,7 +46,7 @@ def mapping_test_plan():
     return plan
 
 
-def stream_test_plan(axis):
+def stream_test_plan(axis, amplitude_scale=1.0):
     """One command per 50 ms: 5 mm/2 deg out, stop, back, stop.
 
     Commands are relative to the measured current pose, as in OSC set_goal;
@@ -55,8 +55,10 @@ def stream_test_plan(axis):
     axes = ("x", "y", "z", "rx", "ry", "rz")
     if axis not in axes:
         raise ValueError("invalid streaming axis")
+    if isinstance(amplitude_scale, bool) or not math.isfinite(amplitude_scale) or not 1 <= amplitude_scale <= 2:
+        raise ValueError("stream amplitude scale must be finite and in [1, 2]")
     index = axes.index(axis)
-    amplitude = 0.005 / 20 / 0.05 if index < 3 else math.radians(2) / 20 / 0.5
+    amplitude = amplitude_scale * (0.005 / 20 / 0.05 if index < 3 else math.radians(2) / 20 / 0.5)
     plan = []
     for phase, count, sign in (("out", 20, 1), ("stop_out", 10, 0), ("back", 20, -1), ("stop_back", 20, 0)):
         for _ in range(count):

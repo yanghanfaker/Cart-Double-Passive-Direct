@@ -1,0 +1,56 @@
+[
+  {
+    "name": "home-s1",
+    "start_offset_m": [
+      0,
+      0,
+      0
+    ],
+    "amplitude_scale": 1
+  },
+  {
+    "name": "home-s2",
+    "start_offset_m": [
+      0,
+      0,
+      0
+    ],
+    "amplitude_scale": 2
+  },
+  {
+    "name": "yplus-s1",
+    "start_offset_m": [
+      0,
+      0.015,
+      0.01
+    ],
+    "amplitude_scale": 1
+  },
+  {
+    "name": "yplus-s2",
+    "start_offset_m": [
+      0,
+      0.015,
+      0.01
+    ],
+    "amplitude_scale": 2
+  },
+  {
+    "name": "yminus-s1",
+    "start_offset_m": [
+      0,
+      -0.015,
+      0.01
+    ],
+    "amplitude_scale": 1
+  },
+  {
+    "name": "yminus-s2",
+    "start_offset_m": [
+      0,
+      -0.015,
+      0.01
+    ],
+    "amplitude_scale": 2
+  }
+]

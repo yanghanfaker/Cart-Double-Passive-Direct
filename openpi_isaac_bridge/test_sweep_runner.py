@@ -13,27 +13,42 @@ class SweepRoutingTests(unittest.TestCase):
     def test_cartesian_run_retains_trace_and_checks_all_six_axes(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
+            scenario_file = root / "scenarios.json"
+            scenario_file.write_text(json.dumps([
+                {"name": "home", "start_offset_m": [0,0,0], "amplitude_scale": 1},
+                {"name": "offset", "start_offset_m": [0,0.015,0.01], "amplitude_scale": 2}]))
+            routed = []
             axes = [{"axis": a, "passed": True, "outbound_gain": 0.95,
                      "trace": [{"position_error_m": 0.00001, "ee_pos_root_m": [0.4, 0, 0.3]}]}
                     for a in ("x", "y", "z", "rx", "ry", "rz")]
             class FakeProcess:
                 def __init__(self, command, **kwargs):
                     output = Path(command[command.index("--output")+1])
+                    index = command.index("--stream-start-offset")
+                    offset = list(map(float, command[index+1:index+4]))
+                    scale = float(command[command.index("--stream-amplitude-scale")+1])
+                    routed.append((offset, scale))
                     report = {"joint_telemetry_summary": {}, "actuator_audit": {},
                               "all_stream_tests_passed": True, "axes": axes,
                               "thresholds": {"gain_range": [0.7, 1.3]},
-                              "target_semantics": "current measured pose relative"}
+                              "target_semantics": "current measured pose relative",
+                              "stream_amplitude_scale": scale,
+                              "stream_start": {"offset_root_m": offset, "settled_last_5_steps": True}}
                     (output / "motion_libero-stream.json").write_text(json.dumps(report))
                     self.stdout = io.StringIO("")
                 def __enter__(self): return self
                 def __exit__(self, *args): pass
                 def wait(self): return 0
             argv = ["run_gain_sweep.py", "--isaaclab-root", str(root), "--profiles", "baseline",
-                    "--modes", "libero-stream"]
+                    "--modes", "libero-stream", "--stream-scenarios-json", str(scenario_file)]
             with patch.object(sys, "argv", argv), patch.object(run_gain_sweep.subprocess, "Popen", FakeProcess):
                 self.assertEqual(run_gain_sweep.main(), 0)
             manifest = json.loads((root / "logs/openpi_gain_sweep/latest_gain_sweep.json").read_text())
             run = manifest["runs"][0]
+            self.assertEqual(len(manifest["runs"]), 2)
+            self.assertEqual(routed, [([0,0,0],1), ([0,0.015,0.01],2)])
+            self.assertEqual(manifest["runs"][1]["stream_condition"]["stream_amplitude_scale"], 2)
+            self.assertTrue(manifest["runs"][1]["stream_condition"]["stream_start"]["settled_last_5_steps"])
             self.assertEqual(run["axes"], axes)
             self.assertEqual(run["stream_thresholds"]["gain_range"], [0.7, 1.3])
             self.assertEqual(run["cartesian_stream_screen"]["outbound_gain_range"], [0.9, 1.1])

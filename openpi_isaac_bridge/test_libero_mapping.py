@@ -7,6 +7,20 @@ from libero_mapping import decode_libero_action, mapping_test_plan, stream_test_
 
 
 class LiberoMappingTests(unittest.TestCase):
+    def test_double_amplitude_preserves_timing_return_and_open_gripper(self):
+        for axis in ("x", "y", "z", "rx", "ry", "rz"):
+            ordinary, doubled = stream_test_plan(axis), stream_test_plan(axis, 2)
+            self.assertEqual([p for p, _ in ordinary], [p for p, _ in doubled])
+            for (_, a), (_, b) in zip(ordinary, doubled):
+                self.assertEqual([2*v for v in a[:6]], b[:6])
+                self.assertEqual(b[6], -1)
+            decoded = [decode_libero_action(a) for _, a in doubled]
+            self.assertTrue(all(d["isaac_gripper"] == 1 for d in decoded))
+            out = [sum((d["delta_world_m"]+d["delta_world_rad"])[i] for d in decoded[:20]) for i in range(6)]
+            self.assertAlmostEqual(math.hypot(*out), 0.01 if len(axis)==1 else math.radians(4))
+        for scale in (0, 3, float("nan"), True):
+            with self.assertRaises(ValueError): stream_test_plan("x", scale)
+
     def test_stream_has_exact_out_stop_back_stop_schedule(self):
         for axis in ("x", "y", "z", "rx", "ry", "rz"):
             plan = stream_test_plan(axis)

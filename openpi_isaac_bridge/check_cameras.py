@@ -81,6 +81,7 @@ def main():
     from gain_probe import GAIN_PROFILES, configure_gain_profile
     from physics_trace import PhysicsJointRecorder
     from joint_identification import summarize_joint_step
+    from stream_scenarios import validate_stream_scenarios
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -94,6 +95,8 @@ def main():
     parser.add_argument("--record-physics", action="store_true", help="record actual joint targets/state at every existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional explicit per-arm-joint gain overrides; no automatic tuning")
     parser.add_argument("--joint-step-rad", type=float, default=0.003, help="isolated joint-step magnitude, at most 0.005 rad")
+    parser.add_argument("--stream-start-offset", type=float, nargs=3, help="preposition EE in root axes; hold orientation; norm <= 0.025 m")
+    parser.add_argument("--stream-amplitude-scale", type=float, default=1.0)
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
         "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response", "joint-step",
@@ -107,6 +110,14 @@ def main():
     parser.add_argument("--wrist-offset", type=float, nargs=3, default=(0.10, 0.0, 0.02))
     add_launcher_args(parser)
     args = parser.parse_args()
+    if args.stream_start_offset is not None or args.stream_amplitude_scale != 1.0:
+        if args.motion_test != "libero-stream":
+            parser.error("stream position/amplitude options require --motion-test libero-stream")
+        try:
+            validate_stream_scenarios([{"name": "direct", "start_offset_m": args.stream_start_offset or [0, 0, 0],
+                                        "amplitude_scale": args.stream_amplitude_scale}])
+        except ValueError as error:
+            parser.error(str(error))
     if args.query and args.motion_test != "none":
         parser.error("run --query and --motion-test separately; VLA actions are never executed")
     if args.motion_test == "joint-step":
@@ -606,6 +617,30 @@ def main():
                     elif args.motion_test == "libero-stream":
                         if not math.isclose(float(base.step_dt), 0.05, abs_tol=1e-8):
                             raise RuntimeError("Streaming test requires 20 Hz simulation control")
+                        if args.stream_start_offset is not None:
+                            target_pos = before[None] + torch.tensor([args.stream_start_offset], device=base.device)
+                            target_quat = before_quat[None].clone()
+                            start_trace = []
+                            for step in range(80):
+                                physics_context.update(case="stream-preposition", phase="settle", case_control_step=step+1)
+                                p, q = read_pose()
+                                pe, re = compute_pose_error(p[None], q[None], target_pos, target_quat, rot_error_type="axis_angle")
+                                values = tracking_action(pe[0].cpu().tolist(), re[0].cpu().tolist(), float(arm_term.cfg.scale))
+                                checked_step(torch.tensor([values], dtype=torch.float32, device=base.device), before)
+                                p, q = read_pose()
+                                pe, re = compute_pose_error(p[None], q[None], target_pos, target_quat, rot_error_type="axis_angle")
+                                start_trace.append({"step": step+1, "position_error_m": float(pe.norm()),
+                                                    "rotation_error_deg": math.degrees(float(re.norm()))})
+                            settled = all(t["position_error_m"] <= 0.00025 and t["rotation_error_deg"] <= 0.1 for t in start_trace[-5:])
+                            measured["stream_start"] = {"offset_root_m": args.stream_start_offset,
+                                "target_pos_root_m": target_pos[0].cpu().tolist(), "actual_pos_root_m": p.cpu().tolist(),
+                                "actual_quat_root": q.cpu().tolist(), "arm_positions_rad": joint_field("joint_pos")[0].cpu().tolist(),
+                                "orientation_policy": "hold initial EE orientation", "settled_last_5_steps": settled,
+                                "trace": start_trace}
+                            print(f"[Stream start] offset={args.stream_start_offset}; settled={settled}", flush=True)
+                            if not settled:
+                                raise RuntimeError("Stream start did not settle; discard run before testing axes")
+                        measured["stream_amplitude_scale"] = args.stream_amplitude_scale
                         axes = []
                         for axis in ("x", "y", "z", "rx", "ry", "rz"):
                             axis_start_pos, axis_start_quat = read_pose()
@@ -613,7 +648,7 @@ def main():
                             boundaries = {}
                             stop_starts = {}
                             last_phase = None
-                            for step, (phase, libero_action) in enumerate(stream_test_plan(axis)):
+                            for step, (phase, libero_action) in enumerate(stream_test_plan(axis, args.stream_amplitude_scale)):
                                 physics_context.update(case=axis, phase=phase, case_control_step=step + 1)
                                 wall_start = time.perf_counter()
                                 decoded = decode_libero_action(libero_action)

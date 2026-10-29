@@ -728,3 +728,63 @@ git add -- diagnostics/gain_sweep/
 git commit -m "Add Cartesian regression for tuned joint gains"
 git push origin main
 ```
+
+## 扩展起始末端位置和连续动作幅度
+
+初始位置下的末端回归结果（提交 `ecea848404f13259548f5aa798b739b468a452c5`）三组均通过小幅连续动作标准。
+4500/110与5400/120显著减小X固定目标超调及X/Z/RY停止漂移，但没有所有方向全面占优的候选。
+下一轮保持这两个候选与原900/20对照，扩展局部起始位置和动作幅度。
+
+`cartesian_workspace_scenarios.json` 包含三处起点和两档幅度：
+
+|起始位置|相对原始末端位置的偏移（机器人根坐标，米）|末端朝向|
+|---|---|---|
+|home|[0, 0, 0]|保持原朝向|
+|yplus|[0, 0.015, 0.010]|保持原朝向|
+|yminus|[0, -0.015, 0.010]|保持原朝向|
+
+这会改变机械臂关节构型，但尚未覆盖不同末端朝向、大范围工作空间或负载变化。
+幅度1为原测试：每周期0.25 mm或0.1度，20次名义累计5 mm/2度；
+幅度2为每周期0.5 mm或0.2度，20次名义累计10 mm/4度。
+两档均维持50 ms控制周期和out20/stop10/back20/stop20的70步序列。
+夹爪始终打开，不执行OpenPI输出。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/cartesian_regression_cases.json \
+  --stream-scenarios-json openpi_isaac_bridge/cartesian_workspace_scenarios.json \
+  --modes libero-stream \
+  --record-physics
+```
+
+总计3组参数×3起点×2幅度=18个独立进程，各场景重新创建环境。
+场景名称、base_case、起点偏移和幅度显式写入汇总，输出不会覆盖。
+增加场景选项时只允许运行libero-stream，避免把这些条件误用于其它模式。
+
+每个场景先用固定末端位姿闭环控制80个周期（4秒仿真时间），保持初始末端朝向。
+最后连续5步位置误差≤0.25 mm且角度误差≤0.1度才开始六轴序列；未到位则停止本轮。
+包含home场景也执行相同预定位等待，以统一条件。
+`stream_start` 保存起点目标、实际位置、朝向、七关节位置和到位误差轨迹。
+物理记录中的 `case=stream-preposition` 是预定位数据，不属于轴向响应。
+原5 cm位移和15度姿态保护仍生效，预定位不会重置这个参考范围。
+
+每场景500控制步、当前10 ms物理步长下2500物理样本；18场景共45000条物理样本。
+每场景25秒仿真时间，总450秒仿真时间，另加18次启动、渲染和日志读回耗时，不保证墙钟运行时间。
+原有累计增益、回位、周期目标误差、停止漂移的阈值保持不变，不随幅度放宽。
+`[Cartesian screen]`仍检查六轴累计增益90%至110%及原有其它条件。
+
+观察候选是否在不同起点/幅度仍通过，以及是否出现方向性行程变化、耦合、停止漂移或估算力矩升高。
+流程completed与指标all_passed分开：指标不通过仍保存结果；预定位或仿真异常会停止并保留console.log。
+新的起点控制尚待Spark实测，CPU检查不替代运行验证。
+
+完成后导出并推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add workspace and amplitude Cartesian regression results"
+git push origin main
+```
