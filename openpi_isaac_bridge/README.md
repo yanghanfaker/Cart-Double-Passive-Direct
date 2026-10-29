@@ -673,3 +673,58 @@ git add -- diagnostics/gain_sweep/
 git commit -m "Add refined joint 2 4 gain sweep results"
 git push origin main
 ```
+
+## 两个通过关节初筛的候选：末端连续动作回归
+
+窄范围细调结果（提交 `71e995db40ebea7699faec797b4b91433a9745b7`）中，
+关节2/4的4500/110与5400/120通过关节2/4/6正负小阶跃初筛。
+5400/120的关节2/4 50 ms行程约95.3%/94.4%，超调约4.3%/2.9%；
+其中关节4进入并保持±5%仍需60 ms。此结论不代表末端连续控制或抓取已经通过。
+
+下一轮使用 `cartesian_regression_cases.json`，独立比较三组：
+
+|case|关节2/4参数|其它五个机械臂关节|
+|---|---|---|
+|cart-control-900-20|900/20|900/20|
+|cart-j24-kp4500-kd110|4500/110|900/20|
+|cart-j24-kp5400-kd120|5400/120|900/20|
+
+这里恢复正常IK机械臂动作应用，单环境、夹爪打开，仍不请求或执行OpenPI模型输出。
+保留原物理步长、50 ms控制周期、速度/力矩限制。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/cartesian_regression_cases.json \
+  --modes step-response libero-stream \
+  --record-physics
+```
+
+三个配置各运行两个模式，共六个独立仿真进程：
+- `step-response`：已有sensor/IK两种反馈下的X、RX固定末端目标阶跃与回位，观察50 ms响应、峰值和调节时间。
+- `libero-stream`：XYZ/RXYZ六方向，每轴20个动作向外、10个零动作停止、20个反向动作、20个零动作停止。
+  每50 ms仅执行一次基于当前实测姿态的相对目标，不累计期望位姿，不插入额外收敛等待。
+  平移单次0.25 mm，20次名义累计5 mm；旋转单次0.1度，20次名义累计2度。
+
+完整逐周期目标与实际末端位姿现随汇总导出，物理步仍记录七关节命令/响应和估算力矩。
+这是初始姿态附近的小幅回归，后续仍须扩展姿态、幅度和负载。
+
+原 `all_stream_tests_passed` 的增益范围[0.7,1.3]保留，便于与历史数据对照。
+新增 `cartesian_stream_screen`，要求六方向齐全、全部原检查通过，并把向外段累计增益限制为[0.9,1.1]。
+原检查还包括：回位位置≤1 mm、回位角度≤0.3度；每周期末目标误差≤1 mm/0.5度；
+停止段位移≤0.5 mm、转角≤0.2度；两手指位置接近打开目标。
+`[Cartesian screen] ... all_passed=True`仅代表上述小幅测试通过。
+累计增益是20次动作的整段投影位移比例，不等同单次50 ms响应、每周期±10%精度或超调指标。
+不能把测试通过解释为LIBERO OSC动力学等价、视觉/状态标定完成或OpenPI抓取成功。
+
+若某方向失败，正常保存结果供分析；completed表示流程完成，不表示指标通过。
+运行完成后推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add Cartesian regression for tuned joint gains"
+git push origin main
+```

@@ -11,6 +11,7 @@ import sys
 from gain_probe import GAIN_PROFILES
 from gain_cases import validate_gain_cases
 from joint_identification import screen_joint_steps
+from stream_screen import screen_cartesian_stream
 
 
 def main():
@@ -115,7 +116,14 @@ def main():
                           f"all_passed={entry['joint_step_screen']['all_passed']}", flush=True)
                 else:
                     entry["all_stream_tests_passed"] = result["all_stream_tests_passed"]
-                    entry["axes"] = [{k: v for k, v in axis.items() if k != "trace"} for axis in result["axes"]]
+                    # Preserve pose/target samples for diagnosing axis coupling
+                    # and per-period errors after exporting just the summary.
+                    entry["axes"] = result["axes"]
+                    entry["stream_thresholds"] = result["thresholds"]
+                    entry["stream_target_semantics"] = result["target_semantics"]
+                    entry["cartesian_stream_screen"] = screen_cartesian_stream(result["axes"])
+                    print(f"[Cartesian screen] {profile}: complete={entry['cartesian_stream_screen']['complete']}, "
+                          f"all_passed={entry['cartesian_stream_screen']['all_passed']}", flush=True)
                 save()
                 print(f"[Gain sweep] DONE {profile}/{mode}", flush=True)
     except Exception as error:

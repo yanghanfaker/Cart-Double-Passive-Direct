@@ -20,7 +20,9 @@ class GainCaseTests(unittest.TestCase):
             is_implicit_model = True
         self.assertEqual(len(self.cases()), 6)
         self.assertEqual(len(self.refine_cases()), 7)
-        cases = validate_gain_cases(self.cases()) + validate_gain_cases(self.refine_cases())
+        regression = json.loads(Path(__file__).with_name("cartesian_regression_cases.json").read_text())
+        self.assertEqual(len(regression), 3)
+        cases = validate_gain_cases(self.cases()) + validate_gain_cases(self.refine_cases()) + validate_gain_cases(regression)
         for case in cases:
             arm = SimpleNamespace(class_type=Implicit, joint_names_expr=["panda_joint[1-7]"],
                                   stiffness=400, damping=80, joint_effort_limit=87)
