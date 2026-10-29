@@ -1051,3 +1051,55 @@ git push origin main
 
 本地CPU单元测试覆盖分量保留、零输入尾段、起始姿态不符停止、故障记录与三种模式路由；
 Isaac/PhysX实际执行仍需在Spark运行核验。
+
+
+## 旋转位置偏移：单关节单参数对照（2026-10-29）
+
+固定分量重放结果86a83228f0bc显示：纯旋转的周期位置偏移RMS为0.272mm、
+最大0.506mm；混合组RMS为0.375mm、最大0.803mm。混合组复现原始模型轨迹，
+其每周期位移近似为纯平移与纯旋转响应之和。尚不能从关节误差大小直接确定TCP误差贡献。
+
+本轮用 `replay_joint_gain_cases.json` 做9组增益配置：1组原基准，加上J1/J3/J6/J7各2组。
+每次只改变一个关节的一个参数：
+
+| 对照 | 被测关节Kp | 被测关节Kd |
+|---|---:|---:|
+| 原基准 | 900 | 20 |
+| 刚度增加25% | 1125 | 20 |
+| 阻尼增加25% | 900 | 25 |
+
+J2/J4始终为5400/120，未被测关节始终900/20。每种配置都执行纯平移、纯旋转、混合重放，
+共27个独立仿真。动作、限幅、50ms周期、物体位置、夹爪打开及原有检查保持一致。
+这是一组有限差分敏感性实验，不预设增加刚度或阻尼一定有效，不更改力矩上限，也不自动部署最佳配置。
+若提高阻尼减少旋转位置偏移却增大平移跟踪误差，需要考虑两者权衡，不能只看单项改善。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/replay_joint_gain_cases.json \
+  --modes openpi-replay-translation openpi-replay-rotation openpi-replay-mixed \
+  --record-physics
+```
+
+无需OpenPI服务。每组40控制步，200条10ms物理采样；全部完成应得到27条run记录、5400条物理采样。
+先检查每条 `replay_result.probe_completed=true` 和 `completed_steps=40`，再比较：
+
+1. 纯旋转及混合组的周期位置RMS/最大值，以及角度RMS/最大值。
+2. 纯平移是否退化，逐周期投影增益是否改善。
+3. 七个关节10ms目标/响应、力矩估计峰值与限值余量。
+4. 后20步零输入的净漂移（不是固定目标稳态误差）。
+
+该轮同时修复起始姿态角度检查：先归一化四元数并考虑正负等价，避免相同float32四元数
+因范数舍入产生约0.04度伪误差。检查阈值仍为0.25mm/0.1度，动作执行与限幅计算不变。
+场景/TCP与LIBERO的注册仍不在本轮验证范围。
+
+完成后导出并推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add single-joint OpenPI replay gain sensitivity results"
+git push origin main
+```

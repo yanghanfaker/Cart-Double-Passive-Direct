@@ -1,6 +1,7 @@
 import copy
 import io
 import json
+import math
 from pathlib import Path
 import sys
 import tempfile
@@ -8,13 +9,52 @@ import unittest
 from unittest.mock import patch
 
 from openpi_step_probe import bounded_openpi_action
-from replay_probe import REPLAY_MODES, load_replay, replay_mapping, run_replay
+from replay_probe import REPLAY_MODES, load_replay, replay_mapping, run_replay, quaternion_distance_deg
+from gain_cases import validate_gain_cases
 import run_gain_sweep
 
 
 class ReplayTests(unittest.TestCase):
     def setUp(self):
         self.data = load_replay(Path(__file__).with_name("openpi_replay_actions.json"))
+
+    def test_initial_angle_removes_float32_norm_bias_and_sign(self):
+        q = self.data["initial_pose_root"]["quat_xyzw"]
+        self.assertAlmostEqual(quaternion_distance_deg(q,q), 0, places=12)
+        self.assertAlmostEqual(quaternion_distance_deg(q,[-x for x in q]), 0, places=12)
+        self.assertAlmostEqual(quaternion_distance_deg([0,0,0,1],
+            [0,0,math.sin(math.radians(.2)/2),math.cos(math.radians(.2)/2)]), .2, places=10)
+        with self.assertRaises(ValueError):
+            quaternion_distance_deg([0,0,0,0],q)
+
+    def test_orientation_mismatch_stops_before_command(self):
+        state = copy.deepcopy(self.data["initial_pose_root"])
+        state["quat_xyzw"] = [0,0,0,1]
+        result = run_replay(self.data, REPLAY_MODES[0], lambda:state,
+                            lambda *a:self.fail("must not execute"), announce=lambda x:None)
+        self.assertFalse(result["probe_completed"])
+        self.assertEqual(result["completed_steps"],0)
+
+    def test_joint_cases_change_exactly_one_gain_of_one_joint(self):
+        cases = validate_gain_cases(json.loads(Path(__file__).with_name("replay_joint_gain_cases.json").read_text()))
+        self.assertEqual(len(cases),9)
+        base = cases[0]
+        expected = {(j,k) for j in (1,3,6,7) for k in ("stiffness","damping")}
+        observed = set()
+        for case in cases[1:]:
+            self.assertEqual(case["profile"],base["profile"])
+            for joint in (2,4):
+                self.assertEqual(case["joint_overrides"][f"panda_joint{joint}"],base["joint_overrides"][f"panda_joint{joint}"])
+            extra = set(case["joint_overrides"])-set(base["joint_overrides"])
+            self.assertEqual(len(extra),1)
+            name = extra.pop()
+            gains = case["joint_overrides"][name]
+            changes = [key for key,value in gains.items() if value != {"stiffness":900,"damping":20}[key]]
+            self.assertEqual(len(changes),1)
+            key = changes[0]
+            self.assertEqual(gains[key], {"stiffness":1125,"damping":25}[key])
+            observed.add((int(name.removeprefix("panda_joint")),key))
+        self.assertEqual(observed,expected)
 
     def test_component_removal_preserves_original_bounded_components(self):
         for action in self.data["actions"]:

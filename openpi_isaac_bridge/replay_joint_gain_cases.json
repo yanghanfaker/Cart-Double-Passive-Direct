@@ -1,0 +1,160 @@
+[
+  {
+    "name": "replay-baseline-j24",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      }
+    }
+  },
+  {
+    "name": "replay-j1-kp1125",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint1": {
+        "stiffness": 1125,
+        "damping": 20
+      }
+    }
+  },
+  {
+    "name": "replay-j1-kd25",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint1": {
+        "stiffness": 900,
+        "damping": 25
+      }
+    }
+  },
+  {
+    "name": "replay-j3-kp1125",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint3": {
+        "stiffness": 1125,
+        "damping": 20
+      }
+    }
+  },
+  {
+    "name": "replay-j3-kd25",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint3": {
+        "stiffness": 900,
+        "damping": 25
+      }
+    }
+  },
+  {
+    "name": "replay-j6-kp1125",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint6": {
+        "stiffness": 1125,
+        "damping": 20
+      }
+    }
+  },
+  {
+    "name": "replay-j6-kd25",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint6": {
+        "stiffness": 900,
+        "damping": 25
+      }
+    }
+  },
+  {
+    "name": "replay-j7-kp1125",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint7": {
+        "stiffness": 1125,
+        "damping": 20
+      }
+    }
+  },
+  {
+    "name": "replay-j7-kd25",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint7": {
+        "stiffness": 900,
+        "damping": 25
+      }
+    }
+  }
+]

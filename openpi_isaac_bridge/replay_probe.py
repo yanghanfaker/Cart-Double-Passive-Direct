@@ -9,6 +9,23 @@ from openpi_step_probe import bounded_openpi_action, validate_action_chunk
 REPLAY_MODES = ("openpi-replay-translation", "openpi-replay-rotation", "openpi-replay-mixed")
 
 
+def quaternion_distance_deg(first, second):
+    """Shortest orientation distance, normalized to avoid float32 norm bias."""
+    normalized = []
+    for quaternion in (first, second):
+        if len(quaternion) != 4 or not all(math.isfinite(v) for v in quaternion):
+            raise ValueError("expected finite xyzw quaternion")
+        length = math.hypot(*quaternion)
+        if not math.isclose(length, 1.0, abs_tol=.001):
+            raise ValueError("expected approximately unit quaternion")
+        normalized.append([v/length for v in quaternion])
+    a, b = normalized
+    if sum(x*y for x,y in zip(a,b)) < 0:
+        b = [-v for v in b]
+    # Stable even when the orientations are almost identical.
+    return math.degrees(4*math.atan2(math.dist(a,b), math.hypot(*(x+y for x,y in zip(a,b)))))
+
+
 def load_replay(path):
     raw = Path(path).read_bytes()
     data = json.loads(raw)
@@ -47,9 +64,10 @@ def run_replay(data, mode, read_state, execute, announce=print):
     try:
         state = read_state()
         expected = data["initial_pose_root"]
+        if len(state["position_m"]) != 3 or not all(math.isfinite(v) for v in state["position_m"]):
+            raise ValueError("expected finite initial position")
         error = math.dist(state["position_m"], expected["position_m"])
-        dot = abs(sum(a*b for a,b in zip(state["quat_xyzw"], expected["quat_xyzw"])))
-        angle = math.degrees(2*math.acos(min(1.0,dot)))
+        angle = quaternion_distance_deg(state["quat_xyzw"], expected["quat_xyzw"])
         report["initial_position_error_m"] = error
         report["initial_rotation_error_deg"] = angle
         if error > .00025 or angle > .1:
