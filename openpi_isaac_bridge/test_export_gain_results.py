@@ -8,6 +8,16 @@ import unittest
 
 
 class ExportTests(unittest.TestCase):
+    def test_policy_server_log_is_exported_with_chunk_results(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);manifest=self.prepare_openpi(root,[])
+            data=json.loads(manifest.read_text());data["runs"][0]["policy_server_log"]={"captured_bytes":8}
+            (root/"step-response/policy_server_startup.log").write_text("log data")
+            manifest.write_text(json.dumps(data))
+            result=self.run_export(manifest,root/"repo")
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual((root/"repo/diagnostics/gain_sweep/test_openpi-step_policy_server_startup.log").read_text(),"log data")
+
     def test_jacobian_source_exports_with_physics_records(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)

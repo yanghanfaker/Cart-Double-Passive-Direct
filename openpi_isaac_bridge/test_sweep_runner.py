@@ -10,6 +10,47 @@ import run_gain_sweep
 
 
 class SweepRoutingTests(unittest.TestCase):
+    def test_chunk_comparison_routes_two_runs_and_preserves_server_log(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);log=root/"server.log";log.write_text("loaded checkpoint fixture")
+            commands=[]
+            class Process:
+                def __init__(self,command,**kwargs):
+                    commands.append(command)
+                    output=Path(command[command.index("--output")+1])
+                    report={"joint_telemetry_summary":{},"actuator_audit":{},"physics_joint_summary":{},
+                            "openpi_result":{"probe_completed":True,"preview_images":[]},"openpi_setup":{}}
+                    (output/"motion_openpi-step.json").write_text(json.dumps(report))
+                    self.stdout=io.StringIO("")
+                def __enter__(self):return self
+                def __exit__(self,*args):pass
+                def wait(self):return 0
+            argv=["runner","--isaaclab-root",str(root),"--profiles","kp2p25-kd0p25",
+                  "--modes","openpi-step","--openpi-replan-steps","1","5","--policy-server-log",str(log)]
+            with patch.object(sys,"argv",argv),patch.object(run_gain_sweep.subprocess,"Popen",Process):
+                self.assertEqual(run_gain_sweep.main(),0)
+            self.assertEqual([c[c.index("--openpi-replan-steps")+1] for c in commands],["1","5"])
+            manifest=json.loads((root/"logs/openpi_gain_sweep/latest_gain_sweep.json").read_text())
+            self.assertEqual(len(manifest["profiles"]),2)
+            for run in manifest["runs"]:
+                self.assertEqual((Path(run["output"])/"policy_server_startup.log").read_bytes(),log.read_bytes())
+                self.assertFalse(run["policy_server_log"]["truncated"])
+
+    def test_server_log_capture_has_explicit_size_limit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);source=root/"server.log";source.write_bytes(b"x"*(128*1024+20))
+            result=run_gain_sweep.capture_policy_server_log(source,root)
+            self.assertTrue(result["truncated"])
+            self.assertEqual(result["captured_bytes"],128*1024)
+            self.assertEqual((root/"policy_server_startup.log").stat().st_size,128*1024)
+
+    def test_chunk_case_expansion_rejects_duplicate_lengths(self):
+        case={"name":"candidate","profile":"kp2p25-kd0p25","joint_overrides":{}}
+        with self.assertRaises(ValueError):run_gain_sweep.expand_openpi_replan_cases([case],[1,1])
+        expanded=run_gain_sweep.expand_openpi_replan_cases([case],[1,5])
+        self.assertEqual([c["name"] for c in expanded],["candidate-chunk1","candidate-chunk5"])
+        self.assertEqual(case["name"],"candidate")
+
     def test_openpi_mode_loads_client_extra_and_preserves_failed_probe_data(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)

@@ -30,6 +30,8 @@ def main():
         if Path(prefix).name != prefix or "/" in prefix or "\\" in prefix:
             raise ValueError("unsafe profile/mode in result manifest")
         files[prefix + "_actuators.json"] = (folder / "actuator_audit.json").read_bytes()
+        if run.get("policy_server_log"):
+            files[prefix + "_policy_server_startup.log"] = (folder / "policy_server_startup.log").read_bytes()
         if run["mode"]=="openpi-step":
             for name in run["openpi_result"]["preview_images"]:
                 if Path(name).name!=name or "/" in name or "\\" in name or not name.endswith(".png"):

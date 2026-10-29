@@ -4,6 +4,56 @@ from openpi_step_probe import bounded_openpi_action, validate_action_chunk, prev
 
 
 class OpenpiStepTests(unittest.TestCase):
+    def test_chunk5_executes_ordered_prefix_and_queries_only_after_five_steps(self):
+        state=[0];queries=[];executed=[]
+        def observe(index):
+            return {"state":state[0]}, {"image_files":[f"step{index}.png"],"state_sent":[state[0]]}
+        def infer(obs):
+            queries.append(obs["state"])
+            return {"actions":[[.001*(i+1),0,0,0,0,0,1] for i in range(10)]}
+        def execute(action,index):
+            state[0]+=1;executed.append(action["input_action"][0]);return {}
+        result=run_openpi_steps(observe,infer,execute,steps=20,replan_steps=5,announce=lambda _:None)
+        self.assertTrue(result["probe_completed"])
+        self.assertEqual(queries,[0,5,10,15])
+        self.assertEqual(executed,[.001*(i+1) for i in range(5)]*4)
+        self.assertEqual(result["inference_requests"],4)
+        self.assertEqual([r["state_observed"][0] for r in result["trace"]],list(range(20)))
+        self.assertIsNone(result["trace"][1]["state_sent"])
+        self.assertIsNone(result["trace"][1]["inference_wall_s"])
+        self.assertEqual(result["trace"][6]["chunk_observation_step"],6)
+
+    def test_short_chunk_cannot_execute_a_partial_requested_block(self):
+        result=run_openpi_steps(lambda i:({}, {"image_files":[]}),
+            lambda o:{"actions":[[0]*7]*4},lambda *a:self.fail("must not execute"),
+            replan_steps=5,announce=lambda _:None)
+        self.assertFalse(result["probe_completed"])
+        self.assertEqual(result["completed_steps"],0)
+        self.assertEqual(result["validated_inferences"],0)
+
+    def test_cached_action_failure_preserves_executed_prefix(self):
+        def execute(action,index):
+            if index==2:raise RuntimeError("motion stop")
+            return {}
+        result=run_openpi_steps(lambda i:({}, {"image_files":[]}),lambda o:{"actions":[[0]*7]*10},
+            execute,replan_steps=5,announce=lambda _:None)
+        self.assertEqual(result["inference_requests"],1)
+        self.assertEqual(result["completed_steps"],2)
+        self.assertEqual(result["trace"][-1]["chunk_action_index"],2)
+        self.assertFalse(result["trace"][-1]["executed"])
+
+    def test_last_block_does_not_increase_total_requested_steps(self):
+        result=run_openpi_steps(lambda i:({}, {"image_files":[]}),lambda o:{"actions":[[0]*7]*10},
+            lambda *a:{},steps=7,replan_steps=5,announce=lambda _:None)
+        self.assertEqual(result["completed_steps"],7)
+        self.assertEqual(result["inference_requests"],2)
+        self.assertEqual(result["trace"][-1]["chunk_action_index"],1)
+
+    def test_invalid_replan_lengths_rejected(self):
+        for value in (0,2,True,5.0):
+            with self.assertRaises(ValueError):
+                run_openpi_steps(None,None,None,replan_steps=value)
+
     def test_cached_server_metadata_preserves_reported_fields(self):
         class Client:
             calls=0

@@ -70,31 +70,54 @@ def preview_images(trace):
     return list(dict.fromkeys(name for row in (trace[0],trace[-1]) for name in row["image_files"]))
 
 
-def run_openpi_steps(observe, infer, execute, steps=20, announce=print):
+def run_openpi_steps(observe, infer, execute, steps=20, announce=print, replan_steps=1):
     if isinstance(steps,bool) or not isinstance(steps,int) or not 1<=steps<=20:
         raise ValueError("model-motion probe requires 1 to 20 steps")
+    if isinstance(replan_steps,bool) or not isinstance(replan_steps,int) or replan_steps not in (1,5):
+        raise ValueError("replan_steps must be 1 or 5")
     trace=[]
     report={"probe_completed":False,"requested_steps":steps,"completed_steps":0,"trace":trace,
-            "scope":"one first action per fresh inference, capped at 1 mm/0.25 deg, gripper forced open; not grasp or real-time 20 Hz validation"}
+            "replan_steps":replan_steps,"inference_requests":0,"validated_inferences":0,
+            "scope":f"execute first {replan_steps} actions per fresh inference; capped at 1 mm/0.25 deg, gripper open; not grasp or real-time 20 Hz validation"}
+    chunk=None
     try:
         for index in range(steps):
             obs,metadata=observe(index)
-            row=dict(metadata,step=index+1,executed=False,execution_attempted=False)
+            new_inference=index % replan_steps == 0
+            row=dict(metadata,step=index+1,executed=False,execution_attempted=False,
+                     inference_performed=new_inference,observation_used_for_inference=new_inference,
+                     chunk_action_index=index % replan_steps,chunk_observation_step=(index//replan_steps)*replan_steps+1)
+            row["state_observed"]=row.get("state_sent")
+            if not new_inference:
+                row["state_sent"]=None
             trace.append(row)
-            started=time.perf_counter()
-            chunk=infer(obs)["actions"]
-            row["inference_wall_s"]=time.perf_counter()-started
-            if hasattr(chunk,"tolist"):
-                chunk=chunk.tolist()
-            row["raw_action_chunk"]=validate_action_chunk(chunk)
-            bounded=bounded_openpi_action(chunk[0])
+            if new_inference:
+                report["inference_requests"]+=1
+                started=time.perf_counter()
+                chunk=infer(obs)["actions"]
+                row["inference_wall_s"]=time.perf_counter()-started
+                if hasattr(chunk,"tolist"):
+                    chunk=chunk.tolist()
+                validate_action_chunk(chunk)
+                if len(chunk)<replan_steps:
+                    raise ValueError("returned action chunk is shorter than requested replan length")
+                report["validated_inferences"]+=1
+            else:
+                row["inference_wall_s"]=None
+            row["chunk_id"]=report["validated_inferences"]
+            row["raw_action_chunk"]=chunk
+            action=chunk[row["chunk_action_index"]]
+            row["selected_raw_action"]=action
+            bounded=bounded_openpi_action(action)
             row["action_mapping"]=bounded
             row["execution_attempted"]=True
             row.update(execute(bounded,index))
             row["executed"]=True
             report["completed_steps"]+=1
-            announce(f"[OpenPI step] {index+1}/{steps}: infer={row['inference_wall_s']:.3f}s; "
-                     f"model_gripper={chunk[0][6]:.4f}; applied_gripper=open")
+            timing=f"{row['inference_wall_s']:.3f}s" if new_inference else "cached"
+            announce(f"[OpenPI step] {index+1}/{steps}: infer={timing}; "
+                     f"chunk={row['chunk_id']} action={row['chunk_action_index']}; "
+                     f"model_gripper={action[6]:.4f}; applied_gripper=open")
         report["probe_completed"]=True
     except Exception as error:
         report["failure_reason"]=str(error)

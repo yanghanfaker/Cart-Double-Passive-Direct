@@ -1512,3 +1512,95 @@ git push origin main
 
 本轮候选配置已通过验证器检查；增加的握手记录和既有流程共99项CPU单元测试通过。
 实际模型连接和Isaac仿真效果待Spark运行验证。
+
+
+## OpenPI动作块执行长度1与5对照
+
+结果72d9e5b9572f已验证候选增益下20步首动作闭环完成，但所有平移均受限，夹爪覆盖打开，
+TCP仍远离物体，握手信息为空。本轮比较重规划长度，并保存服务端实际启动日志作核对。
+
+两组均使用 `openpi_j13_candidate_cases.json`，相同增益、场景初始化、20个50ms控制步、
+每步1mm/0.25度范数限幅、夹爪始终打开及原有运动边界：
+
+|条件|每次推理执行动作块前缀|总控制步|正常推理请求数|物理采样|
+|---|---:|---:|---:|---:|
+|chunk1|第0条|20|20|100|
+|chunk5|第0–4条，依次执行|20|4|100|
+
+官方LIBERO示例默认replan_steps=5：
+[官方执行循环](https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/main.py)。
+这里只对照块长，仍保留限幅和开爪，因此不等于完整复现LIBERO控制或抓取。
+
+终端1：在原服务终端Ctrl+C停止旧服务，再重新启动并保存实际启动日志；确认8000端口开始监听。
+不要让旧服务占用8000而把新服务启动失败的日志误当作有效加载证据。
+
+```bash
+cd /home/test/Robot/openpi
+PYTHONUNBUFFERED=1 \
+XLA_FLAGS="--xla_gpu_enable_triton_gemm=false" \
+XLA_PYTHON_CLIENT_PREALLOCATE=false \
+uv run scripts/serve_policy.py --env LIBERO --port 8000 \
+  2>&1 | tee /home/test/Robot/openpi/openpi_chunk_probe_server.log
+```
+
+终端2：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_j13_candidate_cases.json \
+  --modes openpi-step \
+  --openpi-replan-steps 1 5 \
+  --openpi-steps 20 --openpi-state-frame world \
+  --server-host 127.0.0.1 --server-port 8000 \
+  --policy-server-log /home/test/Robot/openpi/openpi_chunk_probe_server.log \
+  --prompt "pick up the cube" \
+  --record-physics
+```
+
+运行器在同一汇总中生成chunk1和chunk5两组唯一名称，分别新建环境。正常完成是2次run、
+40个控制步、200条物理采样；模型调用分别20次和4次。不要只运行两条独立命令后导出latest，
+否则latest只会指向最后一轮，不能自动保留两组对照。
+
+**调度与记录**
+
+- 每次推理验证整个返回块为有限N×7，且长度不小于所需前缀；不足则在执行前停止。
+- 同一块的前5条只各执行一次，按0、1、2、3、4排序，不重复第0条。
+- 每个控制步仍读取新图像和状态用于诊断；仅在需要新推理时发送给模型。
+- trace中的 `inference_performed` / `observation_used_for_inference` 表示是否实际调用模型；
+  `chunk_id`、`chunk_action_index`、`chunk_observation_step`记录来源，`selected_raw_action`记录本步选择。
+- `raw_action_chunk`在同一块内重复保存作追溯，不代表又调用了一次模型。
+- `state_observed`为当前观测；缓存动作步的 `state_sent=null`、`inference_wall_s=null`，不能误当新输入或零耗时推理。
+- 缓存期间的openpi_input图片名沿用旧格式，但只是诊断图片；是否真实输入须看标志。
+  preview_images仍导出第1和第20控制步之前的两路观测，chunk5末张通常不是实际推理输入。
+- openpi_result增加 `replan_steps`、`inference_requests`、`validated_inferences`。
+
+每个动作仍由当前测量位姿生成相对目标，不累积期望位姿、不额外等待收敛。
+只在两组都正确执行20步后比较末端轨迹、到物体距离变化、限幅比例、夹爪请求和跟踪残差。
+若途中停止，保留部分块、失败动作索引和记录，不能把不完整轨迹直接当成完整组比较。
+夹爪请求仍仅记录，不执行；物体真值只用于诊断/停止检查，不生成模型动作。
+
+服务日志由 `--policy-server-log` 显式指定，运行完成时读取前128KiB，保存在每组输出目录的
+`policy_server_startup.log`。摘要记录来源路径、捕获时间、截断标志和前缀SHA256，导出时随诊断结果复制。
+日志应核对实际配置、权重和归一化统计路径；若未打印相关信息，身份仍未核验。
+它是用户提供的日志证据，不独立证明该进程就是端口服务所有者；握手元数据也继续保留。
+日志内容只作数据记录，不作为执行指令或修改模型参数的依据。
+
+两组先后使用同一模型服务。服务端随机数/内部状态可能随调用推进，且输入轨迹会分叉；
+一次对照属于执行方式探索，不能把所有差异严格归因于块长，也不是增益对照或统计成功率。
+若要作严格因果比较，后续需固定推理随机条件或重复试验。
+推理期间仿真同步暂停，不据此宣称真实墙钟20Hz；本轮总路径仍很短，不评估完整抓取。
+
+完成后：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add bounded OpenPI chunk1 versus chunk5 results"
+git push origin main
+```
+
+108项CPU测试通过，包括动作顺序、仅在块边界推理、末块截断不增步、非法块拒绝、
+中途停止、运行器两组路由及服务日志大小限制/导出。实际接口与模型效果待Spark验证。

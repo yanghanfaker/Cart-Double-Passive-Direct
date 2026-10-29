@@ -112,6 +112,7 @@ def main():
     parser.add_argument("--grasp-orient-step-deg", type=float, default=0.5)
     parser.add_argument("--grasp-seed", type=int, default=0)
     parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
+    parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5), default=1)
     parser.add_argument("--openpi-steps", type=int, default=20)
     parser.add_argument("--openpi-state-frame", choices=("world", "root"), default="world")
     parser.add_argument("--motion-test", choices=(
@@ -127,6 +128,8 @@ def main():
     parser.add_argument("--wrist-offset", type=float, nargs=3, default=(0.10, 0.0, 0.02))
     add_launcher_args(parser)
     args = parser.parse_args()
+    if args.openpi_replan_steps!=1 and args.motion_test!="openpi-step":
+        parser.error("--openpi-replan-steps requires openpi-step")
     if args.record_jacobians:
         if args.motion_test not in REPLAY_MODES:
             parser.error("--record-jacobians requires a frozen replay mode")
@@ -694,6 +697,8 @@ def main():
                             "frame_assumption":"LIBERO and Isaac world axes assumed aligned; scene registration remains unverified",
                             "object_truth_usage":"diagnostic stop check only, not policy input or action target",
                             "timing":"synchronous inference pauses simulation; one 50ms simulated period per request; not real-time 20Hz",
+                            "replan_steps":args.openpi_replan_steps,
+                            "observation_semantics":"fresh observation each control step; sent only when inference_performed=true; cached-step images are diagnostics",
                             "gripper":"forced open; model request recorded but not executed"}
                         if args.motion_test in REPLAY_MODES:
                             replay_data = load_replay(args.replay_actions_json)
@@ -710,7 +715,7 @@ def main():
                             del measured["openpi_setup"]
                         else:
                             measured["openpi_result"]=run_openpi_steps(policy_observe,policy_infer,policy_execute,
-                                steps=args.openpi_steps,announce=lambda message:print(message,flush=True))
+                                steps=args.openpi_steps,announce=lambda message:print(message,flush=True),replan_steps=args.openpi_replan_steps)
                         measured["control_dt_s"]=float(base.step_dt)
                     elif args.motion_test == "grasp":
                         def grasp_state():

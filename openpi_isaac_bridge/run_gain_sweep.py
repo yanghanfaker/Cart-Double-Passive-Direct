@@ -1,6 +1,7 @@
 """Run isolated Isaac Lab actuator comparisons from ordinary system Python."""
 
 import argparse
+import hashlib
 from collections import deque
 from datetime import datetime, timezone
 import json
@@ -17,6 +18,28 @@ from stream_scenarios import expand_stream_cases
 from grasp_scenarios import expand_grasp_cases
 
 
+
+def expand_openpi_replan_cases(cases, lengths):
+    if not lengths or len(set(lengths))!=len(lengths) or any(isinstance(n,bool) or not isinstance(n,int) or n not in (1,5) for n in lengths):
+        raise ValueError("choose unique replan lengths from 1 and 5")
+    result=[dict(case,name=case["name"]+f"-chunk{n}",base_case=case["name"],openpi_condition={"replan_steps":n})
+            for case in cases for n in lengths]
+    if any(len(c["name"])>80 for c in result) or len({c["name"] for c in result})!=len(result):
+        raise ValueError("expanded OpenPI case names too long or collide")
+    return result
+
+
+def capture_policy_server_log(source, folder):
+    limit=128*1024
+    with source.open("rb") as stream:
+        content=stream.read(limit+1)
+    prefix=content[:limit]
+    (folder/"policy_server_startup.log").write_bytes(prefix)
+    return {"source_path":str(source),"captured_bytes":len(prefix),"truncated":len(content)>limit,
+            "sha256":hashlib.sha256(prefix).hexdigest(),"capture_time_utc":datetime.now(timezone.utc).isoformat(),
+            "scope":"user-supplied log prefix; not independent proof that this process owns the policy endpoint"}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--isaaclab-root", type=Path, default=Path("/home/test/Robot/IsaacLab"))
@@ -29,6 +52,8 @@ def main():
     parser.add_argument("--stream-scenarios-json", type=Path, help="cross gain cases with bounded stream start positions/amplitudes")
     parser.add_argument("--grasp-scenarios-json", type=Path, help="cross gain cases with explicit object poses, seeds and orientation rates")
     parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
+    parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5), nargs="+", help="expand candidate into chunk-length comparisons")
+    parser.add_argument("--policy-server-log", type=Path, help="optional server startup log prefix to preserve with results")
     parser.add_argument("--openpi-steps", type=int, default=20)
     parser.add_argument("--openpi-state-frame", choices=("world","root"), default="world")
     parser.add_argument("--server-host", default="127.0.0.1")
@@ -37,6 +62,12 @@ def main():
     parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES), nargs="+",
                         default=["step-response", "libero-stream"])
     args = parser.parse_args()
+    if (args.openpi_replan_steps or args.policy_server_log) and args.modes != ["openpi-step"]:
+        parser.error("OpenPI chunk/log options require --modes openpi-step only")
+    if args.policy_server_log:
+        args.policy_server_log=args.policy_server_log.expanduser().resolve()
+        if not args.policy_server_log.is_file():
+            parser.error("server log not found; start the server with tee before running the probe")
     if args.record_jacobians:
         if any(mode not in REPLAY_MODES for mode in args.modes):
             parser.error("--record-jacobians requires frozen replay modes only")
@@ -68,6 +99,11 @@ def main():
             cases = expand_grasp_cases(cases, json.loads(args.grasp_scenarios_json.read_text(encoding="utf-8")))
     except ValueError as error:
         parser.error(str(error))
+    if args.openpi_replan_steps:
+        try:
+            cases=expand_openpi_replan_cases(cases,args.openpi_replan_steps)
+        except ValueError as error:
+            parser.error(str(error))
     if any(mode in REPLAY_MODES for mode in args.modes):
         load_replay(args.replay_actions_json)
     root = args.isaaclab_root.expanduser().resolve()
@@ -106,7 +142,8 @@ def main():
                 if mode=="openpi-step":
                     command.extend(["--server-host",args.server_host,"--server-port",str(args.server_port),
                                     "--prompt",args.prompt,"--openpi-steps",str(args.openpi_steps),
-                                    "--openpi-state-frame",args.openpi_state_frame])
+                                    "--openpi-state-frame",args.openpi_state_frame,
+                                    "--openpi-replan-steps",str(case.get("openpi_condition",{}).get("replan_steps",1))])
                 if mode in REPLAY_MODES:
                     command.extend(["--replay-actions-json",str(args.replay_actions_json.resolve())])
                 if case["joint_overrides"]:
@@ -128,6 +165,8 @@ def main():
                     entry.update(base_case=case["base_case"], stream_scenario=case["stream_scenario"])
                 if case.get("grasp_scenario"):
                     entry.update(base_case=case["base_case"], grasp_scenario=case["grasp_scenario"])
+                if case.get("openpi_condition"):
+                    entry.update(base_case=case["base_case"],openpi_condition=case["openpi_condition"])
                 manifest["runs"].append(entry)
                 save()
                 print(f"[Gain sweep] START {profile}/{mode}; log={run_output / 'console.log'}", flush=True)
@@ -150,6 +189,8 @@ def main():
                     print("".join(recent), file=sys.stderr)
                     print(f"[Gain sweep] STOP: inspect {run_output / 'console.log'}", file=sys.stderr)
                     return 1
+                if args.policy_server_log:
+                    entry["policy_server_log"]=capture_policy_server_log(args.policy_server_log,run_output)
                 result = json.loads(report_file.read_text(encoding="utf-8"))
                 entry["status"] = "completed"
                 entry["joint_telemetry_summary"] = result["joint_telemetry_summary"]
