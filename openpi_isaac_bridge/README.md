@@ -1216,3 +1216,69 @@ git push origin main
 分组跨越 `/`、路径内部备选分组、路径后缀以及歧义/错误归属已加入CPU回归测试。
 这些测试不替代Spark上真实USD和Isaac接口验证。更新后仍运行同一条三组重放命令；
 失败轮不导出，成功完成后再导出最新结果。
+
+
+## J1/J3成对增益对照：保持TCP定义和动作不变
+
+雅可比采样结果e5d64f08784d显示：基准50ms周期末的Y向目标误差主要来自J1/J3
+跟踪残差。纯旋转第9步末，两关节一阶贡献约−0.149mm、−0.345mm，实际误差约−0.506mm；
+目标点映射项约+0.010mm。全过程和周期末的贡献符号关系不同，不能仅靠一个关节的RMS判断。
+
+本轮配置文件为 `replay_j13_pair_cases.json`，共9种：
+
+|配置|J1 Kp/Kd|J3 Kp/Kd|
+|---|---|---|
+|j13-pair-baseline|900/20|900/20|
+|j13-k1125-900-d20|1125/20|900/20|
+|j13-k900-1125-d20|900/20|1125/20|
+|j13-k1125-1125-d20|1125/20|1125/20|
+|j13-k900-900-d25|900/25|900/25|
+|j13-k1125-900-d25|1125/25|900/25|
+|j13-k900-1125-d25|900/25|1125/25|
+|j13-k1125-1125-d25|1125/25|1125/25|
+|j13-cross-j1-d25-j3-k1125|900/25|1125/20|
+
+前8组形成J1刚度×J3刚度×共同阻尼的小范围组合，含原基准和此前单独加刚度的对照。
+第9组检查此前J1增加阻尼、J3增加刚度组合后的效果，不能用两次单关节改善量直接相加预测它。
+这些都是候选实验，不预设更高参数一定更好，不自动选择或部署新默认值。
+J2/J4保持5400/120；J5/J6/J7保持900/20；力矩限值、TCP偏置、IK设置、冻结动作、
+1mm/0.25度限幅、50ms控制周期和夹爪打开设置保持原样。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/replay_j13_pair_cases.json \
+  --modes openpi-replay-translation openpi-replay-rotation openpi-replay-mixed \
+  --record-jacobians
+```
+
+无需OpenPI服务。每种配置单独启动三组环境，使用相同起始状态和固定动作。
+每次40个控制步、200条10ms记录；全部完成应为27次测试、5400条物理采样。
+雅可比捕获和完整USD路径解析沿用上一轮已实际跑通的实现，本轮只增加配置和说明。
+
+判读顺序：
+
+1. 确认每次 `probe_completed=true`、`completed_steps=40`，并核对实际执行器增益。
+2. 先比较20个50ms周期末的Y向位置RMS/峰值，同时看总位置和角度RMS/峰值。
+3. 纯平移作为回归检查，不能用旋转改善换取明显的平移退化而不说明权衡。
+4. 对比J1/J3带符号贡献，检查第9/10步及其他换向处是否减少同向叠加。
+5. 检查全部物理子步的力矩估计、零输入尾段漂移，以及雅可比位移预测残差。
+
+代数闭合不是独立准确性验证；不能把关节贡献RMS相加成误差百分比。
+全部10ms样本的RMS与每周期第5个子步的RMS必须分别统计。
+本轮不调整目标点映射，以免同时引入另一类变量；映射问题可在后续独立处理。
+若没有综合改善，保留原基准并重新评估控制策略，不因测试完成就认定找到了最佳增益。
+
+运行完成后导出并推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add paired J1 J3 gain replay and attribution results"
+git push origin main
+```
+
+本地已用现有配置验证器检查9种配置，并通过真实增益配置函数验证各关节目标值及限值保留。
+实际动态效果仍须由Spark测试确认。
