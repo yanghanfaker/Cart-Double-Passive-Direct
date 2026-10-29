@@ -1197,3 +1197,22 @@ git push origin main
 
 更新后重新执行上节同一条三组重放命令。失败的那轮不应导出为新结果；
 成功完成后再导出最新汇总并推送。不会修改模型、增益、动作或仿真周期。
+
+
+### 完整USD路径正则修复
+
+截图中的 `re.error: unbalanced parenthesis at position 0` 暴露出路径不能按 `/` 拆成
+“末段正则”：完整表达式的分组或后缀可能跨越路径分隔符，例如
+`({ENV_REGEX_NS}/Robot/panda_hand)(|/)` 的最后一段只是 `)`。
+上一版把这种片段交给 `find_bodies` 的处理方式已移除。
+
+当前实现先从活动USD stage读取具有RigidBodyAPI的实际prim路径，展开命名空间占位符，
+对完整传感器路径正则做fullmatch，再检查匹配的实际刚体属于机器人路径。
+仅对匹配后的字面USD路径取刚体名称，按 `robot.body_names` 映射到索引，
+最后核对IK实际使用的body索引。完整表达式、匹配到的USD路径、刚体清单和任何解析错误
+都会写入 `jacobian_body_resolution.json` 并输出 `[Jacobian bodies]`。
+多重匹配、错误机器人、缺失刚体和实际索引不一致仍会停止。
+
+分组跨越 `/`、路径内部备选分组、路径后缀以及歧义/错误归属已加入CPU回归测试。
+这些测试不替代Spark上真实USD和Isaac接口验证。更新后仍运行同一条三组重放命令；
+失败轮不导出，成功完成后再导出最新结果。

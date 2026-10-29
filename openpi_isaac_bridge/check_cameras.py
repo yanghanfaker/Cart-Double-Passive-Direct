@@ -90,7 +90,7 @@ def main():
     from grasp_scenarios import validate_grasp_scenarios
     from openpi_step_probe import run_openpi_steps, libero_state_vector
     from replay_probe import REPLAY_MODES, load_replay, run_replay
-    from kinematic_attribution import JacobianTap, enrich_kinematic_row, summarize_kinematics, resolved_body_identity
+    from kinematic_attribution import JacobianTap, enrich_kinematic_row, summarize_kinematics, resolved_body_identity, resolve_sensor_body_path
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -441,19 +441,34 @@ def main():
                             raise RuntimeError(f"Jacobian recording requires IK {method}")
                     if list(arm_term._joint_names) != list(arm_names) or not robot.is_fixed_base:
                         raise RuntimeError("Jacobian attribution requires fixed base and identical seven-arm-joint ordering")
-                    sensor_parent=cfg.scene.ee_frame.target_frames[0].prim_path.rsplit("/",1)[-1]
-                    sensor_body_ids,sensor_body_names=robot.find_bodies(sensor_parent)
-                    ik_body_ids,ik_body_names=robot.find_bodies(arm_term.cfg.body_name)
+                    from pxr import UsdPhysics
                     body_resolution={"sensor_path":cfg.scene.ee_frame.target_frames[0].prim_path,
-                        "sensor_body_pattern":sensor_parent,"ik_body_pattern":arm_term.cfg.body_name,
+                        "robot_path_pattern":robot.cfg.prim_path,
+                        "env_regex_ns":base.scene.env_regex_ns,
+                        "ik_body_pattern":arm_term.cfg.body_name,
                         "private_body_name_repr":repr(getattr(arm_term,"_body_name",None)),
-                        "sensor_body_ids":list(sensor_body_ids),"sensor_body_names":list(sensor_body_names),
-                        "ik_body_ids":list(ik_body_ids),"ik_body_names":list(ik_body_names),
-                        "used_ik_body_index":int(arm_term._body_idx)}
-                    (output/"jacobian_body_resolution.json").write_text(json.dumps(body_resolution,indent=2),encoding="utf-8")
-                    print("[Jacobian bodies] "+json.dumps(body_resolution),flush=True)
-                    body_resolution.update(resolved_body_identity(sensor_body_ids,sensor_body_names,
-                        ik_body_ids,ik_body_names,arm_term._body_idx))
+                        "robot_body_names":list(robot.body_names),"used_ik_body_index":int(arm_term._body_idx)}
+                    try:
+                        stage=sim_utils.get_current_stage()
+                        if stage is None:
+                            raise RuntimeError("No active USD stage for full-path body resolution")
+                        rigid_paths=[str(prim.GetPath()) for prim in stage.Traverse() if prim.HasAPI(UsdPhysics.RigidBodyAPI)]
+                        body_resolution["usd_rigid_body_paths"]=rigid_paths
+                        matched=resolve_sensor_body_path(body_resolution["sensor_path"],robot.cfg.prim_path,
+                            base.scene.env_regex_ns,rigid_paths,list(robot.body_names))
+                        body_resolution.update(matched)
+                        sensor_body_ids=matched["sensor_body_ids"]
+                        sensor_body_names=matched["sensor_body_names"]
+                        sensor_parent=sensor_body_names[0]
+                        ik_body_ids,ik_body_names=robot.find_bodies(arm_term.cfg.body_name)
+                        body_resolution.update(resolved_body_identity(sensor_body_ids,sensor_body_names,
+                            ik_body_ids,ik_body_names,arm_term._body_idx))
+                    except Exception as error:
+                        body_resolution["resolution_error"]=str(error)
+                        raise
+                    finally:
+                        (output/"jacobian_body_resolution.json").write_text(json.dumps(body_resolution,indent=2),encoding="utf-8")
+                        print("[Jacobian bodies] "+json.dumps(body_resolution),flush=True)
                     implementation=[]
                     for method in ("_compute_frame_pose", "_compute_frame_jacobian"):
                         try:

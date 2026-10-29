@@ -1,6 +1,33 @@
 """Read-only Jacobian tap and local error accounting in robot-root axes."""
 import math
 import operator
+import re
+
+
+def resolve_sensor_body_path(sensor_pattern, robot_pattern, env_regex_ns, rigid_body_paths, body_names):
+    """Match complete USD path regexes, then use the matched literal body name."""
+    if not isinstance(env_regex_ns,str) or not env_regex_ns:
+        raise ValueError("scene env_regex_ns is required")
+    expand = lambda value:value.replace("{ENV_REGEX_NS}",env_regex_ns)
+    sensor_regex = re.compile(expand(sensor_pattern))
+    robot_regex = re.compile(expand(robot_pattern))
+    matches = sorted(set(path for path in rigid_body_paths if sensor_regex.fullmatch(path)))
+    if len(matches)!=1:
+        raise RuntimeError(f"Expected one sensor rigid-body USD path; matched {matches}; full pattern={sensor_regex.pattern!r}")
+    path = matches[0]
+    # Only split an actual matched literal path, never a regex expression.
+    components = path.strip("/").split("/")
+    ancestors = ["/"+"/".join(components[:i]) for i in range(1,len(components))]
+    roots = [parent for parent in ancestors if robot_regex.fullmatch(parent)]
+    if len(roots)!=1:
+        raise RuntimeError(f"Sensor body {path!r} is not under one resolved robot root: {roots}; robot pattern={robot_regex.pattern!r}")
+    name = components[-1]
+    indices = [i for i,value in enumerate(body_names) if value==name]
+    if len(indices)!=1:
+        raise RuntimeError(f"Matched sensor body name {name!r} must occur once in robot body_names: {list(body_names)}")
+    return {"sensor_body_ids":indices,"sensor_body_names":[name],"sensor_usd_path":path,
+            "robot_usd_path":roots[0],"sensor_full_pattern":sensor_regex.pattern,
+            "robot_full_pattern":robot_regex.pattern}
 
 
 def resolved_body_identity(sensor_ids, sensor_names, ik_ids, ik_names, used_ik_index):

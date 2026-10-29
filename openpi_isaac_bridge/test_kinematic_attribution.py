@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kinematic_attribution import JacobianTap, shift_jacobian, enrich_kinematic_row, summarize_kinematics, resolved_body_identity
+from kinematic_attribution import JacobianTap, shift_jacobian, enrich_kinematic_row, summarize_kinematics, resolved_body_identity, resolve_sensor_body_path
 from physics_trace import PhysicsJointRecorder
 
 
@@ -22,6 +22,27 @@ def sample_row():
 
 
 class KinematicsTests(unittest.TestCase):
+    def test_full_path_groups_and_slashes_are_never_split_as_regex_fragments(self):
+        paths=["/World/envs/env_0/Robot/panda_hand","/World/envs/env_0/Robot/panda_link7"]
+        patterns=["({ENV_REGEX_NS}/Robot/panda_hand)",
+                  "{ENV_REGEX_NS}/Robot/(panda_hand)",
+                  "({ENV_REGEX_NS}/Robot/panda_hand|/Other/hand)",
+                  "{ENV_REGEX_NS}/Robot/(?:panda_hand|nonexistent)",
+                  "({ENV_REGEX_NS}/Robot/panda_hand)(|/)",
+                  "({ENV_REGEX_NS}/Robot/panda_hand)(/.*)?"]
+        for pattern in patterns:
+            result=resolve_sensor_body_path(pattern,"({ENV_REGEX_NS}/Robot)","/World/envs/env_.*",paths,["panda_link7","panda_hand"])
+            self.assertEqual(result["sensor_body_ids"],[1])
+            self.assertEqual(result["sensor_usd_path"],paths[0])
+
+    def test_full_path_rejects_ambiguity_wrong_robot_and_missing_body(self):
+        paths=["/World/envs/env_0/Robot/panda_hand","/World/envs/env_0/Robot/panda_link7"]
+        for pattern,root in ((".*panda_.*","/World/envs/env_0/Robot"),
+                             (".*panda_hand","/OtherRobot"),
+                             (".*missing","/World/envs/env_0/Robot")):
+            with self.assertRaises(RuntimeError):
+                resolve_sensor_body_path(pattern,root,"/World/envs/env_.*",paths,["panda_link7","panda_hand"])
+
     def test_resolved_identity_uses_body_index_not_pattern_or_name_representation(self):
         result=resolved_body_identity([8],["panda_hand"],[8],["panda_hand"],8)
         self.assertEqual(result["used_ik_body_index"],8)
