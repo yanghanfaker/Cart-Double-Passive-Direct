@@ -12,11 +12,15 @@ class GainCaseTests(unittest.TestCase):
     def cases(self):
         return json.loads(Path(__file__).with_name("joint_gain_cases.json").read_text())
 
+    def refine_cases(self):
+        return json.loads(Path(__file__).with_name("joint_gain_refine_cases.json").read_text())
+
     def test_candidates_keep_other_joints_and_limits_unchanged(self):
         class Implicit:
             is_implicit_model = True
-        cases = validate_gain_cases(self.cases())
-        self.assertEqual(len(cases), 6)
+        self.assertEqual(len(self.cases()), 6)
+        self.assertEqual(len(self.refine_cases()), 7)
+        cases = validate_gain_cases(self.cases()) + validate_gain_cases(self.refine_cases())
         for case in cases:
             arm = SimpleNamespace(class_type=Implicit, joint_names_expr=["panda_joint[1-7]"],
                                   stiffness=400, damping=80, joint_effort_limit=87)

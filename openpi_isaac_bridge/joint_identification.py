@@ -21,6 +21,7 @@ def summarize_joint_step(rows, joint_index, initial_positions, command_step_rad,
         "gain_at_50ms": gain50,
         "overshoot_pct": max(0, peak-1)*100,
         "peak_gain": peak,
+        "peak_time_s": max(samples, key=lambda r: r["gain"])["time_s"],
         "t90_sustained_s": sustained_time(lambda r: r["gain"] >= 0.9),
         "settling_5pct_s": sustained_time(lambda r: abs(r["gain"]-1) <= 0.05),
         "rms_tracking_error_rad": math.sqrt(sum(e*e for e in errors)/len(errors)),
@@ -32,3 +33,26 @@ def summarize_joint_step(rows, joint_index, initial_positions, command_step_rad,
         "sample_count": len(rows),
         "scope": "one fixed joint target stepped while other arm position targets are held; residual dynamics remain coupled",
     }
+
+
+def screen_joint_steps(phases):
+    """Project-specific screen of both signs; never select or deploy gains."""
+    expected = {(f"panda_joint{i}", sign) for i in (2, 4, 6) for sign in (-1, 1)}
+    observed, cases = set(), []
+    duplicate = False
+    for phase in phases:
+        step = phase["step_rad"]
+        sign = 1 if step > 0 else -1
+        key = (phase["joint"], sign)
+        duplicate |= key in observed
+        observed.add(key)
+        gain, overshoot = phase.get("gain_at_50ms"), phase.get("overshoot_pct")
+        finite = all(isinstance(v, (float, int)) and math.isfinite(v) for v in (step, gain, overshoot))
+        passed = finite and step != 0 and 0.9 <= gain <= 1.1 and 0 <= overshoot <= 5
+        cases.append({"joint": key[0], "direction": sign, "gain_at_50ms": gain,
+                      "overshoot_pct": overshoot, "passed": passed})
+    complete = observed == expected and not duplicate
+    return {"complete": complete, "all_passed": complete and all(c["passed"] for c in cases),
+            "thresholds": {"gain_at_50ms": [0.9, 1.1], "max_overshoot_pct": 5},
+            "cases": cases,
+            "scope": "both signs for joints 2/4/6 at the tested pose/amplitude only; not settling, coupling, or Cartesian validation; no automatic deployment"}

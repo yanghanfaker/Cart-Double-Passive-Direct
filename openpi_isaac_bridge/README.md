@@ -622,3 +622,54 @@ git push origin main
 ```
 
 本轮脚本仅完成CPU配置、路由及统计检查，新的增益候选尚待Spark仿真验证。
+
+## 围绕3600/80的窄范围细调
+
+上一轮六组结果（提交 `4c4813664afc3a2c73284ef38d7105d4f953e660`）共22200条物理样本，
+实际增益与固定目标复核通过。关节2/4在3600/80时50 ms行程约94.1%/94.1%，
+但约80 ms出现峰值，超调约9.1%/6.6%，5%调节时间约120/110 ms。
+3600/60虽然50 ms约105%，后续超调却约16.3%/12.7%，不能据50 ms一个点选为最终参数。
+
+新输入文件 `joint_gain_refine_cases.json` 保留上一轮文件不变，只覆盖关节2、4：
+
+|关节2/4 Kp|Kd|作用|
+|---:|---:|---|
+|3600|80|复测基准|
+|3600|90|固定刚度，观察增加阻尼的速度/超调取舍|
+|3600|100|同刚度更高阻尼对照|
+|4500|100|联合提高刚度与阻尼|
+|4500|110|同刚度更高阻尼对照|
+|5400|110|继续提高刚度以补偿阻尼带来的行程损失|
+|5400|120|同刚度更高阻尼对照|
+
+其余五个机械臂关节为900/20，手指和力矩/速度上限保持原配置。
+这些是实验候选，不是已预测或保证的响应结果。控制仍50 ms，物理步长沿用当前环境的10 ms。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/joint_gain_refine_cases.json \
+  --modes joint-step \
+  --record-physics
+```
+
+共七组，每组仍测关节2/4/6正负0.003 rad阶跃及回位，约37秒仿真时间/组。
+每个候选独立进程启动，继续核对固定目标、软限位、回位误差和实际参数。
+
+新增峰值时刻 `peak_time_s`，以及汇总中的 `joint_step_screen`。
+`[Joint screen] ... complete=True, all_passed=True` 仅表示六次阶跃都具备有限数值，
+50 ms行程比例在[0.9,1.1]、全程超调在[0,5]%范围内。
+遗漏方向、重复记录、关节6退化也不能通过该初筛。它不会自动选用或部署参数；
+没有通过时测试仍正常保存完成结果，不能把completed和all_passed混为一谈。
+即使通过，还需核对调节时间、耦合、估算力矩及其它姿态，然后回归末端XYZ/RXYZ连续动作。
+
+运行后推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add refined joint 2 4 gain sweep results"
+git push origin main
+```

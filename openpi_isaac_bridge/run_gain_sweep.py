@@ -10,6 +10,7 @@ import sys
 
 from gain_probe import GAIN_PROFILES
 from gain_cases import validate_gain_cases
+from joint_identification import screen_joint_steps
 
 
 def main():
@@ -109,6 +110,9 @@ def main():
                     )} for phase in result["phases"]]
                 elif mode == "joint-step":
                     entry["joint_steps"] = result["joint_steps"]
+                    entry["joint_step_screen"] = screen_joint_steps(result["joint_steps"])
+                    print(f"[Joint screen] {profile}: complete={entry['joint_step_screen']['complete']}, "
+                          f"all_passed={entry['joint_step_screen']['all_passed']}", flush=True)
                 else:
                     entry["all_stream_tests_passed"] = result["all_stream_tests_passed"]
                     entry["axes"] = [{k: v for k, v in axis.items() if k != "trace"} for axis in result["axes"]]
