@@ -13,12 +13,95 @@
   "time_origin": "first recorded diagnostic control period, excluding warmup",
   "effort_note": "estimate captured after command write before integration; not a measured solver torque",
   "target_note": "post-write position target used for the following physics integration; IK may update it every physics step",
+  "record_jacobians": true,
+  "kinematic_capture_setup": {
+    "action_class": "isaaclab.envs.mdp.actions.task_space_actions.DifferentialInverseKinematicsAction",
+    "ik_body": "panda_hand",
+    "sensor_parent": "panda_hand",
+    "body_resolution": {
+      "sensor_path": "/World/envs/env_[^/]+/Robot/(Geometry/.*/)?panda_hand",
+      "robot_path_pattern": "/World/envs/env_[^/]+/Robot",
+      "env_regex_ns": "/World/envs/env_[^/]+",
+      "ik_body_pattern": "panda_hand",
+      "private_body_name_repr": "'panda_hand'",
+      "robot_body_names": [
+        "panda_link0",
+        "panda_link1",
+        "panda_link2",
+        "panda_link3",
+        "panda_link4",
+        "panda_link5",
+        "panda_link6",
+        "panda_link7",
+        "panda_hand",
+        "panda_leftfinger",
+        "panda_rightfinger"
+      ],
+      "used_ik_body_index": 8,
+      "usd_rigid_body_paths": [
+        "/World/envs/env_0/Robot/Geometry/panda_link0",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger",
+        "/World/envs/env_0/Object"
+      ],
+      "sensor_body_ids": [
+        8
+      ],
+      "sensor_body_names": [
+        "panda_hand"
+      ],
+      "sensor_usd_path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand",
+      "robot_usd_path": "/World/envs/env_0/Robot",
+      "sensor_full_pattern": "/World/envs/env_[^/]+/Robot/(Geometry/.*/)?panda_hand",
+      "robot_full_pattern": "/World/envs/env_[^/]+/Robot",
+      "ik_body_ids": [
+        8
+      ],
+      "ik_body_names": [
+        "panda_hand"
+      ]
+    },
+    "ik_offset_pos_m": [
+      0.0,
+      0.0,
+      0.107
+    ],
+    "ik_offset_quat_xyzw": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "sensor_offset_pos_m": [
+      0.0,
+      0.0,
+      0.1034
+    ],
+    "sensor_offset_quat_xyzw": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "capture_timing": "actual IK Jacobian before compute/target-write; command read after target-write; state read after one physics update",
+    "source_file": "jacobian_implementation.txt",
+    "sensor_transform": "Jv_sensor=Jv_ik+Jw cross (p_sensor-p_ik); all columns in joint_names order"
+  },
+  "jacobian_note": "actual IK method output copied before each integration; sensor point shifted using omega cross offset; root axes; local first-order attribution",
   "physics_dt_s": 0.01,
   "control_dt_s": 0.05,
   "expected_substeps_per_control": 5,
   "recorded_controls": 40,
   "recorded_substeps": 200,
-  "trace_file": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261029T055106108328Z/openpi-j24-kp5400-kd120/openpi-replay-translation/physics_joint_trace.jsonl",
+  "trace_file": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261029T063757549221Z/openpi-j24-kp5400-kd120/openpi-replay-translation/physics_joint_trace.jsonl",
   "cases": [
     {
       "case": "openpi",
@@ -243,5 +326,99 @@
       ]
     }
   ],
-  "scope": "post-write position target used for the following physics integration; IK may update it every physics step"
+  "scope": "post-write position target used for the following physics integration; IK may update it every physics step",
+  "kinematic_attribution_summary": {
+    "phases": {
+      "replay": {
+        "samples": 100,
+        "rms_xyz_m": {
+          "joint_tracking_sum_xyz_m": [
+            0.00033119310371416554,
+            0.00021370129182915102,
+            0.0003026025419635746
+          ],
+          "goal_point_mapping_error_xyz_m": [
+            1.6822300146047323e-08,
+            2.3220317766252034e-09,
+            2.7815025494260863e-08
+          ],
+          "ik_target_linearization_residual_xyz_m": [
+            1.1869970148678094e-06,
+            3.8369872854419815e-07,
+            7.278378210439619e-07
+          ],
+          "displacement_linearization_residual_xyz_m": [
+            9.316118973664435e-08,
+            1.681447938155449e-07,
+            2.018601516420379e-07
+          ],
+          "measured_sensor_target_error_xyz_m": [
+            0.00033232784335491606,
+            0.00021402554946968377,
+            0.0003032275632823439
+          ],
+          "accounting_closure_error_xyz_m": [
+            3.9723453561672546e-20,
+            2.53084316476012e-20,
+            7.619220265854598e-20
+          ]
+        },
+        "per_joint_y_contribution_rms_m": [
+          7.673564379486177e-05,
+          8.746888015560833e-08,
+          0.00021904735575572516,
+          1.2693927744584036e-06,
+          3.4966433206546655e-06,
+          5.251029747321729e-07,
+          9.847344932467095e-12
+        ]
+      },
+      "zero-input-tail": {
+        "samples": 100,
+        "rms_xyz_m": {
+          "joint_tracking_sum_xyz_m": [
+            1.7231175650390139e-06,
+            1.034876046343996e-05,
+            1.4295601161044096e-05
+          ],
+          "goal_point_mapping_error_xyz_m": [
+            8.847321272288693e-09,
+            1.0797711094243243e-09,
+            2.5825209520605172e-08
+          ],
+          "ik_target_linearization_residual_xyz_m": [
+            2.1816898917763113e-08,
+            2.6576700245968107e-09,
+            4.748452872344873e-08
+          ],
+          "displacement_linearization_residual_xyz_m": [
+            3.59935044681262e-08,
+            6.192843935269813e-08,
+            6.937546475564986e-08
+          ],
+          "measured_sensor_target_error_xyz_m": [
+            1.721870280998306e-06,
+            1.0351251621859758e-05,
+            1.4289510307369525e-05
+          ],
+          "accounting_closure_error_xyz_m": [
+            1.4673337037553692e-22,
+            7.579291316835055e-22,
+            1.35790777514026e-21
+          ]
+        },
+        "per_joint_y_contribution_rms_m": [
+          5.0364132474488945e-06,
+          2.65242224096245e-09,
+          5.157141752544031e-06,
+          1.585303224820299e-08,
+          1.4411040483177764e-07,
+          1.1104179745041605e-08,
+          5.5067575045911484e-15
+        ]
+      }
+    },
+    "scope": "pre-integration Jacobian times local joint errors; first-order accounting, not exact causal or torque decomposition; closure is algebraic",
+    "frame": "all geometric Jacobian rows and XYZ vectors expressed in robot root axes"
+  }
 }
