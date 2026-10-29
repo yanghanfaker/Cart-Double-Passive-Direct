@@ -82,6 +82,7 @@ def main():
     from physics_trace import PhysicsJointRecorder
     from joint_identification import summarize_joint_step
     from stream_scenarios import validate_stream_scenarios
+    from grasp_probe import run_grasp_probe
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -99,7 +100,7 @@ def main():
     parser.add_argument("--stream-amplitude-scale", type=float, default=1.0)
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
-        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response", "joint-step",
+        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response", "joint-step", "grasp",
     ), default="none")
     parser.add_argument("--server-host", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=8000)
@@ -120,16 +121,16 @@ def main():
             parser.error(str(error))
     if args.query and args.motion_test != "none":
         parser.error("run --query and --motion-test separately; VLA actions are never executed")
-    if args.motion_test == "joint-step":
+    if args.motion_test in ("joint-step", "grasp"):
         args.record_physics = True
     if not math.isfinite(args.joint_step_rad) or not 0 < args.joint_step_rad <= 0.005:
         parser.error("--joint-step-rad must be finite and in (0, 0.005]")
-    if args.gain_profile != "baseline" and args.motion_test not in ("step-response", "libero-stream", "joint-step"):
-        parser.error("experimental gain profiles require step-response, libero-stream, or joint-step")
-    if args.record_physics and args.motion_test not in ("step-response", "libero-stream", "joint-step"):
-        parser.error("--record-physics requires step-response, libero-stream, or joint-step")
-    if args.joint_gains_json and args.motion_test not in ("step-response", "libero-stream", "joint-step"):
-        parser.error("per-joint gains require step-response, libero-stream, or joint-step")
+    if args.gain_profile != "baseline" and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp"):
+        parser.error("experimental gain profiles require step-response, libero-stream, joint-step, or grasp")
+    if args.record_physics and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp"):
+        parser.error("--record-physics requires step-response, libero-stream, joint-step, or grasp")
+    if args.joint_gains_json and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp"):
+        parser.error("per-joint gains require step-response, libero-stream, joint-step, or grasp")
     if args.warmup_steps < 1:
         parser.error("--warmup-steps must be positive")
     if not math.isfinite(args.light_intensity) or args.light_intensity <= 0:
@@ -149,13 +150,17 @@ def main():
     gain_config = configure_gain_profile(cfg.scene.robot.actuators, args.gain_profile, joint_overrides)
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
-    if args.motion_test in ("libero-map", "libero-stream", "step-response", "joint-step"):
+    if args.motion_test in ("libero-map", "libero-stream", "step-response", "joint-step", "grasp"):
         # LIBERO's default 20 Hz is a simulation period, not wall-clock speed.
         decimation = round(0.05 / float(cfg.sim.dt))
         if decimation < 1 or not math.isclose(decimation * float(cfg.sim.dt), 0.05, abs_tol=1e-8):
             raise RuntimeError("Physics dt cannot represent a 50 ms mapping test period")
         cfg.decimation = decimation
         cfg.episode_length_s = 300.0
+    if args.motion_test == "grasp":
+        cfg.seed = 0
+        cfg.events.reset_object_position.params["pose_range"] = {
+            "x": (0.0, 0.0), "y": (0.0, 0.0), "z": (0.0, 0.0)}
     # The command target axes/spheres are real rendered geometry, so disable
     # their creation before constructing the scene, not just in the web viewer.
     cfg.commands.object_pose.debug_vis = False
@@ -433,6 +438,8 @@ def main():
                     return delta[0]
 
                 def checked_step(action, initial_pos):
+                    if args.motion_test == "grasp":
+                        previous_pos, previous_quat = read_pose()
                     if physics_recorder is not None:
                         physics_recorder.begin_control({**physics_context, "raw_isaac_action": action[0].detach().cpu().tolist()})
                     result = env.step(action)
@@ -442,11 +449,20 @@ def main():
                         raise RuntimeError("Environment reset during calibration; discard this measurement")
                     current_pos, current_quat = read_pose()
                     delta = current_pos - initial_pos
-                    if not bool(torch.isfinite(delta).all()) or float(delta.norm()) > 0.05:
-                        raise RuntimeError("Calibration stopped: invalid state or EE displacement exceeded 5 cm")
+                    max_displacement = 0.6 if args.motion_test == "grasp" else 0.05
+                    if not bool(torch.isfinite(delta).all()) or float(delta.norm()) > max_displacement:
+                        raise RuntimeError(f"Calibration stopped: invalid state or EE displacement exceeded {max_displacement} m")
                     angle = rotation_delta(before, before_quat, current_pos, current_quat)
-                    if not bool(torch.isfinite(angle).all()) or float(angle.norm()) > math.radians(15):
-                        raise RuntimeError("Calibration stopped: invalid orientation or rotation exceeded 15 degrees")
+                    max_angle = math.pi + 1e-5 if args.motion_test == "grasp" else math.radians(15)
+                    if not bool(torch.isfinite(angle).all()) or float(angle.norm()) > max_angle:
+                        raise RuntimeError("Calibration stopped: invalid orientation or rotation exceeded diagnostic envelope")
+                    if args.motion_test == "grasp":
+                        if float((current_pos-previous_pos).norm()) > 0.01 or float(rotation_delta(previous_pos, previous_quat, current_pos, current_quat).norm()) > math.radians(3):
+                            raise RuntimeError("Grasp diagnostic stopped: excessive EE change in one control period")
+                        q = tensor(robot.data.joint_pos)[0, arm_ids]
+                        limits = tensor(robot.data.soft_joint_pos_limits)[0, arm_ids]
+                        if not bool(((q >= limits[:, 0]-0.001) & (q <= limits[:, 1]+0.001)).all()):
+                            raise RuntimeError("Grasp diagnostic stopped: arm outside soft joint limits")
                     time.sleep(float(base.step_dt))
                     sample_joint_telemetry()
 
@@ -454,7 +470,44 @@ def main():
                     before, before_quat = read_pose()
                     measured = {"mode": args.motion_test, "gain_profile": args.gain_profile,
                         "actuator_audit": actuator_audit, "ee_before_root": before.cpu().tolist()}
-                    if args.motion_test == "joint-step":
+                    if args.motion_test == "grasp":
+                        def grasp_state():
+                            p, q = read_pose()
+                            obj = base.scene["object"]
+                            op, oq = subtract_frame_transforms(
+                                tensor(robot.data.root_pos_w), tensor(robot.data.root_quat_w),
+                                tensor(obj.data.root_pos_w), tensor(obj.data.root_quat_w))
+                            rel_p, rel_q = subtract_frame_transforms(p[None], q[None], op, oq)
+                            return {"ee_pos_root_m": p.cpu().tolist(), "ee_quat_root": q.cpu().tolist(),
+                                    "object_pos_root_m": op[0].cpu().tolist(), "object_quat_root": oq[0].cpu().tolist(),
+                                    "object_in_ee_pos_m": rel_p[0].cpu().tolist(), "object_in_ee_quat": rel_q[0].cpu().tolist(),
+                                    "finger_positions_m": tensor(robot.data.joint_pos)[0, finger_ids].cpu().tolist()}
+
+                        grasp_step = 0
+                        def grasp_pose_step(target, quat, gripper, phase):
+                            nonlocal grasp_step
+                            grasp_step += 1
+                            physics_context.update(case="grasp", phase=phase, case_control_step=grasp_step)
+                            p, q = read_pose()
+                            pe, re = compute_pose_error(p[None], q[None],
+                                torch.tensor([target], device=base.device), torch.tensor([quat], device=base.device),
+                                rot_error_type="axis_angle")
+                            values = tracking_action(pe[0].cpu().tolist(), re[0].cpu().tolist(), float(arm_term.cfg.scale))
+                            values[6] = gripper
+                            checked_step(torch.tensor([values], dtype=torch.float32, device=base.device), before)
+                        measured["grasp_setup"] = {
+                            "seed": 0, "object_spawn_pose": str(cfg.scene.object.init_state),
+                            "object_usd": str(cfg.scene.object.spawn.usd_path), "object_scale": cfg.scene.object.spawn.scale,
+                            "robot_gravity_disabled": cfg.scene.robot.spawn.rigid_props.disable_gravity,
+                            "reset_pose_range": cfg.events.reset_object_position.params["pose_range"],
+                            "ee_sensor_offset_m": list(cfg.scene.ee_frame.target_frames[0].offset.pos),
+                            "ik_offset_m": list(arm_term.cfg.body_offset.pos),
+                            "feedback": "ee_frame sensor in robot root frame; quaternion xyzw",
+                            "velocity_limit": "IK target increments bounded to 1 mm and 0.5 deg per 50 ms"}
+                        measured["grasp_result"] = run_grasp_probe(grasp_state, grasp_pose_step,
+                            announce=lambda message: print(message, flush=True))
+                        measured["control_dt_s"] = float(base.step_dt)
+                    elif args.motion_test == "joint-step":
                         if physics_recorder is None:
                             raise RuntimeError("Isolated joint steps require physics tracing")
                         arm_positions = tensor(robot.data.joint_pos)[:, arm_ids].detach().clone()
@@ -966,6 +1019,8 @@ def main():
                     } for phase in measured["phases"]]
                 if args.motion_test == "libero-stream":
                     summary["axes"] = [{k: v for k, v in axis.items() if k != "trace"} for axis in measured["axes"]]
+                if args.motion_test == "grasp":
+                    summary["grasp_result"] = {k: v for k, v in measured["grasp_result"].items() if k != "trace"}
                 print("[Motion test] " + json.dumps(summary, indent=2), flush=True)
                 print(f"Saved calibration to: {report_path}", flush=True)
 

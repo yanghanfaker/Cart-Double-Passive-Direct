@@ -10,6 +10,30 @@ import run_gain_sweep
 
 
 class SweepRoutingTests(unittest.TestCase):
+    def test_failed_grasp_metric_is_exportable_completed_diagnostic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            class FakeProcess:
+                def __init__(self, command, **kwargs):
+                    output = Path(command[command.index("--output")+1])
+                    report = {"joint_telemetry_summary": {}, "actuator_audit": {}, "physics_joint_summary": {},
+                              "grasp_result": {"success": False, "failure_reason": "empty close", "trace": [{"phase":"close"}]},
+                              "grasp_setup": {"ee_sensor_offset_m": [0,0,0.1034]}}
+                    (output / "motion_grasp.json").write_text(json.dumps(report))
+                    if "--record-physics" not in command:
+                        raise AssertionError("grasp must force-enable physics tracing")
+                    self.stdout = io.StringIO("")
+                def __enter__(self): return self
+                def __exit__(self, *args): pass
+                def wait(self): return 0
+            argv = ["run_gain_sweep.py", "--isaaclab-root", str(root), "--profiles", "kp2p25-kd0p25", "--modes", "grasp"]
+            with patch.object(sys, "argv", argv), patch.object(run_gain_sweep.subprocess, "Popen", FakeProcess):
+                self.assertEqual(run_gain_sweep.main(), 0)
+            manifest = json.loads((root / "logs/openpi_gain_sweep/latest_gain_sweep.json").read_text())
+            self.assertEqual(manifest["status"], "completed")
+            self.assertFalse(manifest["runs"][0]["grasp_result"]["success"])
+            self.assertEqual(manifest["runs"][0]["grasp_result"]["trace"], [{"phase":"close"}])
+
     def test_cartesian_run_retains_trace_and_checks_all_six_axes(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

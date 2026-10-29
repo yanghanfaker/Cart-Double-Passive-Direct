@@ -24,10 +24,10 @@ def main():
     parser.add_argument("--record-physics", action="store_true", help="capture each existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
     parser.add_argument("--stream-scenarios-json", type=Path, help="cross gain cases with bounded stream start positions/amplitudes")
-    parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step"), nargs="+",
+    parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step", "grasp"), nargs="+",
                         default=["step-response", "libero-stream"])
     args = parser.parse_args()
-    if "joint-step" in args.modes:
+    if any(mode in args.modes for mode in ("joint-step", "grasp")):
         args.record_physics = True
     joint_overrides = (
         json.loads(args.joint_gains_json.expanduser().resolve().read_text(encoding="utf-8"))
@@ -97,7 +97,7 @@ def main():
                         for line in process.stdout:
                             log.write(line)
                             recent.append(line)
-                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]", "[Stream start]")):
+                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]", "[Stream start]", "[Grasp]")):
                                 print(line, end="", flush=True)
                         code = process.wait()
                 entry["exit_code"] = code
@@ -126,6 +126,9 @@ def main():
                     entry["joint_step_screen"] = screen_joint_steps(result["joint_steps"])
                     print(f"[Joint screen] {profile}: complete={entry['joint_step_screen']['complete']}, "
                           f"all_passed={entry['joint_step_screen']['all_passed']}", flush=True)
+                elif mode == "grasp":
+                    entry["grasp_result"] = result["grasp_result"]
+                    entry["grasp_setup"] = result["grasp_setup"]
                 else:
                     entry["all_stream_tests_passed"] = result["all_stream_tests_passed"]
                     # Preserve pose/target samples for diagnosing axis coupling

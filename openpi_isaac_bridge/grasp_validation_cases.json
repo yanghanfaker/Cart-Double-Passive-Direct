@@ -1,0 +1,35 @@
+[
+  {
+    "name": "grasp-j24-kp5400-kd120",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      }
+    }
+  },
+  {
+    "name": "grasp-j24-kp4500-kd110",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 4500,
+        "damping": 110
+      },
+      "panda_joint4": {
+        "stiffness": 4500,
+        "damping": 110
+      }
+    }
+  },
+  {
+    "name": "grasp-control-900-20",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {}
+  }
+]

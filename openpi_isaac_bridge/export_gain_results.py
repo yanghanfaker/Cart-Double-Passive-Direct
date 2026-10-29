@@ -15,7 +15,7 @@ def main():
     data = json.loads(args.latest.read_text(encoding="utf-8"))
     runs = data["runs"]
     modes = data.get("modes", ["step-response", "libero-stream"])
-    if not modes or set(modes) - {"step-response", "libero-stream", "joint-step"}:
+    if not modes or set(modes) - {"step-response", "libero-stream", "joint-step", "grasp"}:
         raise SystemExit("Unknown test mode; no files exported")
     expected = {(profile, mode) for profile in data["profiles"] for mode in modes}
     if (data["status"] != "completed" or len(runs) != len(expected)

@@ -44,19 +44,24 @@ class ExportTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertFalse((root / "repo" / "diagnostics").exists())
 
-    def test_single_joint_step_mode_exports(self):
+    def test_single_joint_step_and_grasp_mode_exports(self):
+        for mode in ("joint-step", "grasp"):
+            with self.subTest(mode=mode):
+                self.check_single_mode_exports(mode)
+
+    def check_single_mode_exports(self, mode):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             manifest = self.prepare(root)
             data = json.loads(manifest.read_text())
-            data["modes"] = ["joint-step"]
-            data["runs"] = [dict(data["runs"][0], mode="joint-step")]
+            data["modes"] = [mode]
+            data["runs"] = [dict(data["runs"][0], mode=mode)]
             manifest.write_text(json.dumps(data))
             result = self.run_export(manifest, root / "repo")
             self.assertEqual(result.returncode, 0, result.stderr)
             dest = root / "repo" / "diagnostics" / "gain_sweep"
             self.assertEqual(len(list(dest.iterdir())), 4)
-            self.assertTrue((dest / "test_joint-step_physics_joint_trace.jsonl.gz").is_file())
+            self.assertTrue((dest / f"test_{mode}_physics_joint_trace.jsonl.gz").is_file())
 
 
 if __name__ == "__main__":

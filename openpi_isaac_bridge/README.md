@@ -788,3 +788,70 @@ git add -- diagnostics/gain_sweep/
 git commit -m "Add workspace and amplitude Cartesian regression results"
 git push origin main
 ```
+
+## 下一阶段：确定性接触、闭爪与抬升诊断
+
+位置/幅度回归结果（提交 `d27d7e5e8a73587db85ef8cd334815739bfaab71`）中，
+4500/110和5400/120各自6个局部场景均通过；这不是抓取成功率，也未验证接触。
+新增 `grasp` 模式与 `grasp_validation_cases.json`，按5400/120、4500/110、原900/20顺序对照。
+只覆盖关节2、4的增益，其它机械臂关节、手指及速度/力矩限制保持原配置。
+
+本轮是使用仿真真值的控制/几何诊断，不是OpenPI推理、视觉定位或最终抓取策略。
+固定物体reset位置偏移为零，seed=0；保留任务原始物体USD、缩放和物理属性。
+原任务默认物体和传感器设置见官方
+[joint_pos_env_cfg.py](https://github.com/isaac-sim/IsaacLab/blob/main/source/isaaclab_tasks/isaaclab_tasks/contrib/lift/config/franka/joint_pos_env_cfg.py)，
+随机reset设置见
+[lift_env_cfg.py](https://github.com/isaac-sim/IsaacLab/blob/main/source/isaaclab_tasks/isaaclab_tasks/contrib/lift/lift_env_cfg.py)。
+本地实际配置以输出 `grasp_setup` 为准，它记录物体资产、缩放、reset设置、机器人重力开关和两个TCP偏移。
+末端传感器默认offset为0.1034 m，IK控制点默认0.107 m；本轮统一用传感器闭环反馈，不声称偏移已标定等价。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/grasp_validation_cases.json \
+  --modes grasp \
+  --record-physics
+```
+
+三组分别创建一个环境，执行一次以下流程：
+1. 夹爪打开，在初始较高位置将末端转到Rx(pi)朝下姿态（根坐标xyzw=[1,0,0,0]）。
+2. 移到物体初始中心正上方100 mm。
+3. 下降到物体初始中心上方5 mm的TCP目标。
+4. 固定末端目标，闭爪80周期（4秒），检查最后10周期的两指位置稳定性及物体是否在TCP附近。
+5. 只有闭爪候选检查通过才上提50 mm，随后保持40周期（2秒）。
+
+每个移动阶段须连续5周期误差≤2 mm、朝向误差≤2度才进入下一阶段，并设最大步数超时。
+闭爪候选要求两指各大于2 mm、合计开度6–70 mm、两指差≤4 mm，最后10周期各指位置波动≤0.5 mm，
+物体中心距实际TCP≤15 mm，且末端目标误差保持容差内。
+这些条件只表示受阻夹持候选，不能替代接触力测量；夹爪空闭会跳过抬升。
+
+成功须在整个2秒保持期物体相对初始高度至少增加35 mm，
+物体相对末端的位置漂移≤10 mm、角度漂移≤10度，
+从闭爪结束到抬升/保持期间的相对位置变化≤15 mm，且夹爪与末端保持条件成立。
+每周期记录末端、物体根坐标位姿、物体在末端坐标的相对位姿、两指位置及目标误差。
+物体速度由50 ms位置差估算，不是高频测得的速度或接触力；估算速度超过0.5 m/s、
+抬升前物体移动超过20 mm或低于初始支撑高度10 mm，会中止本次诊断并记录原因。
+
+TCP目标位于中心上方5 mm以及固定朝下姿态是首轮几何假设，尚未仿真验证；
+如果夹不住，先看末端与物体相对位置及手指开度，不能直接归因于增益不够。
+本轮不加抓取辅助约束、不把物体绑定到夹爪、不修改摩擦/质量、不执行VLA输出。
+
+抓取需要比前期5 cm/15度更大的接近和转向范围，因此仅此模式使用0.6 m整体位移范围；
+仍将每50 ms的IK目标增量限制为1 mm、0.5度，并检查实际单周期位移≤10 mm、旋转≤3度及关节软限位。
+控制周期50 ms，物理步长沿用当前环境10 ms。
+
+`[Grasp]`依次打印阶段到位、闭爪候选和最终success。
+`grasp_result.success=False`表示测量未达标，仍保存完整trace、failure_reason和实际增益，流程可completed；
+环境重置、非预期API或保护检查异常则使运行失败，保留console.log和已写入的物理轨迹。
+CPU测试中的合成状态仅验证流程和判定，不代表Isaac接触物理已通过。
+
+运行完成后推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add deterministic grasp contact and lift diagnostics"
+git push origin main
+```
