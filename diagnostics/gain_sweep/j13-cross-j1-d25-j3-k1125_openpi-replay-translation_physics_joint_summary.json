@@ -1,0 +1,424 @@
+{
+  "joint_names": [
+    "panda_joint1",
+    "panda_joint2",
+    "panda_joint3",
+    "panda_joint4",
+    "panda_joint5",
+    "panda_joint6",
+    "panda_joint7"
+  ],
+  "gain_profile": "kp2p25-kd0p25",
+  "command_source": "robot.actuators.target_command",
+  "time_origin": "first recorded diagnostic control period, excluding warmup",
+  "effort_note": "estimate captured after command write before integration; not a measured solver torque",
+  "target_note": "post-write position target used for the following physics integration; IK may update it every physics step",
+  "record_jacobians": true,
+  "kinematic_capture_setup": {
+    "action_class": "isaaclab.envs.mdp.actions.task_space_actions.DifferentialInverseKinematicsAction",
+    "ik_body": "panda_hand",
+    "sensor_parent": "panda_hand",
+    "body_resolution": {
+      "sensor_path": "/World/envs/env_[^/]+/Robot/(Geometry/.*/)?panda_hand",
+      "robot_path_pattern": "/World/envs/env_[^/]+/Robot",
+      "env_regex_ns": "/World/envs/env_[^/]+",
+      "ik_body_pattern": "panda_hand",
+      "private_body_name_repr": "'panda_hand'",
+      "robot_body_names": [
+        "panda_link0",
+        "panda_link1",
+        "panda_link2",
+        "panda_link3",
+        "panda_link4",
+        "panda_link5",
+        "panda_link6",
+        "panda_link7",
+        "panda_hand",
+        "panda_leftfinger",
+        "panda_rightfinger"
+      ],
+      "used_ik_body_index": 8,
+      "usd_rigid_body_paths": [
+        "/World/envs/env_0/Robot/Geometry/panda_link0",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger",
+        "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger",
+        "/World/envs/env_0/Object"
+      ],
+      "sensor_body_ids": [
+        8
+      ],
+      "sensor_body_names": [
+        "panda_hand"
+      ],
+      "sensor_usd_path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand",
+      "robot_usd_path": "/World/envs/env_0/Robot",
+      "sensor_full_pattern": "/World/envs/env_[^/]+/Robot/(Geometry/.*/)?panda_hand",
+      "robot_full_pattern": "/World/envs/env_[^/]+/Robot",
+      "ik_body_ids": [
+        8
+      ],
+      "ik_body_names": [
+        "panda_hand"
+      ]
+    },
+    "ik_offset_pos_m": [
+      0.0,
+      0.0,
+      0.107
+    ],
+    "ik_offset_quat_xyzw": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "sensor_offset_pos_m": [
+      0.0,
+      0.0,
+      0.1034
+    ],
+    "sensor_offset_quat_xyzw": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "capture_timing": "actual IK Jacobian before compute/target-write; command read after target-write; state read after one physics update",
+    "source_file": "jacobian_implementation.txt",
+    "sensor_transform": "Jv_sensor=Jv_ik+Jw cross (p_sensor-p_ik); all columns in joint_names order"
+  },
+  "jacobian_note": "actual IK method output copied before each integration; sensor point shifted using omega cross offset; root axes; local first-order attribution",
+  "physics_dt_s": 0.01,
+  "control_dt_s": 0.05,
+  "expected_substeps_per_control": 5,
+  "recorded_controls": 40,
+  "recorded_substeps": 200,
+  "trace_file": "/home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261029T074621516579Z/j13-cross-j1-d25-j3-k1125/openpi-replay-translation/physics_joint_trace.jsonl",
+  "cases": [
+    {
+      "case": "openpi",
+      "phase": "replay",
+      "joints": [
+        {
+          "joint": "panda_joint1",
+          "sample_count": 100,
+          "initial_position_rad": 1.783125185284007e-07,
+          "target_range_rad": 0.0027410267503000796,
+          "command_excursion_rad": 0.00283838199601405,
+          "actual_range_rad": 0.0026037649804493412,
+          "rms_tracking_error_rad": 0.0001645886360203919,
+          "max_abs_tracking_error_rad": 0.0005994276143610477,
+          "normalized_rms_error": 0.05798678129001815,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.038355279713869095,
+          "max_target_change_per_physics_step_rad": 0.0010017442982643843,
+          "peak_abs_estimated_effort_nm": 0.7578386664390564
+        },
+        {
+          "joint": "panda_joint2",
+          "sample_count": 100,
+          "initial_position_rad": -0.5690000057220459,
+          "target_range_rad": 0.0597684383392334,
+          "command_excursion_rad": 0.06399703025817871,
+          "actual_range_rad": 0.0629618763923645,
+          "rms_tracking_error_rad": 0.0014680316143330352,
+          "max_abs_tracking_error_rad": 0.0033855438232421875,
+          "normalized_rms_error": 0.022939058397095282,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.12908482551574707,
+          "max_target_change_per_physics_step_rad": 0.004085898399353027,
+          "peak_abs_estimated_effort_nm": 22.834388732910156
+        },
+        {
+          "joint": "panda_joint3",
+          "sample_count": 100,
+          "initial_position_rad": -6.686999842742125e-09,
+          "target_range_rad": 0.007523360720369965,
+          "command_excursion_rad": 0.007971148174359843,
+          "actual_range_rad": 0.008092242118436843,
+          "rms_tracking_error_rad": 0.0004743565711658512,
+          "max_abs_tracking_error_rad": 0.0020008604042232037,
+          "normalized_rms_error": 0.0595091899924375,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.05986981838941574,
+          "max_target_change_per_physics_step_rad": 0.0022649181773886085,
+          "peak_abs_estimated_effort_nm": 2.5639641284942627
+        },
+        {
+          "joint": "panda_joint4",
+          "sample_count": 100,
+          "initial_position_rad": -2.809999942779541,
+          "target_range_rad": 0.025580406188964844,
+          "command_excursion_rad": 0.027386903762817383,
+          "actual_range_rad": 0.02662491798400879,
+          "rms_tracking_error_rad": 0.0009001286481160863,
+          "max_abs_tracking_error_rad": 0.0023462772369384766,
+          "normalized_rms_error": 0.03286711984354259,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.09855154156684875,
+          "max_target_change_per_physics_step_rad": 0.003031015396118164,
+          "peak_abs_estimated_effort_nm": 17.643634796142578
+        },
+        {
+          "joint": "panda_joint5",
+          "sample_count": 100,
+          "initial_position_rad": 3.3017059308804164e-07,
+          "target_range_rad": 0.0003759475348488195,
+          "command_excursion_rad": 0.0003610736916073165,
+          "actual_range_rad": 0.00043246649147477,
+          "rms_tracking_error_rad": 5.0195075753009994e-05,
+          "max_abs_tracking_error_rad": 0.00014175693650031462,
+          "normalized_rms_error": 0.1390161535435247,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.004758552182465792,
+          "max_target_change_per_physics_step_rad": 0.00011995297973044217,
+          "peak_abs_estimated_effort_nm": 0.17213474214076996
+        },
+        {
+          "joint": "panda_joint6",
+          "sample_count": 100,
+          "initial_position_rad": 3.0369999408721924,
+          "target_range_rad": 0.031430721282958984,
+          "command_excursion_rad": 0.033850908279418945,
+          "actual_range_rad": 0.03309273719787598,
+          "rms_tracking_error_rad": 0.0008577845305172059,
+          "max_abs_tracking_error_rad": 0.002510547637939453,
+          "normalized_rms_error": 0.025340074288013457,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.12809637188911438,
+          "max_target_change_per_physics_step_rad": 0.003368854522705078,
+          "peak_abs_estimated_effort_nm": 3.06024169921875
+        },
+        {
+          "joint": "panda_joint7",
+          "sample_count": 100,
+          "initial_position_rad": 0.7409999966621399,
+          "target_range_rad": 0.004981637001037598,
+          "command_excursion_rad": 0.005304515361785889,
+          "actual_range_rad": 0.005170166492462158,
+          "rms_tracking_error_rad": 0.000288132669600044,
+          "max_abs_tracking_error_rad": 0.0013747215270996094,
+          "normalized_rms_error": 0.05431837782500783,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.058723267167806625,
+          "max_target_change_per_physics_step_rad": 0.0017873644828796387,
+          "peak_abs_estimated_effort_nm": 1.5954208374023438
+        }
+      ]
+    },
+    {
+      "case": "openpi",
+      "phase": "zero-input-tail",
+      "joints": [
+        {
+          "joint": "panda_joint1",
+          "sample_count": 100,
+          "initial_position_rad": -0.002372531918808818,
+          "target_range_rad": 7.518311031162739e-05,
+          "command_excursion_rad": 7.365341298282146e-05,
+          "actual_range_rad": 5.624629557132721e-05,
+          "rms_tracking_error_rad": 1.2257175217322044e-05,
+          "max_abs_tracking_error_rad": 7.380661554634571e-05,
+          "normalized_rms_error": 0.1664169346800106,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.002002142369747162,
+          "max_target_change_per_physics_step_rad": 7.352442480623722e-05,
+          "peak_abs_estimated_effort_nm": 0.08882633596658707
+        },
+        {
+          "joint": "panda_joint2",
+          "sample_count": 100,
+          "initial_position_rad": -0.5051950812339783,
+          "target_range_rad": 4.494190216064453e-05,
+          "command_excursion_rad": 4.482269287109375e-05,
+          "actual_range_rad": 0.00010061264038085938,
+          "rms_tracking_error_rad": 2.1933130066726207e-05,
+          "max_abs_tracking_error_rad": 0.00012505054473876953,
+          "normalized_rms_error": 0.48933093176271275,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.004595848731696606,
+          "max_target_change_per_physics_step_rad": 4.494190216064453e-05,
+          "peak_abs_estimated_effort_nm": 2.8020429611206055
+        },
+        {
+          "joint": "panda_joint3",
+          "sample_count": 100,
+          "initial_position_rad": 0.008090384304523468,
+          "target_range_rad": 7.388647645711899e-05,
+          "command_excursion_rad": 7.384363561868668e-05,
+          "actual_range_rad": 4.251580685377121e-05,
+          "rms_tracking_error_rad": 1.3502082762465084e-05,
+          "max_abs_tracking_error_rad": 7.149577140808105e-05,
+          "normalized_rms_error": 0.18284693933796892,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.0026999609544873238,
+          "max_target_change_per_physics_step_rad": 7.179100066423416e-05,
+          "peak_abs_estimated_effort_nm": 0.09422384947538376
+        },
+        {
+          "joint": "panda_joint4",
+          "sample_count": 100,
+          "initial_position_rad": -2.783027410507202,
+          "target_range_rad": 2.0503997802734375e-05,
+          "command_excursion_rad": 2.0503997802734375e-05,
+          "actual_range_rad": 3.933906555175781e-05,
+          "rms_tracking_error_rad": 5.247917342914376e-06,
+          "max_abs_tracking_error_rad": 2.765655517578125e-05,
+          "normalized_rms_error": 0.2559460546866877,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.002235796069726348,
+          "max_target_change_per_physics_step_rad": 2.0265579223632812e-05,
+          "peak_abs_estimated_effort_nm": 1.0207335948944092
+        },
+        {
+          "joint": "panda_joint5",
+          "sample_count": 100,
+          "initial_position_rad": -0.0003722736146301031,
+          "target_range_rad": 1.4955236110836267e-05,
+          "command_excursion_rad": 9.874143870547414e-06,
+          "actual_range_rad": 3.932742401957512e-06,
+          "rms_tracking_error_rad": 2.4909061310342723e-06,
+          "max_abs_tracking_error_rad": 1.340196467936039e-05,
+          "normalized_rms_error": null,
+          "excited_above_1e_minus5_rad": false,
+          "peak_abs_velocity_rad_s": 0.0005129853961989284,
+          "max_target_change_per_physics_step_rad": 1.3471668353304267e-05,
+          "peak_abs_estimated_effort_nm": 0.016787037253379822
+        },
+        {
+          "joint": "panda_joint6",
+          "sample_count": 100,
+          "initial_position_rad": 3.0706963539123535,
+          "target_range_rad": 3.719329833984375e-05,
+          "command_excursion_rad": 3.6716461181640625e-05,
+          "actual_range_rad": 4.673004150390625e-05,
+          "rms_tracking_error_rad": 9.53710078522588e-06,
+          "max_abs_tracking_error_rad": 5.078315734863281e-05,
+          "normalized_rms_error": 0.25974999981737695,
+          "excited_above_1e_minus5_rad": true,
+          "peak_abs_velocity_rad_s": 0.00268118130043149,
+          "max_target_change_per_physics_step_rad": 3.647804260253906e-05,
+          "peak_abs_estimated_effort_nm": 0.08387894183397293
+        },
+        {
+          "joint": "panda_joint7",
+          "sample_count": 100,
+          "initial_position_rad": 0.7461310029029846,
+          "target_range_rad": 3.635883331298828e-06,
+          "command_excursion_rad": 3.635883331298828e-06,
+          "actual_range_rad": 5.9604644775390625e-06,
+          "rms_tracking_error_rad": 4.0289389171889275e-07,
+          "max_abs_tracking_error_rad": 2.562999725341797e-06,
+          "normalized_rms_error": null,
+          "excited_above_1e_minus5_rad": false,
+          "peak_abs_velocity_rad_s": 0.0001920606882777065,
+          "max_target_change_per_physics_step_rad": 1.1324882507324219e-06,
+          "peak_abs_estimated_effort_nm": 0.012517601251602173
+        }
+      ]
+    }
+  ],
+  "scope": "post-write position target used for the following physics integration; IK may update it every physics step",
+  "kinematic_attribution_summary": {
+    "phases": {
+      "replay": {
+        "samples": 100,
+        "rms_xyz_m": {
+          "joint_tracking_sum_xyz_m": [
+            0.0003312136670399681,
+            0.00020066482787749006,
+            0.00030257435962508775
+          ],
+          "goal_point_mapping_error_xyz_m": [
+            1.8568876540653513e-08,
+            2.64938825175415e-09,
+            3.204037743018862e-08
+          ],
+          "ik_target_linearization_residual_xyz_m": [
+            1.1910064145749885e-06,
+            3.7453129950986413e-07,
+            7.223563818507836e-07
+          ],
+          "displacement_linearization_residual_xyz_m": [
+            8.824118852007838e-08,
+            1.3732174756050955e-07,
+            1.9622589486656972e-07
+          ],
+          "measured_sensor_target_error_xyz_m": [
+            0.00033235643596030585,
+            0.00020097126818029108,
+            0.0003031944254398253
+          ],
+          "accounting_closure_error_xyz_m": [
+            4.158628920914748e-20,
+            2.041366976104884e-20,
+            7.125345923023811e-20
+          ]
+        },
+        "per_joint_y_contribution_rms_m": [
+          7.766682564369877e-05,
+          7.848391372429826e-08,
+          0.00020444785818713904,
+          1.469631581073911e-06,
+          3.4827182967594294e-06,
+          5.851525665966107e-07,
+          9.09606636699438e-12
+        ]
+      },
+      "zero-input-tail": {
+        "samples": 100,
+        "rms_xyz_m": {
+          "joint_tracking_sum_xyz_m": [
+            1.6836229318141392e-06,
+            1.193495270041343e-05,
+            1.4216320429145815e-05
+          ],
+          "goal_point_mapping_error_xyz_m": [
+            1.4042510075342321e-08,
+            1.6615960343100163e-09,
+            1.3907567890940454e-08
+          ],
+          "ik_target_linearization_residual_xyz_m": [
+            1.688230521273605e-08,
+            3.0673972584507194e-09,
+            3.1886868355363737e-08
+          ],
+          "displacement_linearization_residual_xyz_m": [
+            3.7308049150316986e-08,
+            7.756603259051003e-08,
+            8.584833369482164e-08
+          ],
+          "measured_sensor_target_error_xyz_m": [
+            1.6762766540916493e-06,
+            1.1939942316339894e-05,
+            1.4207498523783501e-05
+          ],
+          "accounting_closure_error_xyz_m": [
+            1.2752119845639566e-22,
+            1.3552948686804306e-21,
+            1.7114915179526513e-21
+          ]
+        },
+        "per_joint_y_contribution_rms_m": [
+          5.8396843167516406e-06,
+          2.34911400807301e-09,
+          5.921549038718108e-06,
+          1.7930869988156625e-08,
+          1.8150151899282437e-07,
+          1.232539565708982e-08,
+          1.2565983785269265e-14
+        ]
+      }
+    },
+    "scope": "pre-integration Jacobian times local joint errors; first-order accounting, not exact causal or torque decomposition; closure is algebraic",
+    "frame": "all geometric Jacobian rows and XYZ vectors expressed in robot root axes"
+  }
+}
