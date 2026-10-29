@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kinematic_attribution import JacobianTap, shift_jacobian, enrich_kinematic_row, summarize_kinematics
+from kinematic_attribution import JacobianTap, shift_jacobian, enrich_kinematic_row, summarize_kinematics, resolved_body_identity
 from physics_trace import PhysicsJointRecorder
 
 
@@ -22,6 +22,17 @@ def sample_row():
 
 
 class KinematicsTests(unittest.TestCase):
+    def test_resolved_identity_uses_body_index_not_pattern_or_name_representation(self):
+        result=resolved_body_identity([8],["panda_hand"],[8],["panda_hand"],8)
+        self.assertEqual(result["used_ik_body_index"],8)
+
+    def test_real_body_mismatch_and_ambiguous_pattern_still_stop(self):
+        for sensor_ids,sensor_names,used_index in (([7],["panda_link7"],8),
+                                                 ([7,8],["panda_link7","panda_hand"],8),
+                                                 ([8],["panda_hand"],7)):
+            with self.assertRaisesRegex(RuntimeError,"resolved body mismatch"):
+                resolved_body_identity(sensor_ids,sensor_names,[8],["panda_hand"],used_index)
+
     def test_shift_uses_angular_cross_lever_arm_in_root_axes(self):
         jac = [[0.0]*7 for _ in range(6)]
         jac[5][0] = 1

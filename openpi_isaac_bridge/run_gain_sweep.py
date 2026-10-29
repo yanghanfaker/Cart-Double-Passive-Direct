@@ -138,7 +138,7 @@ def main():
                         for line in process.stdout:
                             log.write(line)
                             recent.append(line)
-                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]", "[Stream start]", "[Grasp]", "[OpenPI step]", "[OpenPI replay]")):
+                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]", "[Stream start]", "[Grasp]", "[OpenPI step]", "[OpenPI replay]", "[Jacobian bodies]")):
                                 print(line, end="", flush=True)
                         code = process.wait()
                 entry["exit_code"] = code

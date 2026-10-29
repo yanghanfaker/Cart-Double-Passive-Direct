@@ -90,7 +90,7 @@ def main():
     from grasp_scenarios import validate_grasp_scenarios
     from openpi_step_probe import run_openpi_steps, libero_state_vector
     from replay_probe import REPLAY_MODES, load_replay, run_replay
-    from kinematic_attribution import JacobianTap, enrich_kinematic_row, summarize_kinematics
+    from kinematic_attribution import JacobianTap, enrich_kinematic_row, summarize_kinematics, resolved_body_identity
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -442,8 +442,18 @@ def main():
                     if list(arm_term._joint_names) != list(arm_names) or not robot.is_fixed_base:
                         raise RuntimeError("Jacobian attribution requires fixed base and identical seven-arm-joint ordering")
                     sensor_parent=cfg.scene.ee_frame.target_frames[0].prim_path.rsplit("/",1)[-1]
-                    if sensor_parent != arm_term._body_name:
-                        raise RuntimeError("Sensor and IK must be rigid offsets on the same resolved hand body")
+                    sensor_body_ids,sensor_body_names=robot.find_bodies(sensor_parent)
+                    ik_body_ids,ik_body_names=robot.find_bodies(arm_term.cfg.body_name)
+                    body_resolution={"sensor_path":cfg.scene.ee_frame.target_frames[0].prim_path,
+                        "sensor_body_pattern":sensor_parent,"ik_body_pattern":arm_term.cfg.body_name,
+                        "private_body_name_repr":repr(getattr(arm_term,"_body_name",None)),
+                        "sensor_body_ids":list(sensor_body_ids),"sensor_body_names":list(sensor_body_names),
+                        "ik_body_ids":list(ik_body_ids),"ik_body_names":list(ik_body_names),
+                        "used_ik_body_index":int(arm_term._body_idx)}
+                    (output/"jacobian_body_resolution.json").write_text(json.dumps(body_resolution,indent=2),encoding="utf-8")
+                    print("[Jacobian bodies] "+json.dumps(body_resolution),flush=True)
+                    body_resolution.update(resolved_body_identity(sensor_body_ids,sensor_body_names,
+                        ik_body_ids,ik_body_names,arm_term._body_idx))
                     implementation=[]
                     for method in ("_compute_frame_pose", "_compute_frame_jacobian"):
                         try:
@@ -501,7 +511,7 @@ def main():
                      "record_jacobians":args.record_jacobians,
                      "kinematic_capture_setup":({
                          "action_class":type(arm_term).__module__+"."+type(arm_term).__qualname__,
-                         "ik_body":arm_term._body_name,"sensor_parent":sensor_parent,
+                         "ik_body":ik_body_names[0],"sensor_parent":sensor_parent,"body_resolution":body_resolution,
                          "ik_offset_pos_m":list(arm_term.cfg.body_offset.pos) if arm_term.cfg.body_offset else None,
                          "ik_offset_quat_xyzw":list(arm_term.cfg.body_offset.rot) if arm_term.cfg.body_offset else None,
                          "sensor_offset_pos_m":list(cfg.scene.ee_frame.target_frames[0].offset.pos),

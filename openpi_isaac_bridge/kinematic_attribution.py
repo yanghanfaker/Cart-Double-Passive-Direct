@@ -1,5 +1,19 @@
 """Read-only Jacobian tap and local error accounting in robot-root axes."""
 import math
+import operator
+
+
+def resolved_body_identity(sensor_ids, sensor_names, ik_ids, ik_names, used_ik_index):
+    """Compare resolved articulation indices, not path regex or private names."""
+    sensor_ids = [operator.index(value) for value in sensor_ids]
+    ik_ids = [operator.index(value) for value in ik_ids]
+    used_ik_index = operator.index(used_ik_index)
+    details = {"sensor_body_ids":sensor_ids,"sensor_body_names":list(sensor_names),
+               "ik_body_ids":ik_ids,"ik_body_names":list(ik_names),"used_ik_body_index":used_ik_index}
+    if (len(sensor_ids)!=1 or len(sensor_names)!=1 or len(ik_ids)!=1 or len(ik_names)!=1
+            or sensor_ids[0]!=ik_ids[0] or ik_ids[0]!=used_ik_index):
+        raise RuntimeError(f"Sensor/IK resolved body mismatch: {details}")
+    return details
 
 
 def vector(values, size):
