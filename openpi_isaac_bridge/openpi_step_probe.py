@@ -75,8 +75,10 @@ class ApproachStopped(Exception):
     pass
 
 
-def run_openpi_steps(observe, infer, execute, steps=20, announce=print, replan_steps=1, approach_monitor=None):
-    maximum=60 if approach_monitor is not None else 20
+def run_openpi_steps(observe, infer, execute, steps=20, announce=print, replan_steps=1, approach_monitor=None, extended_approach=False):
+    if extended_approach and approach_monitor is None:
+        raise ValueError("extended approach requires an explicit progress monitor")
+    maximum=(400 if extended_approach else 60) if approach_monitor is not None else 20
     if isinstance(steps,bool) or not isinstance(steps,int) or not 1<=steps<=maximum:
         raise ValueError(f"model-motion probe requires 1 to {maximum} steps")
     if isinstance(replan_steps,bool) or not isinstance(replan_steps,int) or replan_steps not in (1,5):

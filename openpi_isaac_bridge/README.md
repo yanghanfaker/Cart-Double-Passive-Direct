@@ -1680,3 +1680,50 @@ git push origin main
 
 116项CPU测试通过，覆盖60步预算、3个分段、缓存块中停止、进展不足、远离、近物体初始拦截、
 预览图和运行器开关路由。实际模型轨迹和Isaac接口仍待Spark运行验证。
+
+## 块长5：最多400步长程接近测试
+
+60步结果0c00f3f60652中，三个分段均有进展，TCP到物体中心距离从366.33mm降至322.16mm，
+最终水平偏差约5.48mm，仍高于物体中心约322.12mm。本轮延长模型接近时间，检查能否到达80mm停止边界。
+
+新增显式 `--openpi-approach-long`，必须同时指定 `--openpi-approach`；只有openpi-step、块长5可用。
+最多400个50ms控制步、80次推理、2000条10ms物理记录；每20步仍检查进展。
+长程模式总位移边界为350mm、相对初始姿态的净旋转边界为90度。
+每步1mm/0.25度限幅、夹爪强制打开、物体移动与关节等原有检查保持有效。
+不传长程开关时，原接近模式仍最多60步，边界仍为70mm/18度；普通模式仍最多20步。
+
+继续使用8000端口的模型服务及其启动日志，在另一个终端运行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_j13_candidate_cases.json \
+  --modes openpi-step \
+  --openpi-replan-steps 5 --openpi-steps 400 \
+  --openpi-approach --openpi-approach-long \
+  --openpi-state-frame world \
+  --server-host 127.0.0.1 --server-port 8000 \
+  --policy-server-log /home/test/Robot/openpi/openpi_chunk_probe_server.log \
+  --prompt "pick up the cube" --record-physics
+```
+
+输出配置名称增加 `-approach-long`。任一步进入80mm边界，或距离相对初始增加超过5mm，
+或某20步分段进展不足2mm，均提前停止。不要为执行满400步关闭这些检查。
+进入80mm边界时 `approach_summary.near_boundary_reached=true`，
+`termination_reason=near_object_boundary`、`stopped_by_monitor=true`、`probe_completed=false`。
+这是本轮预期的受控停止，不是抓取成功；夹爪仍保持打开，也不保证400步内一定到达边界。
+最多400步对应20秒仿真时间，推理及渲染会增加实际等待时间。
+
+结束后导出并推送，包括提前受控停止的结果：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add long segmented OpenPI approach results"
+git push origin main
+```
+
+121项CPU测试通过，包括400步路由、400步完整预算、块内进入80mm边界、延长后进展不足停止、
+错误开关组合和原60步预算。Python语法检查通过；实际长程轨迹、接触情况和Isaac运行仍待Spark验证。

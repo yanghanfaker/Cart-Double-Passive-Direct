@@ -52,6 +52,7 @@ def main():
     parser.add_argument("--stream-scenarios-json", type=Path, help="cross gain cases with bounded stream start positions/amplitudes")
     parser.add_argument("--grasp-scenarios-json", type=Path, help="cross gain cases with explicit object poses, seeds and orientation rates")
     parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
+    parser.add_argument("--openpi-approach-long", action="store_true", help="explicit 400-control approach budget")
     parser.add_argument("--openpi-approach", action="store_true", help="up to 60 controls with segmented progress stops")
     parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5), nargs="+", help="expand candidate into chunk-length comparisons")
     parser.add_argument("--policy-server-log", type=Path, help="optional server startup log prefix to preserve with results")
@@ -63,6 +64,8 @@ def main():
     parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES), nargs="+",
                         default=["step-response", "libero-stream"])
     args = parser.parse_args()
+    if args.openpi_approach_long and not args.openpi_approach:
+        parser.error("--openpi-approach-long requires --openpi-approach")
     if args.openpi_approach and (args.modes != ["openpi-step"] or args.openpi_replan_steps != [5]):
         parser.error("--openpi-approach requires --modes openpi-step --openpi-replan-steps 5")
     if (args.openpi_replan_steps or args.policy_server_log) and args.modes != ["openpi-step"]:
@@ -75,8 +78,8 @@ def main():
         if any(mode not in REPLAY_MODES for mode in args.modes):
             parser.error("--record-jacobians requires frozen replay modes only")
         args.record_physics = True
-    if not 1<=args.openpi_steps<=(60 if args.openpi_approach else 20):
-        parser.error("--openpi-steps must be 1..20, or 1..60 with --openpi-approach")
+    if not 1<=args.openpi_steps<=(400 if args.openpi_approach_long else 60 if args.openpi_approach else 20):
+        parser.error("--openpi-steps must be 1..20, 1..60 with approach, or 1..400 with explicit long approach")
     if any(mode in args.modes for mode in ("joint-step", "grasp", "openpi-step", *REPLAY_MODES)):
         args.record_physics = True
     joint_overrides = (
@@ -108,8 +111,8 @@ def main():
         except ValueError as error:
             parser.error(str(error))
     if args.openpi_approach:
-        cases=[dict(case,name=case["name"]+"-approach",
-                    openpi_condition={**case["openpi_condition"],"segmented_approach":True}) for case in cases]
+        cases=[dict(case,name=case["name"]+("-approach-long" if args.openpi_approach_long else "-approach"),
+                    openpi_condition={**case["openpi_condition"],"segmented_approach":True,"extended_approach":args.openpi_approach_long}) for case in cases]
         if any(len(case["name"])>80 for case in cases):
             parser.error("approach case name exceeds 80 characters")
     if any(mode in REPLAY_MODES for mode in args.modes):
@@ -122,7 +125,7 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     manifest = {"output": str(output), "status": "running", "runs": [],
         "profiles": [case["name"] for case in cases], "cases": cases,
-        "modes": args.modes, "record_physics": args.record_physics, "record_jacobians": args.record_jacobians,"openpi_approach":args.openpi_approach,
+        "modes": args.modes, "record_physics": args.record_physics, "record_jacobians": args.record_jacobians,"openpi_approach":args.openpi_approach,"openpi_approach_long":args.openpi_approach_long,
         "joint_overrides": joint_overrides,
         "scope": "selected actuator gain profiles; no automatic selection or deployment; effort telemetry is approximate"}
     def save():
@@ -154,6 +157,8 @@ def main():
                                     "--openpi-replan-steps",str(case.get("openpi_condition",{}).get("replan_steps",1))])
                 if args.openpi_approach:
                     command.append("--openpi-approach")
+                if args.openpi_approach_long:
+                    command.append("--openpi-approach-long")
                 if mode in REPLAY_MODES:
                     command.extend(["--replay-actions-json",str(args.replay_actions_json.resolve())])
                 if case["joint_overrides"]:

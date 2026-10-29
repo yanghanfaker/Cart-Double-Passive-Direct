@@ -44,6 +44,7 @@ class ApproachMonitor:
     def summary(self):
         return {"initial_distance_m":self.initial_distance,"last_distance_m":self.last_distance,
                 "executed_steps":self.count,"segments":self.segments,"stop_reason":self.stop_reason,
+                "near_boundary_reached":self.last_distance<=.08,
                 "thresholds":{"segment_steps":20,"min_segment_progress_m":.002,
                               "max_distance_increase_from_initial_m":.005,"near_object_distance_m":.08},
                 "scope":"simulator truth for diagnostic stop checks only; no target generation; no grasp success claim"}
