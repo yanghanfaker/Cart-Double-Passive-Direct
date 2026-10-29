@@ -1,9 +1,29 @@
 import math
 import unittest
-from openpi_step_probe import bounded_openpi_action, validate_action_chunk, preview_images, run_openpi_steps, libero_state_vector
+from openpi_step_probe import bounded_openpi_action, validate_action_chunk, preview_images, run_openpi_steps, libero_state_vector, read_server_metadata
 
 
 class OpenpiStepTests(unittest.TestCase):
+    def test_cached_server_metadata_preserves_reported_fields(self):
+        class Client:
+            calls=0
+            def get_server_metadata(self):
+                self.calls+=1
+                return {"checkpoint":"reported-checkpoint","action_dim":7}
+        client=Client();result=read_server_metadata(client)
+        self.assertEqual(result["status"],"reported")
+        self.assertEqual(result["value"]["checkpoint"],"reported-checkpoint")
+        self.assertEqual(client.calls,1)
+
+    def test_empty_unsupported_and_invalid_metadata_are_explicit(self):
+        class Empty:
+            def get_server_metadata(self):return {}
+        class Invalid:
+            def get_server_metadata(self):return {"value":float("nan")}
+        self.assertEqual(read_server_metadata(Empty())["status"],"empty")
+        self.assertEqual(read_server_metadata(object())["status"],"unsupported")
+        self.assertEqual(read_server_metadata(Invalid())["status"],"unavailable")
+
     def test_state_matches_libero_signed_axis_angle_above_pi(self):
         angle=math.radians(200)
         q=[math.sin(angle/2),0,0,math.cos(angle/2)]

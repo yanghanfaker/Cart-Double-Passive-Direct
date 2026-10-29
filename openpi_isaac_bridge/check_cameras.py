@@ -88,7 +88,7 @@ def main():
     from stream_scenarios import validate_stream_scenarios
     from grasp_probe import run_grasp_probe
     from grasp_scenarios import validate_grasp_scenarios
-    from openpi_step_probe import run_openpi_steps, libero_state_vector
+    from openpi_step_probe import run_openpi_steps, libero_state_vector, read_server_metadata
     from replay_probe import REPLAY_MODES, load_replay, run_replay
     from kinematic_attribution import JacobianTap, enrich_kinematic_row, summarize_kinematics, resolved_body_identity, resolve_sensor_body_path
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
@@ -645,6 +645,7 @@ def main():
                             nonlocal client
                             if client is None:
                                 client=WebsocketClientPolicy(host=args.server_host,port=args.server_port)
+                                measured["openpi_setup"]["server_metadata"]=read_server_metadata(client)
                             return client.infer(observation)
 
                         def policy_execute(mapped,index):
@@ -678,6 +679,7 @@ def main():
                                 "object_pos_world_m_for_diagnostic_only":object_after.cpu().tolist()}
 
                         measured["openpi_setup"]={"host":args.server_host,"port":args.server_port,"prompt":args.prompt,
+                            "server_metadata":{"status":"not_connected"},
                             "seed":0,"reset_pose_range":cfg.events.reset_object_position.params["pose_range"],
                             "robot_gravity_disabled":cfg.scene.robot.spawn.rigid_props.disable_gravity,
                             "ee_sensor_offset_m":list(cfg.scene.ee_frame.target_frames[0].offset.pos),

@@ -1424,3 +1424,91 @@ git push origin main
 
 两套配置和四个场景已通过既有验证器、组合展开及增益实际应用检查。
 运行器、抓取宏与成功阈值沿用已有实现，实际效果由Spark结果确认。
+
+
+## 候选增益接回OpenPI：20步受限闭环
+
+确定性抓取结果2e1ab34b8e42中，原基准与J1/J3=1125/25在四个固定场景均通过。
+这说明候选可继续用于模型接口测试，不代表OpenPI自身已经具备当前场景的抓取能力。
+
+本轮使用 `openpi_j13_candidate_cases.json`：J1/J3=1125/25，J2/J4=5400/120，
+J5/J6/J7=900/20，其余限值和TCP定义保持原样。
+重新读取实时图像和状态并调用模型，不是冻结动作重放或使用物体真实位姿规划抓取。
+
+终端1：若已有LIBERO模型服务在8000端口运行，可继续使用；否则沿用之前已跑通的启动方式：
+
+```bash
+cd /home/test/Robot/openpi
+XLA_FLAGS="--xla_gpu_enable_triton_gemm=false" \
+XLA_PYTHON_CLIENT_PREALLOCATE=false \
+uv run scripts/serve_policy.py --env LIBERO --port 8000
+```
+
+等待服务开始监听，再在终端2运行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_j13_candidate_cases.json \
+  --modes openpi-step \
+  --server-host 127.0.0.1 --server-port 8000 \
+  --openpi-steps 20 --openpi-state-frame world \
+  --prompt "pick up the cube" \
+  --record-physics
+```
+
+此命令通过现有openpi extra加载客户端；如果此前尚未安装，可在IsaacLab项目中执行
+`uv add --optional openpi --editable /home/test/Robot/openpi/packages/openpi-client`，本轮已安装过则无需重复。
+Viser仍为8080端口。无需加入仅支持冻结重放的record-jacobians开关。
+
+**执行语义**
+
+每次使用当前两路RGB图像和8维状态发起一次新推理，接收完整N×7动作块并验证有限值，
+只执行第一条动作；随后仿真推进50ms，再重新观察。共20次推理、20个控制步，
+正常完成应得到1条run记录、100条10ms物理样本。
+每步平移范数上限1mm，旋转向量范数上限0.25度，夹爪始终打开；模型的开合请求、
+原始动作块、控制器域解码结果、限幅比例和实际执行动作均保留。
+原有30mm/6度总运动范围、单周期变化、关节软限位、物体移动等停止检查保持有效。
+
+图像仍为RGB resize/pad到224，不做180度翻转；状态仍采用world位姿、LIBERO示例的
+带符号旋转向量和双指[q1,−q2]。这些约定沿用之前实现，场景/TCP与训练视角注册仍待独立验证。
+物体真值仅用于诊断和停止检查，不进入模型输入，也不用于动作目标生成。
+
+同步推理会暂停仿真，本轮不验证真实墙钟20Hz。只执行动作块第一条并施加强限幅，
+也不同于模型原始完整动作块的自由执行。最多20mm名义路径不足以保证接近远处物体，
+本轮用于检查闭环方向和输入/输出协议，不评价抓取成功。
+
+**增加的服务信息记录**
+
+首次连接后使用官方客户端的缓存握手接口 `get_server_metadata()`，保存到
+`openpi_setup.server_metadata`。接口参考：
+[OpenPI客户端源码](https://github.com/Physical-Intelligence/openpi/blob/main/packages/openpi-client/src/openpi_client/websocket_client_policy.py)。
+记录明确区分reported、empty、unsupported、unavailable等状态；元数据为空不等于没有模型，
+也不证明实际检查点或归一化统计正确。需要结合服务端启动日志确认实际加载的配置、权重和统计。
+元数据只作为数据记录，不作为改变动作或执行指令的来源；读取失败不会改变既有动作逻辑。
+
+核对以下项目：
+
+1. `openpi_result.probe_completed=true`、`completed_steps=20`；外层completed仅表示诊断文件生成。
+2. 当前输入图像、状态、返回动作块维度与有限性，实际是否仍每次只执行第一条。
+3. 原始平移/旋转被限幅的比例、模型夹爪请求与实际打开指令的区别。
+4. 末端真实位移、周期位置/角度误差、方向、相对物体的诊断距离和物理步力矩估计。
+5. 服务端实际加载的模型信息。服务元数据不含检查点时，不凭--env或文件名断言身份已验证。
+
+模型推理可能具有随机性；不能把本轮新输出和以前不同的一组动作直接当成只改变增益的严格对照。
+也不能仅凭远处出现关闭请求判定策略一定错误，尤其在动作被强烈压缩、动作块只执行首条的条件下。
+下一阶段是否放开夹爪或扩大执行范围，应依据本轮轨迹、输入与动作约定核验结果决定。
+
+完成后导出并推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add candidate-gain bounded OpenPI closed-loop results"
+git push origin main
+```
+
+本轮候选配置已通过验证器检查；增加的握手记录和既有流程共99项CPU单元测试通过。
+实际模型连接和Isaac仿真效果待Spark运行验证。

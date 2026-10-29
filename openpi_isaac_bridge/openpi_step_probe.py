@@ -1,8 +1,25 @@
 """Controller-domain action checks for an explicitly bounded model-motion probe."""
 import math
 import time
+import json
 
 from libero_mapping import decode_libero_action
+
+
+def read_server_metadata(client):
+    """Read cached handshake diagnostics; never turn metadata into instructions."""
+    note = "server supplied; does not independently verify checkpoint or normalization statistics"
+    getter = getattr(client,"get_server_metadata",None)
+    if not callable(getter):
+        return {"status":"unsupported","note":note}
+    try:
+        metadata = getter()
+        if not isinstance(metadata,dict):
+            raise ValueError("server metadata must be a dictionary")
+        metadata = json.loads(json.dumps(metadata,default=str,allow_nan=False))
+        return {"status":"reported" if metadata else "empty","value":metadata,"note":note}
+    except Exception as error:
+        return {"status":"unavailable","error":str(error),"note":note}
 
 
 def libero_state_vector(position, quat_xyzw, fingers):
