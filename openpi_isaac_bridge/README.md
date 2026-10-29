@@ -1282,3 +1282,75 @@ git push origin main
 
 本地已用现有配置验证器检查9种配置，并通过真实增益配置函数验证各关节目标值及限值保留。
 实际动态效果仍须由Spark测试确认。
+
+
+## J1/J3候选多位置、多幅度回归
+
+成对调参结果8ced3944aefa中，J1/J3均1125/25在原始姿态、固定动作的12项
+动作段位姿指标上均优于原基准。该结果需要用其他关节构型和运动方向验证。
+本轮复用已运行过的六轴确定性往返流程，只新增增益配置文件，不修改仿真、采样或控制代码。
+
+使用 `j13_workspace_regression_cases.json` 比较：
+
+|配置|J1/J3|J2/J4|J5/J6/J7|
+|---|---|---|---|
+|workspace-j13-baseline|900/20|5400/120|900/20|
+|workspace-j13-k1125-d25|1125/25|5400/120|900/20|
+
+仍使用原来的力矩限值、TCP定义与IK配置。通过既有
+`cartesian_workspace_scenarios.json` 展开三种起始位置、两种幅度：
+
+|起始位置|相对初始TCP的root坐标偏移/mm|
+|---|---|
+|home|[0,0,0]|
+|yplus|[0,+15,+10]|
+|yminus|[0,−15,+10]|
+
+末端保持初始朝向。这是三个不同起始位置对应的关节构型，不包含额外起始朝向变化。
+每个位置测试X/Y/Z平移与RX/RY/RZ旋转，各自执行正向、停止、反向、停止。
+1倍幅度每步平移0.25mm或旋转0.1度，20步名义累计5mm或2度；
+2倍幅度每步0.5mm或0.2度，20步累计10mm或4度。不是每步移动5/10mm。
+每个50ms周期仍基于当前测量位姿生成增量目标，不累计期望位姿、不等待单条指令收敛。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/j13_workspace_regression_cases.json \
+  --stream-scenarios-json openpi_isaac_bridge/cartesian_workspace_scenarios.json \
+  --modes libero-stream \
+  --record-physics
+```
+
+无需启动OpenPI服务。此处使用 `--record-physics` 记录七个关节的目标/响应，
+`--record-jacobians` 当前只支持冻结动作重放，不能加入这条命令。
+本轮六轴分别往返用于控制器回归，不是多位置混合OpenPI动作重放或抓取测试。
+
+正常完成应为2套增益×6个位置/幅度条件=12次独立测试，共72条轴结果。
+每次80个预定位控制步，要求最后5步位置误差≤0.25mm、角度≤0.1度，然后运行6轴×70步。
+每次500个控制步、2500条10ms物理记录，合计30000条；初始化warmup不计入这些记录。
+预定位不达标会停止该轮，不能把未到位结果当作合格回归。
+
+判读时同时检查：
+
+1. `cartesian_stream_screen.all_passed`：完整六轴、累计正向投影增益0.9–1.1，且原有检查全部通过。
+2. 原检查包括回程位置≤1mm/角度≤0.3度、单周期位置误差≤1mm/角度≤0.5度、停止漂移≤0.5mm/0.2度及夹爪打开。
+3. 按相同位置与幅度成对比较两套增益的周期误差RMS/峰值、停止漂移和力矩估计余量。
+4. 单独查看Y、RX/RY/RZ及高幅度条件，避免仅依靠一个总通过数忽略性能退化。
+
+累计投影增益的通过不代表每条指令50ms内完全到位。边界值轻微超限需要看原始数据，
+不自动等同于明显失稳。通过全部小范围回归也不代表全工作空间或实际抓取均已验证。
+保持基准和候选两套参数，验证后再决定是否进入下一步模型闭环，不自动改默认配置。
+
+完成后导出并推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add J1 J3 candidate workspace regression results"
+git push origin main
+```
+
+配置已通过现有验证器、场景展开和实际增益配置函数的校验，确认12种组合及其他关节和限值保留。
+真实多条件动态效果待Spark运行结果确认。
