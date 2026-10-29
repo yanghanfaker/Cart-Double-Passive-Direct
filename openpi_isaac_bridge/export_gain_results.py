@@ -35,6 +35,8 @@ def main():
                 if Path(name).name!=name or "/" in name or "\\" in name or not name.endswith(".png"):
                     raise ValueError("unsafe policy preview image name")
                 files[prefix+"_"+name]=(folder/name).read_bytes()
+        if data.get("record_jacobians"):
+            files[prefix + "_jacobian_implementation.txt"] = (folder / "jacobian_implementation.txt").read_bytes()
         if data.get("record_physics"):
             files[prefix + "_physics_joint_summary.json"] = (folder / "physics_joint_summary.json").read_bytes()
             if args.include_physics_traces:

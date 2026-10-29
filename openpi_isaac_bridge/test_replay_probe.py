@@ -121,7 +121,7 @@ class ReplayTests(unittest.TestCase):
                 def __enter__(self): return self
                 def __exit__(self,*args): pass
                 def wait(self): return 0
-            args = ["runner", "--isaaclab-root", str(root), "--profiles", "kp2p25-kd0p25", "--modes", *REPLAY_MODES]
+            args = ["runner", "--isaaclab-root", str(root), "--profiles", "kp2p25-kd0p25", "--record-jacobians", "--modes", *REPLAY_MODES]
             with patch.object(sys,"argv",args), patch.object(run_gain_sweep.subprocess,"Popen",Process):
                 self.assertEqual(run_gain_sweep.main(), 0)
             self.assertEqual(len(commands), 3)
@@ -129,6 +129,7 @@ class ReplayTests(unittest.TestCase):
                 self.assertNotIn("openpi", command)
                 self.assertIn("--replay-actions-json", command)
                 self.assertIn("--record-physics", command)
+                self.assertIn("--record-jacobians", command)
 
 
 if __name__ == "__main__":

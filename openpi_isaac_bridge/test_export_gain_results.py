@@ -8,6 +8,20 @@ import unittest
 
 
 class ExportTests(unittest.TestCase):
+    def test_jacobian_source_exports_with_physics_records(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            manifest=self.prepare(root)
+            data=json.loads(manifest.read_text())
+            data["record_jacobians"]=True
+            for run in data["runs"]:
+                (Path(run["output"])/"jacobian_implementation.txt").write_text("installed IK source")
+            manifest.write_text(json.dumps(data))
+            result=self.run_export(manifest,root/"repo")
+            self.assertEqual(result.returncode,0,result.stderr)
+            dest=root/"repo/diagnostics/gain_sweep"
+            self.assertEqual((dest/"test_step-response_jacobian_implementation.txt").read_text(),"installed IK source")
+
     def prepare_openpi(self, root, previews):
         manifest=self.prepare(root)
         data=json.loads(manifest.read_text())

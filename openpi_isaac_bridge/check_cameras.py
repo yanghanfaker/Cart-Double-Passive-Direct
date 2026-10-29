@@ -90,6 +90,7 @@ def main():
     from grasp_scenarios import validate_grasp_scenarios
     from openpi_step_probe import run_openpi_steps, libero_state_vector
     from replay_probe import REPLAY_MODES, load_replay, run_replay
+    from kinematic_attribution import JacobianTap, enrich_kinematic_row, summarize_kinematics
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -100,6 +101,7 @@ def main():
     parser.add_argument("--warmup-steps", type=int, default=30)
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--gain-profile", choices=tuple(GAIN_PROFILES), default="baseline")
+    parser.add_argument("--record-jacobians", action="store_true", help="capture actual IK Jacobians during frozen replay only")
     parser.add_argument("--record-physics", action="store_true", help="record actual joint targets/state at every existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional explicit per-arm-joint gain overrides; no automatic tuning")
     parser.add_argument("--joint-step-rad", type=float, default=0.003, help="isolated joint-step magnitude, at most 0.005 rad")
@@ -125,6 +127,10 @@ def main():
     parser.add_argument("--wrist-offset", type=float, nargs=3, default=(0.10, 0.0, 0.02))
     add_launcher_args(parser)
     args = parser.parse_args()
+    if args.record_jacobians:
+        if args.motion_test not in REPLAY_MODES:
+            parser.error("--record-jacobians requires a frozen replay mode")
+        args.record_physics = True
     if not 1<=args.openpi_steps<=20:
         parser.error("--openpi-steps must be in [1, 20] for the first model-motion probe")
     grasp_condition = {"name": "direct", "object_offset_xy_m": list(args.grasp_object_offset),
@@ -232,6 +238,7 @@ def main():
     with launch_simulation(cfg, args):
         env = gym.make("IsaacContrib-Lift-Cube-Franka-IK-Rel", cfg=cfg)
         physics_recorder = None
+        jacobian_tap = None
         direct_joint_target = None
         original_arm_apply = None
         had_arm_apply = False
@@ -419,6 +426,48 @@ def main():
                         raise RuntimeError("Non-finite joint target")
                     return values.cpu().tolist()
 
+                def kinematic_pose():
+                    sensor_pos,sensor_quat=read_pose()
+                    ik_pos,ik_quat=arm_term._compute_frame_pose()
+                    return {"sensor_pos_root_m":sensor_pos.cpu().tolist(),
+                            "sensor_quat_root_xyzw":sensor_quat.cpu().tolist(),
+                            "ik_pos_root_m":tensor(ik_pos)[0].detach().cpu().tolist(),
+                            "ik_quat_root_xyzw":tensor(ik_quat)[0].detach().cpu().tolist()}
+
+                if args.record_jacobians:
+                    import inspect
+                    for method in ("_compute_frame_pose", "_compute_frame_jacobian"):
+                        if not callable(getattr(arm_term,method,None)):
+                            raise RuntimeError(f"Jacobian recording requires IK {method}")
+                    if list(arm_term._joint_names) != list(arm_names) or not robot.is_fixed_base:
+                        raise RuntimeError("Jacobian attribution requires fixed base and identical seven-arm-joint ordering")
+                    sensor_parent=cfg.scene.ee_frame.target_frames[0].prim_path.rsplit("/",1)[-1]
+                    if sensor_parent != arm_term._body_name:
+                        raise RuntimeError("Sensor and IK must be rigid offsets on the same resolved hand body")
+                    implementation=[]
+                    for method in ("_compute_frame_pose", "_compute_frame_jacobian"):
+                        try:
+                            implementation.append(inspect.getsource(getattr(arm_term,method)))
+                        except (OSError,TypeError):
+                            implementation.append(f"Source unavailable for {method}")
+                    for property_name in ("jacobian_w", "jacobian_b"):
+                        descriptor=inspect.getattr_static(type(arm_term),property_name,None)
+                        try:
+                            implementation.append(inspect.getsource(descriptor.fget if isinstance(descriptor,property) else descriptor))
+                        except (OSError,TypeError):
+                            implementation.append(f"Source unavailable for {property_name}")
+                    (output/"jacobian_implementation.txt").write_text("\n\n".join(implementation),encoding="utf-8")
+                    def capture_jacobian(result):
+                        matrix=tensor(result)[0].detach().clone()
+                        if matrix.shape != (6,7) or not bool(torch.isfinite(matrix).all()):
+                            raise RuntimeError("Expected finite actual IK Jacobian with shape 6x7")
+                        controller=arm_term._ik_controller
+                        return {**kinematic_pose(), "actual_ik_jacobian_root":matrix.cpu().tolist(),
+                            "joint_pos_rad":required_joint_values("joint_pos"),
+                            "ik_target_pos_root_m":tensor(controller.ee_pos_des)[0].detach().cpu().tolist(),
+                            "ik_target_quat_root_xyzw":tensor(controller.ee_quat_des)[0].detach().cpu().tolist()}
+                    jacobian_tap=JacobianTap(arm_term,capture_jacobian)
+
                 def read_physics_command():
                     effort, unavailable = joint_field("applied_torque")
                     actual_target = command_values(position_target_buffer)
@@ -426,8 +475,9 @@ def main():
                         expected_target = direct_joint_target[0].detach().cpu().tolist()
                         if max(abs(a-b) for a, b in zip(actual_target, expected_target)) > 1e-6:
                             raise RuntimeError("Fixed joint target was overwritten; discard isolated-step run")
+                    captured = {"kinematics_before":jacobian_tap.take()} if jacobian_tap is not None else {}
                     return {
-                        "position_target_rad": actual_target,
+                        **captured, "position_target_rad": actual_target,
                         "velocity_target_rad_s": command_values(velocity_target_buffer) if velocity_target_buffer is not None else None,
                         "position_before_rad": required_joint_values("joint_pos"),
                         "estimated_effort_nm": effort.cpu().tolist() if effort is not None else None,
@@ -436,7 +486,8 @@ def main():
 
                 def read_physics_state():
                     return {"position_rad": required_joint_values("joint_pos"),
-                            "velocity_rad_s": required_joint_values("joint_vel")}
+                            "velocity_rad_s": required_joint_values("joint_vel"),
+                            **({"kinematics_after":kinematic_pose()} if jacobian_tap is not None else {})}
 
                 physics_recorder = PhysicsJointRecorder(
                     base.scene, float(base.physics_dt), float(base.step_dt),
@@ -446,7 +497,21 @@ def main():
                      "time_origin": "first recorded diagnostic control period, excluding warmup",
                      "effort_note": "estimate captured after command write before integration; not a measured solver torque",
                      "target_note": ("fixed seven-joint targets; IK arm application bypassed" if args.motion_test == "joint-step" else
-                                     "post-write position target used for the following physics integration; IK may update it every physics step")},
+                                     "post-write position target used for the following physics integration; IK may update it every physics step"),
+                     "record_jacobians":args.record_jacobians,
+                     "kinematic_capture_setup":({
+                         "action_class":type(arm_term).__module__+"."+type(arm_term).__qualname__,
+                         "ik_body":arm_term._body_name,"sensor_parent":sensor_parent,
+                         "ik_offset_pos_m":list(arm_term.cfg.body_offset.pos) if arm_term.cfg.body_offset else None,
+                         "ik_offset_quat_xyzw":list(arm_term.cfg.body_offset.rot) if arm_term.cfg.body_offset else None,
+                         "sensor_offset_pos_m":list(cfg.scene.ee_frame.target_frames[0].offset.pos),
+                         "sensor_offset_quat_xyzw":list(cfg.scene.ee_frame.target_frames[0].offset.rot),
+                         "capture_timing":"actual IK Jacobian before compute/target-write; command read after target-write; state read after one physics update",
+                         "source_file":"jacobian_implementation.txt",
+                         "sensor_transform":"Jv_sensor=Jv_ik+Jw cross (p_sensor-p_ik); all columns in joint_names order"}
+                         if args.record_jacobians else None),
+                     "jacobian_note":"actual IK method output copied before each integration; sensor point shifted using omega cross offset; root axes; local first-order attribution"},
+                    enrich_row=enrich_kinematic_row if args.record_jacobians else None,
                 )
                 print(f"[Physics trace] physics_dt={base.physics_dt}; control_dt={base.step_dt}; "
                       f"substeps={physics_recorder.expected_substeps}; joints={arm_names}", flush=True)
@@ -476,7 +541,13 @@ def main():
                         previous_pos, previous_quat = read_pose()
                     if physics_recorder is not None:
                         physics_recorder.begin_control({**physics_context, "raw_isaac_action": action[0].detach().cpu().tolist()})
-                    result = env.step(action)
+                    if jacobian_tap is not None:
+                        jacobian_tap.active=True
+                    try:
+                        result = env.step(action)
+                    finally:
+                        if jacobian_tap is not None:
+                            jacobian_tap.active=False
                     if physics_recorder is not None:
                         physics_recorder.end_control()
                     if bool(tensor(result[2]).any()) or bool(tensor(result[3]).any()):
@@ -562,6 +633,8 @@ def main():
                             values=tracking_action(pe[0].cpu().tolist(),re[0].cpu().tolist(),float(arm_term.cfg.scale),rotation_step_deg=.25)
                             values[6]=1.0
                             physics_context.update(case="openpi",phase=("model-step" if args.motion_test=="openpi-step" else ("replay" if index<20 else "zero-input-tail")),case_control_step=index+1)
+                            physics_context.update(sensor_target_pos_root_m=target_pos[0].cpu().tolist(),
+                                sensor_target_quat_root_xyzw=target_quat[0].cpu().tolist())
                             checked_step(torch.tensor([values],dtype=torch.float32,device=base.device),before)
                             after,after_q,root_state,world_state=policy_states()
                             object_after=tensor(base.scene["object"].data.root_pos_w)[0].detach().clone()
@@ -1150,6 +1223,8 @@ def main():
                 measured["joint_telemetry_summary"] = telemetry_summary
                 if physics_recorder is not None:
                     highres_summary = physics_recorder.summary()
+                    if args.record_jacobians:
+                        highres_summary["kinematic_attribution_summary"]=summarize_kinematics(physics_recorder.rows)
                     (output / "physics_joint_summary.json").write_text(json.dumps(highres_summary, indent=2), encoding="utf-8")
                     measured["physics_joint_summary"] = highres_summary
                     print(f"[Physics trace] saved {highres_summary['recorded_substeps']} physics samples "
@@ -1205,6 +1280,8 @@ def main():
         finally:
             if physics_recorder is not None:
                 physics_recorder.close()
+            if jacobian_tap is not None:
+                jacobian_tap.close()
             if original_arm_apply is not None:
                 if had_arm_apply:
                     arm_term.apply_actions = original_arm_apply

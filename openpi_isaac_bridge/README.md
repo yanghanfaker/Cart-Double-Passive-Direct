@@ -1103,3 +1103,78 @@ git add -- diagnostics/gain_sweep/
 git commit -m "Add single-joint OpenPI replay gain sensitivity results"
 git push origin main
 ```
+
+
+## Y向误差定位：实际IK雅可比与关节贡献（2026-10-29）
+
+上一轮a2b47d546df8的27次测试没有得到全面优于基准的配置。基准纯旋转位置误差
+约99.6%的平方均值来自Y分量；J1加刚度明显放大误差，J3加刚度改善部分峰值，
+但不能据此把关节角误差直接认定为各关节造成的TCP误差。
+
+本轮回到 `openpi_probe_cases.json` 中的原基准，仍重放同一份动作，使用
+`--record-jacobians` 读取每个实际10ms物理子步的运动学数据，不更改增益或动作。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_probe_cases.json \
+  --modes openpi-replay-translation openpi-replay-rotation openpi-replay-mixed \
+  --record-jacobians
+```
+
+无需启动OpenPI服务。该开关自动开启物理采样，仅允许冻结重放。三组各40个控制步，
+共600条物理记录，应与既有基准的轨迹和周期误差复现一致。记录会增加墙钟耗时，
+但不增加模拟步、不延长模拟控制周期。
+
+**采样方式与坐标约定**
+
+- 包装实际动作项 `_compute_frame_jacobian` 调用：原函数只调用一次，原结果原样返回，
+  只保存detach/clone副本；不重新调用雅可比函数、不修改驱动目标。
+- 同时记录IK点、传感器TCP的root位姿、IK期望位姿、七个关节目标和实际值。
+  明确两点是同一手部刚体上的固定偏置，固定基座、关节顺序与6×7矩阵尺寸须通过检查。
+- 实际IK雅可比预期表示root轴中的几何速度。传感器点用
+  `Jv_sensor = Jv_ik + Jw × (p_sensor - p_ik)`逐列转换，角速度行不随固定点平移改变。
+- 将本机IK方法和jacobian_w/jacobian_b属性源码保存为 `jacobian_implementation.txt`，
+  以便核对安装版本。若接口缺失、采样时序不匹配或出现非有限值，会停止，不伪造雅可比。
+
+接口参考：[Isaac Lab动作项源码](https://github.com/isaac-sim/IsaacLab/blob/main/source/isaaclab/isaaclab/envs/mdp/actions/task_space_actions.py)。
+实际数据以本机保存的源码及位移预测残差为准，不假定安装版本与main完全相同。
+
+**每条物理记录增加的内容**
+
+`kinematics_before`包括实际使用的IK雅可比、积分前关节角、两点位姿和IK期望位姿；
+`kinematics_after`是积分后的两点位姿；`sensor_jacobian_root`是转换后的传感器点矩阵。
+`kinematic_attribution`包含：
+
+1. 逐关节一阶跟踪贡献 `J_sensor[:,j] * (q_target[j] - q_after[j])`，保留符号，
+   以及七关节贡献之和，不能把各关节RMS直接相加或当作独立贡献百分比。
+2. 请求的传感器目标与IK期望位姿所隐含的传感器目标之差，检查控制点目标转换。
+3. IK目标关节增量的一阶残差。
+4. 真实TCP位移减 `J_sensor * (q_after - q_before)`，检验该局部雅可比预测的可信度。
+5. 真实传感器目标误差及代数记账闭合误差。
+
+记账公式为：
+`真实目标误差 = 控制点目标映射误差 + IK一阶残差 + 关节跟踪贡献之和 - 实际位移一阶残差`。
+闭合是代数恒等检查，不是独立验证，更不是动力学因果证明。
+必须先看真实位移与雅可比预测是否接近，再解读J1/J3等关节Y向贡献是否互相抵消、是否时序失配。
+
+汇总保存在 `physics_joint_summary.json` 的 `kinematic_attribution_summary`，并进入导出的summary。
+它按动作段/零输入尾段汇总全部10ms样本，和前20个50ms周期末的RMS不是同一采样集合。
+原始压缩trace包含全部矩阵与带符号向量，可单独选每周期第5个子步比较。
+安装代码、矩阵语义、位移残差或非线性效应若不能支持一阶解释，应先排查这些因素，再调整增益。
+本轮仍不验证LIBERO场景注册或抓取成功。
+
+运行完成后：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add baseline TCP Jacobian attribution replay results"
+git push origin main
+```
+
+本地CPU验证覆盖刚体点变换符号、相反关节贡献、目标点旋转映射、时间对齐、
+只调用一次原雅可比及恢复方法、既有物理步数不变、开关路由和源码导出。
+实际Isaac接口与仿真轨迹须由Spark运行验证。

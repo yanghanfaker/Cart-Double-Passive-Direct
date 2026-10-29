@@ -9,7 +9,7 @@ import math
 
 
 class PhysicsJointRecorder:
-    def __init__(self, scene, physics_dt, control_dt, read_command, read_state, path, metadata):
+    def __init__(self, scene, physics_dt, control_dt, read_command, read_state, path, metadata, enrich_row=None):
         if not math.isfinite(physics_dt) or not math.isfinite(control_dt) or physics_dt <= 0 or control_dt <= 0:
             raise ValueError("physics and control periods must be finite and positive")
         ratio = control_dt / physics_dt
@@ -20,6 +20,7 @@ class PhysicsJointRecorder:
         self.scene, self.physics_dt, self.control_dt = scene, physics_dt, control_dt
         self.expected_substeps = round(ratio)
         self.read_command, self.read_state = read_command, read_state
+        self.enrich_row = enrich_row
         self.path, self.metadata = path, metadata
         self.context = None
         self.pending = None
@@ -66,6 +67,8 @@ class PhysicsJointRecorder:
                 "time_s": self.substep_count * self.physics_dt,
                 **self.pending, **self.read_state(),
             }
+            if self.enrich_row is not None:
+                row.update(self.enrich_row(row))
             self.rows.append(row)
             self.file.write(json.dumps(row, allow_nan=False) + "\n")
             self.pending = None

@@ -23,6 +23,7 @@ def main():
     selection = parser.add_mutually_exclusive_group()
     selection.add_argument("--profiles", choices=tuple(GAIN_PROFILES), nargs="+")
     selection.add_argument("--gain-cases-json", type=Path, help="named base profiles and per-joint overrides")
+    parser.add_argument("--record-jacobians", action="store_true", help="read-only actual IK Jacobian attribution for frozen replay")
     parser.add_argument("--record-physics", action="store_true", help="capture each existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
     parser.add_argument("--stream-scenarios-json", type=Path, help="cross gain cases with bounded stream start positions/amplitudes")
@@ -36,6 +37,10 @@ def main():
     parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES), nargs="+",
                         default=["step-response", "libero-stream"])
     args = parser.parse_args()
+    if args.record_jacobians:
+        if any(mode not in REPLAY_MODES for mode in args.modes):
+            parser.error("--record-jacobians requires frozen replay modes only")
+        args.record_physics = True
     if not 1<=args.openpi_steps<=20:
         parser.error("--openpi-steps must be in [1, 20]")
     if any(mode in args.modes for mode in ("joint-step", "grasp", "openpi-step", *REPLAY_MODES)):
@@ -73,7 +78,7 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     manifest = {"output": str(output), "status": "running", "runs": [],
         "profiles": [case["name"] for case in cases], "cases": cases,
-        "modes": args.modes, "record_physics": args.record_physics,
+        "modes": args.modes, "record_physics": args.record_physics, "record_jacobians": args.record_jacobians,
         "joint_overrides": joint_overrides,
         "scope": "selected actuator gain profiles; no automatic selection or deployment; effort telemetry is approximate"}
     def save():
@@ -96,6 +101,8 @@ def main():
                            "--output", str(run_output)]
                 if args.record_physics:
                     command.append("--record-physics")
+                if args.record_jacobians:
+                    command.append("--record-jacobians")
                 if mode=="openpi-step":
                     command.extend(["--server-host",args.server_host,"--server-port",str(args.server_port),
                                     "--prompt",args.prompt,"--openpi-steps",str(args.openpi_steps),
