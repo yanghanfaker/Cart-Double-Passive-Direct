@@ -1,0 +1,179 @@
+{
+  "configuration": {
+    "profile": "kp2p25-kd0p25",
+    "kp_factor": 2.25,
+    "kd_factor": 0.25,
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 3600,
+        "damping": 80
+      },
+      "panda_joint4": {
+        "stiffness": 3600,
+        "damping": 80
+      }
+    },
+    "groups": [
+      {
+        "group": "panda_arm",
+        "model": "ImplicitActuator",
+        "joint_patterns": [
+          "panda_joint[1-7]"
+        ],
+        "matched_arm_joints": [
+          "panda_joint1",
+          "panda_joint2",
+          "panda_joint3",
+          "panda_joint4",
+          "panda_joint5",
+          "panda_joint6",
+          "panda_joint7"
+        ],
+        "original_stiffness": 400.0,
+        "original_damping": 80.0,
+        "experiment_stiffness": {
+          "panda_joint1": 900.0,
+          "panda_joint2": 3600,
+          "panda_joint3": 900.0,
+          "panda_joint4": 3600,
+          "panda_joint5": 900.0,
+          "panda_joint6": 900.0,
+          "panda_joint7": 900.0
+        },
+        "experiment_damping": {
+          "panda_joint1": 20.0,
+          "panda_joint2": 80,
+          "panda_joint3": 20.0,
+          "panda_joint4": 80,
+          "panda_joint5": 20.0,
+          "panda_joint6": 20.0,
+          "panda_joint7": 20.0
+        },
+        "configured_limits": {
+          "joint_effort_limit": {
+            "panda_joint[1-4]": 87.0,
+            "panda_joint[5-7]": 12.0
+          },
+          "joint_velocity_limit": {
+            "panda_joint[1-4]": 20.0,
+            "panda_joint[5-7]": 25.0
+          },
+          "actuator_effort_limit": null,
+          "actuator_velocity_limit": null,
+          "effort_limit": null,
+          "velocity_limit": null,
+          "effort_limit_sim": null,
+          "velocity_limit_sim": null
+        }
+      },
+      {
+        "group": "panda_hand",
+        "model": "ImplicitActuator",
+        "joint_patterns": [
+          "panda_finger_joint1"
+        ],
+        "matched_arm_joints": [],
+        "original_stiffness": null,
+        "original_damping": null,
+        "experiment_stiffness": null,
+        "experiment_damping": null,
+        "configured_limits": {
+          "joint_effort_limit": 200.0,
+          "joint_velocity_limit": null,
+          "actuator_effort_limit": null,
+          "actuator_velocity_limit": null,
+          "effort_limit": null,
+          "velocity_limit": null,
+          "effort_limit_sim": null,
+          "velocity_limit_sim": null
+        }
+      },
+      {
+        "group": "panda_finger2_passive",
+        "model": "ImplicitActuator",
+        "joint_patterns": [
+          "panda_finger_joint2"
+        ],
+        "matched_arm_joints": [],
+        "original_stiffness": 0.0,
+        "original_damping": 0.0,
+        "experiment_stiffness": 0.0,
+        "experiment_damping": 0.0,
+        "configured_limits": {
+          "joint_effort_limit": 200.0,
+          "joint_velocity_limit": null,
+          "actuator_effort_limit": null,
+          "actuator_velocity_limit": null,
+          "effort_limit": null,
+          "velocity_limit": null,
+          "effort_limit_sim": null,
+          "velocity_limit_sim": null
+        }
+      }
+    ]
+  },
+  "joint_names": [
+    "panda_joint1",
+    "panda_joint2",
+    "panda_joint3",
+    "panda_joint4",
+    "panda_joint5",
+    "panda_joint6",
+    "panda_joint7"
+  ],
+  "runtime": {
+    "joint_stiffness": {
+      "values": [
+        900.0,
+        3600.0,
+        900.0,
+        3600.0,
+        900.0,
+        900.0,
+        900.0
+      ]
+    },
+    "joint_damping": {
+      "values": [
+        20.0,
+        80.0,
+        20.0,
+        80.0,
+        20.0,
+        20.0,
+        20.0
+      ]
+    },
+    "joint_vel_limits": {
+      "values": [
+        20.0,
+        20.0,
+        20.0,
+        20.0,
+        25.0,
+        25.0,
+        25.0
+      ]
+    },
+    "joint_effort_limits": {
+      "values": [
+        87.0,
+        87.0,
+        87.0,
+        87.0,
+        12.0,
+        12.0,
+        12.0
+      ]
+    }
+  },
+  "ik_configuration": {
+    "command_type": "pose",
+    "use_relative_mode": true,
+    "ik_method": "dls",
+    "ik_params": {
+      "lambda_val": 0.01
+    }
+  },
+  "effort_note": "implicit-drive applied_torque is approximate telemetry; control-period samples do not capture physics-step peaks"
+}
