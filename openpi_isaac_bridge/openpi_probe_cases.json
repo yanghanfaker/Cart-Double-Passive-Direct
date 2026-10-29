@@ -1,0 +1,16 @@
+[
+  {
+    "name": "openpi-j24-kp5400-kd120",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      }
+    }
+  }
+]

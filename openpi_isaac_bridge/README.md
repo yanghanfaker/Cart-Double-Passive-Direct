@@ -1,10 +1,12 @@
 # Isaac Lab / OpenPI 相机与观测检查
 
 用于已能运行 `IsaacContrib-Lift-Cube-Franka-IK-Rel` 的 Isaac Lab 3 开发版本。
-脚本采集两台相机和 8 维状态；可选请求 `pi05_libero` 模型，但只保存动作，不执行模型动作。
-它还不是闭环抓取控制器，尚未校准 LIBERO 与 Isaac 的坐标和动作映射。
+脚本默认采集两台相机和8维状态；`--query`只保存模型输出。
+只有显式选择 `--motion-test openpi-step` 才执行限幅的模型末端动作，并保持夹爪打开；见文末首轮模型测试说明。
+它尚未完成OpenPI视觉闭环抓取或LIBERO与Isaac场景配准。
 
-用户已在 Spark 验证图片采集、模型查询、XYZ 平移与夹爪开合。新增旋转测试目前只通过本地 CPU 检查，仍需在 Spark 验证。
+用户已在Spark完成图片采集、模型查询、动作映射、关节/末端回归和真值定位的确定性抓取；各轮证据见后文。
+新OpenPI限幅执行模式目前通过CPU检查，实际模型闭环仍待Spark验证。
 这部分不需要运行双摆安装脚本，也不修改已有双摆任务。
 
 ## 准备
@@ -910,5 +912,94 @@ python3 openpi_isaac_bridge/run_gain_sweep.py \
 python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
 git add -- diagnostics/gain_sweep/
 git commit -m "Add repeated grasp pose and orientation-rate results"
+git push origin main
+```
+
+## 首轮OpenPI模型驱动的小步闭环
+
+确定性控制与夹持已经完成局部验证；本轮开始执行模型给出的末端动作。
+使用单一已测候选：关节2/4为5400/120，其它五个机械臂关节900/20，原力矩/速度限制不变。
+这是输入/动作接口与小步响应测试，夹爪始终打开，无抓取成功判定。
+
+如果OpenPI服务尚未运行，先在Spark终端1启动并保持运行：
+
+```bash
+cd /home/test/Robot/openpi
+XLA_FLAGS="--xla_gpu_enable_triton_gemm=false" \
+XLA_PYTHON_CLIENT_PREALLOCATE=false \
+uv run scripts/serve_policy.py --env LIBERO --port 8000
+```
+
+终端2运行（之前已安装IsaacLab项目的openpi extra时直接执行）：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_probe_cases.json \
+  --modes openpi-step \
+  --server-host 127.0.0.1 --server-port 8000 \
+  --openpi-steps 20 --openpi-state-frame world \
+  --prompt "pick up the cube" \
+  --record-physics
+```
+
+运行器在该模式自动添加 `--extra openpi` 和物理采样。若项目尚无该extra，按文首准备章节安装客户端。
+不添加--query：--query始终是只保存动作的旧入口；openpi-step是显式执行入口。
+本轮固定物体reset位置与seed=0，初始腕部朝向由固定场景点[0.5,0,0.04]一次性设置，循环中不重新瞄准物体。
+模型观测不含物体真值；物体真值仅用于额外停止检查。
+
+每次循环：
+1. 读取当前两路RGB及末端/夹爪状态，保存模型实际收到的224x224 RGB PNG。
+2. 查询服务，保存完整返回动作块并检查所有元素有限、形状为N×7。
+3. 只取第一个动作，按robosuite 1.4默认OSC缩放解码，再分别将平移/旋转向量范数限制到1 mm、0.25度。
+4. 将世界轴增量转换为Isaac机器人根轴目标，通过当前IK执行一次50 ms仿真控制步；夹爪请求记录但强制应用打开。
+5. 保存实际末端变化和两指状态，再重新采图并查询，最多20次。后续chunk动作不缓存执行。
+
+最多累计20 mm名义平移和5度名义旋转；执行保护另限制距起点30 mm、姿态变化6度，
+以及实际单周期位移10 mm、转角3度和关节软限位。物体移动超过20 mm或状态无效也会停止。
+动作显著限幅会改变原模型策略行为，本轮不能据没有完成抓取评判模型能力。
+
+**模型输入约定与尚未对齐的部分**
+
+OpenPI官方LIBERO示例使用末端世界坐标位置、旋转向量与两指qpos，见
+[examples/libero/main.py](https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/main.py)。
+本轮默认state-frame=world，额外记录root状态便于对比；--openpi-state-frame root只用于显式对照，不能替代场景配准。
+当前输入未自动添加LIBERO桌面高度或其它坐标平移，世界坐标原点、TCP定义和相机分布仍需检查。
+
+两个已确认的接口差异在本轮适配：
+- 旋转向量按官方_quat2axisangle使用xyzw四元数计算，不使用Isaac默认的w>=0最短转角规范化。
+  两者在接近/超过180度时可产生不同state数值，虽然对应物理朝向等价。原始四元数同时保留。
+- 当前Isaac Panda两指物理位置均为正；对应robosuite 1.4 Panda第二指qpos为负，
+  输入映射为[q1,-q2]，见[官方Panda XML](https://github.com/ARISE-Initiative/robosuite/blob/v1.4.0/robosuite/models/assets/grippers/panda_gripper.xml)。
+  检查Isaac指关节顺序后才转换，原始两指读数单独保存。这不代表checkpoint归一化统计已经逐项验证。
+
+图像用RGB resize/pad到224，不自动照搬MuJoCo示例的180度翻转；实际模型输入图片随结果导出供检查。
+当前仍假定LIBERO与Isaac世界轴方向一致；没有证明场景坐标、TCP、相机外参与训练分布已经完全匹配。
+
+**运行与结果判读**
+
+控制步长50 ms，但等待推理时同步暂停仿真。20次成功执行只推进1秒仿真时间，墙钟耗时包含推理、渲染和启动。
+这不是实时20 Hz控制，不是官方默认动作块执行策略，也未证明IK与OSC动力学等价。
+
+`[OpenPI step] 1/20...`记录请求耗时、模型夹爪请求以及实际保持打开。
+`openpi_result.probe_completed=True`只表示所有受限步骤执行完成，不能解释为抓取成功或模型对齐。
+`completed_steps`记录已完成的控制步；发生执行后保护异常时，execution_attempted与executed字段区分动作是否已经尝试。
+连接/推理抛错、动作非法或保护停止会记录failure_reason及现有trace，仍可作为已完成的诊断导出。
+若客户端仍在等待连接，先确认终端1服务已正常启动。
+
+汇总保留：完整动作块、裁剪/范数缩放、请求和实际夹爪指令、输入state、两参考系状态、原始四元数、
+目标与实际末端变化、推理墙钟耗时、实际增益及物理步关节记录。
+`observation.json`仍是启动时的旧采集记录；模型实际每次收到的输入以 `openpi_result.trace.state_sent` 和对应PNG为准。
+输入图片全部保存于运行目录；通用导出器自动复制第一/最后一次输入的两张PNG到diagnostics/gain_sweep，方便从GitHub复核。
+
+新路径通过CPU流程/限幅/状态转换/导出检查，真实服务调用和Isaac运行仍待Spark验证。
+完成后推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add first bounded OpenPI model-motion probe results"
 git push origin main
 ```

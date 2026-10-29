@@ -15,7 +15,7 @@ def main():
     data = json.loads(args.latest.read_text(encoding="utf-8"))
     runs = data["runs"]
     modes = data.get("modes", ["step-response", "libero-stream"])
-    if not modes or set(modes) - {"step-response", "libero-stream", "joint-step", "grasp"}:
+    if not modes or set(modes) - {"step-response", "libero-stream", "joint-step", "grasp", "openpi-step"}:
         raise SystemExit("Unknown test mode; no files exported")
     expected = {(profile, mode) for profile in data["profiles"] for mode in modes}
     if (data["status"] != "completed" or len(runs) != len(expected)
@@ -29,6 +29,11 @@ def main():
         if Path(prefix).name != prefix or "/" in prefix or "\\" in prefix:
             raise ValueError("unsafe profile/mode in result manifest")
         files[prefix + "_actuators.json"] = (folder / "actuator_audit.json").read_bytes()
+        if run["mode"]=="openpi-step":
+            for name in run["openpi_result"]["preview_images"]:
+                if Path(name).name!=name or "/" in name or "\\" in name or not name.endswith(".png"):
+                    raise ValueError("unsafe policy preview image name")
+                files[prefix+"_"+name]=(folder/name).read_bytes()
         if data.get("record_physics"):
             files[prefix + "_physics_joint_summary.json"] = (folder / "physics_joint_summary.json").read_bytes()
             if args.include_physics_traces:

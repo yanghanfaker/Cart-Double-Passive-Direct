@@ -10,6 +10,34 @@ import run_gain_sweep
 
 
 class SweepRoutingTests(unittest.TestCase):
+    def test_openpi_mode_loads_client_extra_and_preserves_failed_probe_data(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            commands=[]
+            class FakeProcess:
+                def __init__(self,command,**kwargs):
+                    commands.append(command)
+                    output=Path(command[command.index("--output")+1])
+                    report={"joint_telemetry_summary":{},"actuator_audit":{},"physics_joint_summary":{},
+                            "openpi_result":{"probe_completed":False,"completed_steps":0,"failure_reason":"server unavailable","preview_images":[]},
+                            "openpi_setup":{"state_frame":"world"}}
+                    (output/"motion_openpi-step.json").write_text(json.dumps(report))
+                    self.stdout=io.StringIO("")
+                def __enter__(self):return self
+                def __exit__(self,*args):pass
+                def wait(self):return 0
+            argv=["run_gain_sweep.py","--isaaclab-root",str(root),"--profiles","kp2p25-kd0p25",
+                  "--modes","openpi-step","--openpi-steps","2","--server-port","8001"]
+            with patch.object(sys,"argv",argv),patch.object(run_gain_sweep.subprocess,"Popen",FakeProcess):
+                self.assertEqual(run_gain_sweep.main(),0)
+            self.assertEqual(commands[0][:6],["uv","run","--extra","viser","--extra","openpi"])
+            self.assertIn("--record-physics",commands[0])
+            self.assertEqual(commands[0][commands[0].index("--openpi-steps")+1],"2")
+            self.assertEqual(commands[0][commands[0].index("--server-port")+1],"8001")
+            manifest=json.loads((root/"logs/openpi_gain_sweep/latest_gain_sweep.json").read_text())
+            self.assertEqual(manifest["status"],"completed")
+            self.assertFalse(manifest["runs"][0]["openpi_result"]["probe_completed"])
+
     def test_failed_grasp_metric_is_exportable_completed_diagnostic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

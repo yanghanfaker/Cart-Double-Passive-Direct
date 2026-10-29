@@ -26,10 +26,17 @@ def main():
     parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
     parser.add_argument("--stream-scenarios-json", type=Path, help="cross gain cases with bounded stream start positions/amplitudes")
     parser.add_argument("--grasp-scenarios-json", type=Path, help="cross gain cases with explicit object poses, seeds and orientation rates")
-    parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step", "grasp"), nargs="+",
+    parser.add_argument("--openpi-steps", type=int, default=20)
+    parser.add_argument("--openpi-state-frame", choices=("world","root"), default="world")
+    parser.add_argument("--server-host", default="127.0.0.1")
+    parser.add_argument("--server-port", type=int, default=8000)
+    parser.add_argument("--prompt", default="pick up the cube")
+    parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step", "grasp", "openpi-step"), nargs="+",
                         default=["step-response", "libero-stream"])
     args = parser.parse_args()
-    if any(mode in args.modes for mode in ("joint-step", "grasp")):
+    if not 1<=args.openpi_steps<=20:
+        parser.error("--openpi-steps must be in [1, 20]")
+    if any(mode in args.modes for mode in ("joint-step", "grasp", "openpi-step")):
         args.record_physics = True
     joint_overrides = (
         json.loads(args.joint_gains_json.expanduser().resolve().read_text(encoding="utf-8"))
@@ -79,11 +86,16 @@ def main():
             for mode in args.modes:
                 run_output = output / profile / mode
                 run_output.mkdir(parents=True)
-                command = ["uv", "run", "--extra", "viser", "isaaclab", "-p", str(script),
+                extras=["--extra","viser"] + (["--extra","openpi"] if mode=="openpi-step" else [])
+                command = ["uv", "run", *extras, "isaaclab", "-p", str(script),
                            "--viz", "viser", "--motion-test", mode, "--gain-profile", case["profile"],
                            "--output", str(run_output)]
                 if args.record_physics:
                     command.append("--record-physics")
+                if mode=="openpi-step":
+                    command.extend(["--server-host",args.server_host,"--server-port",str(args.server_port),
+                                    "--prompt",args.prompt,"--openpi-steps",str(args.openpi_steps),
+                                    "--openpi-state-frame",args.openpi_state_frame])
                 if case["joint_overrides"]:
                     command.extend(["--joint-gains-json", str(override_path)])
                 if case.get("stream_scenario"):
@@ -113,7 +125,7 @@ def main():
                         for line in process.stdout:
                             log.write(line)
                             recent.append(line)
-                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]", "[Stream start]", "[Grasp]")):
+                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]", "[Stream start]", "[Grasp]", "[OpenPI step]")):
                                 print(line, end="", flush=True)
                         code = process.wait()
                 entry["exit_code"] = code
@@ -145,6 +157,9 @@ def main():
                 elif mode == "grasp":
                     entry["grasp_result"] = result["grasp_result"]
                     entry["grasp_setup"] = result["grasp_setup"]
+                elif mode == "openpi-step":
+                    entry["openpi_result"] = result["openpi_result"]
+                    entry["openpi_setup"] = result["openpi_setup"]
                 else:
                     entry["all_stream_tests_passed"] = result["all_stream_tests_passed"]
                     # Preserve pose/target samples for diagnosing axis coupling

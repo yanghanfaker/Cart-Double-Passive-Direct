@@ -8,6 +8,34 @@ import unittest
 
 
 class ExportTests(unittest.TestCase):
+    def prepare_openpi(self, root, previews):
+        manifest=self.prepare(root)
+        data=json.loads(manifest.read_text())
+        data["modes"]=["openpi-step"]
+        data["runs"]=[dict(data["runs"][0],mode="openpi-step",openpi_result={"preview_images":previews})]
+        manifest.write_text(json.dumps(data))
+        return manifest
+
+    def test_policy_input_previews_are_exported_with_results(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            manifest=self.prepare_openpi(root,["first.png","last.png"])
+            for name in ("first.png","last.png"):
+                (root/"step-response"/name).write_bytes(b"preview fixture")
+            result=self.run_export(manifest,root/"repo")
+            self.assertEqual(result.returncode,0,result.stderr)
+            dest=root/"repo/diagnostics/gain_sweep"
+            self.assertEqual(len(list(dest.iterdir())),6)
+            self.assertEqual((dest/"test_openpi-step_last.png").read_bytes(),b"preview fixture")
+
+    def test_unsafe_policy_preview_path_does_not_export(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            manifest=self.prepare_openpi(root,["../outside.png"])
+            result=self.run_export(manifest,root/"repo")
+            self.assertNotEqual(result.returncode,0)
+            self.assertFalse((root/"repo/diagnostics").exists())
+
     def prepare(self, root):
         runs = []
         for mode in ("step-response", "libero-stream"):
