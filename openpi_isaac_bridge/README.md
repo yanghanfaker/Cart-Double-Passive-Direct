@@ -1727,3 +1727,55 @@ git push origin main
 
 121项CPU测试通过，包括400步路由、400步完整预算、块内进入80mm边界、延长后进展不足停止、
 错误开关组合和原60步预算。Python语法检查通过；实际长程轨迹、接触情况和Isaac运行仍待Spark验证。
+
+## 长程接近：相同初始化连续重复3轮
+
+结果11e909446243中，320步将距离从366.33mm降至147.45mm，最近139.44mm；末段模型指令开始抬升，
+触发20步进展不足停止。本轮先检查这种停滞是否重复出现，不改变控制器、动作限幅、图像或停止规则。
+
+`openpi_approach_repeat_cases.json`包含repeat1/2/3三个名称，增益与`openpi_j13_candidate_cases.json`完全相同。
+利用已有运行器，每个case启动一个新的Isaac进程，重建环境并以seed=0和固定方块位置初始化。
+三轮顺序执行，分别保存trace、图像、执行器参数、服务启动日志和10ms物理记录，统一放入同一汇总。
+不需要修改运行器或策略执行代码。
+
+三轮复用同一OpenPI服务，服务内采样随机状态可能持续推进；这是相同物理条件的顺序重复，
+不是三个有独立受控模型随机种子的统计样本。运行后还需比较三轮初始state和两路图像，确认输入是否相同。
+不要在轮次之间重启服务、变更prompt或操纵场景。
+
+保持8000端口模型服务运行，另一终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_approach_repeat_cases.json \
+  --modes openpi-step \
+  --openpi-replan-steps 5 --openpi-steps 400 \
+  --openpi-approach --openpi-approach-long \
+  --openpi-state-frame world \
+  --server-host 127.0.0.1 --server-port 8000 \
+  --policy-server-log /home/test/Robot/openpi/openpi_chunk_probe_server.log \
+  --prompt "pick up the cube" --record-physics
+```
+
+每轮最多400控制步/80次推理/2000物理子步；三轮合计最多1200步/240次推理/6000物理记录。
+仍强制开爪，每步1mm/0.25度，总位移350mm/净旋转90度，接近80mm或进展不足等条件仍提前停止。
+正常生成诊断的受控停止会保留结果并继续下一轮；进程异常或报告缺失则运行器停止，应保留报错排查。
+Viser随每个Isaac进程退出并重启，轮次切换时页面可能断开，刷新即可；无需为浏览器断开重跑已完成轮次。
+
+重点比较：初始输入一致性、最近/最终距离、停止步数及原因、最后20步模型请求与实际Z运动、
+水平偏差、周期末TCP跟踪误差、10ms估算力矩和图像可见性。
+三轮进入80mm边界的次数只用于这组条件的描述，不等于抓取成功率或泛化能力。
+
+完成全部三轮后一次性导出并推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add three repeated long OpenPI approach results"
+git push origin main
+```
+
+本轮配置通过增益校验及名称长度/唯一性校验；用模拟子进程验证三轮路由、受控停止后继续执行、
+三份trace及预览图无覆盖导出，9项现有运行器测试通过。实际环境重置一致性及三轮模型结果待Spark验证。
