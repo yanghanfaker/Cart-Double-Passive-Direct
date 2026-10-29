@@ -64,23 +64,33 @@ def bounded_openpi_action(action):
     return result
 
 
-def preview_images(trace):
+def preview_images(trace, segment_steps=None):
     if not trace:
         return []
-    return list(dict.fromkeys(name for row in (trace[0],trace[-1]) for name in row["image_files"]))
+    selected=[trace[0]]+[r for r in trace if segment_steps and r["step"]%segment_steps==0]+[trace[-1]]
+    return list(dict.fromkeys(name for row in selected for name in row["image_files"]))
 
 
-def run_openpi_steps(observe, infer, execute, steps=20, announce=print, replan_steps=1):
-    if isinstance(steps,bool) or not isinstance(steps,int) or not 1<=steps<=20:
-        raise ValueError("model-motion probe requires 1 to 20 steps")
+class ApproachStopped(Exception):
+    pass
+
+
+def run_openpi_steps(observe, infer, execute, steps=20, announce=print, replan_steps=1, approach_monitor=None):
+    maximum=60 if approach_monitor is not None else 20
+    if isinstance(steps,bool) or not isinstance(steps,int) or not 1<=steps<=maximum:
+        raise ValueError(f"model-motion probe requires 1 to {maximum} steps")
     if isinstance(replan_steps,bool) or not isinstance(replan_steps,int) or replan_steps not in (1,5):
         raise ValueError("replan_steps must be 1 or 5")
+    if approach_monitor is not None and replan_steps!=5:
+        raise ValueError("segmented approach requires replan_steps=5")
     trace=[]
     report={"probe_completed":False,"requested_steps":steps,"completed_steps":0,"trace":trace,
             "replan_steps":replan_steps,"inference_requests":0,"validated_inferences":0,
             "scope":f"execute first {replan_steps} actions per fresh inference; capped at 1 mm/0.25 deg, gripper open; not grasp or real-time 20 Hz validation"}
     chunk=None
     try:
+        if approach_monitor is not None and approach_monitor.stop_reason:
+            raise ApproachStopped(approach_monitor.stop_reason)
         for index in range(steps):
             obs,metadata=observe(index)
             new_inference=index % replan_steps == 0
@@ -118,10 +128,23 @@ def run_openpi_steps(observe, infer, execute, steps=20, announce=print, replan_s
             announce(f"[OpenPI step] {index+1}/{steps}: infer={timing}; "
                      f"chunk={row['chunk_id']} action={row['chunk_action_index']}; "
                      f"model_gripper={action[6]:.4f}; applied_gripper=open")
+            if approach_monitor is not None:
+                row["approach_diagnostic"]=approach_monitor.update(row)
+                checkpoint=row["approach_diagnostic"]["checkpoint"]
+                if checkpoint:
+                    announce(f"[OpenPI segment] step={index+1}; distance={checkpoint['end_distance_m']*1000:.2f}mm; "
+                             f"segment_progress={checkpoint['distance_reduction_m']*1000:.2f}mm")
+                if approach_monitor.stop_reason:
+                    raise ApproachStopped(approach_monitor.stop_reason)
         report["probe_completed"]=True
+    except ApproachStopped as error:
+        report.update(stopped_by_monitor=True,termination_reason=str(error),failure_reason=str(error))
+        announce(f"[OpenPI segment] controlled stop after {report['completed_steps']} steps: {error}")
     except Exception as error:
         report["failure_reason"]=str(error)
         report["error_type"]=type(error).__name__
         announce(f"[OpenPI step] stopped: {type(error).__name__}: {error}")
-    report["preview_images"]=preview_images(trace)
+    if approach_monitor is not None:
+        report["approach_summary"]=approach_monitor.summary()
+    report["preview_images"]=preview_images(trace,20 if approach_monitor is not None else None)
     return report

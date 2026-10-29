@@ -10,6 +10,28 @@ import run_gain_sweep
 
 
 class SweepRoutingTests(unittest.TestCase):
+    def test_segmented_approach_routes_60_steps_and_chunk5(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);commands=[]
+            class Process:
+                def __init__(self,command,**kwargs):
+                    commands.append(command);output=Path(command[command.index("--output")+1])
+                    report={"joint_telemetry_summary":{},"actuator_audit":{},"physics_joint_summary":{},
+                            "openpi_result":{"probe_completed":False,"completed_steps":20,"termination_reason":"segment_progress_less_than_2mm"},"openpi_setup":{}}
+                    (output/"motion_openpi-step.json").write_text(json.dumps(report));self.stdout=io.StringIO("")
+                def __enter__(self):return self
+                def __exit__(self,*args):pass
+                def wait(self):return 0
+            args=["runner","--isaaclab-root",str(root),"--profiles","kp2p25-kd0p25","--modes","openpi-step",
+                  "--openpi-approach","--openpi-replan-steps","5","--openpi-steps","60"]
+            with patch.object(sys,"argv",args),patch.object(run_gain_sweep.subprocess,"Popen",Process):
+                self.assertEqual(run_gain_sweep.main(),0)
+            self.assertEqual(len(commands),1)
+            self.assertIn("--openpi-approach",commands[0])
+            self.assertEqual(commands[0][commands[0].index("--openpi-steps")+1],"60")
+            manifest=json.loads((root/"logs/openpi_gain_sweep/latest_gain_sweep.json").read_text())
+            self.assertEqual(manifest["runs"][0]["openpi_result"]["termination_reason"],"segment_progress_less_than_2mm")
+
     def test_chunk_comparison_routes_two_runs_and_preserves_server_log(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);log=root/"server.log";log.write_text("loaded checkpoint fixture")

@@ -89,6 +89,7 @@ def main():
     from grasp_probe import run_grasp_probe
     from grasp_scenarios import validate_grasp_scenarios
     from openpi_step_probe import run_openpi_steps, libero_state_vector, read_server_metadata
+    from approach_monitor import ApproachMonitor
     from replay_probe import REPLAY_MODES, load_replay, run_replay
     from kinematic_attribution import JacobianTap, enrich_kinematic_row, summarize_kinematics, resolved_body_identity, resolve_sensor_body_path
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
@@ -112,6 +113,7 @@ def main():
     parser.add_argument("--grasp-orient-step-deg", type=float, default=0.5)
     parser.add_argument("--grasp-seed", type=int, default=0)
     parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
+    parser.add_argument("--openpi-approach", action="store_true", help="segmented diagnostic-only approach, up to 60 controls")
     parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5), default=1)
     parser.add_argument("--openpi-steps", type=int, default=20)
     parser.add_argument("--openpi-state-frame", choices=("world", "root"), default="world")
@@ -128,14 +130,16 @@ def main():
     parser.add_argument("--wrist-offset", type=float, nargs=3, default=(0.10, 0.0, 0.02))
     add_launcher_args(parser)
     args = parser.parse_args()
+    if args.openpi_approach and (args.motion_test!="openpi-step" or args.openpi_replan_steps!=5):
+        parser.error("--openpi-approach requires openpi-step and --openpi-replan-steps 5")
     if args.openpi_replan_steps!=1 and args.motion_test!="openpi-step":
         parser.error("--openpi-replan-steps requires openpi-step")
     if args.record_jacobians:
         if args.motion_test not in REPLAY_MODES:
             parser.error("--record-jacobians requires a frozen replay mode")
         args.record_physics = True
-    if not 1<=args.openpi_steps<=20:
-        parser.error("--openpi-steps must be in [1, 20] for the first model-motion probe")
+    if not 1<=args.openpi_steps<=(60 if args.openpi_approach else 20):
+        parser.error("--openpi-steps must be 1..20, or 1..60 with --openpi-approach")
     grasp_condition = {"name": "direct", "object_offset_xy_m": list(args.grasp_object_offset),
         "object_yaw_deg": args.grasp_object_yaw, "orient_step_deg": args.grasp_orient_step_deg, "seed": args.grasp_seed}
     try:
@@ -582,11 +586,11 @@ def main():
                         raise RuntimeError("Environment reset during calibration; discard this measurement")
                     current_pos, current_quat = read_pose()
                     delta = current_pos - initial_pos
-                    max_displacement = 0.6 if args.motion_test == "grasp" else (0.03 if args.motion_test in ("openpi-step", *REPLAY_MODES) else 0.05)
+                    max_displacement = 0.6 if args.motion_test == "grasp" else ((0.07 if args.openpi_approach else 0.03) if args.motion_test in ("openpi-step", *REPLAY_MODES) else 0.05)
                     if not bool(torch.isfinite(delta).all()) or float(delta.norm()) > max_displacement:
                         raise RuntimeError(f"Calibration stopped: invalid state or EE displacement exceeded {max_displacement} m")
                     angle = rotation_delta(before, before_quat, current_pos, current_quat)
-                    max_angle = math.pi + 1e-5 if args.motion_test == "grasp" else math.radians(6 if args.motion_test in ("openpi-step", *REPLAY_MODES) else 15)
+                    max_angle = math.pi + 1e-5 if args.motion_test == "grasp" else math.radians((18 if args.openpi_approach else 6) if args.motion_test in ("openpi-step", *REPLAY_MODES) else 15)
                     if not bool(torch.isfinite(angle).all()) or float(angle.norm()) > max_angle:
                         raise RuntimeError("Calibration stopped: invalid orientation or rotation exceeded diagnostic envelope")
                     if args.motion_test in ("grasp", "openpi-step", *REPLAY_MODES):
@@ -695,7 +699,10 @@ def main():
                             "image_preprocessing":"RGB resize/pad 224; no 180-degree flip",
                             "wrist_initial_aim":"fixed scene reference; no live object re-aiming",
                             "frame_assumption":"LIBERO and Isaac world axes assumed aligned; scene registration remains unverified",
-                            "object_truth_usage":"diagnostic stop check only, not policy input or action target",
+                            "object_truth_usage":"diagnostic stop/progress checks only, not policy input or action target",
+                            "segmented_approach":args.openpi_approach,
+                            "motion_envelope":{"displacement_m":.07 if args.openpi_approach else .03,
+                                               "rotation_deg":18 if args.openpi_approach else 6},
                             "timing":"synchronous inference pauses simulation; one 50ms simulated period per request; not real-time 20Hz",
                             "replan_steps":args.openpi_replan_steps,
                             "observation_semantics":"fresh observation each control step; sent only when inference_performed=true; cached-step images are diagnostics",
@@ -714,8 +721,12 @@ def main():
                                 announce=lambda message:print(message,flush=True))
                             del measured["openpi_setup"]
                         else:
+                            monitor=None
+                            if args.openpi_approach:
+                                _,_,_,initial_world_state=policy_states()
+                                monitor=ApproachMonitor(initial_world_state[:3].tolist(),object_origin.cpu().tolist())
                             measured["openpi_result"]=run_openpi_steps(policy_observe,policy_infer,policy_execute,
-                                steps=args.openpi_steps,announce=lambda message:print(message,flush=True),replan_steps=args.openpi_replan_steps)
+                                steps=args.openpi_steps,announce=lambda message:print(message,flush=True),replan_steps=args.openpi_replan_steps,approach_monitor=monitor)
                         measured["control_dt_s"]=float(base.step_dt)
                     elif args.motion_test == "grasp":
                         def grasp_state():

@@ -1604,3 +1604,79 @@ git push origin main
 
 108项CPU测试通过，包括动作顺序、仅在块边界推理、末块截断不增步、非法块拒绝、
 中途停止、运行器两组路由及服务日志大小限制/导出。实际接口与模型效果待Spark验证。
+
+
+## 块长5：最多60步分段接近测试
+
+块长对照aba4bb07991e中，块长5已正确执行，原始动作显著受限，TCP仍距物体约351mm。
+本轮以块长5继续检查更长的接近趋势，保持候选增益、1mm/0.25度每步范数限幅和夹爪打开。
+本轮不评价抓取，也不自动开启夹爪执行模型请求。
+
+运行器新增显式 `--openpi-approach`，只有openpi-step且块长5可用；不启用时仍最多20步。
+启用后最多60个50ms控制步，20步为一段，总计最多12次推理、300条10ms物理记录。
+模型仍每5步重新观察并推理，物体真值只用于监测与停止，不生成动作目标。
+
+继续使用上一轮8000端口模型服务和启动日志。若服务已停止，可在终端1按上节命令重启，
+确认开始监听并保留 `openpi_chunk_probe_server.log`；无需为本轮强制重启仍正常运行的服务。
+
+终端2运行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_j13_candidate_cases.json \
+  --modes openpi-step \
+  --openpi-replan-steps 5 --openpi-steps 60 \
+  --openpi-approach \
+  --openpi-state-frame world \
+  --server-host 127.0.0.1 --server-port 8000 \
+  --policy-server-log /home/test/Robot/openpi/openpi_chunk_probe_server.log \
+  --prompt "pick up the cube" \
+  --record-physics
+```
+
+输出配置名称增加 `-approach`，可区别此前20步chunk5结果。
+
+**分段监测与停止条件**
+
+- 每20步记录本段起止TCP到物体中心的世界坐标欧氏距离、减少量及净TCP位移。
+- 单段距离减少不足2mm，则在该段末停止，不继续后续模型动作。
+- 任一控制步末，距离比整轮起始距离增加超过5mm，则停止。
+- 距离进入80mm边界时停止；若初始化已在该范围内，推理和动作均不开始。
+- 原有物体移动超过2cm、非有限状态、关节软限位、单周期TCP变化等检查继续有效。
+
+分段阈值是本轮诊断条件，不是训练奖励、接近目标生成器、碰撞保证或抓取成功判据。
+距离检查在控制步执行后进行，不能阻止该步已经发生的运动。
+为容纳60步，只有本模式的相对起始TCP总位移边界由30mm改为70mm，净旋转边界由6度改为18度；
+每步1mm/0.25度限幅和原有单周期10mm/3度异常变化检查不变。普通20步和冻结重放模式边界不变。
+60步的名义平移路径最多60mm，仍可能远离方块；本轮只检查接近趋势，不保证到达物体。
+
+控制台 `[OpenPI segment]` 在第20/40/60步输出距离和本段进展。
+结果 `openpi_result.approach_summary` 保存阈值、分段记录、初始/最后距离及停止原因。
+正常执行完60步时 `probe_completed=true`、completed_steps=60；若监测停止，则为false，
+并有 `stopped_by_monitor=true`、`termination_reason`：
+
+- `segment_progress_less_than_2mm`
+- `distance_increased_more_than_5mm`
+- `near_object_boundary`
+
+这些是受控停止，不等于程序崩溃或模型必然失败；已执行步仍记入completed_steps。
+外层completed只代表诊断记录已生成。若停在20或40步，也应导出分析，不为凑满60步关闭监测。
+物理采样数量应等于已执行控制步的5倍（其他异常失败需结合trace和错误信息核对）。
+预览图导出第1步、各20步检查点附近及最后记录的两路观测；图像位于该控制步执行前，
+缓存步观测仍仅为诊断图，是否实际模型输入需看observation_used_for_inference。
+服务端日志和握手信息继续保留；同一运行服务的采样随机状态可能已推进，不据此做严格增益因果比较。
+
+运行结束后（包含正常生成诊断的受控停止）：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add segmented bounded OpenPI approach results"
+git push origin main
+```
+
+116项CPU测试通过，覆盖60步预算、3个分段、缓存块中停止、进展不足、远离、近物体初始拦截、
+预览图和运行器开关路由。实际模型轨迹和Isaac接口仍待Spark运行验证。
