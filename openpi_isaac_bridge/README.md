@@ -1354,3 +1354,73 @@ git push origin main
 
 配置已通过现有验证器、场景展开和实际增益配置函数的校验，确认12种组合及其他关节和限值保留。
 真实多条件动态效果待Spark运行结果确认。
+
+
+## J1/J3候选确定性抓取回归
+
+多位置六轴回归16add29445b9中，原基准和J1/J3=1125/25均通过检查；候选改善Y向
+周期位置误差和停止漂移，但RX角度RMS存在小幅退化。下一步验证接触、夹持和抬升时的表现。
+本轮复用原有抓取宏和判据，只新增两套增益配置及四个固定场景。
+
+配置：`j13_grasp_regression_cases.json`。
+原基准J1/J3=900/20，候选J1/J3=1125/25；两者J2/J4=5400/120、J5/J6/J7=900/20。
+力矩限值、物体资产/质量/摩擦、TCP和IK设置沿用原流程，不自动更改默认增益。
+
+场景：`j13_grasp_regression_scenarios.json`。
+
+|场景|方块XY偏移/mm|方块yaw|朝向阶段每步旋转上限|
+|---|---|---:|---:|
+|home-fast|[0,0]|0度|0.5度|
+|home-slow|[0,0]|0度|0.25度|
+|left-yaw20|[−20,+20]|+20度|0.25度|
+|right-yawm20|[+20,−20]|−20度|0.25度|
+
+快慢仅改变原位朝向调整阶段的旋转增量上限，其余阶段设置相同。四个场景均seed=0，
+每次独立创建环境，属于固定条件回归，不把不同seed下重复同一确定性结果当作统计成功率。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/j13_grasp_regression_cases.json \
+  --grasp-scenarios-json openpi_isaac_bridge/j13_grasp_regression_scenarios.json \
+  --modes grasp \
+  --record-physics
+```
+
+无需OpenPI服务。该流程使用仿真物体真实位姿和yaw生成自上而下抓取目标，属于
+确定性控制器/接触回归，不是视觉模型自主抓取。机器人重力设置沿用原任务并写入grasp_setup。
+不要加入仅支持冻结重放的 `--record-jacobians`。
+
+流程为：打开夹爪→原位调整朝向→移动到物体上方100mm→下降至物体中心上方5mm的TCP目标
+→闭合80步→检查夹持候选→抬升50mm→保持40步（2秒）。
+各移动阶段都需要连续5步位置误差≤2mm、角度误差≤2度才能进入下一阶段。
+原有夹持检查包括双指稳定、阻挡候选和物体靠近TCP；它本身不等于抓取成功。
+最终成功还要求：
+
+- 保持阶段物体最低抬升高度≥35mm。
+- 保持阶段物体相对TCP位移≤10mm、相对旋转≤10度。
+- 从闭合到抬升/保持的相对位移变化≤15mm，手指保持非空闭合。
+- 保持阶段末端位置误差≤2mm、角度误差≤2度。
+
+原有掉落、过快物体运动、抬升前物体偏移及移动超时检查继续有效。
+记录是仿真状态和控制周期采样，夹持判据不是接触力测量，也不代表真实机器人负载验证。
+
+正常生成8条运行记录，各次阶段收敛步数会不同，因此不预设固定物理采样总数。
+每次应有 `physics recorded_substeps = 5 × grasp_result.recorded_controls`。
+外层 `status=completed` 仅代表诊断输出已生成，必须逐条检查 `grasp_result.success`
+及失败原因、阶段步数、抬升高度、相对滑移、末端误差和10ms力矩估计峰值。
+相同场景下成对比较两套增益，尤其RX大角度朝向调整和带载抬升；不能只看总成功数。
+
+完成后导出并推送（抓取判据失败但诊断正常完成时，失败记录同样需要保留分析）：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add J1 J3 candidate deterministic grasp regression results"
+git push origin main
+```
+
+两套配置和四个场景已通过既有验证器、组合展开及增益实际应用检查。
+运行器、抓取宏与成功阈值沿用已有实现，实际效果由Spark结果确认。

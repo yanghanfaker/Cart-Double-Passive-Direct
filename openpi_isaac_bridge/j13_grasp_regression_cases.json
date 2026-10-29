@@ -1,0 +1,46 @@
+[
+  {
+    "name": "grasp-j13-baseline",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint1": {
+        "stiffness": 900,
+        "damping": 20
+      },
+      "panda_joint3": {
+        "stiffness": 900,
+        "damping": 20
+      }
+    }
+  },
+  {
+    "name": "grasp-j13-k1125-d25",
+    "profile": "kp2p25-kd0p25",
+    "joint_overrides": {
+      "panda_joint2": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint4": {
+        "stiffness": 5400,
+        "damping": 120
+      },
+      "panda_joint1": {
+        "stiffness": 1125,
+        "damping": 25
+      },
+      "panda_joint3": {
+        "stiffness": 1125,
+        "damping": 25
+      }
+    }
+  }
+]
