@@ -4,6 +4,7 @@ import argparse
 import gzip
 import json
 from pathlib import Path
+from replay_probe import REPLAY_MODES
 
 
 def main():
@@ -15,7 +16,7 @@ def main():
     data = json.loads(args.latest.read_text(encoding="utf-8"))
     runs = data["runs"]
     modes = data.get("modes", ["step-response", "libero-stream"])
-    if not modes or set(modes) - {"step-response", "libero-stream", "joint-step", "grasp", "openpi-step"}:
+    if not modes or set(modes) - {"step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES}:
         raise SystemExit("Unknown test mode; no files exported")
     expected = {(profile, mode) for profile in data["profiles"] for mode in modes}
     if (data["status"] != "completed" or len(runs) != len(expected)

@@ -89,6 +89,7 @@ def main():
     from grasp_probe import run_grasp_probe
     from grasp_scenarios import validate_grasp_scenarios
     from openpi_step_probe import run_openpi_steps, libero_state_vector
+    from replay_probe import REPLAY_MODES, load_replay, run_replay
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -108,11 +109,12 @@ def main():
     parser.add_argument("--grasp-object-yaw", type=float, default=0.0)
     parser.add_argument("--grasp-orient-step-deg", type=float, default=0.5)
     parser.add_argument("--grasp-seed", type=int, default=0)
+    parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
     parser.add_argument("--openpi-steps", type=int, default=20)
     parser.add_argument("--openpi-state-frame", choices=("world", "root"), default="world")
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
-        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response", "joint-step", "grasp", "openpi-step",
+        "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response", "joint-step", "grasp", "openpi-step", *REPLAY_MODES,
     ), default="none")
     parser.add_argument("--server-host", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=8000)
@@ -143,15 +145,15 @@ def main():
             parser.error(str(error))
     if args.query and args.motion_test != "none":
         parser.error("--query is preview only; choose a separate motion mode, including openpi-step for bounded model motion")
-    if args.motion_test in ("joint-step", "grasp", "openpi-step"):
+    if args.motion_test in ("joint-step", "grasp", "openpi-step", *REPLAY_MODES):
         args.record_physics = True
     if not math.isfinite(args.joint_step_rad) or not 0 < args.joint_step_rad <= 0.005:
         parser.error("--joint-step-rad must be finite and in (0, 0.005]")
-    if args.gain_profile != "baseline" and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp", "openpi-step"):
+    if args.gain_profile != "baseline" and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
         parser.error("experimental gain profiles require step-response, libero-stream, joint-step, or grasp")
-    if args.record_physics and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp", "openpi-step"):
+    if args.record_physics and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
         parser.error("--record-physics requires step-response, libero-stream, joint-step, or grasp")
-    if args.joint_gains_json and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp", "openpi-step"):
+    if args.joint_gains_json and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
         parser.error("per-joint gains require step-response, libero-stream, joint-step, or grasp")
     if args.warmup_steps < 1:
         parser.error("--warmup-steps must be positive")
@@ -172,7 +174,7 @@ def main():
     gain_config = configure_gain_profile(cfg.scene.robot.actuators, args.gain_profile, joint_overrides)
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
-    if args.motion_test in ("libero-map", "libero-stream", "step-response", "joint-step", "grasp", "openpi-step"):
+    if args.motion_test in ("libero-map", "libero-stream", "step-response", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
         # LIBERO's default 20 Hz is a simulation period, not wall-clock speed.
         decimation = round(0.05 / float(cfg.sim.dt))
         if decimation < 1 or not math.isclose(decimation * float(cfg.sim.dt), 0.05, abs_tol=1e-8):
@@ -184,7 +186,7 @@ def main():
         cfg.events.reset_object_position.params["pose_range"] = {
             "x": (args.grasp_object_offset[0],)*2, "y": (args.grasp_object_offset[1],)*2,
             "z": (0.0, 0.0), "yaw": (math.radians(args.grasp_object_yaw),)*2}
-    elif args.motion_test == "openpi-step":
+    elif args.motion_test in ("openpi-step", *REPLAY_MODES):
         cfg.seed = 0
         cfg.events.reset_object_position.params["pose_range"] = {"x": (0.0,0.0), "y": (0.0,0.0), "z": (0.0,0.0)}
     # The command target axes/spheres are real rendered geometry, so disable
@@ -271,7 +273,7 @@ def main():
                 # Parent-relative mounting remains on the hand after setting.
                 wrist = base.scene["wrist_camera"]
                 wrist_eye = tensor(wrist.data.pos_w).clone()
-                if args.motion_test == "openpi-step":
+                if args.motion_test in ("openpi-step", *REPLAY_MODES):
                     # Fixed scene reference for this diagnostic, independent of
                     # actual object position. Never re-aim during the loop.
                     wrist_target = origin + torch.tensor([[0.5,0.0,0.04]],device=origin.device)
@@ -376,7 +378,7 @@ def main():
                     "external_eye_env": args.external_eye,
                     "external_target_env": args.external_target,
                     "wrist_offset_hand": args.wrist_offset,
-                    "wrist_initial_aim": ("fixed scene reference [0.5,0,0.04]; no object tracking" if args.motion_test=="openpi-step" else
+                    "wrist_initial_aim": ("fixed scene reference [0.5,0,0.04]; no object tracking" if args.motion_test in ("openpi-step", *REPLAY_MODES) else
                                           "one-time calibration from ground-truth cube position; not for online tracking"),
                     "wrist_eye_world_at_calibration": wrist_eye[0].cpu().tolist(),
                     "wrist_target_world_at_calibration": wrist_target[0].cpu().tolist(),
@@ -470,7 +472,7 @@ def main():
                     return delta[0]
 
                 def checked_step(action, initial_pos):
-                    if args.motion_test in ("grasp", "openpi-step"):
+                    if args.motion_test in ("grasp", "openpi-step", *REPLAY_MODES):
                         previous_pos, previous_quat = read_pose()
                     if physics_recorder is not None:
                         physics_recorder.begin_control({**physics_context, "raw_isaac_action": action[0].detach().cpu().tolist()})
@@ -481,14 +483,14 @@ def main():
                         raise RuntimeError("Environment reset during calibration; discard this measurement")
                     current_pos, current_quat = read_pose()
                     delta = current_pos - initial_pos
-                    max_displacement = 0.6 if args.motion_test == "grasp" else (0.03 if args.motion_test=="openpi-step" else 0.05)
+                    max_displacement = 0.6 if args.motion_test == "grasp" else (0.03 if args.motion_test in ("openpi-step", *REPLAY_MODES) else 0.05)
                     if not bool(torch.isfinite(delta).all()) or float(delta.norm()) > max_displacement:
                         raise RuntimeError(f"Calibration stopped: invalid state or EE displacement exceeded {max_displacement} m")
                     angle = rotation_delta(before, before_quat, current_pos, current_quat)
-                    max_angle = math.pi + 1e-5 if args.motion_test == "grasp" else math.radians(6 if args.motion_test=="openpi-step" else 15)
+                    max_angle = math.pi + 1e-5 if args.motion_test == "grasp" else math.radians(6 if args.motion_test in ("openpi-step", *REPLAY_MODES) else 15)
                     if not bool(torch.isfinite(angle).all()) or float(angle.norm()) > max_angle:
                         raise RuntimeError("Calibration stopped: invalid orientation or rotation exceeded diagnostic envelope")
-                    if args.motion_test in ("grasp", "openpi-step"):
+                    if args.motion_test in ("grasp", "openpi-step", *REPLAY_MODES):
                         if float((current_pos-previous_pos).norm()) > 0.01 or float(rotation_delta(previous_pos, previous_quat, current_pos, current_quat).norm()) > math.radians(3):
                             raise RuntimeError("Diagnostic stopped: excessive EE change in one control period")
                         q = tensor(robot.data.joint_pos)[0, arm_ids]
@@ -502,9 +504,10 @@ def main():
                     before, before_quat = read_pose()
                     measured = {"mode": args.motion_test, "gain_profile": args.gain_profile,
                         "actuator_audit": actuator_audit, "ee_before_root": before.cpu().tolist()}
-                    if args.motion_test == "openpi-step":
-                        from openpi_client import image_tools
-                        from openpi_client.websocket_client_policy import WebsocketClientPolicy
+                    if args.motion_test in ("openpi-step", *REPLAY_MODES):
+                        if args.motion_test == "openpi-step":
+                            from openpi_client import image_tools
+                            from openpi_client.websocket_client_policy import WebsocketClientPolicy
                         if list(finger_names)!=["panda_finger_joint1","panda_finger_joint2"]:
                             raise RuntimeError("Unexpected finger ordering for LIBERO state adapter")
                         client = None
@@ -558,13 +561,17 @@ def main():
                             pe,re=compute_pose_error(p[None],q[None],target_pos,target_quat,rot_error_type="axis_angle")
                             values=tracking_action(pe[0].cpu().tolist(),re[0].cpu().tolist(),float(arm_term.cfg.scale),rotation_step_deg=.25)
                             values[6]=1.0
-                            physics_context.update(case="openpi",phase="model-step",case_control_step=index+1)
+                            physics_context.update(case="openpi",phase=("model-step" if args.motion_test=="openpi-step" else ("replay" if index<20 else "zero-input-tail")),case_control_step=index+1)
                             checked_step(torch.tensor([values],dtype=torch.float32,device=base.device),before)
                             after,after_q,root_state,world_state=policy_states()
                             object_after=tensor(base.scene["object"].data.root_pos_w)[0].detach().clone()
                             if not bool(torch.isfinite(object_after).all()) or float((object_after-object_origin).norm())>0.02:
                                 raise RuntimeError("Object moved more than 2 cm or became invalid during first model-motion probe")
-                            return {"target_pos_root_m":target_pos[0].cpu().tolist(),"target_quat_root":target_quat[0].cpu().tolist(),
+                            target_pe,target_re=compute_pose_error(after[None],after_q[None],target_pos,target_quat,rot_error_type="axis_angle")
+                            return {"ee_before_root_m":p.cpu().tolist(),"ee_before_quat_root":q.cpu().tolist(),
+                                "period_position_error_m":float(target_pe.norm()),
+                                "period_rotation_error_deg":math.degrees(float(target_re.norm())),
+                                "target_pos_root_m":target_pos[0].cpu().tolist(),"target_quat_root":target_quat[0].cpu().tolist(),
                                 "bounded_delta_root_m_rad":delta_root[0].cpu().tolist(),"raw_isaac_action":values,
                                 "ee_after_root_m":after.cpu().tolist(),"ee_after_quat_root":after_q.cpu().tolist(),
                                 "actual_delta_root_m":(after-p).cpu().tolist(),
@@ -588,8 +595,22 @@ def main():
                             "object_truth_usage":"diagnostic stop check only, not policy input or action target",
                             "timing":"synchronous inference pauses simulation; one 50ms simulated period per request; not real-time 20Hz",
                             "gripper":"forced open; model request recorded but not executed"}
-                        measured["openpi_result"]=run_openpi_steps(policy_observe,policy_infer,policy_execute,
-                            steps=args.openpi_steps,announce=lambda message:print(message,flush=True))
+                        if args.motion_test in REPLAY_MODES:
+                            replay_data = load_replay(args.replay_actions_json)
+                            if not math.isclose(float(base.step_dt), .05, abs_tol=1e-8):
+                                raise RuntimeError("Replay requires 50 ms control period")
+                            def replay_state():
+                                p,q=read_pose()
+                                return {"position_m":p.cpu().tolist(),"quat_xyzw":q.cpu().tolist()}
+                            measured["replay_setup"] = dict(measured["openpi_setup"],
+                                timing="fixed action replay; no inference; 50ms simulated period",
+                                source_commit=replay_data["source_commit"], fixture_sha256=replay_data["sha256"])
+                            measured["replay_result"] = run_replay(replay_data,args.motion_test,replay_state,policy_execute,
+                                announce=lambda message:print(message,flush=True))
+                            del measured["openpi_setup"]
+                        else:
+                            measured["openpi_result"]=run_openpi_steps(policy_observe,policy_infer,policy_execute,
+                                steps=args.openpi_steps,announce=lambda message:print(message,flush=True))
                         measured["control_dt_s"]=float(base.step_dt)
                     elif args.motion_test == "grasp":
                         def grasp_state():
@@ -1108,7 +1129,7 @@ def main():
                     measured["delta_rotation_root_rad"] = delta_rot.cpu().tolist()
                     measured["delta_rotation_root_deg"] = torch.rad2deg(delta_rot).cpu().tolist()
                     measured["translation_drift_norm_m"] = float((after - before).norm())
-                    measured["note"] = ("bounded model motion; gripper forced open; inspect direction and achieved displacement, not grasp success" if args.motion_test=="openpi-step" else
+                    measured["note"] = ("bounded model motion; gripper forced open; inspect direction and achieved displacement, not grasp success" if args.motion_test in ("openpi-step", *REPLAY_MODES) else
                                         "deterministic diagnostic only; no OpenPI actions executed; inspect direction and achieved displacement")
                 report_path = output / f"motion_{args.motion_test}.json"
                 telemetry_summary = {"sample_count": len(telemetry_samples), "joint_names": arm_names,
@@ -1146,8 +1167,9 @@ def main():
                     summary["axes"] = [{k: v for k, v in axis.items() if k != "trace"} for axis in measured["axes"]]
                 if args.motion_test == "grasp":
                     summary["grasp_result"] = {k: v for k, v in measured["grasp_result"].items() if k != "trace"}
-                if args.motion_test == "openpi-step":
-                    summary["openpi_result"] = {k: v for k, v in measured["openpi_result"].items() if k != "trace"}
+                if args.motion_test in ("openpi-step", *REPLAY_MODES):
+                    result_key = "replay_result" if args.motion_test in REPLAY_MODES else "openpi_result"
+                    summary[result_key] = {k: v for k, v in measured[result_key].items() if k != "trace"}
                 print("[Motion test] " + json.dumps(summary, indent=2), flush=True)
                 print(f"Saved calibration to: {report_path}", flush=True)
 

@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 
+from replay_probe import REPLAY_MODES, load_replay
 from gain_probe import GAIN_PROFILES
 from gain_cases import validate_gain_cases
 from joint_identification import screen_joint_steps
@@ -26,17 +27,18 @@ def main():
     parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
     parser.add_argument("--stream-scenarios-json", type=Path, help="cross gain cases with bounded stream start positions/amplitudes")
     parser.add_argument("--grasp-scenarios-json", type=Path, help="cross gain cases with explicit object poses, seeds and orientation rates")
+    parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
     parser.add_argument("--openpi-steps", type=int, default=20)
     parser.add_argument("--openpi-state-frame", choices=("world","root"), default="world")
     parser.add_argument("--server-host", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=8000)
     parser.add_argument("--prompt", default="pick up the cube")
-    parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step", "grasp", "openpi-step"), nargs="+",
+    parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES), nargs="+",
                         default=["step-response", "libero-stream"])
     args = parser.parse_args()
     if not 1<=args.openpi_steps<=20:
         parser.error("--openpi-steps must be in [1, 20]")
-    if any(mode in args.modes for mode in ("joint-step", "grasp", "openpi-step")):
+    if any(mode in args.modes for mode in ("joint-step", "grasp", "openpi-step", *REPLAY_MODES)):
         args.record_physics = True
     joint_overrides = (
         json.loads(args.joint_gains_json.expanduser().resolve().read_text(encoding="utf-8"))
@@ -61,6 +63,8 @@ def main():
             cases = expand_grasp_cases(cases, json.loads(args.grasp_scenarios_json.read_text(encoding="utf-8")))
     except ValueError as error:
         parser.error(str(error))
+    if any(mode in REPLAY_MODES for mode in args.modes):
+        load_replay(args.replay_actions_json)
     root = args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():
         parser.error(f"Isaac Lab directory not found: {root}")
@@ -96,6 +100,8 @@ def main():
                     command.extend(["--server-host",args.server_host,"--server-port",str(args.server_port),
                                     "--prompt",args.prompt,"--openpi-steps",str(args.openpi_steps),
                                     "--openpi-state-frame",args.openpi_state_frame])
+                if mode in REPLAY_MODES:
+                    command.extend(["--replay-actions-json",str(args.replay_actions_json.resolve())])
                 if case["joint_overrides"]:
                     command.extend(["--joint-gains-json", str(override_path)])
                 if case.get("stream_scenario"):
@@ -125,7 +131,7 @@ def main():
                         for line in process.stdout:
                             log.write(line)
                             recent.append(line)
-                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]", "[Stream start]", "[Grasp]", "[OpenPI step]")):
+                            if any(tag in line for tag in ("[Actuator audit]", "[Step response]", "[LIBERO stream]", "[Physics trace]", "[Joint step]", "[Stream start]", "[Grasp]", "[OpenPI step]", "[OpenPI replay]")):
                                 print(line, end="", flush=True)
                         code = process.wait()
                 entry["exit_code"] = code
@@ -157,6 +163,9 @@ def main():
                 elif mode == "grasp":
                     entry["grasp_result"] = result["grasp_result"]
                     entry["grasp_setup"] = result["grasp_setup"]
+                elif mode in REPLAY_MODES:
+                    entry["replay_result"] = result["replay_result"]
+                    entry["replay_setup"] = result["replay_setup"]
                 elif mode == "openpi-step":
                     entry["openpi_result"] = result["openpi_result"]
                     entry["openpi_setup"] = result["openpi_setup"]

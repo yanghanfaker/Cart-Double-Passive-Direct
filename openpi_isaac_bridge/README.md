@@ -1003,3 +1003,51 @@ git add -- diagnostics/gain_sweep/
 git commit -m "Add first bounded OpenPI model-motion probe results"
 git push origin main
 ```
+
+
+## 固定 OpenPI 动作分量重放（2026-10-29）
+
+上一轮 `239e5656347f0c5a40ca11424e92a3e098bc5d54` 的20条实际首动作已冻结在
+`openpi_replay_actions.json`，不是重新向模型查询。使用原来的1mm/0.25度范数限幅，
+再分别删除旋转或平移分量；混合组保留两者。保留分量在三组间完全一致。
+
+每组独立启动新环境、同一seed和物体位置、同一关节增益，先核对记录起始姿态
+（位置误差≤0.25mm、角度≤0.1度）；不符则停止并保存诊断。每组执行20条50ms动作，
+再执行20条50ms零增量，夹爪始终打开。零增量的目标仍由当前反馈姿态产生，
+不是固定末端目标保持，也不是期望姿态累加。无需启动OpenPI服务或加载模型。
+保留30mm/6度总运动范围、单周期10mm/3度、关节软限位与物体移动检查。
+
+在Spark仓库运行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_probe_cases.json \
+  --modes openpi-replay-translation openpi-replay-rotation openpi-replay-mixed \
+  --record-physics
+```
+
+三组各40个控制步、200条10ms物理记录，合计应为600条。Viser仍在8080端口。
+`replay_result.trace`记录目标/实际位姿、各周期位置与角度误差、投影增益、原始动作与限幅动作；
+`period_error_summary`汇总前20个运动周期的RMS和最大误差。
+`replay_setup`包含源提交和动作文件SHA256。检查`probe_completed`，
+外层`status=completed`仅表示诊断记录已生成，不表示跟踪误差通过阈值。
+本轮不自动筛选增益，也不预设新的通过阈值；先比较三类运动的误差和10ms关节响应。
+
+若纯分量误差较小而混合组明显增大，说明存在组合运动耦合或动态滞后，需要继续定位；
+若三组都有大误差，则继续检查共享控制链路。仅凭这次重放不能证明模型输入、
+场景坐标/TCP已对齐LIBERO，也不能证明抓取能力。
+
+完成后导出并推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add frozen OpenPI component replay results"
+git push origin main
+```
+
+本地CPU单元测试覆盖分量保留、零输入尾段、起始姿态不符停止、故障记录与三种模式路由；
+Isaac/PhysX实际执行仍需在Spark运行核验。
