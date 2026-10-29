@@ -13,6 +13,7 @@ from gain_cases import validate_gain_cases
 from joint_identification import screen_joint_steps
 from stream_screen import screen_cartesian_stream
 from stream_scenarios import expand_stream_cases
+from grasp_scenarios import expand_grasp_cases
 
 
 def main():
@@ -24,6 +25,7 @@ def main():
     parser.add_argument("--record-physics", action="store_true", help="capture each existing physics substep")
     parser.add_argument("--joint-gains-json", type=Path, help="optional per-joint gains, applied after each profile")
     parser.add_argument("--stream-scenarios-json", type=Path, help="cross gain cases with bounded stream start positions/amplitudes")
+    parser.add_argument("--grasp-scenarios-json", type=Path, help="cross gain cases with explicit object poses, seeds and orientation rates")
     parser.add_argument("--modes", choices=("step-response", "libero-stream", "joint-step", "grasp"), nargs="+",
                         default=["step-response", "libero-stream"])
     args = parser.parse_args()
@@ -35,6 +37,8 @@ def main():
     )
     if args.gain_cases_json and args.joint_gains_json:
         parser.error("--gain-cases-json already defines overrides; omit --joint-gains-json")
+    if args.stream_scenarios_json and args.grasp_scenarios_json:
+        parser.error("choose stream or grasp scenarios, not both")
     try:
         cases = validate_gain_cases(
             json.loads(args.gain_cases_json.read_text(encoding="utf-8")) if args.gain_cases_json else
@@ -44,6 +48,10 @@ def main():
             if args.modes != ["libero-stream"]:
                 parser.error("--stream-scenarios-json requires --modes libero-stream only")
             cases = expand_stream_cases(cases, json.loads(args.stream_scenarios_json.read_text(encoding="utf-8")))
+        if args.grasp_scenarios_json:
+            if args.modes != ["grasp"]:
+                parser.error("--grasp-scenarios-json requires --modes grasp only")
+            cases = expand_grasp_cases(cases, json.loads(args.grasp_scenarios_json.read_text(encoding="utf-8")))
     except ValueError as error:
         parser.error(str(error))
     root = args.isaaclab_root.expanduser().resolve()
@@ -82,11 +90,19 @@ def main():
                     scenario = case["stream_scenario"]
                     command.extend(["--stream-start-offset", *map(str, scenario["start_offset_m"]),
                                     "--stream-amplitude-scale", str(scenario["amplitude_scale"])])
+                if case.get("grasp_scenario"):
+                    scenario = case["grasp_scenario"]
+                    command.extend(["--grasp-object-offset", *map(str, scenario["object_offset_xy_m"]),
+                                    "--grasp-object-yaw", str(scenario["object_yaw_deg"]),
+                                    "--grasp-orient-step-deg", str(scenario["orient_step_deg"]),
+                                    "--grasp-seed", str(scenario["seed"])])
                 entry = {"profile": profile, "base_profile": case["profile"],
                          "joint_overrides": case["joint_overrides"], "command": command,
                          "mode": mode, "output": str(run_output), "status": "running"}
                 if case.get("stream_scenario"):
                     entry.update(base_case=case["base_case"], stream_scenario=case["stream_scenario"])
+                if case.get("grasp_scenario"):
+                    entry.update(base_case=case["base_case"], grasp_scenario=case["grasp_scenario"])
                 manifest["runs"].append(entry)
                 save()
                 print(f"[Gain sweep] START {profile}/{mode}; log={run_output / 'console.log'}", flush=True)

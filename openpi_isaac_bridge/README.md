@@ -855,3 +855,60 @@ git add -- diagnostics/gain_sweep/
 git commit -m "Add deterministic grasp contact and lift diagnostics"
 git push origin main
 ```
+
+## 改变物体位置/偏航、重复抓取与慢转向对照
+
+首轮接触诊断（提交 `f1c1126ab411f5e2831b6ccb3e9a3af04ef5aff0`）中两个候选均夹稳并抬升约49.8 mm、保持2秒。
+原900/20夹爪仍夹着物体，但持物跟踪偏移并在抬升阶段超时。
+另一个独立发现：三组在高处转向阶段，关节6估算力矩均出现达到12 Nm原上限的样本。
+这轮保留两个候选，扩展物体位置/偏航并比较慢转向，不改变手指、力矩/速度上限或成功阈值。
+
+使用 `grasp_robustness_cases.json` 的5400/120、4500/110两组，与以下四种条件交叉：
+
+|条件|相对物体默认spawn的环境X/Y偏移（米）|物体reset偏航|高处转向最大指令增量|
+|---|---|---:|---:|
+|home-fast|[0,0]|0度|0.5度/50 ms|
+|home-slow|[0,0]|0度|0.25度/50 ms|
+|left-yaw20|[-0.02,0.02]|+20度|0.25度/50 ms|
+|right-yawm20|[0.02,-0.02]|-20度|0.25度/50 ms|
+
+每种条件分别seed=0、1，各重新创建一次环境，共2组增益×4条件×2次=16次抓取。
+位置和朝向范围是固定值，不是连续随机抽样；改变seed也不等于得到了独立随机物体场景。
+这轮用于检查局部几何适应和可重复性，不能将通过次数直接解释为通用抓取成功率。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/grasp_robustness_cases.json \
+  --grasp-scenarios-json openpi_isaac_bridge/grasp_robustness_scenarios.json \
+  --modes grasp \
+  --record-physics
+```
+
+加入抓取场景选项时只允许运行grasp模式，不能同时指定stream场景。
+场景名、base_case、seed、物体偏移、reset偏航及转向步长记录在汇总和启动命令中；每次运行单独输出。
+实际物体初始位姿、抓取目标四元数及测得的物体偏航也在 `grasp_result` 中保留。
+
+抓取朝向现在按物体在根坐标中的实际初始偏航对齐：`Rz(object_yaw) * Rx(pi)`，四元数使用xyzw。
+物体仍为平放方块，只处理偏航，不支持任意倾斜物体的抓取姿态推断。
+高处orient阶段可将最大旋转增量减半；接近、下降、闭爪、抬升、保持阶段沿用原控制与阈值。
+转向最大步数按限速同比延长，避免慢转向仅因更慢而被原超时误判。
+指令增量限制不是实际角速度保证；比较时应同时看orient阶段耗时、估算力矩峰值与触及上限样本数。
+
+`[Grasp] success=True`仍要求物体持续抬升至少35 mm并保持2秒，相对位姿稳定；
+空闭、滑落、过大物体运动或阶段未到位的记录保留为失败，不能靠等待固定时间认定成功。
+当前代码仍使用仿真物体真值和任务原始重力配置，不代表视觉定位、OpenPI闭环或真实机器人验证。
+
+本轮新增配置、偏航适配和路由通过CPU检查；实际偏航物体接触与慢转向力矩还需Spark实测。
+运行时间会明显长于上一轮三次测试：共16次独立启动，每次有完整接近、闭爪和抬升流程。
+
+完成后导出并推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add repeated grasp pose and orientation-rate results"
+git push origin main
+```

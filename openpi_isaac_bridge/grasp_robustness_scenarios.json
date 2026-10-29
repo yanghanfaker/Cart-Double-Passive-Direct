@@ -1,0 +1,82 @@
+[
+  {
+    "name": "home-fast-r0",
+    "object_offset_xy_m": [
+      0,
+      0
+    ],
+    "object_yaw_deg": 0,
+    "seed": 0,
+    "orient_step_deg": 0.5
+  },
+  {
+    "name": "home-slow-r0",
+    "object_offset_xy_m": [
+      0,
+      0
+    ],
+    "object_yaw_deg": 0,
+    "seed": 0,
+    "orient_step_deg": 0.25
+  },
+  {
+    "name": "left-yaw20-r0",
+    "object_offset_xy_m": [
+      -0.02,
+      0.02
+    ],
+    "object_yaw_deg": 20,
+    "seed": 0,
+    "orient_step_deg": 0.25
+  },
+  {
+    "name": "right-yawm20-r0",
+    "object_offset_xy_m": [
+      0.02,
+      -0.02
+    ],
+    "object_yaw_deg": -20,
+    "seed": 0,
+    "orient_step_deg": 0.25
+  },
+  {
+    "name": "home-fast-r1",
+    "object_offset_xy_m": [
+      0,
+      0
+    ],
+    "object_yaw_deg": 0,
+    "seed": 1,
+    "orient_step_deg": 0.5
+  },
+  {
+    "name": "home-slow-r1",
+    "object_offset_xy_m": [
+      0,
+      0
+    ],
+    "object_yaw_deg": 0,
+    "seed": 1,
+    "orient_step_deg": 0.25
+  },
+  {
+    "name": "left-yaw20-r1",
+    "object_offset_xy_m": [
+      -0.02,
+      0.02
+    ],
+    "object_yaw_deg": 20,
+    "seed": 1,
+    "orient_step_deg": 0.25
+  },
+  {
+    "name": "right-yawm20-r1",
+    "object_offset_xy_m": [
+      0.02,
+      -0.02
+    ],
+    "object_yaw_deg": -20,
+    "seed": 1,
+    "orient_step_deg": 0.25
+  }
+]

@@ -18,20 +18,35 @@ def angle_deg(a, b):
     return math.degrees(2*math.acos(min(1.0, dot/denom)))
 
 
-def run_grasp_probe(read_state, step_pose, announce=print):
+def down_quat_from_object(object_quat):
+    """Yaw-aligned top-down EE quaternion: Rz(object yaw) * Rx(pi), xyzw."""
+    if len(object_quat)!=4 or not all(math.isfinite(v) for v in object_quat):
+        raise ValueError("expected finite xyzw object quaternion")
+    length = math.sqrt(sum(v*v for v in object_quat))
+    if length<1e-9:
+        raise ValueError("zero object quaternion")
+    x,y,z,w = [v/length for v in object_quat]
+    yaw = math.atan2(2*(w*z+x*y),1-2*(y*y+z*z))
+    return [math.cos(yaw/2), math.sin(yaw/2), 0.0, 0.0], yaw
+
+
+def run_grasp_probe(read_state, step_pose, announce=print, orient_step_deg=0.5):
+    if not math.isfinite(orient_step_deg) or not 0.1<=orient_step_deg<=0.5:
+        raise ValueError("orientation step must be in [0.1, 0.5] degrees")
     trace, phases = [], []
     initial = read_state()
     cube = list(initial["object_pos_root_m"])
-    down = [1.0, 0.0, 0.0, 0.0]  # xyzw: root Z points down after Rx(pi)
+    down, object_yaw = down_quat_from_object(initial["object_quat_root"])
     grasp = [cube[0], cube[1], cube[2]+0.005]
     above = [cube[0], cube[1], cube[2]+0.10]
     report = {"success": False, "initial_state": initial, "phases": phases, "trace": trace,
               "grasp_target_root_m": grasp, "grasp_quat_root_xyzw": down,
+              "measured_object_yaw_rad": object_yaw, "orient_step_deg": orient_step_deg,
               "thresholds": {"position_m": 0.002, "rotation_deg": 2.0,
                 "max_object_speed_m_s": 0.5, "min_held_lift_m": 0.035,
                 "max_hold_relative_drift_m": 0.01, "max_hold_relative_rotation_deg": 10,
                 "hold_duration_s": 2.0},
-              "scope": "fixed object spawn; simulator ground-truth object pose; fixed Rx(pi) grasp and +5mm TCP height hypothesis; not visual/VLA or contact-force validation"}
+              "scope": "explicit object spawn; simulator ground-truth object pose; yaw-aligned top-down grasp and +5mm TCP height hypothesis; not visual/VLA or contact-force validation"}
 
     def sample(phase, target, quat, gripper):
         step_pose(target, quat, gripper, phase)
@@ -73,7 +88,7 @@ def run_grasp_probe(read_state, step_pose, announce=print):
             raise GraspAbort("fingers are not initially open")
         if initial["ee_pos_root_m"][2] < cube[2]+0.08:
             raise GraspAbort("initial EE is too low for orientation change above the object")
-        move("orient", initial["ee_pos_root_m"], down, 260)
+        move("orient", initial["ee_pos_root_m"], down, math.ceil(260*0.5/orient_step_deg))
         move("above", above, down, 400)
         move("descend", grasp, down, 200)
         for _ in range(80):

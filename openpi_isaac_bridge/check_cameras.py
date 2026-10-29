@@ -49,12 +49,14 @@ def rotation_probe_action(axis, step_deg, ik_scale):
     return action
 
 
-def tracking_action(position_error, rotation_error, ik_scale):
+def tracking_action(position_error, rotation_error, ik_scale, rotation_step_deg=0.5):
     """Convert root-frame pose errors to separately norm-limited IK commands."""
     if not math.isfinite(ik_scale) or ik_scale <= 0:
         raise ValueError("IK scale must be finite and positive")
+    if not math.isfinite(rotation_step_deg) or not 0.1<=rotation_step_deg<=0.5:
+        raise ValueError("rotation step must be finite and in [0.1, 0.5] degrees")
     action = []
-    for error, limit in ((position_error, 0.001), (rotation_error, math.radians(0.5))):
+    for error, limit in ((position_error, 0.001), (rotation_error, math.radians(rotation_step_deg))):
         if len(error) != 3 or not all(math.isfinite(v) for v in error):
             raise ValueError("pose errors must be finite three-vectors")
         length = math.sqrt(sum(v * v for v in error))
@@ -83,6 +85,7 @@ def main():
     from joint_identification import summarize_joint_step
     from stream_scenarios import validate_stream_scenarios
     from grasp_probe import run_grasp_probe
+    from grasp_scenarios import validate_grasp_scenarios
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
         FrankaCubeLiftEnvCfg,
@@ -98,6 +101,10 @@ def main():
     parser.add_argument("--joint-step-rad", type=float, default=0.003, help="isolated joint-step magnitude, at most 0.005 rad")
     parser.add_argument("--stream-start-offset", type=float, nargs=3, help="preposition EE in root axes; hold orientation; norm <= 0.025 m")
     parser.add_argument("--stream-amplitude-scale", type=float, default=1.0)
+    parser.add_argument("--grasp-object-offset", type=float, nargs=2, default=(0.0,0.0))
+    parser.add_argument("--grasp-object-yaw", type=float, default=0.0)
+    parser.add_argument("--grasp-orient-step-deg", type=float, default=0.5)
+    parser.add_argument("--grasp-seed", type=int, default=0)
     parser.add_argument("--motion-test", choices=(
         "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
         "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response", "joint-step", "grasp",
@@ -111,6 +118,14 @@ def main():
     parser.add_argument("--wrist-offset", type=float, nargs=3, default=(0.10, 0.0, 0.02))
     add_launcher_args(parser)
     args = parser.parse_args()
+    grasp_condition = {"name": "direct", "object_offset_xy_m": list(args.grasp_object_offset),
+        "object_yaw_deg": args.grasp_object_yaw, "orient_step_deg": args.grasp_orient_step_deg, "seed": args.grasp_seed}
+    try:
+        validate_grasp_scenarios([grasp_condition])
+    except ValueError as error:
+        parser.error(str(error))
+    if args.motion_test!="grasp" and (any(args.grasp_object_offset) or args.grasp_object_yaw!=0 or args.grasp_orient_step_deg!=0.5 or args.grasp_seed!=0):
+        parser.error("grasp condition options require --motion-test grasp")
     if args.stream_start_offset is not None or args.stream_amplitude_scale != 1.0:
         if args.motion_test != "libero-stream":
             parser.error("stream position/amplitude options require --motion-test libero-stream")
@@ -158,9 +173,10 @@ def main():
         cfg.decimation = decimation
         cfg.episode_length_s = 300.0
     if args.motion_test == "grasp":
-        cfg.seed = 0
+        cfg.seed = args.grasp_seed
         cfg.events.reset_object_position.params["pose_range"] = {
-            "x": (0.0, 0.0), "y": (0.0, 0.0), "z": (0.0, 0.0)}
+            "x": (args.grasp_object_offset[0],)*2, "y": (args.grasp_object_offset[1],)*2,
+            "z": (0.0, 0.0), "yaw": (math.radians(args.grasp_object_yaw),)*2}
     # The command target axes/spheres are real rendered geometry, so disable
     # their creation before constructing the scene, not just in the web viewer.
     cfg.commands.object_pose.debug_vis = False
@@ -492,20 +508,23 @@ def main():
                             pe, re = compute_pose_error(p[None], q[None],
                                 torch.tensor([target], device=base.device), torch.tensor([quat], device=base.device),
                                 rot_error_type="axis_angle")
-                            values = tracking_action(pe[0].cpu().tolist(), re[0].cpu().tolist(), float(arm_term.cfg.scale))
+                            values = tracking_action(pe[0].cpu().tolist(), re[0].cpu().tolist(), float(arm_term.cfg.scale),
+                                rotation_step_deg=args.grasp_orient_step_deg if phase=="orient" else 0.5)
                             values[6] = gripper
                             checked_step(torch.tensor([values], dtype=torch.float32, device=base.device), before)
                         measured["grasp_setup"] = {
-                            "seed": 0, "object_spawn_pose": str(cfg.scene.object.init_state),
+                            "seed": args.grasp_seed, "condition": grasp_condition,
+                            "object_spawn_pose": str(cfg.scene.object.init_state),
                             "object_usd": str(cfg.scene.object.spawn.usd_path), "object_scale": cfg.scene.object.spawn.scale,
                             "robot_gravity_disabled": cfg.scene.robot.spawn.rigid_props.disable_gravity,
                             "reset_pose_range": cfg.events.reset_object_position.params["pose_range"],
                             "ee_sensor_offset_m": list(cfg.scene.ee_frame.target_frames[0].offset.pos),
                             "ik_offset_m": list(arm_term.cfg.body_offset.pos),
                             "feedback": "ee_frame sensor in robot root frame; quaternion xyzw",
-                            "velocity_limit": "IK target increments bounded to 1 mm and 0.5 deg per 50 ms"}
+                            "velocity_limit": "IK translation increment <=1 mm; orient rotation uses condition limit; other rotation <=0.5 deg per 50 ms",
+                            "yaw_policy": "align top-down grasp with measured settled object yaw"}
                         measured["grasp_result"] = run_grasp_probe(grasp_state, grasp_pose_step,
-                            announce=lambda message: print(message, flush=True))
+                            announce=lambda message: print(message, flush=True), orient_step_deg=args.grasp_orient_step_deg)
                         measured["control_dt_s"] = float(base.step_dt)
                     elif args.motion_test == "joint-step":
                         if physics_recorder is None:

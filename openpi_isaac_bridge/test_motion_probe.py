@@ -12,6 +12,12 @@ make_tracking = probe["tracking_action"]
 
 
 class MotionProbeTests(unittest.TestCase):
+    def test_slow_orientation_caps_rotation_without_reducing_translation_limit(self):
+        action=make_tracking([0,0,.1],[1,0,0],.5,rotation_step_deg=.25)
+        self.assertAlmostEqual(math.hypot(*action[:3])*.5,.001)
+        self.assertAlmostEqual(math.hypot(*action[3:6])*.5,math.radians(.25))
+        self.assertEqual(action[6],1)
+
     def test_tracking_preserves_direction_and_limits_vector_norm(self):
         action = make_tracking([0.003, 0.004, 0], [0, -0.03, -0.04], 0.5)
         self.assertAlmostEqual(math.hypot(*action[:3]) * 0.5, 0.001)

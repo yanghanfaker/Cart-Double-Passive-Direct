@@ -13,9 +13,19 @@ class SweepRoutingTests(unittest.TestCase):
     def test_failed_grasp_metric_is_exportable_completed_diagnostic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
+            scenarios = [{"name":"home-fast","object_offset_xy_m":[0,0],"object_yaw_deg":0,"seed":0,"orient_step_deg":.5},
+                         {"name":"left-slow","object_offset_xy_m":[-.02,.02],"object_yaw_deg":20,"seed":1,"orient_step_deg":.25}]
+            scenario_file = root / "grasp-scenarios.json"
+            scenario_file.write_text(json.dumps(scenarios))
+            routed = []
             class FakeProcess:
                 def __init__(self, command, **kwargs):
                     output = Path(command[command.index("--output")+1])
+                    index=command.index("--grasp-object-offset")
+                    routed.append((list(map(float,command[index+1:index+3])),
+                        float(command[command.index("--grasp-object-yaw")+1]),
+                        float(command[command.index("--grasp-orient-step-deg")+1]),
+                        int(command[command.index("--grasp-seed")+1])))
                     report = {"joint_telemetry_summary": {}, "actuator_audit": {}, "physics_joint_summary": {},
                               "grasp_result": {"success": False, "failure_reason": "empty close", "trace": [{"phase":"close"}]},
                               "grasp_setup": {"ee_sensor_offset_m": [0,0,0.1034]}}
@@ -26,11 +36,15 @@ class SweepRoutingTests(unittest.TestCase):
                 def __enter__(self): return self
                 def __exit__(self, *args): pass
                 def wait(self): return 0
-            argv = ["run_gain_sweep.py", "--isaaclab-root", str(root), "--profiles", "kp2p25-kd0p25", "--modes", "grasp"]
+            argv = ["run_gain_sweep.py", "--isaaclab-root", str(root), "--profiles", "kp2p25-kd0p25", "--modes", "grasp",
+                    "--grasp-scenarios-json", str(scenario_file)]
             with patch.object(sys, "argv", argv), patch.object(run_gain_sweep.subprocess, "Popen", FakeProcess):
                 self.assertEqual(run_gain_sweep.main(), 0)
             manifest = json.loads((root / "logs/openpi_gain_sweep/latest_gain_sweep.json").read_text())
             self.assertEqual(manifest["status"], "completed")
+            self.assertEqual(len(manifest["runs"]),2)
+            self.assertEqual(routed,[([0,0],0,.5,0), ([-.02,.02],20,.25,1)])
+            self.assertEqual(manifest["runs"][1]["grasp_scenario"],scenarios[1])
             self.assertFalse(manifest["runs"][0]["grasp_result"]["success"])
             self.assertEqual(manifest["runs"][0]["grasp_result"]["trace"], [{"phase":"close"}])
 

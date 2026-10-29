@@ -2,7 +2,7 @@ import copy
 import math
 import unittest
 
-from grasp_probe import run_grasp_probe, angle_deg, GraspAbort
+from grasp_probe import run_grasp_probe, angle_deg, GraspAbort, down_quat_from_object
 
 
 class Plant:
@@ -33,6 +33,26 @@ class Plant:
 
 
 class GraspProbeTests(unittest.TestCase):
+    def test_measured_object_yaw_sets_top_down_grasp_in_xyzw(self):
+        for degrees in (-20,0,20):
+            yaw=math.radians(degrees)
+            obj=[0,0,math.sin(yaw/2),math.cos(yaw/2)]
+            q,measured=down_quat_from_object(obj)
+            self.assertAlmostEqual(measured,yaw)
+            self.assertAlmostEqual(q[0],math.cos(yaw/2))
+            self.assertAlmostEqual(q[1],math.sin(yaw/2))
+            # R(q) applied to local +Z must point straight down.
+            x,y,z,w=q
+            self.assertAlmostEqual(1-2*(x*x+y*y),-1)
+            other,_=down_quat_from_object([-v for v in obj])
+            self.assertAlmostEqual(angle_deg(q,other),0)
+
+    def test_slower_orientation_preserves_grasp_checks(self):
+        plant=Plant()
+        report=run_grasp_probe(plant.read,plant.step,announce=lambda _:None,orient_step_deg=.25)
+        self.assertTrue(report["success"])
+        self.assertEqual(report["orient_step_deg"],.25)
+
     def run_probe(self, plant):
         return run_grasp_probe(plant.read, plant.step, announce=lambda _: None)
 

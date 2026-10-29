@@ -24,7 +24,9 @@ class GainCaseTests(unittest.TestCase):
         self.assertEqual(len(regression), 3)
         grasp = json.loads(Path(__file__).with_name("grasp_validation_cases.json").read_text())
         self.assertEqual(len(grasp), 3)
-        cases = validate_gain_cases(self.cases()) + validate_gain_cases(self.refine_cases()) + validate_gain_cases(regression) + validate_gain_cases(grasp)
+        robustness = json.loads(Path(__file__).with_name("grasp_robustness_cases.json").read_text())
+        self.assertEqual(len(robustness),2)
+        cases = validate_gain_cases(self.cases()) + validate_gain_cases(self.refine_cases()) + validate_gain_cases(regression) + validate_gain_cases(grasp) + validate_gain_cases(robustness)
         for case in cases:
             arm = SimpleNamespace(class_type=Implicit, joint_names_expr=["panda_joint[1-7]"],
                                   stiffness=400, damping=80, joint_effort_limit=87)
