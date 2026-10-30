@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "command": [
+    "uv",
+    "run",
+    "--extra",
+    "viser",
+    "--extra",
+    "openpi",
+    "isaaclab",
+    "-p",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py",
+    "--viz",
+    "viser",
+    "--motion-test",
+    "geometry-audit",
+    "--gain-profile",
+    "kp2p25-kd0p25",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-and-target-xy/capture/20261030T083503176982Z/joint_gains.json",
+    "--output",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-and-target-xy/capture/20261030T083503176982Z",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-and-target-xy/capture/20261030T083503176982Z/clean_scene_request.json",
+    "--registered-replay-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-and-target-xy/capture/20261030T083503176982Z/registered_replay_request.json"
+  ],
+  "output": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-and-target-xy/capture/20261030T083503176982Z",
+  "scope": "static capture followed by explicit bounded frozen registered replay; no inference",
+  "exit_code": 0
+}
