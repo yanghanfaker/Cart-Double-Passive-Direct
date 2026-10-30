@@ -2379,3 +2379,46 @@ git add -- diagnostics/camera_alignment/
 git commit -m "Add static aligned camera landmark render results"
 git push origin main
 ```
+
+## 下一轮：LIBERO初始化布局与原生渲染方向
+
+`libero_scene_probe.py`在现有独立LIBERO环境内创建libero_spatial任务0，默认seed7、episode0，
+不把Isaac角度写进LIBERO、不查询模型、不启动Isaac，也不修改普通桥接器或相机配置。
+本轮分开保存：
+
+- `default_reset/`：只执行环境reset的姿态与场景。
+- 若本机任务.pruned_init存在且受限加载成功：`benchmark_initial/`和`benchmark_after10wait/`。
+- `markers/`：在最后一份状态上插入相机标记，验证原生RGB与官方旋转预处理后的图像方向。
+
+[OpenPI官方LIBERO示例](https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/main.py)
+在reset之后使用任务初始状态，再执行10步 `[0,0,0,0,0,0,-1]` 等待物体稳定，之后才开始模型查询。
+本轮复现初始化与等待部分，不开始模型推理；10步是非模型的控制器空动作，不是零物理时间。
+之前的同关节几何审计用于验证映射，不等同于这个基准初始化过程。
+
+原始/官方180度旋转/224策略尺寸图像分别保存；关节角、末端与物体根位置、桌面top站点位置、相机参数和物体投影均记录。
+与已完成Isaac标记测试的home几何姿态比较，单独报告关节和末端位置差异；物体根原点不是共同抓取表面，Isaac桌面高度未测量不会由方块中心猜测。
+
+可视标记以世界固定、group1、无碰撞geom加入XML，不增加关节或动态body；原模型状态完全恢复后才渲染，验证nq/nv、相机参数、模拟时间及状态没有被标记插入改变。
+marker_test对原始256RGB和官方180度旋转256RGB分别测试四种方向，不提前假定LIBERO与Isaac应该采用相同翻转。
+只在本地已有.pruned_init文件上使用torch的weights_only=True和NumPy数组/dtype受限白名单；失败记录load_failed，不回退到任意pickle执行，也不自动下载数据集。
+因此completed不代表基准初始文件可用，须分别查看benchmark_initialization_available和marker_test.all_marker_views_passed。
+
+运行（外层系统Python调度，自动选择现有参考venv，保留其符号链接入口）：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/libero_scene_probe.py
+```
+
+无需启动OpenPI服务。输出 `diagnostics/libero_scene_probe/<UTC>/`，包含run.json、report.json、预检、worker.log、三类图像、标记前后XML和源Isaac姿态/世界配准副本。
+不会改~/.libero，参考配置文件仍写入本轮输出目录。
+186项本地CPU、XML约束、初始状态验证和模拟子进程测试通过；本机没有原生LIBERO环境，真实初始文件加载、XML重建及GPU渲染待Spark验证。
+
+结束后推送整个目录，失败记录也保留：
+
+```bash
+git add -- diagnostics/libero_scene_probe/
+git commit -m "Add native LIBERO initialization and camera direction audit"
+git push origin main
+```
