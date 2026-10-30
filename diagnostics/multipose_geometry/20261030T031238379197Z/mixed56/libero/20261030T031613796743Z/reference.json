@@ -1,0 +1,560 @@
+{
+  "status": "completed",
+  "policy_queries": 0,
+  "action_steps": 0,
+  "scope": "installed LIBERO geometry reference, not benchmark evaluation or proof of training dependency versions",
+  "suite": "libero_spatial",
+  "task_id": 0,
+  "seed": 0,
+  "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "bddl_file": "/home/test/Robot/openpi/third_party/libero/libero/libero/bddl_files/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate.bddl",
+  "bddl_sha256": "9b59eb1287802868ad9bc78d58e6d36d4ba31134e679cfdbdf4b0feb660c959b",
+  "initialization_note": "task reset only; no demonstration initial-state files loaded",
+  "image_preprocessing": "official OpenPI LIBERO example: observation image[::-1,::-1], resize/pad224, convert_to_uint8",
+  "control_timing": {
+    "control_frequency_hz": 20,
+    "robosuite_model_timestep_s": 0.002,
+    "mujoco_timestep_s": 0.002
+  },
+  "sim_time_before_forward": 0.0,
+  "sim_time_after_capture": 0.0,
+  "joint_assignments": [
+    {
+      "joint": "robot0_joint1",
+      "qpos_address": 0,
+      "qvel_address": 0,
+      "target": -7.071726599860995e-07,
+      "limits": [
+        -2.8973,
+        2.8973
+      ],
+      "actual": -7.071726599860995e-07
+    },
+    {
+      "joint": "robot0_joint2",
+      "qpos_address": 1,
+      "qvel_address": 1,
+      "target": -0.5690000057220459,
+      "limits": [
+        -1.7628,
+        1.7628
+      ],
+      "actual": -0.5690000057220459
+    },
+    {
+      "joint": "robot0_joint3",
+      "qpos_address": 2,
+      "qvel_address": 2,
+      "target": 2.5132197833954706e-07,
+      "limits": [
+        -2.8973,
+        2.8973
+      ],
+      "actual": 2.5132197833954706e-07
+    },
+    {
+      "joint": "robot0_joint4",
+      "qpos_address": 3,
+      "qvel_address": 3,
+      "target": -2.809999942779541,
+      "limits": [
+        -3.0718,
+        -0.0698
+      ],
+      "actual": -2.809999942779541
+    },
+    {
+      "joint": "robot0_joint5",
+      "qpos_address": 4,
+      "qvel_address": 4,
+      "target": -0.1799996942281723,
+      "limits": [
+        -2.8973,
+        2.8973
+      ],
+      "actual": -0.1799996942281723
+    },
+    {
+      "joint": "robot0_joint6",
+      "qpos_address": 5,
+      "qvel_address": 5,
+      "target": 3.1569998264312744,
+      "limits": [
+        -0.0175,
+        3.7525
+      ],
+      "actual": 3.1569998264312744
+    },
+    {
+      "joint": "robot0_joint7",
+      "qpos_address": 6,
+      "qvel_address": 6,
+      "target": 0.7409999966621399,
+      "limits": [
+        -2.8973,
+        2.8973
+      ],
+      "actual": 0.7409999966621399
+    },
+    {
+      "joint": "gripper0_finger_joint1",
+      "qpos_address": 7,
+      "qvel_address": 7,
+      "target": 0.03999999910593033,
+      "limits": [
+        0.0,
+        0.04
+      ],
+      "actual": 0.03999999910593033
+    },
+    {
+      "joint": "gripper0_finger_joint2",
+      "qpos_address": 8,
+      "qvel_address": 8,
+      "target": -0.03999999910593033,
+      "limits": [
+        -0.04,
+        0.0
+      ],
+      "actual": -0.03999999910593033
+    }
+  ],
+  "joint_pose_note": "direct qpos assignment and forward kinematics; not a controller tracking result; suffix matching is not proof of identical physical zero/sign conventions",
+  "robot_root": {
+    "name": "robot0_base",
+    "id": 2,
+    "position_world_m": [
+      -0.66,
+      0.0,
+      0.912
+    ],
+    "rotation_world_matrix": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "robot_eef_body": {
+    "name": "robot0_right_hand",
+    "id": 11,
+    "position_world_m": [
+      -0.27140766995953336,
+      0.016046283667895074,
+      1.3856022191175876
+    ],
+    "rotation_world_matrix": [
+      [
+        0.5933699785102006,
+        0.13796964783664195,
+        0.793017304274401
+      ],
+      [
+        0.22297819004885427,
+        -0.9748195328239545,
+        0.0027577504282454424
+      ],
+      [
+        0.7734292439294895,
+        0.17518919687218293,
+        -0.6091928675993658
+      ]
+    ]
+  },
+  "gripper_root": {
+    "name": "gripper0_right_gripper",
+    "id": 12,
+    "position_world_m": [
+      -0.27140766995953336,
+      0.016046283667895074,
+      1.3856022191175876
+    ],
+    "rotation_world_matrix": [
+      [
+        -0.13796964783664195,
+        0.5933699785102002,
+        0.7930173042744008
+      ],
+      [
+        0.9748195328239544,
+        0.22297819004885427,
+        0.002757750428245498
+      ],
+      [
+        -0.17518919687218293,
+        0.7734292439294894,
+        -0.6091928675993655
+      ]
+    ]
+  },
+  "eef_site": {
+    "id": 13,
+    "name": "gripper0_grip_site",
+    "parent_body": "gripper0_eef",
+    "local_position_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_quat_mujoco_wxyz": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "position_world_m": [
+      -0.1944849914449165,
+      0.016313785459434887,
+      1.3265105109604491
+    ],
+    "rotation_world_matrix": [
+      [
+        -0.13796964783664195,
+        0.5933699785102002,
+        0.7930173042744008
+      ],
+      [
+        0.9748195328239544,
+        0.22297819004885427,
+        0.002757750428245498
+      ],
+      [
+        -0.17518919687218293,
+        0.7734292439294894,
+        -0.6091928675993655
+      ]
+    ],
+    "quat_xyzw": [
+      0.5586245656013489,
+      0.7018083930015564,
+      0.2764952778816223,
+      0.34489697217941284
+    ],
+    "position_in_robot_root_m": [
+      0.46551500855508354,
+      0.016313785459434887,
+      0.4145105109604491
+    ],
+    "position_in_eef_body_m": [
+      -1.6434247387504986e-17,
+      -1.0351626523240304e-17,
+      0.09700000000000006
+    ],
+    "rotation_in_eef_body": [
+      [
+        -8.16775620939504e-17,
+        1.0000000000000004,
+        1.3303081787807743e-16
+      ],
+      [
+        -1.0000000000000002,
+        -2.1039072756245034e-17,
+        -5.248675817075859e-17
+      ],
+      [
+        -5.757940477325221e-18,
+        -1.3760443191686117e-16,
+        1.0000000000000004
+      ]
+    ]
+  },
+  "observation": {
+    "robot0_eef_pos": [
+      -0.1944849914449165,
+      0.016313785459434887,
+      1.3265105109604491
+    ],
+    "robot0_eef_quat": [
+      0.8912606772058219,
+      0.10124642742488607,
+      0.43939068228468064,
+      0.048367287723420256
+    ],
+    "robot0_gripper_qpos": [
+      0.03999999910593033,
+      -0.03999999910593033
+    ],
+    "robot0_joint_pos": [
+      -7.071726599860995e-07,
+      -0.5690000057220459,
+      2.5132197833954706e-07,
+      -2.809999942779541,
+      -0.1799996942281723,
+      3.1569998264312744,
+      0.7409999966621399
+    ]
+  },
+  "observation_reference_checks": {
+    "position_obs_vs_grip_site_error_m": 0.0,
+    "rotation_obs_vs_eef_body_deg": 3.4959667319301593e-06,
+    "rotation_obs_vs_grip_site_deg": 89.9999830071666,
+    "note": "robosuite 1.4 reference uses grip-site position and EEF-body orientation; installed observable source saved for verification"
+  },
+  "policy_state_world_float32": [
+    -0.19448499381542206,
+    0.016313785687088966,
+    1.3265105485916138,
+    2.7169084548950195,
+    0.30863839387893677,
+    1.3394333124160767,
+    0.03999999910593033,
+    -0.03999999910593033
+  ],
+  "cameras": {
+    "agentview": {
+      "id": 2,
+      "parent_body": "world",
+      "position_world_m": [
+        0.6586131746834771,
+        0.0,
+        1.6103500240372424
+      ],
+      "rotation_world_opengl_matrix": [
+        [
+          -7.268184498698815e-08,
+          -0.6282664504107425,
+          0.7779982437565529
+        ],
+        [
+          0.9999999999999858,
+          7.268184498698815e-08,
+          1.521152659944569e-07
+        ],
+        [
+          -1.521152659944569e-07,
+          0.7779982437565529,
+          0.6282664504107283
+        ]
+      ],
+      "rotation_world_ros_matrix": [
+        [
+          -7.268184498698815e-08,
+          0.6282664504107425,
+          -0.7779982437565529
+        ],
+        [
+          0.9999999999999858,
+          -7.268184498698815e-08,
+          -1.521152659944569e-07
+        ],
+        [
+          -1.521152659944569e-07,
+          -0.7779982437565529,
+          -0.6282664504107283
+        ]
+      ],
+      "position_in_robot_root_m": [
+        1.318613174683477,
+        0.0,
+        0.6983500240372423
+      ],
+      "rotation_in_robot_root_opengl": [
+        [
+          -7.268184498698815e-08,
+          -0.6282664504107425,
+          0.7779982437565529
+        ],
+        [
+          0.9999999999999858,
+          7.268184498698815e-08,
+          1.521152659944569e-07
+        ],
+        [
+          -1.521152659944569e-07,
+          0.7779982437565529,
+          0.6282664504107283
+        ]
+      ],
+      "vertical_fov_deg": 45.0,
+      "pinhole_intrinsic_256": [
+        [
+          309.01933598375615,
+          0,
+          128
+        ],
+        [
+          0,
+          309.01933598375615,
+          128
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "files": {
+        "observation256": {
+          "file": "agentview_observation256.png",
+          "sha256": "3fd8ed3a42de97d7c7ef689c66a8fc3fae1ad548cb9b4daedca99e1772c99700"
+        },
+        "rotated256": {
+          "file": "agentview_rotated256.png",
+          "sha256": "c661e428f7af3af9c481b99bf0a23ac1ec637e3bb24dea270e5447f17fd9278d"
+        },
+        "policy224": {
+          "file": "agentview_policy224.png",
+          "sha256": "3a39e75f104f233022022ba7814b27126d282e6b620ad64ef99e08886a637491"
+        }
+      },
+      "intrinsic_note": "derived from MuJoCo vertical fovy and 256 square resolution; image orientation preprocessing recorded separately"
+    },
+    "robot0_eye_in_hand": {
+      "id": 6,
+      "parent_body": "robot0_right_hand",
+      "position_world_m": [
+        -0.24173917103402331,
+        0.02719519317033779,
+        1.4242736813140622
+      ],
+      "rotation_world_opengl_matrix": [
+        [
+          0.137969647836642,
+          0.5933699785102002,
+          -0.7930173042744008
+        ],
+        [
+          -0.9748195328239544,
+          0.22297819004885433,
+          -0.002757750428245498
+        ],
+        [
+          0.17518919687218293,
+          0.7734292439294894,
+          0.6091928675993656
+        ]
+      ],
+      "rotation_world_ros_matrix": [
+        [
+          0.137969647836642,
+          -0.5933699785102002,
+          0.7930173042744008
+        ],
+        [
+          -0.9748195328239544,
+          -0.22297819004885433,
+          0.002757750428245498
+        ],
+        [
+          0.17518919687218293,
+          -0.7734292439294894,
+          -0.6091928675993656
+        ]
+      ],
+      "position_in_robot_root_m": [
+        0.4182608289659767,
+        0.02719519317033779,
+        0.5122736813140621
+      ],
+      "rotation_in_robot_root_opengl": [
+        [
+          0.137969647836642,
+          0.5933699785102002,
+          -0.7930173042744008
+        ],
+        [
+          -0.9748195328239544,
+          0.22297819004885433,
+          -0.002757750428245498
+        ],
+        [
+          0.17518919687218293,
+          0.7734292439294894,
+          0.6091928675993656
+        ]
+      ],
+      "vertical_fov_deg": 75.0,
+      "pinhole_intrinsic_256": [
+        [
+          166.81284772367434,
+          0,
+          128
+        ],
+        [
+          0,
+          166.81284772367434,
+          128
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "files": {
+        "observation256": {
+          "file": "robot0_eye_in_hand_observation256.png",
+          "sha256": "c18dadbdf31056f464c200b699ccbf3b04436371d0da7570ce0368f4e224e734"
+        },
+        "rotated256": {
+          "file": "robot0_eye_in_hand_rotated256.png",
+          "sha256": "5a5a667a31001381f06e26b57a380d75b8778ec396896776fb7f414cbd3ba0bd"
+        },
+        "policy224": {
+          "file": "robot0_eye_in_hand_policy224.png",
+          "sha256": "62701efed16048f6445dd7ea725d9658434e1f499db275f9f013d62dad5cdb94"
+        }
+      },
+      "intrinsic_note": "derived from MuJoCo vertical fovy and 256 square resolution; image orientation preprocessing recorded separately"
+    }
+  },
+  "controller": {
+    "name": "OSC_POSE",
+    "input_min": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+    ],
+    "input_max": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "output_min": [
+      -0.05,
+      -0.05,
+      -0.05,
+      -0.5,
+      -0.5,
+      -0.5
+    ],
+    "output_max": [
+      0.05,
+      0.05,
+      0.05,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "kp": [
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0
+    ],
+    "damping_ratio": null,
+    "control_delta": null,
+    "policy_freq": null
+  },
+  "robosuite_file": "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/robosuite/__init__.py",
+  "registration_status": "unverified: world/base/hand frame correspondence to Isaac still requires comparison; no automatic parameter changes"
+}

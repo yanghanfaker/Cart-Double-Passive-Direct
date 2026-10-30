@@ -1,0 +1,74 @@
+{
+  "task": "IsaacContrib-Lift-Cube-Franka-IK-Rel",
+  "state": [
+    0.45409756898880005,
+    0.09205076098442078,
+    0.38548776507377625,
+    2.9309048652648926,
+    0.3599507212638855,
+    1.2377647161483765,
+    0.03999999910593033,
+    -0.03999999910593033
+  ],
+  "state_layout": "world TCP xyz; signed rotation vector; Isaac q1 and negated q2",
+  "finger_names": [
+    "panda_finger_joint1",
+    "panda_finger_joint2"
+  ],
+  "gripper_during_capture": "open (Isaac action +1)",
+  "images": {
+    "external_camera": {
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "uint8",
+      "min": 1,
+      "max": 228,
+      "std": 75.89514572038625
+    },
+    "wrist_camera": {
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "uint8",
+      "min": 9,
+      "max": 228,
+      "std": 78.84369801848526
+    }
+  },
+  "camera_setup": {
+    "debug_markers": false,
+    "light_intensity": 1000.0,
+    "external_eye_env": [
+      0.95,
+      -0.75,
+      0.65
+    ],
+    "external_target_env": [
+      0.5,
+      0.0,
+      0.1
+    ],
+    "wrist_offset_hand": [
+      0.1,
+      0.0,
+      0.02
+    ],
+    "wrist_initial_aim": "fixed scene reference [0.5,0,0.04]; no object tracking",
+    "wrist_eye_world_at_calibration": [
+      0.46330416202545166,
+      0.0984458476305008,
+      0.5152179002761841
+    ],
+    "wrist_target_world_at_calibration": [
+      0.5,
+      0.0,
+      0.03999999910593033
+    ]
+  },
+  "validated": "capture only; LIBERO reference frames, cameras and action mapping are not calibrated"
+}

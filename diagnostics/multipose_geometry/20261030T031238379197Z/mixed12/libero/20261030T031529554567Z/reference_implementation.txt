@@ -1,0 +1,112 @@
+class OffScreenRenderEnv(ControlEnv):
+    """
+    For visualization and evaluation.
+    """
+
+    def __init__(self, **kwargs):
+        # This shouldn't be customized
+        kwargs["has_renderer"] = False
+        kwargs["has_offscreen_renderer"] = True
+        super().__init__(**kwargs)
+
+
+    def _get_observations(self, force_update=False):
+        """
+        Grabs observations from the environment.
+        Args:
+            force_update (bool): If True, will force all the observables to update their internal values to the newest
+                value. This is useful if, e.g., you want to grab observations when directly setting simulation states
+                without actually stepping the simulation.
+        Returns:
+            OrderedDict: OrderedDict containing observations [(name_string, np.array), ...]
+        """
+        observations = OrderedDict()
+        obs_by_modality = OrderedDict()
+
+        # Force an update if requested
+        if force_update:
+            self._update_observables(force=True)
+
+        # Loop through all observables and grab their current observation
+        for obs_name, observable in self._observables.items():
+            if observable.is_enabled() and observable.is_active():
+                obs = observable.obs
+                observations[obs_name] = obs
+                modality = observable.modality + "-state"
+                if modality not in obs_by_modality:
+                    obs_by_modality[modality] = []
+                # Make sure all observations are numpy arrays so we can concatenate them
+                array_obs = [obs] if type(obs) in {int, float} or not obs.shape else obs
+                obs_by_modality[modality].append(np.array(array_obs))
+
+        # Add in modality observations
+        for modality, obs in obs_by_modality.items():
+            # To save memory, we only concatenate the image observations if explicitly requested
+            if modality == "image-state" and not macros.CONCATENATE_IMAGES:
+                continue
+            observations[modality] = np.concatenate(obs, axis=-1)
+
+        return observations
+
+
+    def setup_observables(self):
+        """
+        Sets up observables to be used for this robot
+
+        Returns:
+            OrderedDict: Dictionary mapping observable names to its corresponding Observable object
+        """
+        # Get general robot observables first
+        observables = super().setup_observables()
+
+        # Get prefix from robot model to avoid naming clashes for multiple robots and define observables modality
+        pf = self.robot_model.naming_prefix
+        modality = f"{pf}proprio"
+
+        # eef features
+        @sensor(modality=modality)
+        def eef_pos(obs_cache):
+            return np.array(self.sim.data.site_xpos[self.eef_site_id])
+
+        @sensor(modality=modality)
+        def eef_quat(obs_cache):
+            return T.convert_quat(self.sim.data.get_body_xquat(self.robot_model.eef_name), to="xyzw")
+
+        @sensor(modality=modality)
+        def eef_vel_lin(obs_cache):
+            return np.array(self.sim.data.get_body_xvelp(self.robot_model.eef_name))
+
+        @sensor(modality=modality)
+        def eef_vel_ang(obs_cache):
+            return np.array(self.sim.data.get_body_xvelr(self.robot_model.eef_name))
+
+        sensors = [eef_pos, eef_quat, eef_vel_lin, eef_vel_ang]
+        names = [f"{pf}eef_pos", f"{pf}eef_quat", f"{pf}eef_vel_lin", f"{pf}eef_vel_ang"]
+        # Exclude eef vel by default
+        actives = [True, True, False, False]
+
+        # add in gripper sensors if this robot has a gripper
+        if self.has_gripper:
+
+            @sensor(modality=modality)
+            def gripper_qpos(obs_cache):
+                return np.array([self.sim.data.qpos[x] for x in self._ref_gripper_joint_pos_indexes])
+
+            @sensor(modality=modality)
+            def gripper_qvel(obs_cache):
+                return np.array([self.sim.data.qvel[x] for x in self._ref_gripper_joint_vel_indexes])
+
+            sensors += [gripper_qpos, gripper_qvel]
+            names += [f"{pf}gripper_qpos", f"{pf}gripper_qvel"]
+            actives += [True, True]
+
+        # Create observables for this robot
+        for name, s, active in zip(names, sensors, actives):
+            observables[name] = Observable(
+                name=name,
+                sensor=s,
+                sampling_rate=self.control_freq,
+                active=active,
+            )
+
+        return observables

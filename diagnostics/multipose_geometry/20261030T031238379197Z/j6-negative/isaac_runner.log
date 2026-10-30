@@ -1,0 +1,5 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j6-negative/isaac/20261030T031451066281Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j6-negative/isaac/20261030T031451066281Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3480815106413607e-08, 'rotation_error_deg': 1.4229775186132948e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.780644784737644e-08, 'rotation_error_deg': 2.335584237242353e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j6-negative/isaac/20261030T031451066281Z/geometry_audit.json
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j6-negative/isaac/20261030T031451066281Z/run.json

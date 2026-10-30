@@ -1,0 +1,682 @@
+{
+  "status": "completed",
+  "diagnostic_motion_steps": 0,
+  "policy_queries": 0,
+  "warmup_hold_controls": 35,
+  "quaternion_order": "xyzw",
+  "scope": "Isaac internal geometry/coordinate audit; not LIBERO registration or grasp validation",
+  "training_tcp_registration": "unverified: training model attachment and frame registration not supplied",
+  "references": {
+    "camera_data": "https://github.com/isaac-sim/IsaacLab/blob/main/source/isaaclab/isaaclab/sensors/camera/camera_data.py",
+    "libero_input": "https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/main.py"
+  },
+  "scene_setup": {
+    "seed": 0,
+    "object_pose_range": {
+      "x": [
+        0.0,
+        0.0
+      ],
+      "y": [
+        0.0,
+        0.0
+      ],
+      "z": [
+        0.0,
+        0.0
+      ]
+    },
+    "robot_gravity_disabled": true,
+    "control_dt_s": 0.05,
+    "physics_dt_s": 0.01,
+    "wrist_initial_aim": "fixed scene reference [0.5,0,0.04]; no live object re-aiming"
+  },
+  "body_resolution": {
+    "sensor_body_ids": [
+      8
+    ],
+    "sensor_body_names": [
+      "panda_hand"
+    ],
+    "sensor_usd_path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand",
+    "robot_usd_path": "/World/envs/env_0/Robot",
+    "sensor_full_pattern": "/World/envs/env_[^/]+/Robot/(Geometry/.*/)?panda_hand",
+    "robot_full_pattern": "/World/envs/env_[^/]+/Robot"
+  },
+  "robot_root_world": {
+    "position_m": [
+      -7.450580596923828e-09,
+      5.820766091346741e-11,
+      3.725290298461914e-09
+    ],
+    "quat_xyzw": [
+      -4.226725636158335e-10,
+      -1.1850715964101255e-08,
+      -1.3474510396349615e-10,
+      1.0
+    ]
+  },
+  "sensor_body_world": {
+    "position_m": [
+      0.36753028631210327,
+      -0.055546898394823074,
+      0.5035473704338074
+    ],
+    "quat_xyzw": [
+      0.8956886529922485,
+      -0.04733718931674957,
+      0.4400678277015686,
+      0.04290926456451416
+    ]
+  },
+  "ik_body_world": {
+    "position_m": [
+      0.36753028631210327,
+      -0.055546898394823074,
+      0.5035473704338074
+    ],
+    "quat_xyzw": [
+      0.8956886529922485,
+      -0.04733718931674957,
+      0.4400678277015686,
+      0.04290926456451416
+    ]
+  },
+  "sensor_tcp_world": {
+    "position_m": [
+      0.44862329959869385,
+      -0.06780288368463516,
+      0.44057697057724
+    ],
+    "quat_xyzw": [
+      0.8956886529922485,
+      -0.04733718931674957,
+      0.4400678277015686,
+      0.04290926456451416
+    ]
+  },
+  "ik_tcp_root": {
+    "position_m": [
+      0.45144665241241455,
+      -0.06822959333658218,
+      0.4383845925331116
+    ],
+    "quat_xyzw": [
+      0.8956886529922485,
+      -0.04733717441558838,
+      0.4400678277015686,
+      0.04290927201509476
+    ]
+  },
+  "ik_tcp_world": {
+    "position_m": [
+      0.4514466345531041,
+      -0.0682295930294487,
+      0.4383846070160114
+    ],
+    "quat_xyzw": [
+      0.8956887060693124,
+      -0.04733717794081845,
+      0.4400678669823824,
+      0.04290927468574188
+    ]
+  },
+  "sensor_body_offset": {
+    "position_m": [
+      0.0,
+      0.0,
+      0.1034
+    ],
+    "quat_xyzw": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "ik_body_offset": {
+    "position_m": [
+      0.0,
+      0.0,
+      0.107
+    ],
+    "quat_xyzw": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "same_sensor_ik_body": true,
+  "ik_body_index": 8,
+  "ik_body_name": "panda_hand",
+  "sensor_offset_closure": {
+    "position_error_m": 1.3443368757771255e-08,
+    "rotation_error_deg": 0.0,
+    "within_0p1mm_0p05deg": true
+  },
+  "ik_offset_closure": {
+    "position_error_m": 4.895732756255023e-08,
+    "rotation_error_deg": 2.3004120143867004e-06,
+    "within_0p1mm_0p05deg": true
+  },
+  "sensor_ik_distance_m": 0.0035999665435040816,
+  "policy_state_world_float32": [
+    0.44862329959869385,
+    -0.06780288368463516,
+    0.44057697057724,
+    2.7395217418670654,
+    -0.1447838544845581,
+    1.3459759950637817,
+    0.03999999910593033,
+    -0.03999999910593033
+  ],
+  "policy_state_layout": "world TCP xyz; signed rotation vector; Isaac q1 and negated q2",
+  "joint_names": [
+    "panda_joint1",
+    "panda_joint2",
+    "panda_joint3",
+    "panda_joint4",
+    "panda_joint5",
+    "panda_joint6",
+    "panda_joint7",
+    "panda_finger_joint1",
+    "panda_finger_joint2"
+  ],
+  "joint_positions_rad": [
+    -0.14999963343143463,
+    -0.6890000104904175,
+    -8.873442425283429e-07,
+    -2.809999942779541,
+    5.567590051214211e-07,
+    3.0369999408721924,
+    0.7409999966621399,
+    0.03999999910593033,
+    0.03999999910593033
+  ],
+  "joint_velocities_rad_s": [
+    -8.609968062955886e-07,
+    -9.371247777778535e-09,
+    2.4389700570282e-07,
+    1.1695460599980834e-08,
+    -1.0512482617741625e-07,
+    1.5036421885383788e-08,
+    4.046391666179261e-09,
+    -9.39384681153399e-10,
+    -9.393845701310966e-10
+  ],
+  "finger_positions_isaac_m": [
+    0.03999999910593033,
+    0.03999999910593033
+  ],
+  "finger_body_origins_world": {
+    "panda_leftfinger": [
+      0.40842878818511963,
+      -0.10214247554540634,
+      0.46939000487327576
+    ],
+    "panda_rightfinger": [
+      0.4182339608669281,
+      -0.02279561012983322,
+      0.46657371520996094
+    ]
+  },
+  "finger_origin_note": "rigid body origins, not measured fingertip contact points",
+  "object_root_world": {
+    "position_m": [
+      0.49999961256980896,
+      8.296869395962858e-07,
+      0.020999588072299957
+    ],
+    "quat_xyzw": [
+      -1.6044728909037076e-05,
+      -7.756359082122799e-06,
+      4.2151938828283164e-08,
+      1.0
+    ]
+  },
+  "cameras": {
+    "external_camera": {
+      "prim_path_pattern": "/World/envs/env_[^/]+/ExternalCamera",
+      "image_shape_hw": [
+        256,
+        256
+      ],
+      "live_pose_world_ros": {
+        "position_m": [
+          0.949999988079071,
+          -0.75,
+          0.6499999761581421
+        ],
+        "quat_xyzw": [
+          -0.8435471653938293,
+          -0.23364895582199097,
+          0.12908005714416504,
+          0.46601998805999756
+        ]
+      },
+      "live_quat_world_convention_xyzw": [
+        -0.24104803800582886,
+        0.13647912442684174,
+        0.8361480832099915,
+        0.47341907024383545
+      ],
+      "live_quat_opengl_xyzw": [
+        0.46601998805999756,
+        0.12908005714416504,
+        0.23364895582199097,
+        0.8435471653938293
+      ],
+      "live_intrinsic_matrix": [
+        [
+          227.55555725097656,
+          0.0,
+          128.0
+        ],
+        [
+          0.0,
+          227.55555725097656,
+          128.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "projection_pose_world_ros": {
+        "position_m": [
+          0.949999988079071,
+          -0.75,
+          0.6499999761581421
+        ],
+        "quat_xyzw": [
+          -0.8435471653938293,
+          -0.23364895582199097,
+          0.12908005714416504,
+          0.46601998805999756
+        ]
+      },
+      "projection_intrinsic_matrix": [
+        [
+          227.55555725097656,
+          0.0,
+          128.0
+        ],
+        [
+          0.0,
+          227.55555725097656,
+          128.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "world_from_camera_ros": [
+        [
+          0.8574930007760059,
+          0.27388007038545276,
+          -0.4355404236874233,
+          0.949999988079071
+        ],
+        [
+          0.5144956303217322,
+          -0.4564670425713906,
+          0.7259008785130182,
+          -0.75
+        ],
+        [
+          -6.542088118455247e-08,
+          -0.846538567397722,
+          -0.5323273935354145,
+          0.6499999761581421
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "camera_ros_from_world": [
+        [
+          0.8574930007760059,
+          0.5144956303217322,
+          -6.542088118455247e-08,
+          -0.4287465752502222
+        ],
+        [
+          0.27388007038545276,
+          -0.4564670425713906,
+          -0.846538567397722,
+          -0.05228629690435094
+        ],
+        [
+          -0.4355404236874233,
+          0.7259008785130182,
+          -0.5323273935354145,
+          1.3042018493021148
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "frame": [
+        1
+      ],
+      "camera_data_info": {
+        "rgba": null,
+        "rgb": null
+      },
+      "projection_binding": "live CameraData; capture-time binding unavailable",
+      "projection_convention": "+Z forward, +X right, +Y down; homogeneous pinhole K; raw image pixels",
+      "projections": {
+        "object_root": {
+          "camera_ros_xyz_m": [
+            1.841559704729434e-08,
+            0.06687629225155667,
+            1.0752537524865464
+          ],
+          "uv_px": [
+            128.00000389728604,
+            142.1530051999261
+          ],
+          "in_front": true,
+          "inside_image": true
+        },
+        "sensor_tcp": {
+          "camera_ros_xyz_m": [
+            -0.07893955206119618,
+            -0.2714329317412545,
+            0.825058904087346
+          ],
+          "uv_px": [
+            106.22805902773909,
+            53.137379000871306
+          ],
+          "in_front": true,
+          "inside_image": true
+        },
+        "ik_tcp": {
+          "camera_ros_xyz_m": [
+            -0.07673810204884085,
+            -0.26860897750421686,
+            0.8246865340770515
+          ],
+          "uv_px": [
+            106.82567393482532,
+            53.88278935948256
+          ],
+          "in_front": true,
+          "inside_image": true
+        },
+        "sensor_body": {
+          "camera_ros_xyz_m": [
+            -0.14217059660896647,
+            -0.35254401737003394,
+            0.8357539511156653
+          ],
+          "uv_px": [
+            89.2903902005247,
+            32.01080339369713
+          ],
+          "in_front": true,
+          "inside_image": true
+        },
+        "robot_root": {
+          "camera_ros_xyz_m": [
+            -0.4287465816090954,
+            -0.05228630212508856,
+            1.3042018506063227
+          ],
+          "uv_px": [
+            53.19281639406376,
+            118.87714941430573
+          ],
+          "in_front": true,
+          "inside_image": true
+        }
+      },
+      "raw_png_sha256": "12bef9839fe3f21c06a48b16e7c1080100589231c4cceeb0f59e139728db1ae5",
+      "policy_png_sha256": "21d31ec73867fa08257c6096d7d6038499276868301a33b69a6d38e4f386d068",
+      "policy_preprocessing": "existing openpi_client resize_with_pad to 224; RGB; no flip",
+      "projection_note": "no independently measured pixel correspondences; visibility flags ignore occlusion and do not establish reprojection accuracy",
+      "spawn_parameters": {
+        "focal_length": 32.0,
+        "horizontal_aperture": 36.0,
+        "vertical_aperture": 36.0,
+        "clipping_range": [
+          0.01,
+          20.0
+        ]
+      }
+    },
+    "wrist_camera": {
+      "prim_path_pattern": "/World/envs/env_[^/]+/Robot/(Geometry/.*/)?panda_hand/OpenPIWristCamera",
+      "image_shape_hw": [
+        256,
+        256
+      ],
+      "live_pose_world_ros": {
+        "position_m": [
+          0.44403550028800964,
+          -0.06262077391147614,
+          0.5706063508987427
+        ],
+        "quat_xyzw": [
+          -0.9313676357269287,
+          0.35553663969039917,
+          -0.02796316146850586,
+          0.07325255870819092
+        ]
+      },
+      "live_quat_world_convention_xyzw": [
+        -0.26527079939842224,
+        0.5928443074226379,
+        0.3105601966381073,
+        0.6940600275993347
+      ],
+      "live_quat_opengl_xyzw": [
+        0.07325255870819092,
+        -0.02796316146850586,
+        -0.35553666949272156,
+        0.9313676357269287
+      ],
+      "live_intrinsic_matrix": [
+        [
+          113.77777862548828,
+          0.0,
+          128.0
+        ],
+        [
+          0.0,
+          113.77777862548828,
+          128.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "projection_pose_world_ros": {
+        "position_m": [
+          0.44403550028800964,
+          -0.06262077391147614,
+          0.5706063508987427
+        ],
+        "quat_xyzw": [
+          -0.9313676357269287,
+          0.35553663969039917,
+          -0.02796316146850586,
+          0.07325255870819092
+        ]
+      },
+      "projection_intrinsic_matrix": [
+        [
+          113.77777862548828,
+          0.0,
+          128.0
+        ],
+        [
+          0.0,
+          113.77777862548828,
+          128.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "world_from_camera_ros": [
+        [
+          0.7456234809233381,
+          -0.6581739909917446,
+          0.10417591985561447,
+          0.44403550028800964
+        ],
+        [
+          -0.6663674847227794,
+          -0.7364554816394924,
+          0.11656628529458864,
+          -0.06262077391147614
+        ],
+        [
+          3.002508201094267e-08,
+          -0.15633400508252177,
+          -0.9877042466522339,
+          0.5706063508987427
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "camera_ros_from_world": [
+        [
+          0.7456234809233381,
+          -0.6663674847227794,
+          3.002508201094267e-08,
+          -0.37281176011356826
+        ],
+        [
+          -0.6581739909917446,
+          -0.7364554816394924,
+          -0.15633400508252177,
+          0.3353403813164846
+        ],
+        [
+          0.10417591985561447,
+          0.11656628529458864,
+          -0.9877042466522339,
+          0.5246319802555046
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "frame": [
+        2
+      ],
+      "camera_data_info": {
+        "rgba": null,
+        "rgb": null
+      },
+      "projection_binding": "live CameraData; capture-time binding unavailable",
+      "projection_convention": "+Z forward, +X right, +Y down; homogeneous pinhole K; raw image pixels",
+      "projections": {
+        "object_root": {
+          "camera_ros_xyz_m": [
+            -8.607748316208363e-07,
+            0.0029700800811668093,
+            0.5559786142189815
+          ],
+          "uv_px": [
+            127.99982384745432,
+            128.60780955477878
+          ],
+          "in_front": true,
+          "inside_image": true
+        },
+        "sensor_tcp": {
+          "camera_ros_xyz_m": [
+            0.006873956442764553,
+            0.021124836770777308,
+            0.12830445006016417
+          ],
+          "uv_px": [
+            134.09568486564083,
+            146.7330759024961
+          ],
+          "in_front": true,
+          "inside_image": true
+        },
+        "ik_tcp": {
+          "camera_ros_xyz_m": [
+            0.009263446446269648,
+            0.019923584548105205,
+            0.13071424045250604
+          ],
+          "uv_px": [
+            136.0631946100447,
+            145.34211348582298
+          ],
+          "in_front": true,
+          "inside_image": true
+        },
+        "sensor_body": {
+          "camera_ros_xyz_m": [
+            -0.06175788660222566,
+            0.05562774660635908,
+            0.05908901413330771
+          ],
+          "uv_px": [
+            9.083222435332607,
+            235.11299776527144
+          ],
+          "in_front": true,
+          "inside_image": true
+        },
+        "robot_root": {
+          "camera_ros_xyz_m": [
+            -0.3728117657076837,
+            0.335340385595006,
+            0.5246319758066336
+          ],
+          "uv_px": [
+            47.14771400952436,
+            200.72580764401823
+          ],
+          "in_front": true,
+          "inside_image": true
+        }
+      },
+      "raw_png_sha256": "202f01e3c718b42c10184842760f5e17ba5eacde113908992bbb919d8c24ae6b",
+      "policy_png_sha256": "814ddce3886ac1f0b31fcba709d0cb38572504de006ec3bc7767cc321e0ba52c",
+      "policy_preprocessing": "existing openpi_client resize_with_pad to 224; RGB; no flip",
+      "projection_note": "no independently measured pixel correspondences; visibility flags ignore occlusion and do not establish reprojection accuracy",
+      "spawn_parameters": {
+        "focal_length": 16.0,
+        "horizontal_aperture": 36.0,
+        "vertical_aperture": 36.0,
+        "clipping_range": [
+          0.01,
+          10.0
+        ]
+      }
+    }
+  },
+  "physics_step_count_before": 175,
+  "physics_step_count_after": 175
+}

@@ -1,0 +1,466 @@
+{
+  "status": "completed",
+  "source_sha256": "855dea334e97ff67a5f1ea46912a2261a1b4fecda1990a750b5bdf5390131c97",
+  "source_path": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/geometry_audit/20261030T021135995628Z/geometry_audit.json",
+  "policy_queries": 0,
+  "reference_python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+  "poses": [
+    {
+      "name": "home",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/home/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/home/requested_joint_positions.json"
+      ],
+      "isaac_audit": "home/isaac/20261030T031238423438Z/geometry_audit.json",
+      "isaac_audit_sha256": "2e251430d469ec1ef3f6b0542c7e3f6890ce4e35b10839cf2873b99471857622",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/home/isaac/20261030T031238423438Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/home/libero"
+      ],
+      "reference": "home/libero/20261030T031254295223Z/reference.json",
+      "reference_sha256": "f4c18fecff93aa0ccdb80bbca96549a7ec3d0048ff82829a8fa6fccf971c2c78"
+    },
+    {
+      "name": "j1-positive",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        0.200000279274758,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j1-positive/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j1-positive/requested_joint_positions.json"
+      ],
+      "isaac_audit": "j1-positive/isaac/20261030T031300319086Z/geometry_audit.json",
+      "isaac_audit_sha256": "c2b5068f4d74698dd540e165ef9ee4821bcadae25f4f7b5f950a3feb28746def",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j1-positive/isaac/20261030T031300319086Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j1-positive/libero"
+      ],
+      "reference": "j1-positive/libero/20261030T031316874520Z/reference.json",
+      "reference_sha256": "5c012a06e8f3006616d58a9ddeaf41264905c9974eeb4480e8f7721e2dda07ab"
+    },
+    {
+      "name": "j2-positive",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.3890000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j2-positive/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j2-positive/requested_joint_positions.json"
+      ],
+      "isaac_audit": "j2-positive/isaac/20261030T031322691385Z/geometry_audit.json",
+      "isaac_audit_sha256": "e23d61211f778570a57a623b146b0319cd53daf64187f0957cb43066f7351c9f",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j2-positive/isaac/20261030T031322691385Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j2-positive/libero"
+      ],
+      "reference": "j2-positive/libero/20261030T031338654457Z/reference.json",
+      "reference_sha256": "2f8acf84a553bbfaafcd78c832c50e5f73235d6f79efa43b6346dda6e0e565ff"
+    },
+    {
+      "name": "j3-negative",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        -0.19999964056070213,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j3-negative/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j3-negative/requested_joint_positions.json"
+      ],
+      "isaac_audit": "j3-negative/isaac/20261030T031344454937Z/geometry_audit.json",
+      "isaac_audit_sha256": "96787bdf775099a83f6810b4f4140f4b4f43df8164affc15fa5875198a4beafd",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j3-negative/isaac/20261030T031344454937Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j3-negative/libero"
+      ],
+      "reference": "j3-negative/libero/20261030T031401112685Z/reference.json",
+      "reference_sha256": "fc31cd5098fabc407b98242d7661e97358a1ebd009311561aeb1e068b64e882b"
+    },
+    {
+      "name": "j4-positive",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.629999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j4-positive/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j4-positive/requested_joint_positions.json"
+      ],
+      "isaac_audit": "j4-positive/isaac/20261030T031407006093Z/geometry_audit.json",
+      "isaac_audit_sha256": "d192b39468af041d1182049048cbc381917b81fedf2ba4c3244f3d2d257e8904",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j4-positive/isaac/20261030T031407006093Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j4-positive/libero"
+      ],
+      "reference": "j4-positive/libero/20261030T031423178737Z/reference.json",
+      "reference_sha256": "89b6801bb43a53327e13136a917935a8081db6e1cf48015fcfd60043f158f977"
+    },
+    {
+      "name": "j5-positive",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        0.20000030559357357,
+        3.0369999408721924,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j5-positive/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j5-positive/requested_joint_positions.json"
+      ],
+      "isaac_audit": "j5-positive/isaac/20261030T031429084645Z/geometry_audit.json",
+      "isaac_audit_sha256": "85e4d9c4450ba67a1564988f3450186a1c9ab4f8d85707965cf79dc4fb6f29d0",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j5-positive/isaac/20261030T031429084645Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j5-positive/libero"
+      ],
+      "reference": "j5-positive/libero/20261030T031445181762Z/reference.json",
+      "reference_sha256": "c4af72f0b1b66474d1820e67b60199b925c5b8b0ba7400f4d4a0ae3490266125"
+    },
+    {
+      "name": "j6-negative",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        2.8869999408721925,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j6-negative/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j6-negative/requested_joint_positions.json"
+      ],
+      "isaac_audit": "j6-negative/isaac/20261030T031451066281Z/geometry_audit.json",
+      "isaac_audit_sha256": "77e28f968f495c9a556c183f94d334c74727d9e6d60e51b67014ad59048f773e",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j6-negative/isaac/20261030T031451066281Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/j6-negative/libero"
+      ],
+      "reference": "j6-negative/libero/20261030T031507423724Z/reference.json",
+      "reference_sha256": "396b301fe557cf75c8079e5234b1e16bb723c974f8a358efbe65eb9d8d81ec2e"
+    },
+    {
+      "name": "mixed12",
+      "split": "validation",
+      "requested_joint_positions_rad": [
+        -0.149999720725242,
+        -0.6890000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed12/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed12/requested_joint_positions.json"
+      ],
+      "isaac_audit": "mixed12/isaac/20261030T031513289087Z/geometry_audit.json",
+      "isaac_audit_sha256": "6272532e8e2bac8a87bff405f1c0b84a784eae3aec487f36a558dffbe819e300",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed12/isaac/20261030T031513289087Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed12/libero"
+      ],
+      "reference": "mixed12/libero/20261030T031529554567Z/reference.json",
+      "reference_sha256": "791fc6ee2bc5ebe97d9866621eea541586fa87b323b7f92bb9fb23902b26c58f"
+    },
+    {
+      "name": "mixed34",
+      "split": "validation",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        0.16000035943929788,
+        -2.689999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed34/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed34/requested_joint_positions.json"
+      ],
+      "isaac_audit": "mixed34/isaac/20261030T031535639998Z/geometry_audit.json",
+      "isaac_audit_sha256": "ff2e4f41cb9c3dd76233473028555e3524ae1696cb6a7a39c86ea55a11dadc44",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed34/isaac/20261030T031535639998Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed34/libero"
+      ],
+      "reference": "mixed34/libero/20261030T031551716235Z/reference.json",
+      "reference_sha256": "87077f69dccf32f05cf5f20feb465d56f44352dc5a7f3dddaeaddc1e7c918883"
+    },
+    {
+      "name": "mixed56",
+      "split": "validation",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        -0.17999969440642644,
+        3.1569999408721925,
+        0.7409999966621399
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed56/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed56/requested_joint_positions.json"
+      ],
+      "isaac_audit": "mixed56/isaac/20261030T031557665994Z/geometry_audit.json",
+      "isaac_audit_sha256": "9fa46b0c48197e017c508d415a9b0f0f41fc16c36471b20b2c1efdfca2b52ccf",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed56/isaac/20261030T031557665994Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed56/libero"
+      ],
+      "reference": "mixed56/libero/20261030T031613796743Z/reference.json",
+      "reference_sha256": "3901df46ce0abce1ce954b8135976a37c9e9ef260b44f8abf6e6981bfc2f9e2c"
+    },
+    {
+      "name": "mixed147",
+      "split": "validation",
+      "requested_joint_positions_rad": [
+        0.12000027927475798,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.709999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.9209999966621398
+      ],
+      "status": "completed",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed147/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed147/requested_joint_positions.json"
+      ],
+      "isaac_audit": "mixed147/isaac/20261030T031619783069Z/geometry_audit.json",
+      "isaac_audit_sha256": "c439dd8b6bef5426fdd41cd0b069e13145eda30c3a097cc2b8e5c797eff08954",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed147/isaac/20261030T031619783069Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/mixed147/libero"
+      ],
+      "reference": "mixed147/libero/20261030T031635911940Z/reference.json",
+      "reference_sha256": "8c89750d0767f08ae2d465b0804c5897227d2890f6d27b7bb74fa00d764ba1e7"
+    }
+  ],
+  "scope": "independent initializations; hold warmup in Isaac; matched actual qpos + forward only in LIBERO; no model actions or grasp tests",
+  "reference_preflight": {
+    "python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "prefix": "/home/test/Robot/openpi/examples/libero/.venv",
+    "base_prefix": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu",
+    "modules": {
+      "numpy": true,
+      "PIL": true,
+      "yaml": true,
+      "mujoco": true,
+      "robosuite": true,
+      "libero": true,
+      "openpi_client": true,
+      "torch": true
+    }
+  },
+  "candidate_geometry_within_thresholds": true
+}
