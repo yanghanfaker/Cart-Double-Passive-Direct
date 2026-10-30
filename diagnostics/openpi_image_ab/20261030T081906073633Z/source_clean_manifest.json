@@ -1,0 +1,91 @@
+{
+  "status": "completed",
+  "policy_queries": 0,
+  "source_native_report": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/libero_scene_probe/20261030T075458507033Z/report.json",
+  "source_native_sha256": "a5c615da792f7f10869b65e1cb0f1d17858ac1cee1b806b4defdbf9849ea39b5",
+  "cases": [
+    {
+      "name": "baseline",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/baseline/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/baseline/request.json"
+      ],
+      "result": "baseline/capture/20261030T080548440027Z/clean_scene_result.json",
+      "result_sha256": "880b0afc06cdd2656685bdeb0095fb588626dc09e3461b2553f0f9fbddd8b153",
+      "geometry_checks_passed": true,
+      "camera_projections": {
+        "external_camera": [
+          127.99830196401888,
+          131.57970982758226
+        ],
+        "wrist_camera": [
+          123.47884020085004,
+          251.43081954342736
+        ]
+      }
+    },
+    {
+      "name": "arm-only",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/arm-only/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/arm-only/request.json"
+      ],
+      "result": "arm-only/capture/20261030T080605210807Z/clean_scene_result.json",
+      "result_sha256": "00d815666689bdea4d03a960cfbdbcdcb23c14053acda10326bbff9aa0d05146",
+      "geometry_checks_passed": true,
+      "camera_projections": {
+        "external_camera": [
+          127.99830196401888,
+          131.57970982758226
+        ],
+        "wrist_camera": [
+          122.4642967598711,
+          120.71505895385071
+        ]
+      }
+    },
+    {
+      "name": "arm-and-target-xy",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/arm-and-target-xy/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/arm-and-target-xy/request.json"
+      ],
+      "result": "arm-and-target-xy/capture/20261030T080621474100Z/clean_scene_result.json",
+      "result_sha256": "3069294c6308e2cd2257c8c1dffadd16beed2a3417b361e518eb5d8aed9f20ce",
+      "geometry_checks_passed": true,
+      "camera_projections": {
+        "external_camera": [
+          191.2494352103256,
+          150.827242420429
+        ],
+        "wrist_camera": [
+          19.902564005305333,
+          71.98648791856459
+        ]
+      }
+    }
+  ],
+  "scope": "three independent no-marker Isaac scenes; arm pose and cube XY proxy only; no full LIBERO scene reproduction",
+  "all_geometry_checks_passed": true
+}
