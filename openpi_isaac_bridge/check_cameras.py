@@ -103,6 +103,7 @@ def main():
     parser.add_argument("--geometry-joints-json", type=Path, help="explicit initial arm pose for static geometry-audit only")
     parser.add_argument("--camera-alignment-json", type=Path, help="camera proposal plus visible markers; static geometry-audit only")
     parser.add_argument("--clean-scene-json", type=Path, help="unmarked proxy scene configuration; static geometry-audit only")
+    parser.add_argument("--registered-replay-json", type=Path, help="explicit short frozen registered replay after clean static capture")
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--gain-profile", choices=tuple(GAIN_PROFILES), default="baseline")
     parser.add_argument("--record-jacobians", action="store_true", help="capture actual IK Jacobians during frozen replay only")
@@ -155,6 +156,12 @@ def main():
         clean_scene = validate_clean_scene(json.loads(args.clean_scene_json.read_text(encoding='utf-8')))
         geometry_joints = clean_scene['arm_positions_rad']
         alignment_candidate = clean_scene['camera_candidate']
+    registered_replay = None
+    if args.registered_replay_json:
+        if args.motion_test != 'geometry-audit' or clean_scene is None:
+            parser.error('--registered-replay-json requires geometry-audit and --clean-scene-json')
+        from registered_replay_probe import validate_replay
+        registered_replay = validate_replay(json.loads(args.registered_replay_json.read_text(encoding='utf-8')))
     if args.openpi_approach_long and not args.openpi_approach:
         parser.error("--openpi-approach-long requires --openpi-approach")
     if args.openpi_approach and (args.motion_test!="openpi-step" or args.openpi_replan_steps not in (5,10)):
@@ -455,7 +462,12 @@ def main():
                 capture_geometry(base,cfg,arm_term,images,output,tensor,args.warmup_steps+5)
                 if clean_scene is not None:
                     from clean_scene_probe import finish_clean_capture
-                    finish_clean_capture(clean_scene,output,images)
+                    clean_result = finish_clean_capture(clean_scene,output,images)
+                    if registered_replay is not None:
+                        if not clean_result['geometry_checks_passed']:raise RuntimeError('clean scene checks failed before registered replay')
+                        from registered_replay_probe import run_registered_replay
+                        with torch.inference_mode():
+                            run_registered_replay(env,base,arm_term,registered_replay,output,tensor)
                 elif alignment_setup is not None:
                     from camera_alignment_probe import finish_capture
                     finish_capture(base,alignment_setup,images,output,tensor)

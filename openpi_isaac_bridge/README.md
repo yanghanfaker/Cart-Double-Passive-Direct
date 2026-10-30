@@ -2572,3 +2572,58 @@ git add -- diagnostics/openpi_image_ab/
 git commit -m "Add frozen original versus horizontal flip policy comparison"
 git push origin main
 ```
+
+## 下一轮：注册坐标与TCP补偿后的短动作回放
+
+上一轮0683a3eefcc1完成40次冻结观测推理、没有执行动作。左右翻转使第二组的局部趋近投影改善，
+但这只说明输出方向变化，不能证明实际运动或抓取成功。本轮先检查转换与短时跟踪，不进入闭环抓取。
+
+`run_registered_replay_capture.py`读取最近完成的冻结A/B报告，分别在arm-only和arm-and-target-xy中，
+选择flip_x条件下“前5步限幅趋近投影最接近本组平均值”的一条完整输出；并列时选较早repeat。
+对0683a3eefcc1来源，选择repeat 2和repeat 9；选择依据是上一轮1mm/0.25度诊断值，本轮执行另用0.5mm/0.1度限制。
+每组启动独立场景，使用源记录实际7关节角、已验证相机及相同方块XY。源报告、请求、SHA和所选完整输出均保存。
+无需启动OpenPI服务，不进行新推理；图像翻转条件只决定读取哪组已有模型输出。
+
+每个模型动作先在LIBERO世界轴中解码（平移乘0.05、旋转乘0.5），分别限制向量模长到0.5mm和0.1度，
+再用配准旋转的转置变换到Isaac世界轴。增量不加世界平移；世界平移只用于初始化一致性检查。
+以当前手部姿态计算TCP97当前点，并生成TCP97目标；目标手部姿态按世界轴旋转左乘：
+
+```text
+p97_target = p97_current + R_LI.T @ bounded_delta_L
+q_hand_target = q_delta_I * q_hand_current
+p107_target = p97_target + R(q_hand_target) @ [0, 0, 0.010]
+```
+
+然后将107mm IK目标变换到机器人根坐标，与实际IK107当前位姿求相对误差，再除以IK动作scale。
+这里显式换算控制点，不能直接把103.4mm传感器点误差送入107mm IK。
+先核对同一手部刚体、传感器/IK固定偏置与内部闭环误差；初始化与冻结源须在0.5mm/0.1度、关节0.001rad以内。
+
+只执行前5步，每步50ms且夹爪强制张开；接着保持最后一个**绝对目标**10步，不将零动作重新锚定为当前位姿。
+每组共0.75秒仿真动作/保持，预热另计。沿用当前执行器增益与10ms物理步长。
+每控制周期记录手部/TCP97实际位姿、TCP97/IK107目标、实际关节角/速度、可用的关节目标、物理子步数和两路RGB。
+这是50ms控制周期记录，没有新增逐物理子步采样器。
+
+运行中检查单周期1.5mm/0.3度、总4mm/0.7度的实际运动范围，方块位移<=2mm、夹爪张开和关节软限位；
+异常保留已执行记录并停止后续动作。最后目标误差<=0.25mm/0.1度单独记为final_target_reached；
+status=completed只表示执行与检查流程完成，不自动代表目标收敛或抓取成功。
+
+在Spark执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_registered_replay_capture.py
+```
+
+可用`--source-report /绝对路径/report.json`指定冻结A/B来源。输出到`diagnostics/registered_replay/<UTC>/`。
+207项本地测试通过，包括独立旋转矩阵/TCP杠杆臂闭环、世界/根坐标往返、全chunk校验、两组调度和失败保留；
+两组真实来源的5步转换也已离线验证。实际Isaac接口执行与动态结果待Spark运行。
+
+完成后推送：
+
+```bash
+git add -- diagnostics/registered_replay/
+git commit -m "Add short registered frozen action replay results"
+git push origin main
+```
