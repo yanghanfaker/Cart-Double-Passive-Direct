@@ -10,7 +10,7 @@ import subprocess
 import sys
 import numpy as np
 from clean_scene_probe import validate_clean_scene
-from online_reference_probe import validate_initial
+from online_reference_probe import validate_initial,comparison_limits
 from openpi_health import check_openpi_health
 
 
@@ -49,21 +49,26 @@ def prepare_source(root,data):
     return configs['current'],gains['current'],results['current']['initial'],cb,payloads,prompt
 
 
-def prepare_online_source(root,data):
-    if data['status']!='completed' or data.get('profile','short')!='short' or not data['initial_inputs_identical'] or not data['all_followup_inputs_changed']:
-        raise ValueError('descent source must be a completed short online comparison with matching/updating inputs')
-    if len(data['cases'])!=6 or data['queries_per_run']!=20:raise ValueError('descent source requires six completed 20-query runs')
+def prepare_online_source(root,data,expected_profile='short'):
+    budget=20 if expected_profile=='short' else 100
+    if expected_profile not in ('short','descent'):raise ValueError('unsupported source profile')
+    if data['status']!='completed' or data.get('profile','short')!=expected_profile or not data['initial_inputs_identical'] or not data['all_followup_inputs_changed']:
+        raise ValueError('source must be a completed expected online profile with matching/updating inputs')
+    if len(data['cases'])!=6 or data['queries_per_run']!=budget:raise ValueError('source requires six completed runs at expected budget')
     if sorted(c['reference_mode'] for c in data['cases'])!=['accumulated']*3+['current']*3:raise ValueError('descent source requires three runs per mode')
-    configs=[];gains=[];initials=[];payloads={};settings_list=[]
+    configs=[];gains=[];initials=[];payloads={};settings_list=[];first_inputs=set()
     for case in data['cases']:
         p=root/case['result'];b=p.read_bytes();r=json.loads(b)
         if digest(b)!=case['result_sha256']:raise ValueError('source live result SHA mismatch')
-        validate_run_result(r,case['reference_mode'],20,'short')
+        validate_run_result(r,case['reference_mode'],budget,expected_profile)
+        first_inputs.add(r['first_input_sha256'])
+        if expected_profile=='descent' and (not r['boundary_reached'] or r['stop_reason']!='near_boundary_reached' or not .08<=r['action_end_object_distance_m']<=.09):raise ValueError('near descent requires every source run to reach 90mm boundary')
         if not r['all_followup_inputs_changed']:raise ValueError('source inputs did not update')
         configs.append(validate_clean_scene(json.loads((root/case['name']/'clean_scene_request.json').read_bytes())))
         gains.append(json.loads((p.parent/'joint_gains.json').read_bytes()));initials.append(r['initial'])
         settings_list.append(json.loads((root/case['name']/'online_settings.json').read_bytes()))
         payloads[case['name']]=b
+    if len(first_inputs)!=1:raise ValueError('source first inputs differ')
     if not all(c==configs[0] for c in configs) or not all(g==gains[0] for g in gains):raise ValueError('source live configs/gains differ')
     for initial in initials:validate_initial(initial,initials[0])
     cb=(root/'world_registration.json').read_bytes()
@@ -107,11 +112,17 @@ def summarize(cases):
         summary[mode]['boundary_reached_runs']=len(reached)
         if reached:summary[mode]['action_controls_to_boundary']=numeric_summary([c['action_controls'] for c in reached])
         summary[mode]['stop_reasons']={reason:sum(c.get('stop_reason')==reason for c in group) for reason in sorted({c.get('stop_reason','query_budget_exhausted') for c in group})}
-        for mm in (200,150,100):
+        for mm in (200,150,100,80,70,60):
             key=f'height_{mm}mm';points=[c.get('height_checkpoints',{}).get(key) for c in group];points=[p for p in points if p is not None]
             summary[mode][key]={'reached_runs':len(points)}
             for metric in ('xy_offset_m','object_distance_m','action_control'):
                 if points:summary[mode][key][metric]=numeric_summary([p[metric] for p in points])
+        close_cases=[c['first_close_request'] for c in group if c.get('first_close_request') is not None]
+        summary[mode]['runs_with_close_request']=len(close_cases)
+        summary[mode]['requested_close_actions']=sum(c.get('requested_close_actions',0) for c in group)
+        summary[mode]['first_close_request']={'observed_runs':len(close_cases)}
+        for metric in ('height_m','xy_offset_m','object_distance_m','action_control'):
+            if close_cases:summary[mode]['first_close_request'][metric]=numeric_summary([c[metric] for c in close_cases])
     return summary
 
 
@@ -121,13 +132,13 @@ def main():
     parser.add_argument('--output-root',type=Path)
     parser.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
     parser.add_argument('--server-host',default='127.0.0.1');parser.add_argument('--server-port',type=int,default=8000)
-    parser.add_argument('--profile',choices=('short','descent'),default='short')
+    parser.add_argument('--profile',choices=('short','descent','near-descent'),default='short')
     parser.add_argument('--queries',type=int);parser.add_argument('--repeats',type=int,choices=(1,3),default=3)
     args=parser.parse_args()
-    if args.queries is None:args.queries=100 if args.profile=='descent' else 20
-    if args.queries not in ((80,100) if args.profile=='descent' else (10,20)):parser.error('queries must be 80/100 for descent, or 10/20 for short')
-    source_category='online_reference_ab' if args.profile=='descent' else 'target_reference_ab'
-    output_category='descent_reference_ab' if args.profile=='descent' else 'online_reference_ab'
+    if args.queries is None:args.queries={'short':20,'descent':100,'near-descent':120}[args.profile]
+    if args.queries not in comparison_limits(args.profile)['queries']:parser.error('queries must be 120/140 for near-descent, 80/100 for descent, or 10/20 for short')
+    source_category={'short':'target_reference_ab','descent':'online_reference_ab','near-descent':'descent_reference_ab'}[args.profile]
+    output_category={'short':'online_reference_ab','descent':'descent_reference_ab','near-descent':'near_descent_reference_ab'}[args.profile]
     if args.output_root is None:args.output_root=repo/'diagnostics'/output_category
     sources=sorted((repo/'diagnostics'/source_category).glob('*/run.json'))
     source=args.source_manifest or next((p for p in reversed(sources) if json.loads(p.read_bytes()).get('status')=='completed'),None)
@@ -143,7 +154,9 @@ def main():
         report['summary']=summarize(report['cases']);(folder/'run.json').write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8')
     save();print(f'[Online AB runner] Output: {folder}',flush=True)
     try:
-        config,gains,initial,cb,payloads,prompt=(prepare_online_source if args.profile=='descent' else prepare_source)(source.parent,data)
+        if args.profile=='short':prepared=prepare_source(source.parent,data)
+        else:prepared=prepare_online_source(source.parent,data,'descent' if args.profile=='near-descent' else 'short')
+        config,gains,initial,cb,payloads,prompt=prepared
         (folder/'world_registration.json').write_bytes(cb)
         for mode,b in payloads.items():(folder/f'source_{mode}_result.json').write_bytes(b)
         report['world_registration_sha256']=digest(cb);report['server_health']=check_openpi_health(args.server_host,args.server_port)
@@ -176,7 +189,8 @@ def main():
                 row.update(status='completed',result=outputs[0].relative_to(folder).as_posix(),result_sha256=digest(outputs[0].read_bytes()),first_input_sha256=r['first_input_sha256'],
                     all_followup_inputs_changed=r['all_followup_inputs_changed'],requested_close_actions=r['requested_close_actions'])
                 row.update(stop_reason=r.get('stop_reason','query_budget_exhausted'),boundary_reached=r.get('boundary_reached',False),
-                    action_controls=r['action_controls'],queries_used=r['policy_queries'],height_checkpoints=r.get('height_checkpoints',{}))
+                    action_controls=r['action_controls'],queries_used=r['policy_queries'],height_checkpoints=r.get('height_checkpoints',{}),
+                    first_close_request=r.get('first_close_request'))
                 for key in ('distance_reduction_m','final_xy_offset_m','final_ideal_position_error_m','max_applied_backlog_m','max_pre_update_ideal_gap_m','max_applied_target_error_m'):row[key]=r[key]
                 save()
         report.update(status='completed',initial_inputs_identical=len({c['first_input_sha256'] for c in report['cases']})==1,

@@ -3025,3 +3025,52 @@ git add -- diagnostics/descent_reference_ab/
 git commit -m "Add descent-stage online reference comparison results"
 git push origin main
 ```
+
+## 更近距离的张爪下降对照（60mm边界）
+
+上一轮e02a02b03c98的六次运行全部到达90mm边界。下一轮使用`--profile near-descent`，
+将正常停止边界改为TCP距物体中心60mm，检查低处横向偏差和模型闭爪请求时机。
+自动读取最新完整的`diagnostics/descent_reference_ab/*/run.json`，要求三次current、三次accumulated均到达90mm边界，
+并核对各子结果SHA、实际停止距离、相同初始输入、配准、增益和初始化。
+每次仍从来源的原始初始姿态独立启动，不从上一轮末端90mm位置直接接续。
+
+两种方式各3次、交替顺序，每次最多120次新推理、600步动作，随后保持最后应用目标10步。
+每5步获取新实际图像/状态，保留跨查询累计参考和原有0.5mm/0.1度动作限幅、关节增益。
+模型要求闭爪时仍强制张爪，记录每个执行前缀内闭爪请求的动作编号、查询/前缀编号、原始夹爪值、
+动作执行前实际TCP/物体位置、横向偏差、相对高度及距离。
+`first_close_request`和分组汇总记录首次请求；没有请求的运行单独计数，不按零高度混入平均。
+这些事件是即将尝试执行的动作请求，失败运行不能当作完整动作执行结果。
+
+新增物体中心上方80、70、60mm的首次下降检查点，同时保留200、150、100mm检查点。
+60mm距离是三维球形边界，横向偏差非零时，TCP可能先经过60mm高度才到达距离边界，二者不能混用。
+汇总保留各高度实际到达次数，不把缺失检查点当作零误差。
+
+正常停止条件：达到60mm距离；尚未靠近却降到物体中心上方30mm；比最佳距离远10mm以上；
+每100步距离缩短不足2mm；或查询预算用完。可在5步前缀中间停止，剩余动作不执行。
+硬检查为距物体至少50mm、物体位移不超过2mm、夹爪保持打开、净位移不超过280mm、路径不超过320mm、
+姿态变化不超过60度，仍保留原有单周期运动/IK修正和关节限位检查。
+正常停止会继续下一组；硬检查失败会停止整轮并保留记录。
+`completed`仅代表流程正常结束，是否到达60mm边界须查看`boundary_reached`及`stop_reason`。
+
+保持现有OpenPI服务在127.0.0.1:8000运行，另一个Spark终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_online_reference_ab.py --profile near-descent --queries 120 --repeats 3
+```
+
+可用`--queries 140`增加预算，或`--source-manifest /绝对路径/run.json`明确指定上一轮六次90mm对照。
+输出到`diagnostics/near_descent_reference_ab/<UTC>/`，包括汇总、完整查询ZIP、控制/参考轨迹、关键帧和闭爪请求事件。
+本轮仍是两组各自随机在线推理的实验，未验证闭爪、接触或提起，也不证明累积方式等价于LIBERO的OSC动态。
+250项本地测试通过，覆盖60mm停止、跨越旧80mm限制、部分前缀最终保持、张爪执行/闭爪请求记录、
+来源边界拒绝、缺失请求汇总及两种阶段的六次调度；真实e02a02b03c98来源已离线核对。实际SDK执行待Spark验证。
+
+运行后推送：
+
+```bash
+git add -- diagnostics/near_descent_reference_ab/
+git commit -m "Add near-descent open-gripper comparison results"
+git push origin main
+```

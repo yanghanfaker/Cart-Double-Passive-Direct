@@ -31,14 +31,22 @@ def validate_initial(actual,expected):
 def comparison_limits(profile):
     if profile=='short':return {'queries':(10,20),'net_m':.060,'path_m':.080,'rotation_deg':15}
     if profile=='descent':return {'queries':(80,100),'net_m':.250,'path_m':.280,'rotation_deg':60}
+    if profile=='near-descent':return {'queries':(120,140),'net_m':.280,'path_m':.320,'rotation_deg':60}
     raise ValueError('unknown comparison profile')
 
 
-def descent_stop(state,best_distance,window_progress=None):
+def approach_thresholds(profile):
+    if profile=='near-descent':return {'stop_m':.060,'minimum_m':.050,'height_floor_m':.030,'start_outside_m':.070,'height_checkpoints_mm':(200,150,100,80,70,60)}
+    if profile in ('short','descent'):return {'stop_m':.090,'minimum_m':.080,'height_floor_m':.040,'start_outside_m':.100,'height_checkpoints_mm':(200,150,100)}
+    raise ValueError('unknown comparison profile')
+
+
+def descent_stop(state,best_distance,window_progress=None,profile='descent'):
+    thresholds=approach_thresholds(profile)
     distance=math.dist(state['tcp_world_m'],state['object_pos_world_m'])
     height=state['tcp_world_m'][2]-state['object_pos_world_m'][2]
-    if distance<=.09:return 'near_boundary_reached'
-    if height<=.04:return 'descent_height_floor_reached'
+    if distance<=thresholds['stop_m']:return 'near_boundary_reached'
+    if height<=thresholds['height_floor_m']:return 'descent_height_floor_reached'
     if distance>best_distance+.01:return 'distance_increased_from_best_over_10mm'
     if window_progress is not None and window_progress<.002:return 'progress_below_2mm_per100_controls'
     return None
@@ -46,11 +54,12 @@ def descent_stop(state,best_distance,window_progress=None):
 
 def run_online_reference(env,base,arm,settings,output,tensor):
     from openpi_grasp_runtime import GraspRuntime
-    mode=settings['reference_mode'];count=settings['queries'];profile=settings.get('profile','short');limits=comparison_limits(profile)
+    mode=settings['reference_mode'];count=settings['queries'];profile=settings.get('profile','short');limits=comparison_limits(profile);thresholds=approach_thresholds(profile)
     if mode not in ('current','accumulated') or count not in limits['queries']:raise ValueError('unsupported reference mode/query budget for profile')
     output=Path(output)
     report={'status':'preparing','mode':'online-reference-ab','reference_mode':mode,'queries_requested':count,
-        'profile':profile,'motion_limits':limits,'stop_reason':None,'boundary_reached':False,'height_checkpoints':{},'progress_windows':[],
+        'profile':profile,'motion_limits':limits,'approach_thresholds':thresholds,'stop_reason':None,'boundary_reached':False,'height_checkpoints':{},'progress_windows':[],
+        'close_request_events':[],'first_close_request':None,
         'policy_queries':0,'inference_attempts':0,'action_controls':0,'hold_controls':0,'native_controls_executed':0,
         'queries':[],'requested_close_actions':0,'scope':'each condition queries its own current observations; open gripper; experimental target convention, not grasp validation',
         'timing':'synchronous physics paused during inference, velocities retained; no real-time guarantee'}
@@ -63,7 +72,7 @@ def run_online_reference(env,base,arm,settings,output,tensor):
         client=WebsocketClientPolicy(host=settings['server_host'],port=settings['server_port']);report['server_metadata']=read_server_metadata(client)
         runtime=GraspRuntime(env,base,arm,settings,output,tensor,report,save);initial=runtime.state()
         initial_distance=math.dist(initial['tcp_world_m'],initial['object_pos_world_m'])
-        if profile=='descent' and initial_distance<=.10:raise RuntimeError('descent comparison must start outside 100mm')
+        if profile!='short' and initial_distance<=thresholds['start_outside_m']:raise RuntimeError('descent comparison starts too close for this profile')
         report.update(initial=initial,initial_checks=validate_initial(initial,settings['expected_initial']))
         reference=TargetReference(initial,settings['calibration']['world_from_isaac_rotation'])
         trace=(output/'reference_trace.jsonl').open('w',encoding='utf-8')
@@ -135,13 +144,13 @@ def run_online_reference(env,base,arm,settings,output,tensor):
             save()
             if math.dist(after['tcp_world_m'],initial['tcp_world_m'])>limits['net_m'] or runtime.path>limits['path_m'] or quaternion_distance_deg(after['hand_quat_world_xyzw'],initial['hand_quat_world_xyzw'])>limits['rotation_deg']:
                 raise RuntimeError('online comparison exceeded profile motion envelope')
-            if math.dist(after['object_pos_world_m'],initial['object_pos_world_m'])>.002 or math.dist(after['tcp_world_m'],after['object_pos_world_m'])<.08 or min(after['finger_positions_m'])<.03:
+            if math.dist(after['object_pos_world_m'],initial['object_pos_world_m'])>.002 or math.dist(after['tcp_world_m'],after['object_pos_world_m'])<thresholds['minimum_m'] or min(after['finger_positions_m'])<.03:
                 raise RuntimeError('online comparison must remain open-gripper and distant from stationary object')
             if phase=='model-action':
                 distance=math.dist(after['tcp_world_m'],after['object_pos_world_m']);height=after['tcp_world_m'][2]-after['object_pos_world_m'][2]
                 before_height=before['tcp_world_m'][2]-before['object_pos_world_m'][2]
                 xy=math.hypot(after['tcp_world_m'][0]-after['object_pos_world_m'][0],after['tcp_world_m'][1]-after['object_pos_world_m'][1])
-                for mm in (200,150,100):
+                for mm in thresholds['height_checkpoints_mm']:
                     key=f'height_{mm}mm'
                     if key not in report['height_checkpoints'] and before_height>mm/1000>=height:
                         report['height_checkpoints'][key]={'action_control':report['action_controls'],'query':source_query,'prefix':source_prefix,
@@ -151,8 +160,8 @@ def run_online_reference(env,base,arm,settings,output,tensor):
                     progress=window_distance-distance;window_distance=distance
                     report['progress_windows'].append({'action_control':report['action_controls'],'distance_m':distance,'distance_reduction_m':progress})
                 best_distance=min(best_distance,distance)
-                if profile=='descent':
-                    reason=descent_stop(after,best_distance,progress)
+                if profile!='short':
+                    reason=descent_stop(after,best_distance,progress,profile)
                     if reason:report.update(stop_reason=reason,boundary_reached=reason=='near_boundary_reached')
                 save()
             return after,row
@@ -163,6 +172,16 @@ def run_online_reference(env,base,arm,settings,output,tensor):
             for prefix,action in enumerate(request['raw_action_chunk'][:5],1):
                 report['requested_close_actions']+=int(action[6]>0)
                 actual=runtime.state();prior_gap=math.dist(reference.position,actual['tcp_world_m'])
+                if action[6]>0:
+                    close_event={'action_control':report['action_controls']+1,'query':index,'prefix':prefix,'raw_gripper':float(action[6]),
+                        'object_distance_m':math.dist(actual['tcp_world_m'],actual['object_pos_world_m']),
+                        'height_m':actual['tcp_world_m'][2]-actual['object_pos_world_m'][2],
+                        'xy_offset_m':math.dist(actual['tcp_world_m'][:2],actual['object_pos_world_m'][:2]),
+                        'tcp_world_m':actual['tcp_world_m'],'object_pos_world_m':actual['object_pos_world_m'],
+                        'phase':'before-model-action','gripper_applied':1.0,'scope':'requested by model; forced open'}
+                    report['close_request_events'].append(close_event)
+                    if report['first_close_request'] is None:report['first_close_request']=close_event
+                    save()
                 target,ideal=reference.advance(action,actual,mode)
                 action_end,last_row=execute(target,ideal,'model-action',index,prefix,prior_gap)
                 query_row['executed_prefix_controls']+=1;save()
