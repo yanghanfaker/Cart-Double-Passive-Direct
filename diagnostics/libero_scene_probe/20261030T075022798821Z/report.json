@@ -1,0 +1,2720 @@
+{
+  "status": "failed",
+  "policy_queries": 0,
+  "model_actions_executed": 0,
+  "dummy_wait_steps": 10,
+  "layouts": [
+    {
+      "label": "default_reset",
+      "sim_time_s": 0.0,
+      "joint_positions": {
+        "robot0_joint1": 0.0,
+        "robot0_joint2": -0.161037389,
+        "robot0_joint3": 0.0,
+        "robot0_joint4": -2.44459747,
+        "robot0_joint5": 0.0,
+        "robot0_joint6": 2.2267522,
+        "robot0_joint7": 0.7853981633974483,
+        "gripper0_finger_joint1": 0.020833,
+        "gripper0_finger_joint2": -0.020833
+      },
+      "robot_root_world": {
+        "position_m": [
+          -0.66,
+          0.0,
+          0.912
+        ],
+        "rotation_matrix": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "eef_observation": {
+        "position_world_m": [
+          -0.20846466056582358,
+          8.710901086077009e-18,
+          1.1732794757296403
+        ],
+        "position_robot_root_m": [
+          0.45153533943417645,
+          8.710901086077009e-18,
+          0.2612794757296403
+        ],
+        "ros_optical_projections": {
+          "agentview": {
+            "uv_px": [
+              128.00004216245347,
+              61.351925512306124
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          },
+          "robot0_eye_in_hand": {
+            "uv_px": [
+              128.0,
+              213.9860039812755
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          }
+        }
+      },
+      "eef_hand_quat_xyzw": [
+        0.999596604879536,
+        0.0002462128318876131,
+        -0.028400120485872846,
+        -6.995295959053311e-06
+      ],
+      "policy_state_float32": [
+        -0.20846466720104218,
+        8.710900891633638e-18,
+        1.1732795238494873,
+        3.1403393745422363,
+        0.0007735038525424898,
+        -0.0892220064997673,
+        0.020833000540733337,
+        -0.020833000540733337
+      ],
+      "objects": {
+        "akita_black_bowl_1": {
+          "position_world_m": [
+            -0.05537689988362822,
+            0.19088782891686873,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.6046231001163718,
+            0.19088782891686873,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                189.58747212755938,
+                144.00767609923776
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                18.719394874379397,
+                62.43599212729977
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "akita_black_bowl_2": {
+          "position_world_m": [
+            -0.16697809040717715,
+            0.32635563202076023,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.4930219095928229,
+            0.32635563202076023,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                224.5426198586412,
+                121.93565038852799
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                -54.91893120134853,
+                126.24996811464766
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "cookies_1": {
+          "position_world_m": [
+            0.08425302317348955,
+            0.026983532476076322,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.7442530231734896,
+            0.026983532476076322,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                137.8196575024528,
+                177.97954202282747
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                112.20143858860112,
+                -21.426097593949724
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "glazed_rim_porcelain_ramekin_1": {
+          "position_world_m": [
+            -0.19190908637062895,
+            0.1985453024229191,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.46809091362937105,
+            0.1985453024229191,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                185.6630718126988,
+                117.49714589756049
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                17.243096068074955,
+                140.17946675062984
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "plate_1": {
+          "position_world_m": [
+            0.06859843939260254,
+            0.2014362811454695,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.7285984393926026,
+            0.2014362811454695,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                200.26842934919958,
+                173.7442874311782
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                9.857721054825811,
+                -11.836186719456697
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "wooden_cabinet_1": {
+          "position_world_m": [
+            0.022663388915185004,
+            -0.2695317483865247,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.6826633889151851,
+            -0.2695317483865247,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                39.196195810820086,
+                177.1626077286299
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                255.88886683788485,
+                35.11161441982402
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "flat_stove_1": {
+          "position_world_m": [
+            -0.40661973518232175,
+            -0.14064494280510037,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.2533802648176783,
+            -0.14064494280510037,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                93.8290364843461,
+                98.72606483131695
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                190.34122764532393,
+                231.19869038955656
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "table_sites": {
+        "table_top": {
+          "position_world_m": [
+            0.0,
+            0.0,
+            0.9
+          ],
+          "position_robot_root_m": [
+            0.66,
+            0.0,
+            -0.01200000000000001
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                128.00005025991294,
+                172.76158321644047
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                128.05133544976744,
+                47.08962576597355
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "objects_of_interest": [
+        "akita_black_bowl_1",
+        "plate_1"
+      ],
+      "cameras": {
+        "agentview": {
+          "position_world_m": [
+            0.6586131746834771,
+            0.0,
+            1.6103500240372424
+          ],
+          "rotation_ros": [
+            [
+              -7.268184498698815e-08,
+              0.6282664504107425,
+              -0.7779982437565529
+            ],
+            [
+              0.9999999999999858,
+              -7.268184498698815e-08,
+              -1.521152659944569e-07
+            ],
+            [
+              -1.521152659944569e-07,
+              -0.7779982437565529,
+              -0.6282664504107283
+            ]
+          ],
+          "K_256": [
+            [
+              309.01933598375615,
+              0,
+              128
+            ],
+            [
+              0,
+              309.01933598375615,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 45.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m": [
+            -0.15303792215905376,
+            2.4631217808074882e-05,
+            1.2672841355231346
+          ],
+          "rotation_ros": [
+            [
+              0.0004918296871690986,
+              -0.9983867450712585,
+              -0.05677733147635976
+            ],
+            [
+              -0.9999998786606143,
+              -0.0004926243561613752,
+              4.5102810375396984e-17
+            ],
+            [
+              -2.796989636314612e-05,
+              0.056777324587033245,
+              -0.9983868662149074
+            ]
+          ],
+          "K_256": [
+            [
+              166.81284772367434,
+              0,
+              128
+            ],
+            [
+              0,
+              166.81284772367434,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 75.0
+        }
+      },
+      "images": {
+        "agentview": {
+          "raw256": {
+            "file": "agentview_raw256.png",
+            "sha256": "58ab0c3bb61898339046e9ce0ecb591133a2a13202d78b4caff58771f08f2883"
+          },
+          "official_rotated256": {
+            "file": "agentview_official_rotated256.png",
+            "sha256": "ee3b997618d9c5871af0380eceba0a10732a7504fd9f6d9eed34a43faed28055"
+          },
+          "policy224": {
+            "file": "agentview_policy224.png",
+            "sha256": "3bb52253dc6dfe23bec83277e7930df54c7ce3d030412bbe91c1a610519b001e"
+          }
+        },
+        "robot0_eye_in_hand": {
+          "raw256": {
+            "file": "robot0_eye_in_hand_raw256.png",
+            "sha256": "28f709818058703ac3ffff7bf5c6fe53dd7f81a1915164bf02ebc389ba1cce04"
+          },
+          "official_rotated256": {
+            "file": "robot0_eye_in_hand_official_rotated256.png",
+            "sha256": "228a96d0fee493415532cda38031ef0b29084ebe081b2a5b62de1074ae4dfcea"
+          },
+          "policy224": {
+            "file": "robot0_eye_in_hand_policy224.png",
+            "sha256": "8f9b2b894b47f1896f1a380653516d6d0bc82d18b68fde836e27cbd6194b6b39"
+          }
+        }
+      },
+      "image_folder": "default_reset",
+      "layout_note": "reset and benchmark-init labels are distinct; object body origins are not common grasp surfaces"
+    },
+    {
+      "label": "benchmark_initial",
+      "sim_time_s": 0.0,
+      "joint_positions": {
+        "robot0_joint1": -0.00013845394136945786,
+        "robot0_joint2": -0.17673447526998573,
+        "robot0_joint3": -0.0365575974683561,
+        "robot0_joint4": -2.457112976205914,
+        "robot0_joint5": 0.005935026720258382,
+        "robot0_joint6": 2.235219967025902,
+        "robot0_joint7": 0.7993834381640941,
+        "gripper0_finger_joint1": 0.020833,
+        "gripper0_finger_joint2": -0.020833
+      },
+      "robot_root_world": {
+        "position_m": [
+          -0.66,
+          0.0,
+          0.912
+        ],
+        "rotation_matrix": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "eef_observation": {
+        "position_world_m": [
+          -0.21081486239297154,
+          -0.015159821457851788,
+          1.1756771209255326
+        ],
+        "position_robot_root_m": [
+          0.4491851376070285,
+          -0.015159821457851788,
+          0.2636771209255325
+        ],
+        "ros_optical_projections": {
+          "agentview": {
+            "uv_px": [
+              123.06622558452713,
+              60.2868961526869
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          },
+          "robot0_eye_in_hand": {
+            "uv_px": [
+              128.0,
+              213.9860039812754
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          }
+        }
+      },
+      "eef_hand_quat_xyzw": [
+        0.9993743055619553,
+        -0.026609451583890425,
+        -0.022577221552164583,
+        -0.005762250944626608
+      ],
+      "policy_state_float32": [
+        -0.21081486344337463,
+        -0.015159821137785912,
+        1.1756771802902222,
+        3.1511967182159424,
+        -0.08390410989522934,
+        -0.07118980586528778,
+        0.020833000540733337,
+        -0.020833000540733337
+      ],
+      "objects": {
+        "akita_black_bowl_1": {
+          "position_world_m": [
+            -0.06348281771240429,
+            0.20206256199913958,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.5965171822875958,
+            0.20206256199913958,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                192.7664108769805,
+                142.27062952002913
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                3.6205011664947353,
+                75.03054504139254
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "akita_black_bowl_2": {
+          "position_world_m": [
+            -0.1887304942403383,
+            0.32038450296164156,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.47126950575966176,
+            0.32038450296164156,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                221.26529701736865,
+                118.05401173546386
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                -54.294098776097584,
+                147.85164106015168
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "cookies_1": {
+          "position_world_m": [
+            0.057859587539025564,
+            0.0264329413431314,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.7178595875390256,
+            0.0264329413431314,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                137.39217461122692,
+                170.90755682409227
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                97.17125374419288,
+                -1.0987946405955942
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "glazed_rim_porcelain_ramekin_1": {
+          "position_world_m": [
+            -0.1973841700047281,
+            0.1891352613576224,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.46261582999527195,
+            0.1891352613576224,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                182.71110999348932,
+                116.54399232257714
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                16.998823369028596,
+                148.85908258607705
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "plate_1": {
+          "position_world_m": [
+            0.053409166801723335,
+            0.2051823366186246,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.7134091668017234,
+            0.2051823366186246,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                200.61612297702104,
+                169.74785804508883
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                -3.9063592914988154,
+                7.8917401966252605
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "wooden_cabinet_1": {
+          "position_world_m": [
+            0.022663388915185004,
+            -0.2695317483865247,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.6826633889151851,
+            -0.2695317483865247,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                39.196195810820086,
+                177.1626077286299
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                243.22679545295028,
+                29.581976191289403
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "flat_stove_1": {
+          "position_world_m": [
+            -0.40661973518232175,
+            -0.14064494280510037,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.2533802648176783,
+            -0.14064494280510037,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                93.8290364843461,
+                98.72606483131695
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                189.70647551937748,
+                228.8230543038608
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "table_sites": {
+        "table_top": {
+          "position_world_m": [
+            0.0,
+            0.0,
+            0.9
+          ],
+          "position_robot_root_m": [
+            0.66,
+            0.0,
+            -0.01200000000000001
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                128.00005025991294,
+                172.76158321644047
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                117.17656520291786,
+                48.974787660737384
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "objects_of_interest": [
+        "akita_black_bowl_1",
+        "plate_1"
+      ],
+      "cameras": {
+        "agentview": {
+          "position_world_m": [
+            0.6586131746834771,
+            0.0,
+            1.6103500240372424
+          ],
+          "rotation_ros": [
+            [
+              -7.268184498698815e-08,
+              0.6282664504107425,
+              -0.7779982437565529
+            ],
+            [
+              0.9999999999999858,
+              -7.268184498698815e-08,
+              -1.521152659944569e-07
+            ],
+            [
+              -1.521152659944569e-07,
+              -0.7779982437565529,
+              -0.6282664504107283
+            ]
+          ],
+          "K_256": [
+            [
+              309.01933598375615,
+              0,
+              128
+            ],
+            [
+              0,
+              309.01933598375615,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 45.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m": [
+            -0.15658914741173122,
+            -0.019039818241923585,
+            1.2703001490937798
+          ],
+          "rotation_ros": [
+            [
+              -0.05344579562850199,
+              -0.997564412306778,
+              -0.044819529545375235
+            ],
+            [
+              -0.9985174671009114,
+              0.05292541316363791,
+              0.012718826040102056
+            ],
+            [
+              -0.010315756104937693,
+              0.04543285089547631,
+              -0.998914131062071
+            ]
+          ],
+          "K_256": [
+            [
+              166.81284772367434,
+              0,
+              128
+            ],
+            [
+              0,
+              166.81284772367434,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 75.0
+        }
+      },
+      "images": {
+        "agentview": {
+          "raw256": {
+            "file": "agentview_raw256.png",
+            "sha256": "dea1455a050fff6a0ade6d0acc48764f4b600061cc08eb3915775848542da43c"
+          },
+          "official_rotated256": {
+            "file": "agentview_official_rotated256.png",
+            "sha256": "05f0ab3114e09975dddffbceeb289030af0530d67c4e3bbdc34d69e30fbc59c2"
+          },
+          "policy224": {
+            "file": "agentview_policy224.png",
+            "sha256": "6d112affa8a6ff610bc4f6de55d36ef1ff144949464d26bee23bd90f37092d03"
+          }
+        },
+        "robot0_eye_in_hand": {
+          "raw256": {
+            "file": "robot0_eye_in_hand_raw256.png",
+            "sha256": "c5e151f7feccd13ed5ed1902aa8d3f528a36731acc32a746e67ce38aca0cc4f3"
+          },
+          "official_rotated256": {
+            "file": "robot0_eye_in_hand_official_rotated256.png",
+            "sha256": "86a0f8d03850b0a2d43b8eba5ec3a15606953b15b389d7a2ede7fbf3f4580d60"
+          },
+          "policy224": {
+            "file": "robot0_eye_in_hand_policy224.png",
+            "sha256": "c7c46949a9875a378d83ce15aa886630ff74eadf13c817deb2f54ecb96466641"
+          }
+        }
+      },
+      "image_folder": "benchmark_initial",
+      "layout_note": "reset and benchmark-init labels are distinct; object body origins are not common grasp surfaces"
+    },
+    {
+      "label": "benchmark_after10wait",
+      "sim_time_s": 0.5000000000000003,
+      "joint_positions": {
+        "robot0_joint1": -0.00013056616061545798,
+        "robot0_joint2": -0.17083620561307472,
+        "robot0_joint3": -0.02410627542797723,
+        "robot0_joint4": -2.452567438838695,
+        "robot0_joint5": -0.006121396821582007,
+        "robot0_joint6": 2.2259022374621202,
+        "robot0_joint7": 0.7677453302367604,
+        "gripper0_finger_joint1": 0.03872974791904,
+        "gripper0_finger_joint2": -0.03872857216450282
+      },
+      "robot_root_world": {
+        "position_m": [
+          -0.66,
+          0.0,
+          0.912
+        ],
+        "rotation_matrix": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "eef_observation": {
+        "position_world_m": [
+          -0.2112428280413944,
+          -0.011090887930129432,
+          1.1742479725945925
+        ],
+        "position_robot_root_m": [
+          0.44875717195860565,
+          -0.011090887930129432,
+          0.2622479725945924
+        ],
+        "ros_optical_projections": {
+          "agentview": {
+            "uv_px": [
+              124.39514717243351,
+              60.648560489911574
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          },
+          "robot0_eye_in_hand": {
+            "uv_px": [
+              128.00000000000003,
+              213.9860039812756
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          }
+        }
+      },
+      "eef_hand_quat_xyzw": [
+        0.9996094113857932,
+        -0.0008801662974804467,
+        -0.027931734763479314,
+        -0.00026109258832887595
+      ],
+      "policy_state_float32": [
+        -0.21124282479286194,
+        -0.01109088771045208,
+        1.1742479801177979,
+        3.14088773727417,
+        -0.002765583572909236,
+        -0.08776471763849258,
+        0.038729749619960785,
+        -0.03872857242822647
+      ],
+      "objects": {
+        "akita_black_bowl_1": {
+          "position_world_m": [
+            -0.0634743669788058,
+            0.20202566461895705,
+            0.8984038856841015
+          ],
+          "position_robot_root_m": [
+            0.5965256330211942,
+            0.20202566461895705,
+            -0.013596114315898578
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                189.86844992326624,
+                158.69429830729018
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                30.349491140377477,
+                76.45218143393517
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "akita_black_bowl_2": {
+          "position_world_m": [
+            -0.18872204350673985,
+            0.3203476055814592,
+            0.8984038856841015
+          ],
+          "position_robot_root_m": [
+            0.4712779564932602,
+            0.3203476055814592,
+            -0.013596114315898578
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                217.4641877893298,
+                134.01566910155282
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                -20.84531489615339,
+                133.70007796721134
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "cookies_1": {
+          "position_world_m": [
+            0.05785959204024585,
+            0.026432950193366677,
+            0.9093707268116458
+          ],
+          "position_robot_root_m": [
+            0.7178595920402459,
+            0.026432950193366677,
+            -0.002629273188354264
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                136.99807899065587,
+                185.1640645932582
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                109.7634599925732,
+                15.61869167929552
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "glazed_rim_porcelain_ramekin_1": {
+          "position_world_m": [
+            -0.19738350631992682,
+            0.18914074027921016,
+            0.8993411326543503
+          ],
+          "position_robot_root_m": [
+            0.4626164936800732,
+            0.18914074027921016,
+            -0.012658867345649694
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                180.52982511213747,
+                132.26859255949398
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                37.97323371265095,
+                137.51900327016455
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "plate_1": {
+          "position_world_m": [
+            0.05341726860522414,
+            0.20518007059522494,
+            0.9024995937037765
+          ],
+          "position_robot_root_m": [
+            0.7134172686052241,
+            0.20518007059522494,
+            -0.009500406296223507
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                197.25232225964757,
+                185.54102766360108
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                25.832096265128285,
+                19.96806829404087
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "wooden_cabinet_1": {
+          "position_world_m": [
+            0.022663388915185004,
+            -0.2695317483865247,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.6826633889151851,
+            -0.2695317483865247,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                39.196195810820086,
+                177.1626077286299
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                250.1239919633822,
+                33.8464259674358
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "flat_stove_1": {
+          "position_world_m": [
+            -0.40661973518232175,
+            -0.14064494280510037,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.2533802648176783,
+            -0.14064494280510037,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                93.8290364843461,
+                98.72606483131695
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                185.58530396982846,
+                229.7759057060394
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "table_sites": {
+        "table_top": {
+          "position_world_m": [
+            0.0,
+            0.0,
+            0.9
+          ],
+          "position_robot_root_m": [
+            0.66,
+            0.0,
+            -0.01200000000000001
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                128.00005025991294,
+                172.76158321644047
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                122.73306391552575,
+                46.13009017345795
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "objects_of_interest": [
+        "akita_black_bowl_1",
+        "plate_1"
+      ],
+      "cameras": {
+        "agentview": {
+          "position_world_m": [
+            0.6586131746834771,
+            0.0,
+            1.6103500240372424
+          ],
+          "rotation_ros": [
+            [
+              -7.268184498698815e-08,
+              0.6282664504107425,
+              -0.7779982437565529
+            ],
+            [
+              0.9999999999999858,
+              -7.268184498698815e-08,
+              -1.521152659944569e-07
+            ],
+            [
+              -1.521152659944569e-07,
+              -0.7779982437565529,
+              -0.6282664504107283
+            ]
+          ],
+          "K_256": [
+            [
+              309.01933598375615,
+              0,
+              128
+            ],
+            [
+              0,
+              309.01933598375615,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 45.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m": [
+            -0.15590432823399952,
+            -0.011233542489631931,
+            1.268304498624122
+          ],
+          "rotation_ros": [
+            [
+              -0.0017742305669440905,
+              -0.998438087000783,
+              -0.05584119028201776
+            ],
+            [
+              -0.9999983142758984,
+              0.0017450594912404305,
+              0.0005711503602112006
+            ],
+            [
+              -0.0004728120739352845,
+              0.05584210950160484,
+              -0.9984395000475261
+            ]
+          ],
+          "K_256": [
+            [
+              166.81284772367434,
+              0,
+              128
+            ],
+            [
+              0,
+              166.81284772367434,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 75.0
+        }
+      },
+      "images": {
+        "agentview": {
+          "raw256": {
+            "file": "agentview_raw256.png",
+            "sha256": "c5d768b091e9230c08e7568cf17a93b64678fc998f0f88cd8377e857fbe347c8"
+          },
+          "official_rotated256": {
+            "file": "agentview_official_rotated256.png",
+            "sha256": "3ae5909e8961eafe03d17e39458cc5743370123c253f60821b217d8b44f148cb"
+          },
+          "policy224": {
+            "file": "agentview_policy224.png",
+            "sha256": "57979ca8e0251b71fe5464544ecfda74a485236f3d3fe06a963d53a7c4836e1b"
+          }
+        },
+        "robot0_eye_in_hand": {
+          "raw256": {
+            "file": "robot0_eye_in_hand_raw256.png",
+            "sha256": "7aa88f08fdd50f07227e2dbfa4c3dfdc1b88d30185fa62d00a1197796f8b3dd0"
+          },
+          "official_rotated256": {
+            "file": "robot0_eye_in_hand_official_rotated256.png",
+            "sha256": "db223ae6e09e693b97220e1dd0ace6dfb801a99c2a199351123d485ec66573d5"
+          },
+          "policy224": {
+            "file": "robot0_eye_in_hand_policy224.png",
+            "sha256": "91c117cce93b4336209d4b4eafabc2c0825f859b72a90b394157a21e6d4e9b3f"
+          }
+        }
+      },
+      "image_folder": "benchmark_after10wait",
+      "layout_note": "reset and benchmark-init labels are distinct; object body origins are not common grasp surfaces"
+    }
+  ],
+  "observation_synchronization": [
+    {
+      "stage": "default_reset",
+      "state_and_time_unchanged": true,
+      "camera_refresh_differences": {
+        "agentview": {
+          "position_world_m_max_abs_difference": 0.0,
+          "rotation_ros_max_abs_difference": 0.0,
+          "K_256_max_abs_difference": 0.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m_max_abs_difference": 0.0,
+          "rotation_ros_max_abs_difference": 0.0,
+          "K_256_max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "stage": "benchmark_initial",
+      "state_and_time_unchanged": true,
+      "camera_refresh_differences": {
+        "agentview": {
+          "position_world_m_max_abs_difference": 0.0,
+          "rotation_ros_max_abs_difference": 0.0,
+          "K_256_max_abs_difference": 0.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m_max_abs_difference": 0.0,
+          "rotation_ros_max_abs_difference": 0.0,
+          "K_256_max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "stage": "benchmark_after10wait",
+      "state_and_time_unchanged": true,
+      "camera_refresh_differences": {
+        "agentview": {
+          "position_world_m_max_abs_difference": 0.0,
+          "rotation_ros_max_abs_difference": 0.0,
+          "K_256_max_abs_difference": 0.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m_max_abs_difference": 1.5644513863752318e-06,
+          "rotation_ros_max_abs_difference": 2.60145846280313e-05,
+          "K_256_max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "stage": "before_markers",
+      "state_and_time_unchanged": true,
+      "camera_refresh_differences": {
+        "agentview": {
+          "position_world_m_max_abs_difference": 0.0,
+          "rotation_ros_max_abs_difference": 0.0,
+          "K_256_max_abs_difference": 0.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m_max_abs_difference": 0.0,
+          "rotation_ros_max_abs_difference": 0.0,
+          "K_256_max_abs_difference": 0.0
+        }
+      }
+    }
+  ],
+  "suite": "libero_spatial",
+  "task_id": 0,
+  "episode_index": 0,
+  "seed": 7,
+  "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "bddl": "/home/test/Robot/openpi/third_party/libero/libero/libero/bddl_files/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate.bddl",
+  "bddl_sha256": "9b59eb1287802868ad9bc78d58e6d36d4ba31134e679cfdbdf4b0feb660c959b",
+  "benchmark_init": {
+    "path": "/home/test/Robot/openpi/third_party/libero/libero/libero/init_files/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate.pruned_init",
+    "exists": true,
+    "status": "loaded_restricted",
+    "sha256": "cbbc73792ce546c9bec181fd328a411d3183074840b282671dee481511381d0a",
+    "count": 50,
+    "loader": "torch weights_only=True with NumPy array/dtype allowlist"
+  },
+  "benchmark_initialization_available": true,
+  "marker_source_layout": "benchmark_after10wait",
+  "marker_camera_restoration": {
+    "tolerance_max_abs": 1e-08,
+    "before": {
+      "agentview": {
+        "position_world_m": [
+          0.6586131746834771,
+          0.0,
+          1.6103500240372424
+        ],
+        "rotation_ros": [
+          [
+            -7.268184498698815e-08,
+            0.6282664504107425,
+            -0.7779982437565529
+          ],
+          [
+            0.9999999999999858,
+            -7.268184498698815e-08,
+            -1.521152659944569e-07
+          ],
+          [
+            -1.521152659944569e-07,
+            -0.7779982437565529,
+            -0.6282664504107283
+          ]
+        ],
+        "K_256": [
+          [
+            309.01933598375615,
+            0,
+            128
+          ],
+          [
+            0,
+            309.01933598375615,
+            128
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "fovy_deg": 45.0
+      },
+      "robot0_eye_in_hand": {
+        "position_world_m": [
+          -0.15590432823399952,
+          -0.011233542489631931,
+          1.268304498624122
+        ],
+        "rotation_ros": [
+          [
+            -0.0017742305669440905,
+            -0.998438087000783,
+            -0.05584119028201776
+          ],
+          [
+            -0.9999983142758984,
+            0.0017450594912404305,
+            0.0005711503602112006
+          ],
+          [
+            -0.0004728120739352845,
+            0.05584210950160484,
+            -0.9984395000475261
+          ]
+        ],
+        "K_256": [
+          [
+            166.81284772367434,
+            0,
+            128
+          ],
+          [
+            0,
+            166.81284772367434,
+            128
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "fovy_deg": 75.0
+      }
+    },
+    "after": {
+      "agentview": {
+        "position_world_m": [
+          0.6586131746834771,
+          0.0,
+          1.6103500240372424
+        ],
+        "rotation_ros": [
+          [
+            -7.268184498698815e-08,
+            0.6282664504107425,
+            -0.7779982437565529
+          ],
+          [
+            0.9999999999999858,
+            -7.268184498698815e-08,
+            -1.521152659944569e-07
+          ],
+          [
+            -1.521152659944569e-07,
+            -0.7779982437565529,
+            -0.6282664504107283
+          ]
+        ],
+        "K_256": [
+          [
+            309.01933598375615,
+            0,
+            128
+          ],
+          [
+            0,
+            309.01933598375615,
+            128
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "fovy_deg": 45.0
+      },
+      "robot0_eye_in_hand": {
+        "position_world_m": [
+          -0.15590432823399952,
+          -0.011233542489631931,
+          1.268304498624122
+        ],
+        "rotation_ros": [
+          [
+            -0.0017742305669440905,
+            -0.998438087000783,
+            -0.05584119028201776
+          ],
+          [
+            -0.9999983142758984,
+            0.0017450594912404305,
+            0.0005711503602112006
+          ],
+          [
+            -0.0004728120739352845,
+            0.05584210950160484,
+            -0.9984395000475261
+          ]
+        ],
+        "K_256": [
+          [
+            166.81284772367434,
+            0,
+            128
+          ],
+          [
+            0,
+            166.81284772367434,
+            128
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "fovy_deg": 75.0
+      }
+    },
+    "differences": {
+      "agentview": {
+        "position_world_m_max_abs_difference": 0.0,
+        "rotation_ros_max_abs_difference": 0.0,
+        "K_256_max_abs_difference": 0.0
+      },
+      "robot0_eye_in_hand": {
+        "position_world_m_max_abs_difference": 0.0,
+        "rotation_ros_max_abs_difference": 0.0,
+        "K_256_max_abs_difference": 0.0
+      }
+    },
+    "state_exactly_restored": true
+  },
+  "marker_test": {
+    "state_exactly_restored": true,
+    "simulation_time_restored_s": 0.5000000000000003,
+    "cameras": {
+      "agentview": {
+        "markers": [
+          {
+            "id": 0,
+            "expected_ros_pixel": [
+              58.0,
+              67.0
+            ],
+            "world_position_m": [
+              0.5323307699093566,
+              -0.03171324515670514,
+              1.5438933383157372
+            ],
+            "radius_m": 0.001812184335382291,
+            "emissive_rgb": [
+              1.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "id": 1,
+            "expected_ros_pixel": [
+              184.0,
+              91.0
+            ],
+            "world_position_m": [
+              0.5220975161648561,
+              0.028994926420067204,
+              1.524731793424023
+            ],
+            "radius_m": 0.0020710678118654752,
+            "emissive_rgb": [
+              0.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "id": 2,
+            "expected_ros_pixel": [
+              103.0,
+              192.0
+            ],
+            "world_position_m": [
+              0.5419947754746768,
+              -0.014562225642449333,
+              1.4682588970124664
+            ],
+            "radius_m": 0.00232995128834866,
+            "emissive_rgb": [
+              1.0,
+              1.0,
+              0.0
+            ]
+          }
+        ],
+        "raw": {
+          "passed": true,
+          "best_transform": "flip_y",
+          "best_max_pixel_error": 0.7248819891433445,
+          "best_rms_pixel_error": 0.7130810842591025,
+          "runner_up_rms_gap_px": 106.64641753487672,
+          "components": [
+            [
+              {
+                "pixels": 60,
+                "centroid_xy": [
+                  57.5,
+                  188.5
+                ]
+              }
+            ],
+            [
+              {
+                "pixels": 53,
+                "centroid_xy": [
+                  183.54716981132074,
+                  164.56603773584905
+                ]
+              }
+            ],
+            [
+              {
+                "pixels": 60,
+                "centroid_xy": [
+                  102.5,
+                  63.5
+                ]
+              }
+            ]
+          ],
+          "hypotheses": [
+            {
+              "transform": "flip_y",
+              "rms_pixel_error": 0.7130810842591025,
+              "max_pixel_error": 0.7248819891433445,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    57.5,
+                    66.5
+                  ],
+                  "pixel_error": 0.7071067811865476,
+                  "component_pixels": 60
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    183.54716981132074,
+                    164.56603773584905
+                  ],
+                  "centroid_after_transform_xy": [
+                    183.54716981132074,
+                    90.43396226415095
+                  ],
+                  "pixel_error": 0.7248819891433445,
+                  "component_pixels": 53
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    102.5,
+                    63.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    102.5,
+                    191.5
+                  ],
+                  "pixel_error": 0.7071067811865476,
+                  "component_pixels": 60
+                }
+              ]
+            },
+            {
+              "transform": "rotate180",
+              "rms_pixel_error": 107.35949861913582,
+              "max_pixel_error": 139.50089605446985,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "pixel_error": 139.50089605446985,
+                  "component_pixels": 60
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    183.54716981132074,
+                    164.56603773584905
+                  ],
+                  "centroid_after_transform_xy": [
+                    71.45283018867926,
+                    90.43396226415095
+                  ],
+                  "pixel_error": 112.54859319981158,
+                  "component_pixels": 53
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    102.5,
+                    63.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "pixel_error": 49.502525188115406,
+                  "component_pixels": 60
+                }
+              ]
+            },
+            {
+              "transform": "identity",
+              "rms_pixel_error": 110.58506071999078,
+              "max_pixel_error": 128.50097275896397,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "pixel_error": 121.50102880222866,
+                  "component_pixels": 60
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    183.54716981132074,
+                    164.56603773584905
+                  ],
+                  "centroid_after_transform_xy": [
+                    183.54716981132074,
+                    164.56603773584905
+                  ],
+                  "pixel_error": 73.5674314036595,
+                  "component_pixels": 53
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    102.5,
+                    63.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    102.5,
+                    63.5
+                  ],
+                  "pixel_error": 128.50097275896397,
+                  "component_pixels": 60
+                }
+              ]
+            },
+            {
+              "transform": "flip_x",
+              "rms_pixel_error": 154.12530328782339,
+              "max_pixel_error": 184.99324311985018,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    197.5,
+                    188.5
+                  ],
+                  "pixel_error": 184.99324311985018,
+                  "component_pixels": 60
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    183.54716981132074,
+                    164.56603773584905
+                  ],
+                  "centroid_after_transform_xy": [
+                    71.45283018867926,
+                    164.56603773584905
+                  ],
+                  "pixel_error": 134.4575298772465,
+                  "component_pixels": 53
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    102.5,
+                    63.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    152.5,
+                    63.5
+                  ],
+                  "pixel_error": 137.70439353920412,
+                  "component_pixels": 60
+                }
+              ]
+            }
+          ],
+          "scope": "known colored marker centroids only; no object recognition, distortion fit or policy validation"
+        },
+        "official_rotated": {
+          "passed": true,
+          "best_transform": "flip_x",
+          "best_max_pixel_error": 0.7248819891433267,
+          "best_rms_pixel_error": 0.7130810842590966,
+          "runner_up_rms_gap_px": 106.64641753487672,
+          "components": [
+            [
+              {
+                "pixels": 60,
+                "centroid_xy": [
+                  197.5,
+                  66.5
+                ]
+              }
+            ],
+            [
+              {
+                "pixels": 53,
+                "centroid_xy": [
+                  71.45283018867924,
+                  90.43396226415095
+                ]
+              }
+            ],
+            [
+              {
+                "pixels": 60,
+                "centroid_xy": [
+                  152.5,
+                  191.5
+                ]
+              }
+            ]
+          ],
+          "hypotheses": [
+            {
+              "transform": "flip_x",
+              "rms_pixel_error": 0.7130810842590966,
+              "max_pixel_error": 0.7248819891433267,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    57.5,
+                    66.5
+                  ],
+                  "pixel_error": 0.7071067811865476,
+                  "component_pixels": 60
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    71.45283018867924,
+                    90.43396226415095
+                  ],
+                  "centroid_after_transform_xy": [
+                    183.54716981132077,
+                    90.43396226415095
+                  ],
+                  "pixel_error": 0.7248819891433267,
+                  "component_pixels": 53
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    102.5,
+                    191.5
+                  ],
+                  "pixel_error": 0.7071067811865476,
+                  "component_pixels": 60
+                }
+              ]
+            },
+            {
+              "transform": "identity",
+              "rms_pixel_error": 107.35949861913582,
+              "max_pixel_error": 139.50089605446985,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "pixel_error": 139.50089605446985,
+                  "component_pixels": 60
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    71.45283018867924,
+                    90.43396226415095
+                  ],
+                  "centroid_after_transform_xy": [
+                    71.45283018867924,
+                    90.43396226415095
+                  ],
+                  "pixel_error": 112.54859319981159,
+                  "component_pixels": 53
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "pixel_error": 49.502525188115406,
+                  "component_pixels": 60
+                }
+              ]
+            },
+            {
+              "transform": "rotate180",
+              "rms_pixel_error": 110.58506071999078,
+              "max_pixel_error": 128.50097275896397,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "pixel_error": 121.50102880222866,
+                  "component_pixels": 60
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    71.45283018867924,
+                    90.43396226415095
+                  ],
+                  "centroid_after_transform_xy": [
+                    183.54716981132077,
+                    164.56603773584905
+                  ],
+                  "pixel_error": 73.5674314036595,
+                  "component_pixels": 53
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    102.5,
+                    63.5
+                  ],
+                  "pixel_error": 128.50097275896397,
+                  "component_pixels": 60
+                }
+              ]
+            },
+            {
+              "transform": "flip_y",
+              "rms_pixel_error": 154.12530328782339,
+              "max_pixel_error": 184.99324311985018,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    197.5,
+                    188.5
+                  ],
+                  "pixel_error": 184.99324311985018,
+                  "component_pixels": 60
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    71.45283018867924,
+                    90.43396226415095
+                  ],
+                  "centroid_after_transform_xy": [
+                    71.45283018867924,
+                    164.56603773584905
+                  ],
+                  "pixel_error": 134.45752987724651,
+                  "component_pixels": 53
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    152.5,
+                    63.5
+                  ],
+                  "pixel_error": 137.70439353920412,
+                  "component_pixels": 60
+                }
+              ]
+            }
+          ],
+          "scope": "known colored marker centroids only; no object recognition, distortion fit or policy validation"
+        },
+        "images": {
+          "raw256": {
+            "file": "agentview_raw256.png",
+            "sha256": "64505d4169c6bfa1dcc5aa1a5e512061658bbdb4a6a77ba243c369a385839267"
+          },
+          "official_rotated256": {
+            "file": "agentview_official_rotated256.png",
+            "sha256": "4d9e910337134946d421b45a331d729a70d2cda47902b98c6e8bc35f6c4f4e8a"
+          },
+          "policy224": {
+            "file": "agentview_policy224.png",
+            "sha256": "2fea10b8762db8afad9eda1e034a2af35d4ddca76ca19eb55901efa8d68ede07"
+          }
+        }
+      },
+      "robot0_eye_in_hand": {
+        "markers": [
+          {
+            "id": 0,
+            "expected_ros_pixel": [
+              58.0,
+              67.0
+            ],
+            "world_position_m": [
+              -0.11250272634680855,
+              0.04750545355345965,
+              1.1256919033652197
+            ],
+            "radius_m": 0.0033570555724079516,
+            "emissive_rgb": [
+              1.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "id": 1,
+            "expected_ros_pixel": [
+              184.0,
+              91.0
+            ],
+            "world_position_m": [
+              -0.1295007750672487,
+              -0.0649168872404142,
+              1.1065470089710083
+            ],
+            "radius_m": 0.003836634939894802,
+            "emissive_rgb": [
+              0.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "id": 2,
+            "expected_ros_pixel": [
+              103.0,
+              192.0
+            ],
+            "world_position_m": [
+              -0.23485944433713823,
+              0.01596607133356906,
+              1.0924545675463195
+            ],
+            "radius_m": 0.004316214307381653,
+            "emissive_rgb": [
+              1.0,
+              1.0,
+              0.0
+            ]
+          }
+        ],
+        "raw": {
+          "passed": true,
+          "best_transform": "flip_y",
+          "best_max_pixel_error": 0.7240839182450938,
+          "best_rms_pixel_error": 0.7128107557786446,
+          "runner_up_rms_gap_px": 86.68990020774591,
+          "components": [
+            [
+              {
+                "pixels": 56,
+                "centroid_xy": [
+                  57.5,
+                  188.5
+                ]
+              }
+            ],
+            [
+              {
+                "pixels": 55,
+                "centroid_xy": [
+                  183.54545454545453,
+                  164.56363636363636
+                ]
+              }
+            ],
+            [
+              {
+                "pixels": 64,
+                "centroid_xy": [
+                  102.5,
+                  63.5
+                ]
+              },
+              {
+                "pixels": 29,
+                "centroid_xy": [
+                  109.27586206896552,
+                  244.0
+                ]
+              },
+              {
+                "pixels": 33,
+                "centroid_xy": [
+                  117.21212121212122,
+                  251.24242424242425
+                ]
+              },
+              {
+                "pixels": 19,
+                "centroid_xy": [
+                  99.21052631578948,
+                  252.21052631578948
+                ]
+              }
+            ]
+          ],
+          "hypotheses": [
+            {
+              "transform": "flip_y",
+              "rms_pixel_error": 0.7128107557786446,
+              "max_pixel_error": 0.7240839182450938,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    57.5,
+                    66.5
+                  ],
+                  "pixel_error": 0.7071067811865476,
+                  "component_pixels": 56
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    183.54545454545453,
+                    164.56363636363636
+                  ],
+                  "centroid_after_transform_xy": [
+                    183.54545454545453,
+                    90.43636363636364
+                  ],
+                  "pixel_error": 0.7240839182450938,
+                  "component_pixels": 55
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    102.5,
+                    63.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    102.5,
+                    191.5
+                  ],
+                  "pixel_error": 0.7071067811865476,
+                  "component_pixels": 64
+                }
+              ]
+            },
+            {
+              "transform": "identity",
+              "rms_pixel_error": 87.40271096352456,
+              "max_pixel_error": 121.50102880222866,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "pixel_error": 121.50102880222866,
+                  "component_pixels": 56
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    183.54545454545453,
+                    164.56363636363636
+                  ],
+                  "centroid_after_transform_xy": [
+                    183.54545454545453,
+                    164.56363636363636
+                  ],
+                  "pixel_error": 73.56504065527028,
+                  "component_pixels": 55
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    109.27586206896552,
+                    244.0
+                  ],
+                  "centroid_after_transform_xy": [
+                    109.27586206896552,
+                    244.0
+                  ],
+                  "pixel_error": 52.37734667495749,
+                  "component_pixels": 29
+                }
+              ]
+            },
+            {
+              "transform": "rotate180",
+              "rms_pixel_error": 107.35889502783546,
+              "max_pixel_error": 139.50089605446985,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "pixel_error": 139.50089605446985,
+                  "component_pixels": 56
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    183.54545454545453,
+                    164.56363636363636
+                  ],
+                  "centroid_after_transform_xy": [
+                    71.45454545454547,
+                    90.43636363636364
+                  ],
+                  "pixel_error": 112.54686590391304,
+                  "component_pixels": 55
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    102.5,
+                    63.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "pixel_error": 49.502525188115406,
+                  "component_pixels": 64
+                }
+              ]
+            },
+            {
+              "transform": "flip_x",
+              "rms_pixel_error": 137.63470964335795,
+              "max_pixel_error": 184.99324311985018,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    197.5,
+                    188.5
+                  ],
+                  "pixel_error": 184.99324311985018,
+                  "component_pixels": 56
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    183.54545454545453,
+                    164.56363636363636
+                  ],
+                  "centroid_after_transform_xy": [
+                    71.45454545454547,
+                    164.56363636363636
+                  ],
+                  "pixel_error": 134.45478025672531,
+                  "component_pixels": 55
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    109.27586206896552,
+                    244.0
+                  ],
+                  "centroid_after_transform_xy": [
+                    145.72413793103448,
+                    244.0
+                  ],
+                  "pixel_error": 67.30046033980793,
+                  "component_pixels": 29
+                }
+              ]
+            }
+          ],
+          "scope": "known colored marker centroids only; no object recognition, distortion fit or policy validation"
+        },
+        "official_rotated": {
+          "passed": true,
+          "best_transform": "flip_x",
+          "best_max_pixel_error": 0.7240839182450759,
+          "best_rms_pixel_error": 0.7128107557786386,
+          "runner_up_rms_gap_px": 86.68990020774592,
+          "components": [
+            [
+              {
+                "pixels": 56,
+                "centroid_xy": [
+                  197.5,
+                  66.5
+                ]
+              }
+            ],
+            [
+              {
+                "pixels": 55,
+                "centroid_xy": [
+                  71.45454545454545,
+                  90.43636363636364
+                ]
+              }
+            ],
+            [
+              {
+                "pixels": 33,
+                "centroid_xy": [
+                  137.78787878787878,
+                  3.757575757575758
+                ]
+              },
+              {
+                "pixels": 19,
+                "centroid_xy": [
+                  155.78947368421052,
+                  2.789473684210526
+                ]
+              },
+              {
+                "pixels": 29,
+                "centroid_xy": [
+                  145.72413793103448,
+                  11.0
+                ]
+              },
+              {
+                "pixels": 64,
+                "centroid_xy": [
+                  152.5,
+                  191.5
+                ]
+              }
+            ]
+          ],
+          "hypotheses": [
+            {
+              "transform": "flip_x",
+              "rms_pixel_error": 0.7128107557786386,
+              "max_pixel_error": 0.7240839182450759,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    57.5,
+                    66.5
+                  ],
+                  "pixel_error": 0.7071067811865476,
+                  "component_pixels": 56
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    71.45454545454545,
+                    90.43636363636364
+                  ],
+                  "centroid_after_transform_xy": [
+                    183.54545454545456,
+                    90.43636363636364
+                  ],
+                  "pixel_error": 0.7240839182450759,
+                  "component_pixels": 55
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    102.5,
+                    191.5
+                  ],
+                  "pixel_error": 0.7071067811865476,
+                  "component_pixels": 64
+                }
+              ]
+            },
+            {
+              "transform": "rotate180",
+              "rms_pixel_error": 87.40271096352456,
+              "max_pixel_error": 121.50102880222866,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    57.5,
+                    188.5
+                  ],
+                  "pixel_error": 121.50102880222866,
+                  "component_pixels": 56
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    71.45454545454545,
+                    90.43636363636364
+                  ],
+                  "centroid_after_transform_xy": [
+                    183.54545454545456,
+                    164.56363636363636
+                  ],
+                  "pixel_error": 73.56504065527028,
+                  "component_pixels": 55
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    145.72413793103448,
+                    11.0
+                  ],
+                  "centroid_after_transform_xy": [
+                    109.27586206896552,
+                    244.0
+                  ],
+                  "pixel_error": 52.37734667495749,
+                  "component_pixels": 29
+                }
+              ]
+            },
+            {
+              "transform": "identity",
+              "rms_pixel_error": 107.35889502783549,
+              "max_pixel_error": 139.50089605446985,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "pixel_error": 139.50089605446985,
+                  "component_pixels": 56
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    71.45454545454545,
+                    90.43636363636364
+                  ],
+                  "centroid_after_transform_xy": [
+                    71.45454545454545,
+                    90.43636363636364
+                  ],
+                  "pixel_error": 112.54686590391306,
+                  "component_pixels": 55
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    152.5,
+                    191.5
+                  ],
+                  "pixel_error": 49.502525188115406,
+                  "component_pixels": 64
+                }
+              ]
+            },
+            {
+              "transform": "flip_y",
+              "rms_pixel_error": 137.63470964335795,
+              "max_pixel_error": 184.99324311985018,
+              "matches": [
+                {
+                  "id": 0,
+                  "centroid_raw_xy": [
+                    197.5,
+                    66.5
+                  ],
+                  "centroid_after_transform_xy": [
+                    197.5,
+                    188.5
+                  ],
+                  "pixel_error": 184.99324311985018,
+                  "component_pixels": 56
+                },
+                {
+                  "id": 1,
+                  "centroid_raw_xy": [
+                    71.45454545454545,
+                    90.43636363636364
+                  ],
+                  "centroid_after_transform_xy": [
+                    71.45454545454545,
+                    164.56363636363636
+                  ],
+                  "pixel_error": 134.45478025672534,
+                  "component_pixels": 55
+                },
+                {
+                  "id": 2,
+                  "centroid_raw_xy": [
+                    145.72413793103448,
+                    11.0
+                  ],
+                  "centroid_after_transform_xy": [
+                    145.72413793103448,
+                    244.0
+                  ],
+                  "pixel_error": 67.30046033980793,
+                  "component_pixels": 29
+                }
+              ]
+            }
+          ],
+          "scope": "known colored marker centroids only; no object recognition, distortion fit or policy validation"
+        },
+        "images": {
+          "raw256": {
+            "file": "robot0_eye_in_hand_raw256.png",
+            "sha256": "59bde1331cffac8646a25c7ed49874e60b075f2636ad4e19c0e1ed6b088e715c"
+          },
+          "official_rotated256": {
+            "file": "robot0_eye_in_hand_official_rotated256.png",
+            "sha256": "4996d7fadfb172b580ecb22ef84fbaaf37dd556e607bacb4e8d69953565c17e5"
+          },
+          "policy224": {
+            "file": "robot0_eye_in_hand_policy224.png",
+            "sha256": "13a7b93a34b8318d0f163513a29b20a6a0d10f32ca7479b261050a3f9e57d8d3"
+          }
+        }
+      }
+    },
+    "all_marker_views_passed": true,
+    "scope": "native LIBERO RGB-to-ROS direction and official rotated RGB-to-ROS direction; no policy queries"
+  },
+  "error_type": "ValueError",
+  "error": "ambiguous joint suffix"
+}
