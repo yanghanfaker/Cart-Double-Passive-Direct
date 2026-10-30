@@ -10,6 +10,34 @@ import run_gain_sweep
 
 
 class SweepRoutingTests(unittest.TestCase):
+    def test_three_repeat_cases_route_chunk10_long_without_changing_gains(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);commands=[];overrides=[]
+            class Process:
+                def __init__(self,command,**kwargs):
+                    commands.append(command);output=Path(command[command.index("--output")+1])
+                    overrides.append(json.loads(Path(command[command.index("--joint-gains-json")+1]).read_text()))
+                    report={"joint_telemetry_summary":{},"actuator_audit":{},"physics_joint_summary":{},
+                            "openpi_result":{"probe_completed":False,"termination_reason":"near_object_boundary"},"openpi_setup":{}}
+                    (output/"motion_openpi-step.json").write_text(json.dumps(report));self.stdout=io.StringIO("")
+                def __enter__(self):return self
+                def __exit__(self,*args):pass
+                def wait(self):return 0
+            cases=Path(__file__).with_name("openpi_approach_repeat_cases.json")
+            args=["runner","--isaaclab-root",str(root),"--gain-cases-json",str(cases),"--modes","openpi-step",
+                  "--openpi-approach","--openpi-approach-long","--openpi-replan-steps","10","--openpi-steps","400"]
+            with patch.object(sys,"argv",args),patch.object(run_gain_sweep.subprocess,"Popen",Process):
+                self.assertEqual(run_gain_sweep.main(),0)
+            self.assertEqual(len(commands),3)
+            for command in commands:
+                self.assertEqual(command[command.index("--openpi-replan-steps")+1],"10")
+                self.assertEqual(command[command.index("--openpi-steps")+1],"400")
+                self.assertIn("--openpi-approach-long",command)
+            self.assertEqual(overrides,[overrides[0]]*3)
+            manifest=json.loads((root/"logs/openpi_gain_sweep/latest_gain_sweep.json").read_text())
+            self.assertEqual(len(set(manifest["profiles"])),3)
+            self.assertTrue(all("-chunk10-approach-long" in name for name in manifest["profiles"]))
+
     def test_long_approach_routes_explicit_flag_and_unique_name(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);commands=[]

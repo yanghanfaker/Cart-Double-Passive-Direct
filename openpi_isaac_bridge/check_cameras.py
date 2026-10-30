@@ -115,7 +115,7 @@ def main():
     parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
     parser.add_argument("--openpi-approach-long", action="store_true", help="explicit 400-step approach budget and larger total envelope")
     parser.add_argument("--openpi-approach", action="store_true", help="segmented diagnostic-only approach, up to 60 controls")
-    parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5), default=1)
+    parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5,10), default=1)
     parser.add_argument("--openpi-steps", type=int, default=20)
     parser.add_argument("--openpi-state-frame", choices=("world", "root"), default="world")
     parser.add_argument("--motion-test", choices=(
@@ -133,8 +133,8 @@ def main():
     args = parser.parse_args()
     if args.openpi_approach_long and not args.openpi_approach:
         parser.error("--openpi-approach-long requires --openpi-approach")
-    if args.openpi_approach and (args.motion_test!="openpi-step" or args.openpi_replan_steps!=5):
-        parser.error("--openpi-approach requires openpi-step and --openpi-replan-steps 5")
+    if args.openpi_approach and (args.motion_test!="openpi-step" or args.openpi_replan_steps not in (5,10)):
+        parser.error("--openpi-approach requires openpi-step and --openpi-replan-steps 5 or 10")
     if args.openpi_replan_steps!=1 and args.motion_test!="openpi-step":
         parser.error("--openpi-replan-steps requires openpi-step")
     if args.record_jacobians:

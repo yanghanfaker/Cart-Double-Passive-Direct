@@ -81,10 +81,10 @@ def run_openpi_steps(observe, infer, execute, steps=20, announce=print, replan_s
     maximum=(400 if extended_approach else 60) if approach_monitor is not None else 20
     if isinstance(steps,bool) or not isinstance(steps,int) or not 1<=steps<=maximum:
         raise ValueError(f"model-motion probe requires 1 to {maximum} steps")
-    if isinstance(replan_steps,bool) or not isinstance(replan_steps,int) or replan_steps not in (1,5):
-        raise ValueError("replan_steps must be 1 or 5")
-    if approach_monitor is not None and replan_steps!=5:
-        raise ValueError("segmented approach requires replan_steps=5")
+    if isinstance(replan_steps,bool) or not isinstance(replan_steps,int) or replan_steps not in (1,5,10):
+        raise ValueError("replan_steps must be 1, 5 or 10")
+    if approach_monitor is not None and replan_steps not in (5,10):
+        raise ValueError("segmented approach requires replan_steps=5 or 10")
     trace=[]
     report={"probe_completed":False,"requested_steps":steps,"completed_steps":0,"trace":trace,
             "replan_steps":replan_steps,"inference_requests":0,"validated_inferences":0,

@@ -6,14 +6,29 @@ from openpi_step_probe import run_openpi_steps
 
 
 class ApproachTests(unittest.TestCase):
-    def run_probe(self, position_at_step, steps=60, initial=.36, extended=False):
+    def run_probe(self, position_at_step, steps=60, initial=.36, extended=False, replan=5):
         monitor=ApproachMonitor([0,0,initial],[0,0,0])
         report=run_openpi_steps(lambda i:({}, {"image_files":[f"image{i}.png"]}),
             lambda o:{"actions":[[0,0,-.01,0,0,0,-1]]*10},
             lambda mapping,i:{"state_after_world":[0,0,position_at_step(i+1)]+[0]*5,
                               "object_pos_world_m_for_diagnostic_only":[0,0,0]},
-            steps=steps,replan_steps=5,approach_monitor=monitor,extended_approach=extended,announce=lambda _:None)
+            steps=steps,replan_steps=replan,approach_monitor=monitor,extended_approach=extended,announce=lambda _:None)
         return report
+
+    def test_chunk10_long_budget_uses_40_requests_and_same_twenty_segments(self):
+        result=self.run_probe(lambda i:1-.0005*i,steps=400,initial=1,extended=True,replan=10)
+        self.assertTrue(result["probe_completed"])
+        self.assertEqual(result["inference_requests"],40)
+        self.assertEqual(result["completed_steps"],400)
+        self.assertEqual(len(result["approach_summary"]["segments"]),20)
+
+    def test_chunk10_monitor_stops_inside_block_without_finishing_it(self):
+        result=self.run_probe(lambda i:.086-.001*i,initial=.086,extended=True,replan=10)
+        self.assertEqual(result["completed_steps"],6)
+        self.assertEqual(result["trace"][-1]["chunk_action_index"],5)
+        self.assertEqual(result["inference_requests"],1)
+        self.assertEqual(result["termination_reason"],"near_object_boundary")
+
 
     def test_three_progress_segments_and_exact_60_step_budget(self):
         result=self.run_probe(lambda i:.36-.0005*i)

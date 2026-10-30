@@ -20,8 +20,8 @@ from grasp_scenarios import expand_grasp_cases
 
 
 def expand_openpi_replan_cases(cases, lengths):
-    if not lengths or len(set(lengths))!=len(lengths) or any(isinstance(n,bool) or not isinstance(n,int) or n not in (1,5) for n in lengths):
-        raise ValueError("choose unique replan lengths from 1 and 5")
+    if not lengths or len(set(lengths))!=len(lengths) or any(isinstance(n,bool) or not isinstance(n,int) or n not in (1,5,10) for n in lengths):
+        raise ValueError("choose unique replan lengths from 1, 5 and 10")
     result=[dict(case,name=case["name"]+f"-chunk{n}",base_case=case["name"],openpi_condition={"replan_steps":n})
             for case in cases for n in lengths]
     if any(len(c["name"])>80 for c in result) or len({c["name"] for c in result})!=len(result):
@@ -54,7 +54,7 @@ def main():
     parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
     parser.add_argument("--openpi-approach-long", action="store_true", help="explicit 400-control approach budget")
     parser.add_argument("--openpi-approach", action="store_true", help="up to 60 controls with segmented progress stops")
-    parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5), nargs="+", help="expand candidate into chunk-length comparisons")
+    parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5,10), nargs="+", help="expand candidate into chunk-length comparisons")
     parser.add_argument("--policy-server-log", type=Path, help="optional server startup log prefix to preserve with results")
     parser.add_argument("--openpi-steps", type=int, default=20)
     parser.add_argument("--openpi-state-frame", choices=("world","root"), default="world")
@@ -66,8 +66,8 @@ def main():
     args = parser.parse_args()
     if args.openpi_approach_long and not args.openpi_approach:
         parser.error("--openpi-approach-long requires --openpi-approach")
-    if args.openpi_approach and (args.modes != ["openpi-step"] or args.openpi_replan_steps != [5]):
-        parser.error("--openpi-approach requires --modes openpi-step --openpi-replan-steps 5")
+    if args.openpi_approach and (args.modes != ["openpi-step"] or args.openpi_replan_steps not in ([5],[10])):
+        parser.error("--openpi-approach requires --modes openpi-step and a single --openpi-replan-steps 5 or 10")
     if (args.openpi_replan_steps or args.policy_server_log) and args.modes != ["openpi-step"]:
         parser.error("OpenPI chunk/log options require --modes openpi-step only")
     if args.policy_server_log:

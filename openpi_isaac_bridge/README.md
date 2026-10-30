@@ -1893,3 +1893,56 @@ git push origin main
 
 133项CPU测试及语法检查通过，覆盖等时计划、共享前5步、零输入尾段、完整未来动作校验、fixture混用拒绝和初始化不匹配拦截。
 模拟子进程检查确认两组独立启动、同一fixture/候选增益、无需OpenPI依赖、两份物理轨迹无覆盖导出；实际Isaac轨迹待Spark验证。
+
+## 长程模型闭环：块长10，重复3轮
+
+固定块重放结果dd3dcdc03575中，两组初始状态和前5步响应完全相同；完整10步净接近3.500mm，
+前5步加零输入尾段净远离0.575mm。本轮进一步检查真实模型反馈下保留后半段动作的实际表现。
+
+新增执行块长10选项，复用同一组repeat1/2/3候选增益配置。每次推理必须返回至少10个有效动作，
+按顺序执行索引0–9，然后使用新图像和新状态重新推理。若模型以后返回超过10步，只执行前10步，不假定任意长度全部执行。
+每个50ms控制步仍采集诊断观测并检查状态和停止条件；块内观测不送给模型，直到下次块边界。
+停止条件在块内也有效，不会为了执行满10步而忽略停止。
+
+增益、seed=0、固定物体位置、图像处理、世界坐标状态、每步1mm/0.25度限幅、强制开爪和监测保持不变。
+每轮最多400步/40次推理/2000条10ms物理记录；每20步至少接近2mm，距离进入80mm或相对初始远离超过5mm等情况提前停止。
+总位移350mm/净旋转90度和原单周期、物体移动、软关节限位检查继续有效。
+每10步重新推理对应0.5秒仿真执行窗口，不是实时反馈频率保证；推理期间仿真暂停。
+
+保持原OpenPI服务在8000端口运行，另一终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_approach_repeat_cases.json \
+  --modes openpi-step \
+  --openpi-replan-steps 10 --openpi-steps 400 \
+  --openpi-approach --openpi-approach-long \
+  --openpi-state-frame world \
+  --server-host 127.0.0.1 --server-port 8000 \
+  --policy-server-log /home/test/Robot/openpi/openpi_chunk_probe_server.log \
+  --prompt "pick up the cube" --record-physics
+```
+
+三轮分别新建Isaac进程，名称包含`repeatN-chunk10-approach-long`，不会覆盖chunk5结果。
+受控停止后自动运行下一轮。Viser进程切换时刷新页面即可，不要为观看改变控制流程。
+三轮合计最多1200控制步、120次推理和6000物理记录；实际可能提前停止。
+
+重点检查：三轮初始状态/图像、chunk_action_index是否0–9、推理是否只在第1/11/21等步发生、最近距离与停止原因、
+前5和后5步的实际接近量、水平偏差、关节/TCP跟踪误差、估算力矩和物体位置。
+不同模型查询仍存在输出变化，不能把本轮与此前chunk5轨迹的全部差异严格归因为块长。
+进入80mm只代表达到诊断边界，夹爪仍打开，不代表抓取成功。
+
+完成三轮后导出推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add three chunk10 long OpenPI approach results"
+git push origin main
+```
+
+138项CPU测试和语法检查通过，新增覆盖10步完整顺序、短块拒绝、400步40次推理、块内监测停止、三轮名称与路由。
+原块长1/5和固定动作重放测试继续通过，实际长程模型轨迹待Spark验证。

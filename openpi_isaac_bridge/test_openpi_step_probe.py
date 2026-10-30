@@ -4,6 +4,25 @@ from openpi_step_probe import bounded_openpi_action, validate_action_chunk, prev
 
 
 class OpenpiStepTests(unittest.TestCase):
+    def test_chunk10_executes_all_actions_before_fresh_inference(self):
+        queried=[];executed=[]
+        result=run_openpi_steps(lambda i:({"step":i},{"image_files":[],"state_sent":[i]}),
+            lambda obs:queried.append(obs["step"]) or {"actions":[[i*.001,0,0,0,0,0,1] for i in range(10)]},
+            lambda mapped,i:executed.append(mapped["input_action"][0]) or {},
+            steps=20,replan_steps=10,announce=lambda _:None)
+        self.assertTrue(result["probe_completed"])
+        self.assertEqual(queried,[0,10])
+        self.assertEqual(executed,[i*.001 for i in range(10)]*2)
+        self.assertEqual([r["chunk_action_index"] for r in result["trace"]],list(range(10))*2)
+        self.assertEqual(result["trace"][10]["state_sent"],[10])
+        self.assertIsNone(result["trace"][9]["state_sent"])
+
+    def test_chunk10_rejects_short_block_before_any_execution(self):
+        result=run_openpi_steps(lambda i:({}, {"image_files":[]}),lambda obs:{"actions":[[0]*7]*9},
+            lambda *a:self.fail("no partial block"),replan_steps=10,announce=lambda _:None)
+        self.assertEqual(result["completed_steps"],0)
+        self.assertIn("shorter",result["failure_reason"])
+
     def test_chunk5_executes_ordered_prefix_and_queries_only_after_five_steps(self):
         state=[0];queries=[];executed=[]
         def observe(index):
