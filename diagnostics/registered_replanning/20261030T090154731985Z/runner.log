@@ -1,0 +1,42 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.473491732482327e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.73569536086646e-08, 'rotation_error_deg': 1.1779458330959206e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z/geometry_audit.json
+[Clean scene] {"case": "arm-only", "geometry": true, "projections": {"external_camera": [127.99830196401888, 131.57970982758226], "wrist_camera": [122.46432610464343, 120.71507217728089]}}
+[Registered replay] 01 recorded-action; TCP target error=0.072mm
+[Registered replay] 02 recorded-action; TCP target error=0.034mm
+[Registered replay] 03 recorded-action; TCP target error=0.039mm
+[Registered replay] 04 recorded-action; TCP target error=0.043mm
+[Registered replay] 05 recorded-action; TCP target error=0.045mm
+[Registered replay] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z/round_01/registered_replay_result.json
+[Replanning] round 1/3 done; controls=5, holds=0
+[Geometry audit] sensor closure={'position_error_m': 1.6152895636667976e-08, 'rotation_error_deg': 1.2728817381539902e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.370199921487691e-08, 'rotation_error_deg': 2.43111866003312e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z/round_02/geometry_audit.json
+[Registered replay] 01 recorded-action; TCP target error=0.052mm
+[Registered replay] 02 recorded-action; TCP target error=0.030mm
+[Registered replay] 03 recorded-action; TCP target error=0.050mm
+[Registered replay] 04 recorded-action; TCP target error=0.048mm
+[Registered replay] 05 recorded-action; TCP target error=0.045mm
+[Registered replay] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z/round_02/registered_replay_result.json
+[Replanning] round 2/3 done; controls=10, holds=0
+[Geometry audit] sensor closure={'position_error_m': 1.8021110612283396e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.235063793210636e-08, 'rotation_error_deg': 1.5096439084530356e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z/round_03/geometry_audit.json
+[Registered replay] 01 recorded-action; TCP target error=0.077mm
+[Registered replay] 02 recorded-action; TCP target error=0.027mm
+[Registered replay] 03 recorded-action; TCP target error=0.051mm
+[Registered replay] 04 recorded-action; TCP target error=0.047mm
+[Registered replay] 05 recorded-action; TCP target error=0.041mm
+[Registered replay] 06 fixed-target-settle; TCP target error=0.040mm
+[Registered replay] 07 fixed-target-settle; TCP target error=0.014mm
+[Registered replay] 08 fixed-target-settle; TCP target error=0.010mm
+[Registered replay] 09 fixed-target-settle; TCP target error=0.014mm
+[Registered replay] 10 fixed-target-settle; TCP target error=0.005mm
+[Registered replay] 11 fixed-target-settle; TCP target error=0.005mm
+[Registered replay] 12 fixed-target-settle; TCP target error=0.006mm
+[Registered replay] 13 fixed-target-settle; TCP target error=0.003mm
+[Registered replay] 14 fixed-target-settle; TCP target error=0.003mm
+[Registered replay] 15 fixed-target-settle; TCP target error=0.003mm
+[Registered replay] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z/round_03/registered_replay_result.json
+[Replanning] round 3/3 done; controls=15, holds=10
+[Replanning] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z/online_registered_result.json
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture/20261030T090154761552Z/run.json

@@ -1,0 +1,24 @@
+{
+  "status": "completed",
+  "source_manifest": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T085033587721Z/run.json",
+  "source_sha256": "451e9b550617c179508b199600087f3b41d70ecee7c489223745be330bd7dbb2",
+  "case": "arm-only",
+  "scope": "single scene, three replans x five actions; final ten-period hold; open gripper",
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+    "--isaaclab-root",
+    "/home/test/Robot/IsaacLab",
+    "--output-root",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/capture",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replanning/20261030T090154731985Z/replanning_settings.json"
+  ],
+  "world_registration_sha256": "352bd9ade078c5887481e09a38d9144b9ddfd4408e0cc4f2fe8a20f9fb79d435",
+  "result": "capture/20261030T090154761552Z/online_registered_result.json",
+  "result_sha256": "24110eaf357d1994f3d9bcbae24c925741f9ed4172fc53a2ce310dc00f908860",
+  "final_target_reached": true,
+  "all_followup_inputs_changed": true
+}
