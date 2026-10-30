@@ -2215,3 +2215,46 @@ git add -- diagnostics/openpi_coordinate_probe/
 git commit -m "Add frozen coordinate A B C comparison results"
 git push origin main
 ```
+
+## 下一轮：11姿态静态几何标定与留出验证
+
+冻结A/B/C结果21259921e8b9显示世界坐标转换值得继续检查，TCP转换没有一致行为改善。
+本轮先验证几何，不调用OpenPI服务、不执行模型动作、不改刚度阻尼、不做抓取。
+
+`run_multipose_geometry.py`依次启动11次独立Isaac场景：以原几何审计实际关节角为基准，
+7个拟合姿态（原位及J1到J6分别约0.15–0.20rad变化），4个未参与拟合的混合关节姿态。
+每次仅更换初始关节配置、保持夹爪张开，沿用已有35步hold预热与静态采集。
+每个姿态独立初始化，Viser可能断开后重连，不是连续关节运动轨迹。
+随后用已安装的独立LIBERO环境，直接设置对应Isaac采集到的实际7关节及双指位置，forward后采集。
+用实际位置对照，不以名义初始角度代替实际角度。每对来源SHA、命令和日志均保存。
+
+分析先用7个手部原点拟合世界刚体变换，再分别计算原103.4mm TCP、固定转换97mm TCP的误差；
+额外仅用拟合组估计三维手部局部TCP修正，供诊断比较。4个留出姿态都不参与拟合。
+记录位置RMS/最大值、手部朝向误差、实际关节匹配误差与名义初始角偏差。
+拟合点第二奇异值不足5mm则停止，避免退化位置分布产生看似可信的标定。
+诊断阈值为留出姿态校正TCP最大误差1mm、手部朝向最大误差0.1度；它们是本轮自定阈值，不是行业标准。
+`completed`表示采集分析完成；`candidate_geometry_within_thresholds`才表示本次新拟合变换满足这两项阈值。
+这不验证原先固定[-0.66,0,0.912]平移必然最优，不验证相机、动力学或抓取性能。
+
+在Spark仓库终端运行（无需启动OpenPI服务，现有服务可保持运行）：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_multipose_geometry.py
+```
+
+自动读取原 `diagnostics/geometry_audit/` 最近完成的审计作为设计基准。
+可用 `--source-audit /绝对路径/geometry_audit.json` 指定。
+使用现有 `/home/test/Robot/openpi/examples/libero/.venv/bin/python`，不安装任何包。
+需要多次启动仿真，预计比单姿态采集耗时长；每个姿态会显示阶段进度。
+结果保存为 `diagnostics/multipose_geometry/<UTC>/`，含11组原始审计、图片、XML、日志及最终analysis.json。
+失败会停止并保留已完成姿态，推送整个目录即可诊断。169项本地CPU/模拟流程测试通过；真实Spark采集待运行。
+
+完成后：
+
+```bash
+git add -- diagnostics/multipose_geometry/
+git commit -m "Add multi pose geometry calibration and held out validation"
+git push origin main
+```

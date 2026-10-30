@@ -12,6 +12,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
     parser.add_argument('--output-root',type=Path,default=Path(__file__).resolve().parent.parent/'diagnostics/geometry_audit')
+    parser.add_argument('--geometry-joints-json',type=Path)
     args=parser.parse_args()
     root=args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():parser.error('Isaac Lab directory not found')
@@ -25,6 +26,12 @@ def main():
     gains=folder/'joint_gains.json';gains.write_text(json.dumps(case['joint_overrides'],indent=2),encoding='utf-8')
     command=['uv','run','--extra','viser','--extra','openpi','isaaclab','-p',str(script),'--viz','viser',
              '--motion-test','geometry-audit','--gain-profile',case['profile'],'--joint-gains-json',str(gains),'--output',str(folder)]
+    if args.geometry_joints_json:
+        from multipose_geometry import validate_arm_pose
+        payload=args.geometry_joints_json.expanduser().resolve().read_bytes()
+        validate_arm_pose(json.loads(payload))
+        (folder/'requested_arm_pose.json').write_bytes(payload)
+        command += ['--geometry-joints-json',str(folder/'requested_arm_pose.json')]
     manifest={'status':'running','command':command,'output':str(folder),
               'scope':'static geometry capture after hold warmup; no model inference or diagnostic motion'}
     def save():(folder/'run.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')

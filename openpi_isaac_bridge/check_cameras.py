@@ -100,6 +100,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path("logs/openpi_camera_check"))
     parser.add_argument("--warmup-steps", type=int, default=30)
+    parser.add_argument("--geometry-joints-json", type=Path, help="explicit initial arm pose for static geometry-audit only")
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--gain-profile", choices=tuple(GAIN_PROFILES), default="baseline")
     parser.add_argument("--record-jacobians", action="store_true", help="capture actual IK Jacobians during frozen replay only")
@@ -131,6 +132,12 @@ def main():
     parser.add_argument("--wrist-offset", type=float, nargs=3, default=(0.10, 0.0, 0.02))
     add_launcher_args(parser)
     args = parser.parse_args()
+    geometry_joints = None
+    if args.geometry_joints_json:
+        if args.motion_test != "geometry-audit":
+            parser.error("--geometry-joints-json requires geometry-audit")
+        from multipose_geometry import validate_arm_pose
+        geometry_joints = validate_arm_pose(json.loads(args.geometry_joints_json.read_text(encoding="utf-8")))
     if args.openpi_approach_long and not args.openpi_approach:
         parser.error("--openpi-approach-long requires --openpi-approach")
     if args.openpi_approach and (args.motion_test!="openpi-step" or args.openpi_replan_steps not in (5,10)):
@@ -186,6 +193,10 @@ def main():
         args.enable_cameras = True
 
     cfg = FrankaCubeLiftEnvCfg()
+    if geometry_joints is not None:
+        # Replace patterns too, so a broad default expression cannot overlap an exact arm name.
+        cfg.scene.robot.init_state.joint_pos = {f"panda_joint{i+1}": value for i, value in enumerate(geometry_joints)}
+        cfg.scene.robot.init_state.joint_pos.update({"panda_finger_joint1": .04, "panda_finger_joint2": .04})
     joint_overrides = json.loads(args.joint_gains_json.read_text(encoding="utf-8")) if args.joint_gains_json else None
     gain_config = configure_gain_profile(cfg.scene.robot.actuators, args.gain_profile, joint_overrides)
     cfg.scene.num_envs = 1
