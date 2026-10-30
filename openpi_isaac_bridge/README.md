@@ -2919,3 +2919,63 @@ git add -- diagnostics/target_reference_ab/
 git commit -m "Add fixed-stream target reference comparison results"
 git push origin main
 ```
+
+## 下一轮：短时在线目标参考方式对照
+
+d97f5773dd59的固定流对照已完成：current最终相对累计参考误差约7.001mm，accumulated约0.0047mm，
+但两者到物体距离分别为183.5/186.5mm，跟踪准确与任务趋近需要分开判断。
+`run_online_reference_ab.py`让每种方式在自身运动后的真实图像/状态上重新推理，观察模型与目标更新方式的相互作用。
+
+默认两种方式各做3次独立运行，每次20次新推理，每次只执行前5步，共100步动作，再保持自身最后目标10步。
+每次动作/保持合计5.5秒仿真时间，初始化和推理墙钟另计。各次均从同一源姿态、物体位置、相机与增益启动。
+运行顺序为current/accumulated、accumulated/current、current/accumulated。
+模型采样没有共享噪声种子；这是小样本、非配对随机推理对照，不能把任意单次差异当作确定效果。
+
+两组输入都使用实际当前的注册TCP97位置、实际手部旋转及实际夹爪状态，图像使用本次无标记224RGB的精确左右翻转。
+虚拟累计参考不作为模型状态发送；accumulated的虚拟TCP/姿态参考持续跨查询保存，不在每次新推理时重新锚定。
+current仍逐步相对实际位姿生成目标，同时独立维护本组模型输出所定义的累计参考作为诊断量。
+两组新模型动作可能不同，因此各自的理想轨迹也不同；在线结果不再是同一固定指令的因果对照。
+
+保留0.5mm/0.1度限幅和现有增益，全程强制张爪。即使模型请求闭爪，本轮也只记录次数。
+没有中间保持或环境重置；每5步重新观测，检查两路相机帧前进、25个物理子步及推理期间停步。
+全程检查净位移<=60mm、姿态变化<=15度、实际路径<=80mm、距物体>=80mm、物体位移<=2mm及关节限位。
+沿用原1.5mm/0.3度IK修正/实际单周期运动检查；目标积压超出可执行范围时停止并保留记录，不自动扩大补偿量。
+
+报告同时记录：
+
+- 物体距离缩短量、最终横向偏差。
+- 新旧输入指纹、实际状态变化、两路图像变化、完整新模型输出与耗时。
+- 本组理想参考与实际TCP差、实际应用目标误差、关节目标/位置/速度。
+- pre_update_ideal_gap：加入新指令前的理想参考与实际差。
+- pre_step_applied_backlog：本周期应用目标与实际差，包含本次新指令，不能全部解释为历史未完成量。
+
+外层汇总各条件3次结果的均值、样本标准差及范围，并报告所有运行的首个输入是否完全相同。
+初始指纹不同或后续指纹未更新会明确记录，不将“流程completed”解释为改善了抓取。
+各次原始结果保留，只有完整完成的运行进入汇总；中断时保留已完成组并停止后续运行。
+
+保持原OpenPI服务在127.0.0.1:8000运行；本入口采用HTTP /healthz检查，不使用裸TCP空探测。
+在另一个Spark终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_online_reference_ab.py --queries 20 --repeats 3
+```
+
+可用`--source-manifest /绝对路径/run.json`指定固定流A/B来源；`--queries 10 --repeats 1`进行较短运行。
+提示词从来源抓取报告继承，server-host/server-port可指定现有服务；六次运行应保持同一模型服务配置。
+输出到`diagnostics/online_reference_ab/<UTC>/`，各组独立捕获目录内含online_registered_result.json、motion.jsonl、reference_trace.jsonl、关键帧及每次查询的无损ZIP档案。
+同一模型服务的metadata不能独立证明checkpoint身份，仿真停步等待推理也不代表实体机器人实时性已验证。
+
+241项本地测试通过，覆盖实际状态的新观测、跨查询累积、完整未来动作与停步校验、归档、
+交替顺序、来源提示词与SHA链、部分失败保留及不完整数据拒绝。真实d97f5773dd59的配置/增益/配准来源也已离线核对。
+实际新模型动作、在线参考积压及重复间波动待Spark运行；累积方式仍属于实验条件。
+
+完成后推送：
+
+```bash
+git add -- diagnostics/online_reference_ab/
+git commit -m "Add repeated online target reference comparison results"
+git push origin main
+```
