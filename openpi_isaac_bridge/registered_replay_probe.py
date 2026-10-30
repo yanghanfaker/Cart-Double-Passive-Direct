@@ -52,7 +52,24 @@ def target_from_action(hand_position,hand_quat_xyzw,world_rotation,action):
         'gripper_applied':1.0,'scope':'current-pose-relative TCP97 target; world-axis rotation; exact 10mm rigid point shift to IK107'}
 
 
-def run_registered_replay(env,base,arm,request,output,tensor):
+def global_envelope(sample,reference):
+    """Bound all chunks against the same original pose and object position."""
+    import numpy as np
+    from replay_probe import quaternion_distance_deg
+    from kinematic_attribution import normalized_quaternion
+    for data in (sample,reference):
+        for key in ('tcp97_world_m','object_position_world_m'):
+            if np.asarray(data[key]).shape!=(3,) or not np.isfinite(data[key]).all():raise ValueError('invalid global envelope reference')
+        normalized_quaternion(data['hand_quat_world_xyzw'])
+    result={'tcp_displacement_m':float(np.linalg.norm(np.array(sample['tcp97_world_m'])-reference['tcp97_world_m'])),
+        'hand_rotation_deg':quaternion_distance_deg(sample['hand_quat_world_xyzw'],reference['hand_quat_world_xyzw']),
+        'object_displacement_m':float(np.linalg.norm(np.array(sample['object_position_world_m'])-reference['object_position_world_m']))}
+    if result['tcp_displacement_m']>.010 or result['hand_rotation_deg']>2 or result['object_displacement_m']>.002:
+        raise RuntimeError('global replanning envelope exceeded (10mm/2deg; object 2mm)')
+    return result
+
+
+def run_registered_replay(env,base,arm,request,output,tensor,*,settle_steps=SETTLE_STEPS,global_reference=None):
     import numpy as np
     import torch
     import time
@@ -62,11 +79,15 @@ def run_registered_replay(env,base,arm,request,output,tensor):
     from replay_probe import quaternion_distance_deg
     from isaaclab.utils.math import compute_pose_error
     request=validate_replay(request);output=Path(output)
+    if type(settle_steps) is not int or settle_steps not in (0,SETTLE_STEPS):raise ValueError('settle steps must be zero or ten')
     report={'status':'running','policy_queries':0,'source_condition':'flip_x','source_repeat':request['source_repeat'],
         'source_input_sha256':request['source_input_sha256'],'completed_action_periods':0,'completed_settle_periods':0,
         'caps':{'tcp_translation_m':TRANSLATION_CAP,'rotation_deg':.1},'trace':[],
         'scope':'fixed first five recorded actions, not new inference or feedback replanning; last absolute target held for ten periods',
         'model_source_timing':'recorded inference, no server calls during this run'}
+    report['settle_steps_requested']=settle_steps
+    if settle_steps==0:report['scope']='first five recorded actions only; no extra settling before next observation'
+    if global_reference is not None:report['global_reference']=global_reference
     def save():(output/'registered_replay_result.json').write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8')
     save()
     try:
@@ -101,6 +122,7 @@ def run_registered_replay(env,base,arm,request,output,tensor):
             if values['joint_position_targets_rad'] is not None and not np.isfinite(values['joint_position_targets_rad']).all():raise RuntimeError('nonfinite joint targets')
             return values
         initial=sample();initial_tcp=np.array(initial['tcp97_world_m']);initial_q=initial['hand_quat_world_xyzw']
+        if global_reference is not None:report['initial_global_envelope']=global_envelope(initial,global_reference)
         source_state=np.array(request['source_state_float32']);registered_tcp=R@initial_tcp+t
         guard=float(np.linalg.norm(registered_tcp-source_state[:3]))
         registered_q=multiply(request['registration_quat_xyzw'],initial_q)
@@ -114,7 +136,7 @@ def run_registered_replay(env,base,arm,request,output,tensor):
         unit=direction/np.linalg.norm(direction)
         report['initial_object_distance_m']=float(np.linalg.norm(direction));report['translation_command_sum_I_m']=[0.,0.,0.];save()
         target=None
-        for index in range(MODEL_STEPS+SETTLE_STEPS):
+        for index in range(MODEL_STEPS+settle_steps):
             before=sample();phase='recorded-action' if index<MODEL_STEPS else 'fixed-target-settle'
             if index<MODEL_STEPS:
                 target=target_from_action(before['hand_position_world_m'],before['hand_quat_world_xyzw'],R,request['raw_action_chunk'][index])
@@ -138,6 +160,7 @@ def run_registered_replay(env,base,arm,request,output,tensor):
             if index<MODEL_STEPS:report['completed_action_periods']+=1
             else:report['completed_settle_periods']+=1
             after=sample();row['after']=after;row['physics_substeps']=int(base.sim.get_physics_step_count())-physics_before
+            if global_reference is not None:row['global_envelope']=global_envelope(after,global_reference)
             row['tcp97_target_error_m']=float(np.linalg.norm(np.array(after['tcp97_world_m'])-target['tcp97_target_world_m']))
             row['hand_target_rotation_error_deg']=quaternion_distance_deg(after['hand_quat_world_xyzw'],target['hand_target_quat_world_xyzw'])
             row['object_distance_m']=float(np.linalg.norm(np.array(after['object_position_world_m'])-after['tcp97_world_m']))

@@ -2685,3 +2685,67 @@ git add -- diagnostics/online_registered/
 git commit -m "Add live registered observation short motion results"
 git push origin main
 ```
+
+## 下一轮：同一场景内连续三轮重新观测与规划
+
+610766962a8b包含三次独立重置运行，每次两组各查询一次，六段均完成并最终收敛。
+arm-only最终位置误差约0.0037–0.0049mm，arm-and-target-xy约0.0115–0.0187mm。
+后者仍有首步滞后，且方块靠近腕部画面边缘。本轮先只使用目标较居中的arm-only。
+
+`run_replanning_capture.py`读取最近通过的online_registered/run.json，核对arm-only来源、结果与配准SHA，
+使用相同初始化、相机、执行器增益和提示词，启动一个Isaac进程。在同一环境中执行：
+
+```text
+35步初始化张爪保持
+观测1 → 推理1 → 执行前5步
+观测2 → 推理2 → 执行前5步
+观测3 → 推理3 → 执行前5步 → 保持最后绝对目标10步
+```
+
+三轮之间没有环境重置、额外保持或速度清零。共3次查询、15个动作周期和10个最终保持周期，
+动作/保持合计1.25秒仿真时间，初始化和推理墙钟时间另计。
+每轮继续保持夹爪张开，平移/旋转限幅为0.5mm/0.1度，沿用注册世界变换与TCP97到IK107补偿。
+每个动作仍以当前实际位姿生成相对目标，没有额外累加历史未完成增量。
+
+新增模式`three-round-replan`通过明确的online-registered输入启用，原单次推理与冻结回放默认行为不变。
+底层回放仅新增显式0或10步保持选择：前两轮0步保持，最后一轮10步。
+原单段4mm/0.7度及单周期检查继续生效；同时三轮共用最初参考点，逐周期检查总位移<=10mm、
+总姿态变化<=2度、物体相对最初位置变化<=2mm，避免每轮重置运动检查基准。
+
+后两轮从仿真当前缓冲重新读取双相机RGB及实际关节/手部/TCP位姿，重新生成geometry_audit和224左右翻转输入。
+后续动态捕获不再拿已运动的关节角与原始初始化角度比较；初始化检查只在最开始做一次，之后验证当前几何闭环与总运动范围。
+每两个观测之间必须恰好推进25个物理子步（5个50ms控制周期），两路相机帧号都必须增加。
+逐轮记录输入指纹、状态位置变化和各图像是否逐像素变化；图像可能因像素量化而相同，不强制把图像变化作为通过条件。
+`all_followup_inputs_changed`单独记录后两轮输入是否变化，不将新帧号与画面内容变化混为一谈。
+
+每次推理期间仿真停步并保留实际速度，返回后继续推进仿真，查询前后步数必须相同。
+这用于检查同步仿真的反馈链路，不保证实体机器人能够暂停等待模型。
+上一轮出现过3.16秒推理离群值，本轮保留逐轮耗时，不预设其原因或承诺实时性。
+
+保持原OpenPI服务在127.0.0.1:8000运行。在另一个Spark终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_replanning_capture.py
+```
+
+可用`--source-manifest /绝对路径/run.json`指定上一轮在线结果，`--server-host`/`--server-port`指定服务。
+输出`diagnostics/registered_replanning/<UTC>/`，每次捕获目录内有round_01/02/03及总online_registered_result.json。
+每轮保存本轮RGB、原始/水平翻转224输入、几何、输入状态与指纹、完整模型返回、执行请求、逐步运动记录与相机图像。
+总报告区分前两轮动作段结束误差与最后保持后的收敛，不要求未保持的中间轮满足最终收敛阈值。
+错误保留已完成的动作/保持计数和当前轮报告，不再进行下一轮查询。
+
+218项本地测试通过，包括同一环境三轮调度、0/0/10保持、全程共用运动范围、输入更新、相机帧与步数检查、
+第二轮非法未来动作/过期帧/推理期间推进物理时停止，以及外层单进程调度与失败保留。
+上一轮真实arm-only采集已离线复现相同输入指纹；后两轮的实际Isaac动态捕获与模型反馈效果待Spark验证。
+本轮仍不验证接触、闭爪、抓取或抬升。
+
+完成后：
+
+```bash
+git add -- diagnostics/registered_replanning/
+git commit -m "Add three-round registered replanning results"
+git push origin main
+```

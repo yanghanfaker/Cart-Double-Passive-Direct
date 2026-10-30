@@ -17,6 +17,16 @@ def prepare_observation(output,calibration,prompt):
     output=Path(output);geometry=json.loads((output/'geometry_audit.json').read_bytes())
     clean=json.loads((output/'clean_scene_result.json').read_bytes())
     if not clean['geometry_checks_passed'] or clean['calibration_markers_present']:raise ValueError('need valid current clean capture')
+    prepared=prepare_capture_observation(output,calibration,prompt,geometry)
+    prepared[2]['scope']='current capture after warmup, not a previous-run image or state'
+    return prepared
+
+
+def prepare_capture_observation(output,calibration,prompt,geometry):
+    """Prepare a freshly audited capture, including poses after previous motion."""
+    import numpy as np
+    from PIL import Image
+    output=Path(output)
     if not isinstance(prompt,str) or not prompt.strip():raise ValueError('empty prompt')
     state,_,provenance=registered_state(geometry,calibration)
     obs={'observation/state':np.asarray(state,dtype=np.float32),'prompt':prompt};frames={}
@@ -39,7 +49,7 @@ def prepare_observation(output,calibration,prompt):
         'source_arm_positions_rad':[joint_map[f'panda_joint{k}'] for k in range(1,8)]}
     return obs,request,{'state_provenance':provenance,'frames':frames,'input_sha256':request['source_input_sha256'],
         'state_sent_float32':obs['observation/state'].tolist(),'prompt':prompt,
-        'scope':'current capture after warmup, not a previous-run image or state'}
+        'scope':'current audited capture, not a previous-run image or state'}
 
 
 def query_once(client,observation,request,on_response=None):
