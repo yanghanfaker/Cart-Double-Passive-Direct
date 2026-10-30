@@ -1,0 +1,1135 @@
+{
+  "status": "completed",
+  "source_manifest": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/run.json",
+  "source_sha256": "0ea8dcc4054f05f302d184af88caf84c67c5991c2a7288836a2b884011e44b53",
+  "queries_per_run": 120,
+  "repeats": 3,
+  "cases": [
+    {
+      "name": "repeat-01-current",
+      "repeat": 1,
+      "reference_mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-current/online_settings.json"
+      ],
+      "result": "repeat-01-current/capture/20261030T102743433308Z/online_registered_result.json",
+      "result_sha256": "768647f340de443dd03f2ec2e6f5bc333d423388a784e57cd468daee93d037f7",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 77,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 479,
+      "queries_used": 96,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 171,
+          "query": 35,
+          "prefix": 1,
+          "height_m": 0.19989130398678887,
+          "xy_offset_m": 0.0112711072582242,
+          "object_distance_m": 0.20020881915731192,
+          "applied_backlog_m": 0.0005000000000000344,
+          "ideal_error_m": 0.006185637880006595
+        },
+        "height_150mm": {
+          "action_control": 271,
+          "query": 55,
+          "prefix": 1,
+          "height_m": 0.14982031472068713,
+          "xy_offset_m": 0.010305563352406406,
+          "object_distance_m": 0.1501743364860195,
+          "applied_backlog_m": 0.0005000000000000034,
+          "ideal_error_m": 0.009105909072083637
+        },
+        "height_100mm": {
+          "action_control": 373,
+          "query": 75,
+          "prefix": 3,
+          "height_m": 0.09977414045604882,
+          "xy_offset_m": 0.010048546174347852,
+          "object_distance_m": 0.1002788730688641,
+          "applied_backlog_m": 0.0005000000000000065,
+          "ideal_error_m": 0.012074966822540476
+        },
+        "height_80mm": {
+          "action_control": 415,
+          "query": 83,
+          "prefix": 5,
+          "height_m": 0.07999741159522122,
+          "xy_offset_m": 0.018690222387176252,
+          "object_distance_m": 0.08215175150182338,
+          "applied_backlog_m": 0.0005000000000000093,
+          "ideal_error_m": 0.01330185238483353
+        },
+        "height_70mm": {
+          "action_control": 437,
+          "query": 88,
+          "prefix": 2,
+          "height_m": 0.06972153188775462,
+          "xy_offset_m": 0.023367432617148267,
+          "object_distance_m": 0.07353318241373856,
+          "applied_backlog_m": 0.0005000000000000163,
+          "ideal_error_m": 0.01387757693311301
+        },
+        "height_60mm": {
+          "action_control": 458,
+          "query": 92,
+          "prefix": 3,
+          "height_m": 0.05989476210853481,
+          "xy_offset_m": 0.027950272734852975,
+          "object_distance_m": 0.06609538769075073,
+          "applied_backlog_m": 0.0005000000000000061,
+          "ideal_error_m": 0.014480094419647127
+        }
+      },
+      "first_close_request": {
+        "action_control": 386,
+        "query": 78,
+        "prefix": 1,
+        "raw_gripper": 0.9948593237776755,
+        "object_distance_m": 0.09471923112521814,
+        "height_m": 0.0939407353611306,
+        "xy_offset_m": 0.01211903398635889,
+        "tcp_world_m": [
+          0.4895925350144984,
+          -0.0062091342595338005,
+          0.11494035882368839
+        ],
+        "object_pos_world_m": [
+          0.4999989867210388,
+          1.8839856466001947e-06,
+          0.020999623462557793
+        ],
+        "phase": "before-model-action",
+        "gripper_applied": 1.0,
+        "scope": "requested by model; forced open"
+      },
+      "distance_reduction_m": 0.1864892993836759,
+      "final_xy_offset_m": 0.030580869241661333,
+      "final_ideal_position_error_m": 0.014956487152699356,
+      "max_applied_backlog_m": 0.0005000000000000411,
+      "max_pre_update_ideal_gap_m": 0.014996122988442287,
+      "max_applied_target_error_m": 0.000505803897375186
+    },
+    {
+      "name": "repeat-01-accumulated",
+      "repeat": 1,
+      "reference_mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-accumulated/online_settings.json"
+      ],
+      "result": "repeat-01-accumulated/capture/20261030T102910140747Z/online_registered_result.json",
+      "result_sha256": "ad885a27b59564fdd4a7c1b890ad9995d74f72ffe844499ef41ede62692d4bca",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 82,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 485,
+      "queries_used": 97,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 171,
+          "query": 35,
+          "prefix": 1,
+          "height_m": 0.19988677471075592,
+          "xy_offset_m": 0.012104594924216358,
+          "object_distance_m": 0.20025294984730652,
+          "applied_backlog_m": 0.0004959590373757536,
+          "ideal_error_m": 4.145511328595414e-05
+        },
+        "height_150mm": {
+          "action_control": 273,
+          "query": 55,
+          "prefix": 3,
+          "height_m": 0.14967503441359511,
+          "xy_offset_m": 0.010354507145750648,
+          "object_distance_m": 0.1500327689038041,
+          "applied_backlog_m": 0.00048281310913087406,
+          "ideal_error_m": 6.786337528226078e-05
+        },
+        "height_100mm": {
+          "action_control": 379,
+          "query": 76,
+          "prefix": 4,
+          "height_m": 0.09968915697648473,
+          "xy_offset_m": 0.009068240557559214,
+          "object_distance_m": 0.10010075427034491,
+          "applied_backlog_m": 0.0004730302168834404,
+          "ideal_error_m": 0.00015766838611460757
+        },
+        "height_80mm": {
+          "action_control": 422,
+          "query": 85,
+          "prefix": 2,
+          "height_m": 0.0799535701647778,
+          "xy_offset_m": 0.016459794526970644,
+          "object_distance_m": 0.08163025308036316,
+          "applied_backlog_m": 0.000556485745689199,
+          "ideal_error_m": 0.00020081774670508166
+        },
+        "height_70mm": {
+          "action_control": 446,
+          "query": 90,
+          "prefix": 1,
+          "height_m": 0.0696238284227092,
+          "xy_offset_m": 0.021764190720888584,
+          "object_distance_m": 0.07294626434554453,
+          "applied_backlog_m": 0.0004908336056473613,
+          "ideal_error_m": 0.00024597766528586213
+        },
+        "height_60mm": {
+          "action_control": 467,
+          "query": 94,
+          "prefix": 2,
+          "height_m": 0.0596325020794351,
+          "xy_offset_m": 0.024897799426852812,
+          "object_distance_m": 0.06462148033396964,
+          "applied_backlog_m": 0.0004761958217921978,
+          "ideal_error_m": 9.614136376806382e-05
+        }
+      },
+      "first_close_request": {
+        "action_control": 386,
+        "query": 78,
+        "prefix": 1,
+        "raw_gripper": 0.9989690784403085,
+        "object_distance_m": 0.09744092010417461,
+        "height_m": 0.09692959343682556,
+        "xy_offset_m": 0.009969294203695857,
+        "tcp_world_m": [
+          0.491875249158938,
+          -0.005776672489975654,
+          0.11792921689938335
+        ],
+        "object_pos_world_m": [
+          0.4999989867210388,
+          1.8839856466001947e-06,
+          0.020999623462557793
+        ],
+        "phase": "before-model-action",
+        "gripper_applied": 1.0,
+        "scope": "requested by model; forced open"
+      },
+      "distance_reduction_m": 0.1864626042257753,
+      "final_xy_offset_m": 0.028261540470233215,
+      "final_ideal_position_error_m": 3.916760484852315e-06,
+      "max_applied_backlog_m": 0.0008994661639771329,
+      "max_pre_update_ideal_gap_m": 0.0006493552402375119,
+      "max_applied_target_error_m": 0.0006493552402375119
+    },
+    {
+      "name": "repeat-02-accumulated",
+      "repeat": 2,
+      "reference_mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-02-accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-02-accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-02-accumulated/online_settings.json"
+      ],
+      "result": "repeat-02-accumulated/capture/20261030T103037898094Z/online_registered_result.json",
+      "result_sha256": "aa07e8a026635754a50d78d003ff39dcda70c54d285305bad6a31ba5723d2c9c",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 65,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 489,
+      "queries_used": 98,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 177,
+          "query": 36,
+          "prefix": 2,
+          "height_m": 0.19970461421048974,
+          "xy_offset_m": 0.016022942186127348,
+          "object_distance_m": 0.20034636910426035,
+          "applied_backlog_m": 0.0005112352137346535,
+          "ideal_error_m": 5.948567368016254e-05
+        },
+        "height_150mm": {
+          "action_control": 278,
+          "query": 56,
+          "prefix": 3,
+          "height_m": 0.14999876333721548,
+          "xy_offset_m": 0.01215156267598179,
+          "object_distance_m": 0.15049016405786225,
+          "applied_backlog_m": 0.0004872873130433204,
+          "ideal_error_m": 6.878629476735559e-05
+        },
+        "height_100mm": {
+          "action_control": 385,
+          "query": 77,
+          "prefix": 5,
+          "height_m": 0.09997122597131697,
+          "xy_offset_m": 0.008429885664395526,
+          "object_distance_m": 0.10032601354844566,
+          "applied_backlog_m": 0.0004716781564296592,
+          "ideal_error_m": 3.725038166754092e-05
+        },
+        "height_80mm": {
+          "action_control": 429,
+          "query": 86,
+          "prefix": 4,
+          "height_m": 0.07993855748634135,
+          "xy_offset_m": 0.016596188002074734,
+          "object_distance_m": 0.08164316523259807,
+          "applied_backlog_m": 0.00048024861960692074,
+          "ideal_error_m": 0.00024302160254625248
+        },
+        "height_70mm": {
+          "action_control": 451,
+          "query": 91,
+          "prefix": 1,
+          "height_m": 0.06988833858809032,
+          "xy_offset_m": 0.02045843623465367,
+          "object_distance_m": 0.07282120215823785,
+          "applied_backlog_m": 0.00048632750430963517,
+          "ideal_error_m": 0.00030780200680624765
+        },
+        "height_60mm": {
+          "action_control": 473,
+          "query": 95,
+          "prefix": 3,
+          "height_m": 0.05975365280883818,
+          "xy_offset_m": 0.024684676784213825,
+          "object_distance_m": 0.06465162250044681,
+          "applied_backlog_m": 0.000539353626699729,
+          "ideal_error_m": 0.00018873850411661546
+        }
+      },
+      "first_close_request": {
+        "action_control": 401,
+        "query": 81,
+        "prefix": 1,
+        "raw_gripper": 0.9995398578347563,
+        "object_distance_m": 0.0936295780814933,
+        "height_m": 0.09300102319956541,
+        "xy_offset_m": 0.010830862179547299,
+        "tcp_world_m": [
+          0.4908131965502102,
+          -0.005736469196269269,
+          0.11400062803567171
+        ],
+        "object_pos_world_m": [
+          0.4999989867210388,
+          1.895944592433807e-06,
+          0.0209996048361063
+        ],
+        "phase": "before-model-action",
+        "gripper_applied": 1.0,
+        "scope": "requested by model; forced open"
+      },
+      "distance_reduction_m": 0.18670723388868787,
+      "final_xy_offset_m": 0.027164209593799702,
+      "final_ideal_position_error_m": 1.1485124988614493e-05,
+      "max_applied_backlog_m": 0.0008021066780968999,
+      "max_pre_update_ideal_gap_m": 0.0006105209448016132,
+      "max_applied_target_error_m": 0.0006105209448016132
+    },
+    {
+      "name": "repeat-02-current",
+      "repeat": 2,
+      "reference_mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-02-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-02-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-02-current/online_settings.json"
+      ],
+      "result": "repeat-02-current/capture/20261030T103206213446Z/online_registered_result.json",
+      "result_sha256": "04194b6c71f2252b05a91b8c52d34c3082f843dacf71c64719dd7d661bcc15db",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 65,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 475,
+      "queries_used": 95,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 169,
+          "query": 34,
+          "prefix": 4,
+          "height_m": 0.19983676922692628,
+          "xy_offset_m": 0.011017052549457926,
+          "object_distance_m": 0.2001402252969985,
+          "applied_backlog_m": 0.0005000000000000103,
+          "ideal_error_m": 0.006132479200132414
+        },
+        "height_150mm": {
+          "action_control": 269,
+          "query": 54,
+          "prefix": 4,
+          "height_m": 0.14963090887180308,
+          "xy_offset_m": 0.009535226335957565,
+          "object_distance_m": 0.14993441709987662,
+          "applied_backlog_m": 0.0005000000000000122,
+          "ideal_error_m": 0.009001985777398974
+        },
+        "height_100mm": {
+          "action_control": 370,
+          "query": 74,
+          "prefix": 5,
+          "height_m": 0.09985491579354105,
+          "xy_offset_m": 0.010549801922007749,
+          "object_distance_m": 0.1004106693968762,
+          "applied_backlog_m": 0.0005000000000000027,
+          "ideal_error_m": 0.012042695963673841
+        },
+        "height_80mm": {
+          "action_control": 413,
+          "query": 83,
+          "prefix": 3,
+          "height_m": 0.0796743341207447,
+          "xy_offset_m": 0.019814497844556203,
+          "object_distance_m": 0.08210124141823914,
+          "applied_backlog_m": 0.0004999999999999886,
+          "ideal_error_m": 0.0133509892376169
+        },
+        "height_70mm": {
+          "action_control": 438,
+          "query": 88,
+          "prefix": 3,
+          "height_m": 0.06965734698573597,
+          "xy_offset_m": 0.024863948506873623,
+          "object_distance_m": 0.07396189508418294,
+          "applied_backlog_m": 0.0005000000000000101,
+          "ideal_error_m": 0.013854842741872481
+        },
+        "height_60mm": {
+          "action_control": 458,
+          "query": 92,
+          "prefix": 3,
+          "height_m": 0.05991527836765326,
+          "xy_offset_m": 0.02833190538852902,
+          "object_distance_m": 0.06627622080971378,
+          "applied_backlog_m": 0.0004999999999999991,
+          "ideal_error_m": 0.01450886004996214
+        }
+      },
+      "first_close_request": {
+        "action_control": 346,
+        "query": 70,
+        "prefix": 1,
+        "raw_gripper": 1.0004012114959955,
+        "object_distance_m": 0.1123143627306701,
+        "height_m": 0.11209690470499109,
+        "xy_offset_m": 0.006985701908661857,
+        "tcp_world_m": [
+          0.49624454939839907,
+          -0.0058891656286067864,
+          0.1330965020905168
+        ],
+        "object_pos_world_m": [
+          0.49999895691871643,
+          1.8831174202205148e-06,
+          0.020999597385525703
+        ],
+        "phase": "before-model-action",
+        "gripper_applied": 1.0,
+        "scope": "requested by model; forced open"
+      },
+      "distance_reduction_m": 0.1865548681758843,
+      "final_xy_offset_m": 0.030475986779500995,
+      "final_ideal_position_error_m": 0.015068021176161964,
+      "max_applied_backlog_m": 0.0005000000000000427,
+      "max_pre_update_ideal_gap_m": 0.01509944959504743,
+      "max_applied_target_error_m": 0.00039001389193670655
+    },
+    {
+      "name": "repeat-03-current",
+      "repeat": 3,
+      "reference_mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-03-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-03-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-03-current/online_settings.json"
+      ],
+      "result": "repeat-03-current/capture/20261030T103331893763Z/online_registered_result.json",
+      "result_sha256": "4e6a07fc886ed09d567bee340d907ab143f47c778ce743b42b720d57340591f6",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 72,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 478,
+      "queries_used": 96,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 175,
+          "query": 35,
+          "prefix": 5,
+          "height_m": 0.19961568183794753,
+          "xy_offset_m": 0.011043080166510436,
+          "object_distance_m": 0.19992090949971358,
+          "applied_backlog_m": 0.000499999999999998,
+          "ideal_error_m": 0.00627756507184198
+        },
+        "height_150mm": {
+          "action_control": 274,
+          "query": 55,
+          "prefix": 4,
+          "height_m": 0.14999209547139944,
+          "xy_offset_m": 0.009459768303533247,
+          "object_distance_m": 0.150290105862821,
+          "applied_backlog_m": 0.0004999999999999972,
+          "ideal_error_m": 0.009077913024184077
+        },
+        "height_100mm": {
+          "action_control": 376,
+          "query": 76,
+          "prefix": 1,
+          "height_m": 0.09970254989478824,
+          "xy_offset_m": 0.009622553326774995,
+          "object_distance_m": 0.10016582245481424,
+          "applied_backlog_m": 0.0004999999999999937,
+          "ideal_error_m": 0.012055635778735509
+        },
+        "height_80mm": {
+          "action_control": 418,
+          "query": 84,
+          "prefix": 3,
+          "height_m": 0.07976647247442845,
+          "xy_offset_m": 0.018112317364470984,
+          "object_distance_m": 0.08179698143162172,
+          "applied_backlog_m": 0.0004999999999999956,
+          "ideal_error_m": 0.013333454530669406
+        },
+        "height_70mm": {
+          "action_control": 439,
+          "query": 88,
+          "prefix": 4,
+          "height_m": 0.0698067316407992,
+          "xy_offset_m": 0.02254117170820585,
+          "object_distance_m": 0.07335587368677014,
+          "applied_backlog_m": 0.0004999999999999887,
+          "ideal_error_m": 0.013971477443984262
+        },
+        "height_60mm": {
+          "action_control": 460,
+          "query": 92,
+          "prefix": 5,
+          "height_m": 0.05981301067902034,
+          "xy_offset_m": 0.026857797503906808,
+          "object_distance_m": 0.06556628350951016,
+          "applied_backlog_m": 0.0004999999999999948,
+          "ideal_error_m": 0.01463607971345011
+        }
+      },
+      "first_close_request": {
+        "action_control": 396,
+        "query": 80,
+        "prefix": 1,
+        "raw_gripper": 1.0018142748705148,
+        "object_distance_m": 0.0914634401040256,
+        "height_m": 0.09050188260845293,
+        "xy_offset_m": 0.013227627148830719,
+        "tcp_world_m": [
+          0.4880401894996529,
+          -0.0056511881989130194,
+          0.11150147999397864
+        ],
+        "object_pos_world_m": [
+          0.4999989867210388,
+          1.889635882434959e-06,
+          0.020999597385525703
+        ],
+        "phase": "before-model-action",
+        "gripper_applied": 1.0,
+        "scope": "requested by model; forced open"
+      },
+      "distance_reduction_m": 0.18669288355637959,
+      "final_xy_offset_m": 0.029980538093650682,
+      "final_ideal_position_error_m": 0.015078028557062346,
+      "max_applied_backlog_m": 0.0005000000000000502,
+      "max_pre_update_ideal_gap_m": 0.015112974200101305,
+      "max_applied_target_error_m": 0.00035067942212593995
+    },
+    {
+      "name": "repeat-03-accumulated",
+      "repeat": 3,
+      "reference_mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-03-accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-03-accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-03-accumulated/online_settings.json"
+      ],
+      "result": "repeat-03-accumulated/capture/20261030T103458071632Z/online_registered_result.json",
+      "result_sha256": "2ca6ff283a4431c993f8eee049dc3badaf85501f3f10c70ea3b8953471c64e29",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 48,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 477,
+      "queries_used": 96,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 170,
+          "query": 34,
+          "prefix": 5,
+          "height_m": 0.19962621317720936,
+          "xy_offset_m": 0.012962888716682542,
+          "object_distance_m": 0.200046648238239,
+          "applied_backlog_m": 0.0004921509274635681,
+          "ideal_error_m": 8.026450447182526e-05
+        },
+        "height_150mm": {
+          "action_control": 272,
+          "query": 55,
+          "prefix": 2,
+          "height_m": 0.14980283283937632,
+          "xy_offset_m": 0.011075422081272145,
+          "object_distance_m": 0.1502116962855438,
+          "applied_backlog_m": 0.00048616764758896387,
+          "ideal_error_m": 5.684108350503105e-05
+        },
+        "height_100mm": {
+          "action_control": 379,
+          "query": 76,
+          "prefix": 4,
+          "height_m": 0.09969899010987313,
+          "xy_offset_m": 0.009742792905971161,
+          "object_distance_m": 0.1001739020031526,
+          "applied_backlog_m": 0.00047274936009993496,
+          "ideal_error_m": 5.943475965421335e-05
+        },
+        "height_80mm": {
+          "action_control": 423,
+          "query": 85,
+          "prefix": 3,
+          "height_m": 0.07958598577736006,
+          "xy_offset_m": 0.01769396930605526,
+          "object_distance_m": 0.08152917074248814,
+          "applied_backlog_m": 0.0004959583007738124,
+          "ideal_error_m": 4.5290710989234455e-05
+        },
+        "height_70mm": {
+          "action_control": 444,
+          "query": 89,
+          "prefix": 4,
+          "height_m": 0.06954305370554786,
+          "xy_offset_m": 0.020506260131774708,
+          "object_distance_m": 0.0725034000808564,
+          "applied_backlog_m": 0.0004680846502988285,
+          "ideal_error_m": 6.131919978192206e-05
+        },
+        "height_60mm": {
+          "action_control": 466,
+          "query": 94,
+          "prefix": 1,
+          "height_m": 0.059709374000044696,
+          "xy_offset_m": 0.023769059049294453,
+          "object_distance_m": 0.06426645712629614,
+          "applied_backlog_m": 0.00047837859445571534,
+          "ideal_error_m": 0.0004073814763108371
+        }
+      },
+      "first_close_request": {
+        "action_control": 391,
+        "query": 79,
+        "prefix": 1,
+        "raw_gripper": 0.9960260307086111,
+        "object_distance_m": 0.09543379606754933,
+        "height_m": 0.09470572466673921,
+        "xy_offset_m": 0.011765846642310849,
+        "tcp_world_m": [
+          0.4902904414149719,
+          -0.006644863238045948,
+          0.11570532577755521
+        ],
+        "object_pos_world_m": [
+          0.4999989867210388,
+          1.8874907254939899e-06,
+          0.020999601110816002
+        ],
+        "phase": "before-model-action",
+        "gripper_applied": 1.0,
+        "scope": "requested by model; forced open"
+      },
+      "distance_reduction_m": 0.18640096171202583,
+      "final_xy_offset_m": 0.025289511639037286,
+      "final_ideal_position_error_m": 7.17517233023223e-06,
+      "max_applied_backlog_m": 0.0006830443012247605,
+      "max_pre_update_ideal_gap_m": 0.0004073814763108371,
+      "max_applied_target_error_m": 0.0004073814763108371
+    }
+  ],
+  "profile": "near-descent",
+  "scope": "independent live observations and model outputs for each reference condition; open gripper",
+  "sampling": "unpaired stochastic inference, no shared model-noise seed; condition order alternates per repeat",
+  "summary": {
+    "current": {
+      "completed_runs": 3,
+      "distance_reduction_m": {
+        "mean": 0.1865790170386466,
+        "sample_std": 0.00010391825885471642,
+        "min": 0.1864892993836759,
+        "max": 0.18669288355637959
+      },
+      "final_xy_offset_m": {
+        "mean": 0.030345798038271005,
+        "sample_std": 0.0003206418610774862,
+        "min": 0.029980538093650682,
+        "max": 0.030580869241661333
+      },
+      "final_ideal_position_error_m": {
+        "mean": 0.015034178961974556,
+        "sample_std": 6.746888052622355e-05,
+        "min": 0.014956487152699356,
+        "max": 0.015078028557062346
+      },
+      "max_applied_backlog_m": {
+        "mean": 0.0005000000000000447,
+        "sample_std": 4.8571773306111966e-18,
+        "min": 0.0005000000000000411,
+        "max": 0.0005000000000000502
+      },
+      "max_pre_update_ideal_gap_m": {
+        "mean": 0.01506951559453034,
+        "sample_std": 6.39185787292161e-05,
+        "min": 0.014996122988442287,
+        "max": 0.015112974200101305
+      },
+      "max_applied_target_error_m": {
+        "mean": 0.00041549907047927747,
+        "sample_std": 8.064131353932997e-05,
+        "min": 0.00035067942212593995,
+        "max": 0.000505803897375186
+      },
+      "boundary_reached_runs": 3,
+      "action_controls_to_boundary": {
+        "mean": 477.3333333333333,
+        "sample_std": 2.0816659994661326,
+        "min": 475,
+        "max": 479
+      },
+      "stop_reasons": {
+        "near_boundary_reached": 3
+      },
+      "height_200mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.011110413324730855,
+          "sample_std": 0.00013977218753575714,
+          "min": 0.011017052549457926,
+          "max": 0.0112711072582242
+        },
+        "object_distance_m": {
+          "mean": 0.20008998465134134,
+          "sample_std": 0.00015038645082464765,
+          "min": 0.19992090949971358,
+          "max": 0.20020881915731192
+        },
+        "action_control": {
+          "mean": 171.66666666666666,
+          "sample_std": 3.0550504633038935,
+          "min": 169,
+          "max": 175
+        }
+      },
+      "height_150mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.00976685266396574,
+          "sample_std": 0.00046806023441914,
+          "min": 0.009459768303533247,
+          "max": 0.010305563352406406
+        },
+        "object_distance_m": {
+          "mean": 0.15013295314957237,
+          "sample_std": 0.00018141956736483967,
+          "min": 0.14993441709987662,
+          "max": 0.150290105862821
+        },
+        "action_control": {
+          "mean": 271.3333333333333,
+          "sample_std": 2.516611478423583,
+          "min": 269,
+          "max": 274
+        }
+      },
+      "height_100mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.0100736338077102,
+          "sample_std": 0.00046413309659091494,
+          "min": 0.009622553326774995,
+          "max": 0.010549801922007749
+        },
+        "object_distance_m": {
+          "mean": 0.10028512164018485,
+          "sample_std": 0.00012254301180375998,
+          "min": 0.10016582245481424,
+          "max": 0.1004106693968762
+        },
+        "action_control": {
+          "mean": 373,
+          "sample_std": 3.0,
+          "min": 370,
+          "max": 376
+        }
+      },
+      "height_80mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.018872345865401145,
+          "sample_std": 0.0008655814910719481,
+          "min": 0.018112317364470984,
+          "max": 0.019814497844556203
+        },
+        "object_distance_m": {
+          "mean": 0.08201665811722808,
+          "sample_std": 0.00019191456897580794,
+          "min": 0.08179698143162172,
+          "max": 0.08215175150182338
+        },
+        "action_control": {
+          "mean": 415.3333333333333,
+          "sample_std": 2.516611478423583,
+          "min": 413,
+          "max": 418
+        }
+      },
+      "height_70mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.023590850944075915,
+          "sample_std": 0.0011773953565870252,
+          "min": 0.02254117170820585,
+          "max": 0.024863948506873623
+        },
+        "object_distance_m": {
+          "mean": 0.07361698372823054,
+          "sample_std": 0.00031158061358736364,
+          "min": 0.07335587368677014,
+          "max": 0.07396189508418294
+        },
+        "action_control": {
+          "mean": 438,
+          "sample_std": 1.0,
+          "min": 437,
+          "max": 439
+        }
+      },
+      "height_60mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.02771332520909627,
+          "sample_std": 0.0007650860156531498,
+          "min": 0.026857797503906808,
+          "max": 0.02833190538852902
+        },
+        "object_distance_m": {
+          "mean": 0.06597929733665822,
+          "sample_std": 0.000368931525205008,
+          "min": 0.06556628350951016,
+          "max": 0.06627622080971378
+        },
+        "action_control": {
+          "mean": 458.6666666666667,
+          "sample_std": 1.1547005383792515,
+          "min": 458,
+          "max": 460
+        }
+      },
+      "runs_with_close_request": 3,
+      "requested_close_actions": 214,
+      "first_close_request": {
+        "observed_runs": 3,
+        "height_m": {
+          "mean": 0.09884650755819153,
+          "sample_std": 0.011603283822891903,
+          "min": 0.09050188260845293,
+          "max": 0.11209690470499109
+        },
+        "xy_offset_m": {
+          "mean": 0.010777454347950488,
+          "sample_std": 0.0033302078945027275,
+          "min": 0.006985701908661857,
+          "max": 0.013227627148830719
+        },
+        "object_distance_m": {
+          "mean": 0.09949901131997128,
+          "sample_std": 0.011217172889288753,
+          "min": 0.0914634401040256,
+          "max": 0.1123143627306701
+        },
+        "action_control": {
+          "mean": 376,
+          "sample_std": 26.457513110645905,
+          "min": 346,
+          "max": 396
+        }
+      }
+    },
+    "accumulated": {
+      "completed_runs": 3,
+      "distance_reduction_m": {
+        "mean": 0.186523599942163,
+        "sample_std": 0.0001619908010121672,
+        "min": 0.18640096171202583,
+        "max": 0.18670723388868787
+      },
+      "final_xy_offset_m": {
+        "mean": 0.026905087234356733,
+        "sample_std": 0.0015028629815247393,
+        "min": 0.025289511639037286,
+        "max": 0.028261540470233215
+      },
+      "final_ideal_position_error_m": {
+        "mean": 7.5256859345663455e-06,
+        "sample_std": 3.796337729387271e-06,
+        "min": 3.916760484852315e-06,
+        "max": 1.1485124988614493e-05
+      },
+      "max_applied_backlog_m": {
+        "mean": 0.0007948723810995978,
+        "sample_std": 0.00010839214436058345,
+        "min": 0.0006830443012247605,
+        "max": 0.0008994661639771329
+      },
+      "max_pre_update_ideal_gap_m": {
+        "mean": 0.0005557525537833207,
+        "sample_std": 0.00012995194534234556,
+        "min": 0.0004073814763108371,
+        "max": 0.0006493552402375119
+      },
+      "max_applied_target_error_m": {
+        "mean": 0.0005557525537833207,
+        "sample_std": 0.00012995194534234556,
+        "min": 0.0004073814763108371,
+        "max": 0.0006493552402375119
+      },
+      "boundary_reached_runs": 3,
+      "action_controls_to_boundary": {
+        "mean": 483.6666666666667,
+        "sample_std": 6.110100926607787,
+        "min": 477,
+        "max": 489
+      },
+      "stop_reasons": {
+        "near_boundary_reached": 3
+      },
+      "height_200mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.01369680860900875,
+          "sample_std": 0.0020596941817889913,
+          "min": 0.012104594924216358,
+          "max": 0.016022942186127348
+        },
+        "object_distance_m": {
+          "mean": 0.20021532239660195,
+          "sample_std": 0.00015336237533058352,
+          "min": 0.200046648238239,
+          "max": 0.20034636910426035
+        },
+        "action_control": {
+          "mean": 172.66666666666666,
+          "sample_std": 3.7859388972001824,
+          "min": 170,
+          "max": 177
+        }
+      },
+      "height_150mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.01119383063433486,
+          "sample_std": 0.000904360317441222,
+          "min": 0.010354507145750648,
+          "max": 0.01215156267598179
+        },
+        "object_distance_m": {
+          "mean": 0.15024487641573672,
+          "sample_std": 0.0002304957104127651,
+          "min": 0.1500327689038041,
+          "max": 0.15049016405786225
+        },
+        "action_control": {
+          "mean": 274.3333333333333,
+          "sample_std": 3.2145502536643185,
+          "min": 272,
+          "max": 278
+        }
+      },
+      "height_100mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.009080306375975301,
+          "sample_std": 0.0006565367805583881,
+          "min": 0.008429885664395526,
+          "max": 0.009742792905971161
+        },
+        "object_distance_m": {
+          "mean": 0.10020022327398105,
+          "sample_std": 0.00011491319578767114,
+          "min": 0.10010075427034491,
+          "max": 0.10032601354844566
+        },
+        "action_control": {
+          "mean": 381,
+          "sample_std": 3.4641016151377544,
+          "min": 379,
+          "max": 385
+        }
+      },
+      "height_80mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.016916650611700213,
+          "sample_std": 0.0006766232773546297,
+          "min": 0.016459794526970644,
+          "max": 0.01769396930605526
+        },
+        "object_distance_m": {
+          "mean": 0.08160086301848313,
+          "sample_std": 6.242209341923836e-05,
+          "min": 0.08152917074248814,
+          "max": 0.08164316523259807
+        },
+        "action_control": {
+          "mean": 424.6666666666667,
+          "sample_std": 3.7859388972001824,
+          "min": 422,
+          "max": 429
+        }
+      },
+      "height_70mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.020909629029105654,
+          "sample_std": 0.0007404583344666586,
+          "min": 0.02045843623465367,
+          "max": 0.021764190720888584
+        },
+        "object_distance_m": {
+          "mean": 0.07275695552821293,
+          "sample_std": 0.00022831537691668958,
+          "min": 0.0725034000808564,
+          "max": 0.07294626434554453
+        },
+        "action_control": {
+          "mean": 447,
+          "sample_std": 3.605551275463989,
+          "min": 444,
+          "max": 451
+        }
+      },
+      "height_60mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.024450511753453696,
+          "sample_std": 0.0005996988045726086,
+          "min": 0.023769059049294453,
+          "max": 0.024897799426852812
+        },
+        "object_distance_m": {
+          "mean": 0.06451318665357086,
+          "sample_std": 0.00021420488386563784,
+          "min": 0.06426645712629614,
+          "max": 0.06465162250044681
+        },
+        "action_control": {
+          "mean": 468.6666666666667,
+          "sample_std": 3.7859388972001824,
+          "min": 466,
+          "max": 473
+        }
+      },
+      "runs_with_close_request": 3,
+      "requested_close_actions": 195,
+      "first_close_request": {
+        "observed_runs": 3,
+        "height_m": {
+          "mean": 0.09487878043437672,
+          "sample_std": 0.0019699942262113414,
+          "min": 0.09300102319956541,
+          "max": 0.09692959343682556
+        },
+        "xy_offset_m": {
+          "mean": 0.010855334341851335,
+          "sample_std": 0.0008985261995174344,
+          "min": 0.009969294203695857,
+          "max": 0.011765846642310849
+        },
+        "object_distance_m": {
+          "mean": 0.09550143141773908,
+          "sample_std": 0.0019065709818704847,
+          "min": 0.0936295780814933,
+          "max": 0.09744092010417461
+        },
+        "action_control": {
+          "mean": 392.6666666666667,
+          "sample_std": 7.637626158259733,
+          "min": 386,
+          "max": 401
+        }
+      }
+    }
+  },
+  "world_registration_sha256": "352bd9ade078c5887481e09a38d9144b9ddfd4408e0cc4f2fe8a20f9fb79d435",
+  "server_health": {
+    "status": "healthy",
+    "path": "/healthz",
+    "http_status": 200,
+    "body": "OK",
+    "elapsed_s": 0.0012373514473438263,
+    "scope": "HTTP health route only; not checkpoint identity or inference validation"
+  },
+  "initial_inputs_identical": true,
+  "all_followup_inputs_changed": true
+}

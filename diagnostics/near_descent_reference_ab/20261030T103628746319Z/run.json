@@ -1,0 +1,97 @@
+{
+  "status": "running",
+  "source_manifest": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/run.json",
+  "source_sha256": "0ea8dcc4054f05f302d184af88caf84c67c5991c2a7288836a2b884011e44b53",
+  "queries_per_run": 120,
+  "repeats": 3,
+  "cases": [
+    {
+      "name": "repeat-01-current",
+      "repeat": 1,
+      "reference_mode": "current",
+      "status": "running",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T103628746319Z/repeat-01-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T103628746319Z/repeat-01-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T103628746319Z/repeat-01-current/online_settings.json"
+      ]
+    }
+  ],
+  "profile": "near-descent",
+  "scope": "independent live observations and model outputs for each reference condition; open gripper",
+  "sampling": "unpaired stochastic inference, no shared model-noise seed; condition order alternates per repeat",
+  "summary": {
+    "current": {
+      "completed_runs": 0,
+      "boundary_reached_runs": 0,
+      "stop_reasons": {},
+      "height_200mm": {
+        "reached_runs": 0
+      },
+      "height_150mm": {
+        "reached_runs": 0
+      },
+      "height_100mm": {
+        "reached_runs": 0
+      },
+      "height_80mm": {
+        "reached_runs": 0
+      },
+      "height_70mm": {
+        "reached_runs": 0
+      },
+      "height_60mm": {
+        "reached_runs": 0
+      },
+      "runs_with_close_request": 0,
+      "requested_close_actions": 0,
+      "first_close_request": {
+        "observed_runs": 0
+      }
+    },
+    "accumulated": {
+      "completed_runs": 0,
+      "boundary_reached_runs": 0,
+      "stop_reasons": {},
+      "height_200mm": {
+        "reached_runs": 0
+      },
+      "height_150mm": {
+        "reached_runs": 0
+      },
+      "height_100mm": {
+        "reached_runs": 0
+      },
+      "height_80mm": {
+        "reached_runs": 0
+      },
+      "height_70mm": {
+        "reached_runs": 0
+      },
+      "height_60mm": {
+        "reached_runs": 0
+      },
+      "runs_with_close_request": 0,
+      "requested_close_actions": 0,
+      "first_close_request": {
+        "observed_runs": 0
+      }
+    }
+  },
+  "world_registration_sha256": "352bd9ade078c5887481e09a38d9144b9ddfd4408e0cc4f2fe8a20f9fb79d435",
+  "server_health": {
+    "status": "healthy",
+    "path": "/healthz",
+    "http_status": 200,
+    "body": "OK",
+    "elapsed_s": 0.0012096799910068512,
+    "scope": "HTTP health route only; not checkpoint identity or inference validation"
+  }
+}

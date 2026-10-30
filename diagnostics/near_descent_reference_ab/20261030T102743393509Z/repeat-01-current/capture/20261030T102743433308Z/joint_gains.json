@@ -1,0 +1,18 @@
+{
+  "panda_joint2": {
+    "stiffness": 5400,
+    "damping": 120
+  },
+  "panda_joint4": {
+    "stiffness": 5400,
+    "damping": 120
+  },
+  "panda_joint1": {
+    "stiffness": 1125,
+    "damping": 25
+  },
+  "panda_joint3": {
+    "stiffness": 1125,
+    "damping": 25
+  }
+}

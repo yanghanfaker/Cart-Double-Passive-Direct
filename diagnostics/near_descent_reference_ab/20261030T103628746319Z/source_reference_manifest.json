@@ -1,0 +1,639 @@
+{
+  "status": "completed",
+  "source_manifest": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/run.json",
+  "source_sha256": "ca47a6a6d747ad5b83f88261a06c3b573840c1d3bc3604a2dd68f40479645315",
+  "queries_per_run": 100,
+  "repeats": 3,
+  "cases": [
+    {
+      "name": "repeat-01-current",
+      "repeat": 1,
+      "reference_mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-01-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-01-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-01-current/online_settings.json"
+      ],
+      "result": "repeat-01-current/capture/20261030T101333498653Z/online_registered_result.json",
+      "result_sha256": "8a296d4626202ab81f1fa7cf013474e4da93efdc9c9579f27eec3e168296cf6b",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 0,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 390,
+      "queries_used": 78,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 167,
+          "query": 34,
+          "prefix": 2,
+          "height_m": 0.19957220489522276,
+          "xy_offset_m": 0.009344424931529594,
+          "object_distance_m": 0.19979084874949044,
+          "applied_backlog_m": 0.0005000000000000119,
+          "ideal_error_m": 0.006013727659904581
+        },
+        "height_150mm": {
+          "action_control": 266,
+          "query": 54,
+          "prefix": 1,
+          "height_m": 0.1498259307160066,
+          "xy_offset_m": 0.007259954232307227,
+          "object_distance_m": 0.15000172149136426,
+          "applied_backlog_m": 0.0005000000000000011,
+          "ideal_error_m": 0.00881506922229762
+        },
+        "height_100mm": {
+          "action_control": 367,
+          "query": 74,
+          "prefix": 2,
+          "height_m": 0.09977395801645941,
+          "xy_offset_m": 0.011593202203883149,
+          "object_distance_m": 0.10044523401142698,
+          "applied_backlog_m": 0.000500000000000008,
+          "ideal_error_m": 0.011918381517568332
+        }
+      },
+      "distance_reduction_m": 0.15640458807737023,
+      "final_xy_offset_m": 0.015883129197378498,
+      "final_ideal_position_error_m": 0.012714596407190512,
+      "max_applied_backlog_m": 0.0005000000000000444,
+      "max_pre_update_ideal_gap_m": 0.012759597796313742,
+      "max_applied_target_error_m": 0.00012899243796204364
+    },
+    {
+      "name": "repeat-01-accumulated",
+      "repeat": 1,
+      "reference_mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-01-accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-01-accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-01-accumulated/online_settings.json"
+      ],
+      "result": "repeat-01-accumulated/capture/20261030T101443781528Z/online_registered_result.json",
+      "result_sha256": "55e33fe7e2c590e8128750fd261823ebfb3f3169d6d1c31d04afde521a894cc0",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 14,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 405,
+      "queries_used": 81,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 173,
+          "query": 35,
+          "prefix": 3,
+          "height_m": 0.19970870635046142,
+          "xy_offset_m": 0.015213435031016943,
+          "object_distance_m": 0.20028733359256098,
+          "applied_backlog_m": 0.0004972440711431506,
+          "ideal_error_m": 2.639374592277199e-05
+        },
+        "height_150mm": {
+          "action_control": 274,
+          "query": 55,
+          "prefix": 4,
+          "height_m": 0.14998123409778766,
+          "xy_offset_m": 0.010465875125808167,
+          "object_distance_m": 0.1503459514707476,
+          "applied_backlog_m": 0.00047876531730595774,
+          "ideal_error_m": 0.0001099531724938388
+        },
+        "height_100mm": {
+          "action_control": 381,
+          "query": 77,
+          "prefix": 1,
+          "height_m": 0.09980224812303226,
+          "xy_offset_m": 0.00995036826801935,
+          "object_distance_m": 0.10029705159714568,
+          "applied_backlog_m": 0.00047965406327003487,
+          "ideal_error_m": 7.218665055462825e-05
+        }
+      },
+      "distance_reduction_m": 0.15659325238232102,
+      "final_xy_offset_m": 0.013821350282808818,
+      "final_ideal_position_error_m": 6.751524125106215e-06,
+      "max_applied_backlog_m": 0.0005787972203230785,
+      "max_pre_update_ideal_gap_m": 0.0002749890240233832,
+      "max_applied_target_error_m": 0.0002749890240233832
+    },
+    {
+      "name": "repeat-02-accumulated",
+      "repeat": 2,
+      "reference_mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-02-accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-02-accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-02-accumulated/online_settings.json"
+      ],
+      "result": "repeat-02-accumulated/capture/20261030T101556859049Z/online_registered_result.json",
+      "result_sha256": "7992181b298417fe8b2a14156ed54a40d1eb269fc688b50336b42316c1e586c6",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 5,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 405,
+      "queries_used": 81,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 173,
+          "query": 35,
+          "prefix": 3,
+          "height_m": 0.1996095677538174,
+          "xy_offset_m": 0.0140163652984722,
+          "object_distance_m": 0.20010106954998028,
+          "applied_backlog_m": 0.0004912487952360374,
+          "ideal_error_m": 4.1313364015473135e-05
+        },
+        "height_150mm": {
+          "action_control": 275,
+          "query": 55,
+          "prefix": 5,
+          "height_m": 0.14970650775308178,
+          "xy_offset_m": 0.010757294895804032,
+          "object_distance_m": 0.15009249767093233,
+          "applied_backlog_m": 0.0004770413075257853,
+          "ideal_error_m": 2.325701051922855e-05
+        },
+        "height_100mm": {
+          "action_control": 382,
+          "query": 77,
+          "prefix": 2,
+          "height_m": 0.09963990121611305,
+          "xy_offset_m": 0.00922723706597353,
+          "object_distance_m": 0.10006623715433914,
+          "applied_backlog_m": 0.0004929637294480656,
+          "ideal_error_m": 3.951025966181448e-05
+        }
+      },
+      "distance_reduction_m": 0.1564023980707837,
+      "final_xy_offset_m": 0.013054224429826317,
+      "final_ideal_position_error_m": 9.825089770912028e-06,
+      "max_applied_backlog_m": 0.0005738922834010091,
+      "max_pre_update_ideal_gap_m": 0.00020053647465418623,
+      "max_applied_target_error_m": 0.00020053647465418623
+    },
+    {
+      "name": "repeat-02-current",
+      "repeat": 2,
+      "reference_mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-02-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-02-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-02-current/online_settings.json"
+      ],
+      "result": "repeat-02-current/capture/20261030T101709382858Z/online_registered_result.json",
+      "result_sha256": "c4442d774fb081500866b8da9b8d58ea26459251e23f53cd2ebb6f7d6f79f223",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 6,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 391,
+      "queries_used": 79,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 164,
+          "query": 33,
+          "prefix": 4,
+          "height_m": 0.19978924731005718,
+          "xy_offset_m": 0.007731516743722233,
+          "object_distance_m": 0.19993878986299193,
+          "applied_backlog_m": 0.0005000000000000072,
+          "ideal_error_m": 0.005763459330690176
+        },
+        "height_150mm": {
+          "action_control": 264,
+          "query": 53,
+          "prefix": 4,
+          "height_m": 0.14979252120071024,
+          "xy_offset_m": 0.006594629990417759,
+          "object_distance_m": 0.14993761553518098,
+          "applied_backlog_m": 0.0005000000000000035,
+          "ideal_error_m": 0.008731841077598269
+        },
+        "height_100mm": {
+          "action_control": 366,
+          "query": 74,
+          "prefix": 1,
+          "height_m": 0.09970505322361681,
+          "xy_offset_m": 0.014430807738147422,
+          "object_distance_m": 0.10074396185528757,
+          "applied_backlog_m": 0.0004999999999999958,
+          "ideal_error_m": 0.011817225871986121
+        }
+      },
+      "distance_reduction_m": 0.1566052413206251,
+      "final_xy_offset_m": 0.019416566811661908,
+      "final_ideal_position_error_m": 0.012658660914069317,
+      "max_applied_backlog_m": 0.0005000000000000386,
+      "max_pre_update_ideal_gap_m": 0.012707026432531777,
+      "max_applied_target_error_m": 0.00019720451790155663
+    },
+    {
+      "name": "repeat-03-current",
+      "repeat": 3,
+      "reference_mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-03-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-03-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-03-current/online_settings.json"
+      ],
+      "result": "repeat-03-current/capture/20261030T101820266894Z/online_registered_result.json",
+      "result_sha256": "826c91ce4519ee70ae27f2d83d304d44e8b9a92ca56cdd0ce587cd62dab940ab",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 1,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 396,
+      "queries_used": 80,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 173,
+          "query": 35,
+          "prefix": 3,
+          "height_m": 0.199620583685287,
+          "xy_offset_m": 0.010836847967032132,
+          "object_distance_m": 0.19991451849406847,
+          "applied_backlog_m": 0.0005000000000000021,
+          "ideal_error_m": 0.006235940208520055
+        },
+        "height_150mm": {
+          "action_control": 272,
+          "query": 55,
+          "prefix": 2,
+          "height_m": 0.14960034895713134,
+          "xy_offset_m": 0.008435105370320483,
+          "object_distance_m": 0.14983796384996653,
+          "applied_backlog_m": 0.000500000000000004,
+          "ideal_error_m": 0.008981688425753193
+        },
+        "height_100mm": {
+          "action_control": 373,
+          "query": 75,
+          "prefix": 3,
+          "height_m": 0.09978644108004434,
+          "xy_offset_m": 0.010879797899592609,
+          "object_distance_m": 0.10037780544401805,
+          "applied_backlog_m": 0.0004999999999999987,
+          "ideal_error_m": 0.01197212768669022
+        }
+      },
+      "distance_reduction_m": 0.15646023339342524,
+      "final_xy_offset_m": 0.01521565796274555,
+      "final_ideal_position_error_m": 0.012716882930754519,
+      "max_applied_backlog_m": 0.0005000000000000496,
+      "max_pre_update_ideal_gap_m": 0.01278123993713376,
+      "max_applied_target_error_m": 0.0001759704397884449
+    },
+    {
+      "name": "repeat-03-accumulated",
+      "repeat": 3,
+      "reference_mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-03-accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-03-accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/descent_reference_ab/20261030T101333477908Z/repeat-03-accumulated/online_settings.json"
+      ],
+      "result": "repeat-03-accumulated/capture/20261030T101931832578Z/online_registered_result.json",
+      "result_sha256": "3c98460b678d08e316b562a5acacc1f89f3d4dbb4a19ed5693fb1166f5f0e7be",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 17,
+      "stop_reason": "near_boundary_reached",
+      "boundary_reached": true,
+      "action_controls": 407,
+      "queries_used": 82,
+      "height_checkpoints": {
+        "height_200mm": {
+          "action_control": 175,
+          "query": 35,
+          "prefix": 5,
+          "height_m": 0.1997193712813568,
+          "xy_offset_m": 0.015602164442294928,
+          "object_distance_m": 0.20032786825677765,
+          "applied_backlog_m": 0.00048720056436103634,
+          "ideal_error_m": 3.0027740425439062e-05
+        },
+        "height_150mm": {
+          "action_control": 277,
+          "query": 56,
+          "prefix": 2,
+          "height_m": 0.14953848344457535,
+          "xy_offset_m": 0.013513787041072903,
+          "object_distance_m": 0.1501478620263872,
+          "applied_backlog_m": 0.0004969612786326269,
+          "ideal_error_m": 7.787712918499477e-05
+        },
+        "height_100mm": {
+          "action_control": 383,
+          "query": 77,
+          "prefix": 3,
+          "height_m": 0.09994506048484988,
+          "xy_offset_m": 0.007583470345218555,
+          "object_distance_m": 0.1002323507546197,
+          "applied_backlog_m": 0.0004777203100563601,
+          "ideal_error_m": 0.000168160023469443
+        }
+      },
+      "distance_reduction_m": 0.15652241129667005,
+      "final_xy_offset_m": 0.011418311084192766,
+      "final_ideal_position_error_m": 1.925661510856949e-05,
+      "max_applied_backlog_m": 0.0006348544296924392,
+      "max_pre_update_ideal_gap_m": 0.00025345675356363233,
+      "max_applied_target_error_m": 0.00025345675356363233
+    }
+  ],
+  "profile": "descent",
+  "scope": "independent live observations and model outputs for each reference condition; open gripper",
+  "sampling": "unpaired stochastic inference, no shared model-noise seed; condition order alternates per repeat",
+  "summary": {
+    "current": {
+      "completed_runs": 3,
+      "distance_reduction_m": {
+        "mean": 0.1564900209304735,
+        "sample_std": 0.00010359007688830554,
+        "min": 0.15640458807737023,
+        "max": 0.1566052413206251
+      },
+      "final_xy_offset_m": {
+        "mean": 0.016838451323928652,
+        "sample_std": 0.0022575183417490033,
+        "min": 0.01521565796274555,
+        "max": 0.019416566811661908
+      },
+      "final_ideal_position_error_m": {
+        "mean": 0.012696713417338116,
+        "sample_std": 3.2974259677340096e-05,
+        "min": 0.012658660914069317,
+        "max": 0.012716882930754519
+      },
+      "max_applied_backlog_m": {
+        "mean": 0.0005000000000000441,
+        "sample_std": 5.4774569051237195e-18,
+        "min": 0.0005000000000000386,
+        "max": 0.0005000000000000496
+      },
+      "max_pre_update_ideal_gap_m": {
+        "mean": 0.012749288055326427,
+        "sample_std": 3.816581108461135e-05,
+        "min": 0.012707026432531777,
+        "max": 0.01278123993713376
+      },
+      "max_applied_target_error_m": {
+        "mean": 0.00016738913188401507,
+        "sample_std": 3.490631886108302e-05,
+        "min": 0.00012899243796204364,
+        "max": 0.00019720451790155663
+      },
+      "boundary_reached_runs": 3,
+      "action_controls_to_boundary": {
+        "mean": 392.3333333333333,
+        "sample_std": 3.2145502536643185,
+        "min": 390,
+        "max": 396
+      },
+      "stop_reasons": {
+        "near_boundary_reached": 3
+      },
+      "height_200mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.009304263214094652,
+          "sample_std": 0.001553055125961835,
+          "min": 0.007731516743722233,
+          "max": 0.010836847967032132
+        },
+        "object_distance_m": {
+          "mean": 0.1998813857021836,
+          "sample_std": 7.934090804609957e-05,
+          "min": 0.19979084874949044,
+          "max": 0.19993878986299193
+        },
+        "action_control": {
+          "mean": 168,
+          "sample_std": 4.58257569495584,
+          "min": 164,
+          "max": 173
+        }
+      },
+      "height_150mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.007429896531015156,
+          "sample_std": 0.000931932237168894,
+          "min": 0.006594629990417759,
+          "max": 0.008435105370320483
+        },
+        "object_distance_m": {
+          "mean": 0.14992576695883725,
+          "sample_std": 8.251928774575314e-05,
+          "min": 0.14983796384996653,
+          "max": 0.15000172149136426
+        },
+        "action_control": {
+          "mean": 267.3333333333333,
+          "sample_std": 4.163331998932265,
+          "min": 264,
+          "max": 272
+        }
+      },
+      "height_100mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.01230126928054106,
+          "sample_std": 0.0018784134148699615,
+          "min": 0.010879797899592609,
+          "max": 0.014430807738147422
+        },
+        "object_distance_m": {
+          "mean": 0.1005223337702442,
+          "sample_std": 0.0001948740849515383,
+          "min": 0.10037780544401805,
+          "max": 0.10074396185528757
+        },
+        "action_control": {
+          "mean": 368.6666666666667,
+          "sample_std": 3.7859388972001824,
+          "min": 366,
+          "max": 373
+        }
+      }
+    },
+    "accumulated": {
+      "completed_runs": 3,
+      "distance_reduction_m": {
+        "mean": 0.15650602058325827,
+        "sample_std": 9.647711476151255e-05,
+        "min": 0.1564023980707837,
+        "max": 0.15659325238232102
+      },
+      "final_xy_offset_m": {
+        "mean": 0.012764628598942633,
+        "sample_std": 0.0012274154376046551,
+        "min": 0.011418311084192766,
+        "max": 0.013821350282808818
+      },
+      "final_ideal_position_error_m": {
+        "mean": 1.1944409668195911e-05,
+        "sample_std": 6.516361158379817e-06,
+        "min": 6.751524125106215e-06,
+        "max": 1.925661510856949e-05
+      },
+      "max_applied_backlog_m": {
+        "mean": 0.0005958479778055089,
+        "sample_std": 3.3869485797069954e-05,
+        "min": 0.0005738922834010091,
+        "max": 0.0006348544296924392
+      },
+      "max_pre_update_ideal_gap_m": {
+        "mean": 0.00024299408408040059,
+        "sample_std": 3.831313242779414e-05,
+        "min": 0.00020053647465418623,
+        "max": 0.0002749890240233832
+      },
+      "max_applied_target_error_m": {
+        "mean": 0.00024299408408040059,
+        "sample_std": 3.831313242779414e-05,
+        "min": 0.00020053647465418623,
+        "max": 0.0002749890240233832
+      },
+      "boundary_reached_runs": 3,
+      "action_controls_to_boundary": {
+        "mean": 405.6666666666667,
+        "sample_std": 1.1547005383792515,
+        "min": 405,
+        "max": 407
+      },
+      "stop_reasons": {
+        "near_boundary_reached": 3
+      },
+      "height_200mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.014943988257261356,
+          "sample_std": 0.0008265233838511137,
+          "min": 0.0140163652984722,
+          "max": 0.015602164442294928
+        },
+        "object_distance_m": {
+          "mean": 0.2002387571331063,
+          "sample_std": 0.00012095109615503375,
+          "min": 0.20010106954998028,
+          "max": 0.20032786825677765
+        },
+        "action_control": {
+          "mean": 173.66666666666666,
+          "sample_std": 1.1547005383792515,
+          "min": 173,
+          "max": 175
+        }
+      },
+      "height_150mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.0115789856875617,
+          "sample_std": 0.001681910692857292,
+          "min": 0.010465875125808167,
+          "max": 0.013513787041072903
+        },
+        "object_distance_m": {
+          "mean": 0.15019543705602237,
+          "sample_std": 0.0001332563122099407,
+          "min": 0.15009249767093233,
+          "max": 0.1503459514707476
+        },
+        "action_control": {
+          "mean": 275.3333333333333,
+          "sample_std": 1.5275252316519468,
+          "min": 274,
+          "max": 277
+        }
+      },
+      "height_100mm": {
+        "reached_runs": 3,
+        "xy_offset_m": {
+          "mean": 0.008920358559737145,
+          "sample_std": 0.001212923022055433,
+          "min": 0.007583470345218555,
+          "max": 0.00995036826801935
+        },
+        "object_distance_m": {
+          "mean": 0.10019854650203484,
+          "sample_std": 0.00011906247255805991,
+          "min": 0.10006623715433914,
+          "max": 0.10029705159714568
+        },
+        "action_control": {
+          "mean": 382,
+          "sample_std": 1.0,
+          "min": 381,
+          "max": 383
+        }
+      }
+    }
+  },
+  "world_registration_sha256": "352bd9ade078c5887481e09a38d9144b9ddfd4408e0cc4f2fe8a20f9fb79d435",
+  "server_health": {
+    "status": "healthy",
+    "path": "/healthz",
+    "http_status": 200,
+    "body": "OK",
+    "elapsed_s": 0.0011460110545158386,
+    "scope": "HTTP health route only; not checkpoint identity or inference validation"
+  },
+  "initial_inputs_identical": true,
+  "all_followup_inputs_changed": true
+}

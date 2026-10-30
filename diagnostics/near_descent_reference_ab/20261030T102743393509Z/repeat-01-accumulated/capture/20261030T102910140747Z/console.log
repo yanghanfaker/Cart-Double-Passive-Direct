@@ -1,0 +1,720 @@
+Uninstalled 1 package in 0.34ms
+Installed 1 package in 1ms
+[INFO]: Auto-enabling camera rendering for Kit sensors, recording, or streaming views.
+[INFO]: Running headless because '--viz kit' was not requested. Pass it to open a viewport.
+[INFO]: Using device: cuda:0
+[INFO]: Loading experience file: /home/test/Robot/IsaacLab/apps/isaaclab.python.headless.rendering.kit
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1793356151.897054  825824 descriptor_database.cc:633] File already exists in database: grpc/health/v1/health.proto
+W0000 00:00:1793356151.897075  825824 message.cc:301] Protobuf GeneratedMessageFactory: File is already registered: grpc/health/v1/health.proto
+TU: error: ../src/freedreno/vulkan/tu_knl.cc:387: failed to open device /dev/dri/renderD128 (VK_ERROR_INCOMPATIBLE_DRIVER)
+Loading user config located at: '/home/test/.cache/packman/chk/kit-kernel/110.3.0+feature.manylinux_2_35_aarch64.release/data/Kit/IsaacLab/3.0/user.config.json'
+2026-10-30T10:29:11Z [Info] [carb] Logging to file: /home/test/.cache/packman/chk/kit-kernel/110.3.0+feature.manylinux_2_35_aarch64.release/logs/Kit/IsaacLab/3.0/kit_20261030_182911.log
+2026-10-30T10:29:11Z [3ms] [Warning] [omni.ext.plugin] [ext: isaaclab] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab' or '/home/test/Robot/IsaacLab/source/isaaclab/config'
+2026-10-30T10:29:11Z [3ms] [Warning] [omni.ext.plugin] [ext: isaaclab_assets] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_assets' or '/home/test/Robot/IsaacLab/source/isaaclab_assets/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_mimic] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_mimic' or '/home/test/Robot/IsaacLab/source/isaaclab_mimic/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_ppisp] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_ppisp' or '/home/test/Robot/IsaacLab/source/isaaclab_ppisp/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_rl] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_rl' or '/home/test/Robot/IsaacLab/source/isaaclab_rl/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_tasks_experimental] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_tasks_experimental' or '/home/test/Robot/IsaacLab/source/isaaclab_tasks_experimental/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_newton] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_newton' or '/home/test/Robot/IsaacLab/source/isaaclab_newton/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_experimental] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_experimental' or '/home/test/Robot/IsaacLab/source/isaaclab_experimental/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_ov] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_ov' or '/home/test/Robot/IsaacLab/source/isaaclab_ov/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_visualizers] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_visualizers' or '/home/test/Robot/IsaacLab/source/isaaclab_visualizers/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_physx] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_physx' or '/home/test/Robot/IsaacLab/source/isaaclab_physx/config'
+2026-10-30T10:29:11Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_tasks] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_tasks' or '/home/test/Robot/IsaacLab/source/isaaclab_tasks/config'
+2026-10-30T10:29:11Z [5ms] [Warning] [omni.ext.plugin] [ext: isaaclab_teleop] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_teleop' or '/home/test/Robot/IsaacLab/source/isaaclab_teleop/config'
+2026-10-30T10:29:11Z [5ms] [Warning] [omni.ext.plugin] [ext: isaaclab_contrib] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_contrib' or '/home/test/Robot/IsaacLab/source/isaaclab_contrib/config'
+2026-10-30T10:29:11Z [149ms] [Warning] [omni.platforminfo.plugin] failed to open the default display.  Can't verify X Server version.
+
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 580.159.03    | Graphics API: Vulkan
+|=============================================================================================|
+| GPU [ISAACLAB] KitLauncher initialization complete
+[INFO]: Base environment:
+	Environment device    : cuda:0
+	Environment seed      : 0
+	Physics step-size     : 0.01
+	Rendering step-size   : 0.02
+	Environment step-size : 0.05
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_albedo.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_albedo.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_roughness.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_roughness.png'.
+[INFO]: Registered backend 'physx' for factory Articulation.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/franka_panda.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/franka_panda.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/base.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/base.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/robot.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/robot.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/instances.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/instances.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/geometries.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/geometries.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/materials.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/materials.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/Physics/physx.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/Physics/physx.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/Physics/physics.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/Physics/physics.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/Physics/mujoco.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/Physics/mujoco.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/base_flat_primitives.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/base_flat_primitives.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/base_flat_hulls.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/base_flat_hulls.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/instances_physx_hulls_clean.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/payloads/instances_physx_hulls_clean.usda'.
+[INFO]: Setting variant selection 'primitives' for variant set 'Colliders' on prim '/World/envs/env_0/Robot'.
+[INFO]: Registered backend 'physx' for factory RigidObject.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Blocks/DexCube/dex_cube_instanceable.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Blocks/DexCube/dex_cube_instanceable.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Blocks/DexCube/Props/instanceable_meshes.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Blocks/DexCube/Props/instanceable_meshes.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Blocks/DexCube/Materials/dex_cube_mod.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Blocks/DexCube/Materials/dex_cube_mod.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/table_instanceable.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/table_instanceable.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/table.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/table.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_Normal.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_Normal.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_BaseColor.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_BaseColor.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_Metallic.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_Metallic.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_Roughness.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_Roughness.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_Normal.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_Normal.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_BaseColor.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_BaseColor.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_Metallic.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_Metallic.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_Roughness.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_Roughness.png'.
+[INFO]: Using renderer: IsaacRtxRenderer
+[INFO]: Registered backend 'physx' for factory FrameTransformer.
+[INFO]: Using renderer: IsaacRtxRenderer
+/home/test/Robot/IsaacLab/source/isaaclab_newton/isaaclab_newton/cloner/newton_clone_utils.py:138: FutureWarning: Newton shape color replacement is enabled; this workaround will be deprecated in a future release.
+  replace_newton_builder_shape_colors(builder, stage)
+[INFO]: Physics scene prim path: /physicsScene
+[INFO]: Time taken for scene creation Last: 4.306015 s, Mean: 4.306015 s, Std: 0.000000 s, N: 1
+[INFO]: Scene manager: <class InteractiveScene>
+	Number of environments: 1
+	Environment spacing   : 2.5
+	Source prim name      : /World/envs/env_0
+	Global prim paths     : []
+	Replicate physics     : True
+| Name                             | Active | LDA | GPU Memory | Vendor-ID | LUID       |
+|     |                                  |        |     |            | Device-ID | UUID       |
+|     |                                  |        |     |            | Bus-ID    |            |
+|---------------------------------------------------------------------------------------------|
+| 0   | NVIDIA GB10                      | Yes: 0 |     | 93457   MB | 10de      | 0          |
+|     |                                  |        |     |            | 2e12      | 864ee254.. |
+|     |                                  |        |     |            | 1         |            |
+|=============================================================================================|
+| OS: 24.04.4 LTS (Noble Numbat) ubuntu, Version: 24.04.4, Kernel: 6.17.0-1026-nvidia
+| Processor: Cortex-A725
+| Cores: 20 | Logical Cores: 20
+|---------------------------------------------------------------------------------------------|
+| Total Memory (MB): 124610 | Free Memory: 106358
+| Total Page/Swap (MB): 16383 | Free Page/Swap: 16354
+|---------------------------------------------------------------------------------------------|
+2026-10-30T10:29:13Z [1,440ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-10-30T10:29:13Z [1,440ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-10-30T10:29:13Z [1,504ms] [Warning] [omni.log] Source: omni.hydra was already registered.
+2026-10-30T10:29:13Z [1,522ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-10-30T10:29:13Z [1,522ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-10-30T10:29:13Z [1,524ms] [Warning] [carb.windowing-glfw.plugin] GLFW initialization failed.
+2026-10-30T10:29:13Z [1,524ms] [Warning] [carb] Failed to startup plugin carb.windowing-glfw.plugin (interfaces: [carb::windowing::IGLContext v1.0],[carb::windowing::IWindowing v1.5]) (impl: carb.windowing-glfw.plugin)
+2026-10-30T10:29:13Z [1,750ms] [Warning] [pxr.Semantics] pxr.Semantics is deprecated - please use Semantics instead
+2026-10-30T10:29:13Z [1,775ms] [Warning] [omni.replicator.core.scripts.extension] No material configuration file, adding configuration to material settings directly.
+2026-10-30T10:29:14Z [2,747ms] [Warning] [rtx.hydra] RenderDelegate : Warning /rtx/hydra/readTransformsFromFabricInRenderDelegate and geometry streaming are enabled together but this can cause issues with dynamic objects not streaming correctly due to problems in the transform update.
+2026-10-30T10:29:16Z [4,638ms] [Warning] [isaaclab.envs.manager_based_env] The render interval (2) is smaller than the decimation (5). Multiple render calls will happen for each environment step. If this is not intended, set the render interval to be equal to the decimation.
+2026-10-30T10:29:17Z [5,574ms] [Warning] [isaaclab.utils.assets] Serving remote assets from the local cache under '/tmp'. Each copy is checked against the server before use; delete the directory to force a full re-download.
+2026-10-30T10:29:19Z [8,062ms] [Warning] [omni.usd] Encountered USD Warnings but USD Diagnostics are currently muted. To view USD Warnings, please set the '/persistent/app/usd/muteUsdDiagnostics' setting to false in Preferences page.
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/Render'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/Render/OmniverseKit'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/Render/OmniverseKit/HydraTextures'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/Render/OmniverseGlobalRenderSettings'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/Render/Vars'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/Render/Vars/LdrColor'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/OmniverseKit_Persp'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/physicsScene'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/physicsScene/defaultMaterial'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_joint1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_joint2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_joint3'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_joint4'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_joint5'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_joint6'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_joint7'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/PhysicsFixedJoint'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/panda_finger_joint1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/finger_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/finger_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/left_finger_pad'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/Box'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/Box_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/Box_2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/panda_finger_joint2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/finger_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/finger_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/right_finger_pad'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/Box'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/Box_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/Box_2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/hand_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/hand_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/hand_2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/hand_3'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/hand_4'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/hand_capsule'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/gripper'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/OpenPIWristCamera'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_3'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_4'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_5'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_6'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_7'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_capsule_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/link7_capsule_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_3'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_4'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_5'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_6'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_7'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_8'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_9'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_10'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_11'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_12'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_13'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_14'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_15'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_16'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/link6_capsule'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/link5_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/link5_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/link5_2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/link5_capsule_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/link5_capsule_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/link4_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/link4_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/link4_2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/link4_3'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/link4_capsule'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/link3_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/link3_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/link3_2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/link3_3'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/link3_capsule'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/link2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/link2_capsule'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/link1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/link1_box'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_0'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_1'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_2'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_3'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_4'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_5'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_7'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_8'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_9'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_10'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_11'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Geometry/panda_link0/link0_capsule'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Materials'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Physics'
+[INFO]: Simulation parameters for joints in /World/envs/env_[^/]+/Robot:
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                   Simulation Joint Information (Prim path: /World/envs/env_[^/]+/Robot)                                                   |
++-------+---------------------+-----------+---------+----------+-----------------+------------------+------------------+------------------+-----------------+---------------+
+| Index | Name                | Stiffness | Damping | Armature | Static Friction | Dynamic Friction | Viscous Friction | Position Limits  | Velocity Limits | Effort Limits |
++-------+---------------------+-----------+---------+----------+-----------------+------------------+------------------+------------------+-----------------+---------------+
+|   0   | panda_joint1        |  1.1e+03  |  25.000 |  0.100   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      20.000     |     87.000    |
+|   1   | panda_joint2        |  5.4e+03  | 120.000 |  0.100   |      0.000      |      0.000       |      0.000       | [-1.763, 1.763]  |      20.000     |     87.000    |
+|   2   | panda_joint3        |  1.1e+03  |  25.000 |  0.100   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      20.000     |     87.000    |
+|   3   | panda_joint4        |  5.4e+03  | 120.000 |  0.100   |      0.000      |      0.000       |      0.000       | [-3.072, -0.070] |      20.000     |     87.000    |
+|   4   | panda_joint5        |  900.000  |  20.000 |  0.100   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      25.000     |     12.000    |
+|   5   | panda_joint6        |  900.000  |  20.000 |  0.100   |      0.000      |      0.000       |      0.000       | [-0.018, 3.753]  |      25.000     |     12.000    |
+|   6   | panda_joint7        |  900.000  |  20.000 |  0.100   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      25.000     |     12.000    |
+|   7   | panda_finger_joint1 |  350.000  |  10.000 |  0.100   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |     3.4e+38     |    200.000    |
+|   8   | panda_finger_joint2 |   0.000   |  0.000  |  0.100   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |     3.4e+38     |    200.000    |
++-------+---------------------+-----------+---------+----------+-----------------+------------------+------------------+------------------+-----------------+---------------+
+[INFO]: Registered backend 'physx' for factory FrameView.
+[INFO]: Offsets application needed from '/World/envs/env_[^/]+/Robot/(Geometry/)?panda_link0' to the following target frames: ['end_effector']
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/Physics/PhysicsMaterial'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/VisualMaterials'
+2026-10-30T10:29:21Z [9,321ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/PhysicsFixedJoint'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Object/visuals'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Object/collisions'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Table'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Table/Visuals'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Table/Collisions'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/ExternalCamera'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/GroundPlane'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/GroundPlane/Looks'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/GroundPlane/Looks/theGrid'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/GroundPlane/Looks/theGrid/Shader'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/GroundPlane/GroundPlane'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/GroundPlane/GroundPlane/CollisionPlane'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/GroundPlane/Environment'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/GroundPlane/Environment/Geometry'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/GroundPlane/physicsMaterial'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/light'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/collisions'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/collisions/group0'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/OmniverseKit_Front'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/OmniverseKit_Top'
+2026-10-30T10:29:21Z [9,322ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/OmniverseKit_Right'
+2026-10-30T10:29:21Z [9,471ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:29:21Z [9,471ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:29:21Z [9,477ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:29:21Z [9,477ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:29:21Z [9,534ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:29:21Z [9,534ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:29:21Z [9,538ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+
+[INFO]: Time taken for simulation start Last: 2.335712 s, Mean: 2.335712 s, Std: 0.000000 s, N: 1
+[INFO]: Command Manager: <CommandManager> contains 1 active terms.
++------------------------------------------+
+|           Active Command Terms           |
++-------+-------------+--------------------+
+| Index | Name        |        Type        |
++-------+-------------+--------------------+
+|   0   | object_pose | UniformPoseCommand |
++-------+-------------+--------------------+
+
+[INFO]: Event Manager: <EventManager> contains 1 active terms.
++-------------------------------------+
+| Active Event Terms in Mode: 'reset' |
++--------+----------------------------+
+| Index  | Name                       |
++--------+----------------------------+
+|   0    | reset_all                  |
+|   1    | reset_object_position      |
++--------+----------------------------+
+
+[INFO]: Recorder Manager: <RecorderManager> contains 0 active terms.
++-----------------------+
+| Active Recorder Terms |
++------------+----------+
+|   Index    | Name     |
++------------+----------+
++------------+----------+
+
+[INFO]: Resolved joint names for the action term DifferentialInverseKinematicsAction: ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7'] [[0, 1, 2, 3, 4, 5, 6]]
+[INFO]: Resolved body name for the action term DifferentialInverseKinematicsAction: panda_hand [8]
+[INFO]: Resolved joint names for the action term BinaryJointPositionAction: ['panda_finger_joint1', 'panda_finger_joint2'] [[7 8]]
+[INFO]: Action Manager: <ActionManager> contains 2 active terms.
++------------------------------------+
+|   Active Action Terms (shape: 7)   |
++-------+----------------+-----------+
+| Index | Name           | Dimension |
++-------+----------------+-----------+
+|   0   | arm_action     |         6 |
+|   1   | gripper_action |         1 |
++-------+----------------+-----------+
+
+[INFO]: Observation Manager: <ObservationManager> contains 1 groups.
++------------------------------------------------------------+
+| Active Observation Terms in Group: 'policy' (shape: (35,)) |
++----------+-------------------------------------+-----------+
+|  Index   | Name                                |   Shape   |
++----------+-------------------------------------+-----------+
+|    0     | joint_pos                           |    (9,)   |
+|    1     | joint_vel                           |    (9,)   |
+|    2     | object_position                     |    (3,)   |
+|    3     | target_object_position              |    (7,)   |
+|    4     | actions                             |    (7,)   |
++----------+-------------------------------------+-----------+
+
+[INFO]: Termination Manager: <TerminationManager> contains 2 active terms.
++------------------------------------+
+|      Active Termination Terms      |
++-------+-----------------+----------+
+| Index | Name            | Time Out |
++-------+-----------------+----------+
+|   0   | time_out        |   True   |
+|   1   | object_dropping |  False   |
++-------+-----------------+----------+
+
+[INFO]: Reward Manager: <RewardManager> contains 6 active terms.
++-----------------------------------------------------+
+|                 Active Reward Terms                 |
++-------+-----------------------------------+---------+
+| Index | Name                              |  Weight |
++-------+-----------------------------------+---------+
+|   0   | reaching_object                   |     1.0 |
+|   1   | lifting_object                    |    15.0 |
+|   2   | object_goal_tracking              |    16.0 |
+|   3   | object_goal_tracking_fine_grained |     5.0 |
+|   4   | action_rate                       | -0.0001 |
+|   5   | joint_vel                         | -0.0001 |
++-------+-----------------------------------+---------+
+
+[INFO]: Curriculum Manager: <CurriculumManager> contains 2 active terms.
++-------------------------+
+| Active Curriculum Terms |
++--------+----------------+
+| Index  | Name           |
++--------+----------------+
+|   0    | action_rate    |
+|   1    | joint_vel      |
++--------+----------------+
+
+[INFO]: Completed setting up the environment...
+
+╭─────── viser (listening *:8080) ───────╮
+│       ╷                                │
+│   URL │ http://localhost:8080          │
+│       ╵                                │
+╰────────────────────────────────────────╯
+
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-accumulated/capture/20261030T102910140747Z/actuator_audit.json
+{
+  "task": "IsaacContrib-Lift-Cube-Franka-IK-Rel",
+  "state": [
+    0.44837191700935364,
+    -0.011086580343544483,
+    0.25535833835601807,
+    3.140873432159424,
+    -0.0035379095934331417,
+    -0.0877646654844284,
+    0.03999999910593033,
+    -0.03999999910593033
+  ],
+  "state_layout": "world TCP xyz; signed rotation vector; Isaac q1 and negated q2",
+  "finger_names": [
+    "panda_finger_joint1",
+    "panda_finger_joint2"
+  ],
+  "gripper_during_capture": "open (Isaac action +1)",
+  "images": {
+    "external_camera": {
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "uint8",
+      "min": 1,
+      "max": 223,
+      "std": 65.96786954038157
+    },
+    "wrist_camera": {
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "uint8",
+      "min": 8,
+      "max": 227,
+      "std": 61.821543415540674
+    }
+  },
+  "camera_setup": {
+    "effective_pose_source": "camera_alignment_setup.json",
+    "wrist_initial_aim": "fixed hand-local candidate; legacy look-at is overridden before capture",
+    "calibration_markers_present": false,
+    "candidate_source": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-accumulated/capture/20261030T102910140747Z/clean_scene_request.json"
+  },
+  "validated": "capture only; LIBERO reference frames, cameras and action mapping are not calibrated"
+}
+Saved camera check to: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-accumulated/capture/20261030T102910140747Z
+[Geometry audit] sensor closure={'position_error_m': 4.611587780107312e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.003297291332807e-08, 'rotation_error_deg': 1.634214898135868e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-accumulated/capture/20261030T102910140747Z/geometry_audit.json
+[Clean scene] {"case": "arm-only", "geometry": true, "projections": {"external_camera": [127.99830196401888, 131.57970982758226], "wrist_camera": [122.46434270126815, 120.71510973692267]}}
+[Online reference] accumulated query 1/120; distance=245.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.0676712511974006e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.320119871826444e-08, 'rotation_error_deg': 1.4759833903575848e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_5ec04343/geometry_audit.json
+[Online reference] accumulated query 2/120; distance=244.5mm
+[Geometry audit] sensor closure={'position_error_m': 7.519485043565098e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.089772996431138e-08, 'rotation_error_deg': 8.537973687156688e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_uklm6chz/geometry_audit.json
+[Online reference] accumulated query 3/120; distance=243.7mm
+[Geometry audit] sensor closure={'position_error_m': 2.062625713035884e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.745098189225119e-08, 'rotation_error_deg': 8.337778809092795e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_hh5oav7o/geometry_audit.json
+[Online reference] accumulated query 4/120; distance=243.0mm
+[Geometry audit] sensor closure={'position_error_m': 7.829479816933142e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.8771524320646505e-08, 'rotation_error_deg': 2.6412699882072907e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference__j6rjpvg/geometry_audit.json
+[Online reference] accumulated query 5/120; distance=242.2mm
+[Geometry audit] sensor closure={'position_error_m': 8.242117886661784e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.8617990807217173e-08, 'rotation_error_deg': 2.699138792676162e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_h13nj6qm/geometry_audit.json
+[Online reference] accumulated query 6/120; distance=241.4mm
+[Geometry audit] sensor closure={'position_error_m': 1.0955902171361754e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.3608895215959607e-08, 'rotation_error_deg': 2.550677572193894e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_3kmhwlk6/geometry_audit.json
+[Online reference] accumulated query 7/120; distance=240.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.3948308270444039e-08, 'rotation_error_deg': 1.2753337833636544e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.3082634237516563e-08, 'rotation_error_deg': 5.640503710838321e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_c9h5jr3f/geometry_audit.json
+[Online reference] accumulated query 8/120; distance=240.0mm
+[Geometry audit] sensor closure={'position_error_m': 1.5978495718527033e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.5974062297609673e-08, 'rotation_error_deg': 5.655004004898411e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_5v8nfrxc/geometry_audit.json
+[Online reference] accumulated query 9/120; distance=239.1mm
+[Geometry audit] sensor closure={'position_error_m': 2.152888361933465e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.48830736720123e-08, 'rotation_error_deg': 6.896215558686247e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_zh66p06_/geometry_audit.json
+[Online reference] accumulated query 10/120; distance=238.4mm
+[Geometry audit] sensor closure={'position_error_m': 1.4037286623657341e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.0588748143944295e-08, 'rotation_error_deg': 5.69490110251555e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_7cegxtpi/geometry_audit.json
+[Online reference] accumulated query 11/120; distance=237.6mm
+[Geometry audit] sensor closure={'position_error_m': 1.7172466833931203e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.613293416223945e-08, 'rotation_error_deg': 5.438299885013478e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_fqd4fzyq/geometry_audit.json
+[Online reference] accumulated query 12/120; distance=236.7mm
+[Geometry audit] sensor closure={'position_error_m': 1.403729489309317e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.625478616664504e-08, 'rotation_error_deg': 1.7840399585840664e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_yvexmvdf/geometry_audit.json
+[Online reference] accumulated query 13/120; distance=235.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.1585729553356159e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.8568313917270324e-08, 'rotation_error_deg': 1.383457151249922e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_s6ld2rph/geometry_audit.json
+[Online reference] accumulated query 14/120; distance=235.0mm
+[Geometry audit] sensor closure={'position_error_m': 8.627430071246603e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.6662782405367094e-08, 'rotation_error_deg': 5.529034422625677e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ov8vgtl6/geometry_audit.json
+[Online reference] accumulated query 15/120; distance=233.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.1671372030674913e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.397490718098793e-08, 'rotation_error_deg': 4.088383079553656e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_uron0v8l/geometry_audit.json
+[Online reference] accumulated query 16/120; distance=232.7mm
+[Geometry audit] sensor closure={'position_error_m': 8.003337156036362e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.4017573748482276e-08, 'rotation_error_deg': 8.191217703622869e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_p54sc7j0/geometry_audit.json
+[Online reference] accumulated query 17/120; distance=231.7mm
+[Geometry audit] sensor closure={'position_error_m': 1.0271568530913272e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.334360647668001e-08, 'rotation_error_deg': 3.498357487875458e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_atjiv728/geometry_audit.json
+[Online reference] accumulated query 18/120; distance=230.5mm
+[Geometry audit] sensor closure={'position_error_m': 1.1117267261257847e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.0635044264741855e-08, 'rotation_error_deg': 3.8764769940743034e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ti7d2dt7/geometry_audit.json
+[Online reference] accumulated query 19/120; distance=229.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.6259832612560964e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.040851421879912e-08, 'rotation_error_deg': 5.839897471067815e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference__33y40ip/geometry_audit.json
+[Online reference] accumulated query 20/120; distance=227.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.0892487828969697e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.5479926560568572e-08, 'rotation_error_deg': 4.945806930094797e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_eqqxw62t/geometry_audit.json
+[Online reference] accumulated query 21/120; distance=226.4mm
+[Geometry audit] sensor closure={'position_error_m': 6.625295243546781e-09, 'rotation_error_deg': 1.282315193347578e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.026204674590761e-08, 'rotation_error_deg': 5.553395054912045e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ctdmtmqh/geometry_audit.json
+[Online reference] accumulated query 22/120; distance=224.8mm
+[Geometry audit] sensor closure={'position_error_m': 2.879696895970589e-09, 'rotation_error_deg': 1.2821996295466299e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.342210722233801e-08, 'rotation_error_deg': 7.369607803090342e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_k36hu5d4/geometry_audit.json
+[Online reference] accumulated query 23/120; distance=223.1mm
+[Geometry audit] sensor closure={'position_error_m': 8.565115239318121e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.5422353907989274e-08, 'rotation_error_deg': 3.334593746591605e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_rfjvrux9/geometry_audit.json
+[Online reference] accumulated query 24/120; distance=221.2mm
+[Geometry audit] sensor closure={'position_error_m': 8.123154500383796e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.885545948383787e-08, 'rotation_error_deg': 1.7266736963290234e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_rikn98mh/geometry_audit.json
+[Online reference] accumulated query 25/120; distance=219.7mm
+[Geometry audit] sensor closure={'position_error_m': 3.003186433535472e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.630104741682779e-08, 'rotation_error_deg': 6.143123875373752e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ha3lo45a/geometry_audit.json
+[Online reference] accumulated query 26/120; distance=218.1mm
+[Geometry audit] sensor closure={'position_error_m': 2.8418779645390147e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.528622479738968e-08, 'rotation_error_deg': 3.4501226995943704e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_snz0f2ma/geometry_audit.json
+[Online reference] accumulated query 27/120; distance=216.1mm
+[Geometry audit] sensor closure={'position_error_m': 1.0216978523533227e-08, 'rotation_error_deg': 1.2821707369689053e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.6499095741483287e-08, 'rotation_error_deg': 3.4009024354783937e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_y9_xbbkj/geometry_audit.json
+[Online reference] accumulated query 28/120; distance=214.4mm
+[Geometry audit] sensor closure={'position_error_m': 6.2687241765075655e-09, 'rotation_error_deg': 1.282170736968905e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.033868831574167e-09, 'rotation_error_deg': 3.493046070502892e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_jqo08rj0/geometry_audit.json
+[Online reference] accumulated query 29/120; distance=212.2mm
+[Geometry audit] sensor closure={'position_error_m': 2.0816686185118183e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.015770496685688e-08, 'rotation_error_deg': 2.523526559200762e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_zbhnrahq/geometry_audit.json
+[Online reference] accumulated query 30/120; distance=210.1mm
+[Geometry audit] sensor closure={'position_error_m': 8.629931760873622e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.2718905280693606e-08, 'rotation_error_deg': 3.460498069304609e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_c01f6ph0/geometry_audit.json
+[Online reference] accumulated query 31/120; distance=207.9mm
+[Geometry audit] sensor closure={'position_error_m': 2.8160877582378757e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.796783833675973e-08, 'rotation_error_deg': 3.7466970632165446e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_vddb1bun/geometry_audit.json
+[Online reference] accumulated query 32/120; distance=205.5mm
+[Geometry audit] sensor closure={'position_error_m': 8.936793338180412e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.20683724695196e-08, 'rotation_error_deg': 2.7145721087107154e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_oo2syjhe/geometry_audit.json
+[Online reference] accumulated query 33/120; distance=203.1mm
+[Geometry audit] sensor closure={'position_error_m': 2.8390420146280045e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.982221395835361e-08, 'rotation_error_deg': 3.234576870824138e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_y4bz4rrt/geometry_audit.json
+[Online reference] accumulated query 34/120; distance=200.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.9773697737546837e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.704477816358702e-08, 'rotation_error_deg': 1.4297592860722492e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ttgo_lwg/geometry_audit.json
+[Online reference] accumulated query 35/120; distance=198.3mm
+[Geometry audit] sensor closure={'position_error_m': 2.8376193948017255e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.7607340629092454e-08, 'rotation_error_deg': 3.873963153393791e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_0lipyzql/geometry_audit.json
+[Online reference] accumulated query 36/120; distance=195.8mm
+[Geometry audit] sensor closure={'position_error_m': 3.066649077488857e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.7964725957014803e-08, 'rotation_error_deg': 3.2637046121675664e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_m7qdwdha/geometry_audit.json
+[Online reference] accumulated query 37/120; distance=193.3mm
+[Geometry audit] sensor closure={'position_error_m': 2.06190332684686e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.347701013086108e-08, 'rotation_error_deg': 3.1122348246794953e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_0wg_kq6c/geometry_audit.json
+[Online reference] accumulated query 38/120; distance=191.0mm
+[Geometry audit] sensor closure={'position_error_m': 1.3785497064529933e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.481094637201732e-08, 'rotation_error_deg': 4.963875399881381e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_4mjjhzs4/geometry_audit.json
+[Online reference] accumulated query 39/120; distance=188.5mm
+[Geometry audit] sensor closure={'position_error_m': 2.472280601425777e-08, 'rotation_error_deg': 1.2759436412559088e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.1637495897902008e-08, 'rotation_error_deg': 1.1909413930581285e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_00apktha/geometry_audit.json
+[Online reference] accumulated query 40/120; distance=186.2mm
+[Geometry audit] sensor closure={'position_error_m': 1.9618220542973826e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.171994241029915e-08, 'rotation_error_deg': 6.141306715750869e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_8oo5011l/geometry_audit.json
+[Online reference] accumulated query 41/120; distance=183.7mm
+[Geometry audit] sensor closure={'position_error_m': 1.9359583928345287e-08, 'rotation_error_deg': 1.2759436412559088e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.3143829409709265e-08, 'rotation_error_deg': 1.3831302706868232e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_we7id2m_/geometry_audit.json
+[Online reference] accumulated query 42/120; distance=181.2mm
+[Geometry audit] sensor closure={'position_error_m': 2.2917727061104318e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.4486741350832947e-08, 'rotation_error_deg': 2.2878132746364936e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_dxxi2iub/geometry_audit.json
+[Online reference] accumulated query 43/120; distance=178.7mm
+[Geometry audit] sensor closure={'position_error_m': 3.1356494047920556e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.6634166356927715e-08, 'rotation_error_deg': 5.026191929364716e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_0xe33q75/geometry_audit.json
+[Online reference] accumulated query 44/120; distance=176.3mm
+[Geometry audit] sensor closure={'position_error_m': 2.5075217223680878e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.53816339524398e-08, 'rotation_error_deg': 8.338648412530422e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_9qm8apm7/geometry_audit.json
+[Online reference] accumulated query 45/120; distance=173.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.7184125668800374e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.422480924504903e-08, 'rotation_error_deg': 1.2077907181226278e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_2cn9zxjc/geometry_audit.json
+[Online reference] accumulated query 46/120; distance=171.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.9191976021009917e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.6288389705757145e-08, 'rotation_error_deg': 9.202897430924356e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_qslplkt_/geometry_audit.json
+[Online reference] accumulated query 47/120; distance=168.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.89332204435619e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.8243741507761294e-08, 'rotation_error_deg': 9.328236789823797e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_3tf8n0nv/geometry_audit.json
+[Online reference] accumulated query 48/120; distance=166.3mm
+[Geometry audit] sensor closure={'position_error_m': 2.4333280213786408e-08, 'rotation_error_deg': 1.2796545855183171e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.237071523651178e-08, 'rotation_error_deg': 9.621738970961093e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_asvjh4wt/geometry_audit.json
+[Online reference] accumulated query 49/120; distance=163.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.7646045041690196e-08, 'rotation_error_deg': 1.2796545855183171e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.988271919505693e-08, 'rotation_error_deg': 8.152697915448282e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_x7q2j7qq/geometry_audit.json
+[Online reference] accumulated query 50/120; distance=161.4mm
+[Geometry audit] sensor closure={'position_error_m': 1.0423345877016088e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.215989544643213e-08, 'rotation_error_deg': 1.259275778220176e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_lfa_iu61/geometry_audit.json
+[Online reference] accumulated query 51/120; distance=158.9mm
+[Geometry audit] sensor closure={'position_error_m': 8.71238562114207e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.394852089939276e-08, 'rotation_error_deg': 8.252740100994816e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_8hu45j3w/geometry_audit.json
+[Online reference] accumulated query 52/120; distance=156.4mm
+[Geometry audit] sensor closure={'position_error_m': 1.3389061222596046e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.256510349764581e-08, 'rotation_error_deg': 1.0080896807080779e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_krsv1ozz/geometry_audit.json
+[Online reference] accumulated query 53/120; distance=153.9mm
+[Geometry audit] sensor closure={'position_error_m': 8.935599012897643e-09, 'rotation_error_deg': 1.279654585518317e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.3506142953209475e-08, 'rotation_error_deg': 1.0158023401959007e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_7bj3ulun/geometry_audit.json
+[Online reference] accumulated query 54/120; distance=151.5mm
+[Geometry audit] sensor closure={'position_error_m': 5.948746791961861e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 8.778491746962543e-08, 'rotation_error_deg': 1.2336862769057795e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_9trxhx_f/geometry_audit.json
+[Online reference] accumulated query 55/120; distance=149.1mm
+[Geometry audit] sensor closure={'position_error_m': 1.2901765065281617e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.400979816066093e-08, 'rotation_error_deg': 5.834409739780688e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_hi_lh9h9/geometry_audit.json
+[Online reference] accumulated query 56/120; distance=146.6mm
+[Geometry audit] sensor closure={'position_error_m': 2.73958574721373e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.8645699657466524e-08, 'rotation_error_deg': 7.200107851283754e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_b3q_cpcp/geometry_audit.json
+[Online reference] accumulated query 57/120; distance=144.2mm
+[Geometry audit] sensor closure={'position_error_m': 9.388461152461216e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 9.35390980054834e-09, 'rotation_error_deg': 1.058370010035576e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_0op_iedz/geometry_audit.json
+[Online reference] accumulated query 58/120; distance=141.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.766414938402229e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.097415956416524e-08, 'rotation_error_deg': 3.547210657524488e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_uw64_psh/geometry_audit.json
+[Online reference] accumulated query 59/120; distance=139.4mm
+[Geometry audit] sensor closure={'position_error_m': 1.1632499876943636e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0742063515644834e-08, 'rotation_error_deg': 3.544227095777889e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_nky57q3a/geometry_audit.json
+[Online reference] accumulated query 60/120; distance=136.9mm
+[Geometry audit] sensor closure={'position_error_m': 1.327174778260559e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.50293037911064e-08, 'rotation_error_deg': 3.544035101838567e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_b7bpobkb/geometry_audit.json
+[Online reference] accumulated query 61/120; distance=134.5mm
+[Geometry audit] sensor closure={'position_error_m': 2.3693573152401486e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.24647840656786e-08, 'rotation_error_deg': 6.035324289294084e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_619evlpz/geometry_audit.json
+[Online reference] accumulated query 62/120; distance=132.1mm
+[Geometry audit] sensor closure={'position_error_m': 1.1808420169480682e-08, 'rotation_error_deg': 1.2943919763907412e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.918700686018775e-08, 'rotation_error_deg': 1.223227031267891e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_k7yuig9v/geometry_audit.json
+[Online reference] accumulated query 63/120; distance=129.7mm
+[Geometry audit] sensor closure={'position_error_m': 1.909232238436826e-08, 'rotation_error_deg': 1.2943919763907412e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.033105255139326e-09, 'rotation_error_deg': 1.1976741158447284e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_pmmtit3x/geometry_audit.json
+[Online reference] accumulated query 64/120; distance=127.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.772222368672408e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 8.851560765478558e-09, 'rotation_error_deg': 3.537304300922506e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_980vdblx/geometry_audit.json
+[Online reference] accumulated query 65/120; distance=125.0mm
+[Geometry audit] sensor closure={'position_error_m': 2.110603605747425e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.181175287927899e-08, 'rotation_error_deg': 1.1691407112925014e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_1l5rzlmt/geometry_audit.json
+[Online reference] accumulated query 66/120; distance=122.7mm
+[Geometry audit] sensor closure={'position_error_m': 2.00356030255172e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.0734587443466424e-08, 'rotation_error_deg': 5.140573554450014e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_vqjp2_wf/geometry_audit.json
+[Online reference] accumulated query 67/120; distance=120.3mm
+[Geometry audit] sensor closure={'position_error_m': 6.869986830463055e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.61061712300222e-08, 'rotation_error_deg': 5.146858074453272e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ht20zwbt/geometry_audit.json
+[Online reference] accumulated query 68/120; distance=117.9mm
+[Geometry audit] sensor closure={'position_error_m': 2.532186685418929e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.596937007620878e-08, 'rotation_error_deg': 1.3739030249237056e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_7y1eptfz/geometry_audit.json
+[Online reference] accumulated query 69/120; distance=115.6mm
+[Geometry audit] sensor closure={'position_error_m': 1.135832763279461e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.9609009560240284e-08, 'rotation_error_deg': 4.811675805525324e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ak9f0qto/geometry_audit.json
+[Online reference] accumulated query 70/120; distance=113.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.1378530202305607e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.677421488453975e-08, 'rotation_error_deg': 1.7187380334131195e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_7s95euwc/geometry_audit.json
+[Online reference] accumulated query 71/120; distance=111.0mm
+[Geometry audit] sensor closure={'position_error_m': 1.2468606777240873e-08, 'rotation_error_deg': 1.2943919763907412e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.573348712862557e-08, 'rotation_error_deg': 4.774901721557267e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_jn6cqo6s/geometry_audit.json
+[Online reference] accumulated query 72/120; distance=108.7mm
+[Geometry audit] sensor closure={'position_error_m': 5.82072540372642e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.094671346459213e-08, 'rotation_error_deg': 3.544617588198516e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_4m6352nx/geometry_audit.json
+[Online reference] accumulated query 73/120; distance=106.4mm
+[Geometry audit] sensor closure={'position_error_m': 9.782908667283612e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.592984103929079e-08, 'rotation_error_deg': 1.301925676077475e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_vf9ti92j/geometry_audit.json
+[Online reference] accumulated query 74/120; distance=104.2mm
+[Geometry audit] sensor closure={'position_error_m': 2.489368009530487e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.9988923430847e-08, 'rotation_error_deg': 6.109717251468583e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_3bp5gqvp/geometry_audit.json
+[Online reference] accumulated query 75/120; distance=101.9mm
+[Geometry audit] sensor closure={'position_error_m': 1.333840842006356e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.417661772454848e-08, 'rotation_error_deg': 1.3377133996041913e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_gu4qkaex/geometry_audit.json
+[Online reference] accumulated query 76/120; distance=99.7mm
+[Geometry audit] sensor closure={'position_error_m': 1.5608124492427623e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.060327284995483e-08, 'rotation_error_deg': 6.307927362877589e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_mp74j9bh/geometry_audit.json
+[Online reference] accumulated query 77/120; distance=97.4mm
+[Geometry audit] sensor closure={'position_error_m': 2.4496672089621068e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.054524280712645e-08, 'rotation_error_deg': 2.0129421544552345e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_egsyq4wx/geometry_audit.json
+[Online reference] accumulated query 78/120; distance=95.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.2516956495887676e-08, 'rotation_error_deg': 1.3233744931643781e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.6342875440139604e-08, 'rotation_error_deg': 1.5020858512501788e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_t1e9krvh/geometry_audit.json
+[Online reference] accumulated query 79/120; distance=93.0mm
+[Geometry audit] sensor closure={'position_error_m': 6.9596878346361695e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.8384094156220366e-08, 'rotation_error_deg': 1.4786455835552968e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_j1ekxqxc/geometry_audit.json
+[Online reference] accumulated query 80/120; distance=90.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.021868568463182e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.1675591055034242e-08, 'rotation_error_deg': 6.613028503989517e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_37bsixqs/geometry_audit.json
+[Online reference] accumulated query 81/120; distance=88.6mm
+[Geometry audit] sensor closure={'position_error_m': 8.593857005252163e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0362749019191683e-08, 'rotation_error_deg': 2.0305293962745405e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ba1fm51g/geometry_audit.json
+[Online reference] accumulated query 82/120; distance=86.6mm
+[Geometry audit] sensor closure={'position_error_m': 2.699424850769929e-09, 'rotation_error_deg': 1.3233744931643781e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.266489530679473e-08, 'rotation_error_deg': 6.432236483972744e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_xzfnduoz/geometry_audit.json
+[Online reference] accumulated query 83/120; distance=84.5mm
+[Geometry audit] sensor closure={'position_error_m': 6.002773652669007e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.523387660091144e-09, 'rotation_error_deg': 2.0257441776179817e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_z5vxclji/geometry_audit.json
+[Online reference] accumulated query 84/120; distance=82.5mm
+[Geometry audit] sensor closure={'position_error_m': 7.009886346477505e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.6904463976198096e-08, 'rotation_error_deg': 3.630495236853097e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_8pgdaocu/geometry_audit.json
+[Online reference] accumulated query 85/120; distance=80.5mm
+[Geometry audit] sensor closure={'position_error_m': 7.478524353328194e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0755626334982413e-08, 'rotation_error_deg': 2.216474355550356e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_8j5_8xkg/geometry_audit.json
+[Online reference] accumulated query 86/120; distance=78.6mm
+[Geometry audit] sensor closure={'position_error_m': 1.4044020234738479e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.4962407522166463e-08, 'rotation_error_deg': 9.63877910057851e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_o213mh28/geometry_audit.json
+[Online reference] accumulated query 87/120; distance=76.7mm
+[Geometry audit] sensor closure={'position_error_m': 1.1569806910522771e-08, 'rotation_error_deg': 1.3233744931643784e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.3608427199335839e-08, 'rotation_error_deg': 2.0294201322199683e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference__8kc_i63/geometry_audit.json
+[Online reference] accumulated query 88/120; distance=74.7mm
+[Geometry audit] sensor closure={'position_error_m': 1.3626819884965536e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.278816201796695e-08, 'rotation_error_deg': 8.61004221229052e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_oc8aas6r/geometry_audit.json
+[Online reference] accumulated query 89/120; distance=73.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.116600360604832e-08, 'rotation_error_deg': 1.3233744931643781e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.3731161857326777e-08, 'rotation_error_deg': 1.656040646036365e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_yzbm7dts/geometry_audit.json
+[Online reference] accumulated query 90/120; distance=71.4mm
+[Geometry audit] sensor closure={'position_error_m': 9.76910812130947e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.8750669054680487e-08, 'rotation_error_deg': 2.183680237415834e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_356fp1jq/geometry_audit.json
+[Online reference] accumulated query 91/120; distance=69.5mm
+[Geometry audit] sensor closure={'position_error_m': 6.720841365553484e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.3055235012183636e-08, 'rotation_error_deg': 4.504998956673085e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_3jq71d2c/geometry_audit.json
+[Online reference] accumulated query 92/120; distance=67.4mm
+[Geometry audit] sensor closure={'position_error_m': 4.419967187879329e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.4544628523855953e-08, 'rotation_error_deg': 1.5209017894543397e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_r597sa1g/geometry_audit.json
+[Online reference] accumulated query 93/120; distance=65.3mm
+[Geometry audit] sensor closure={'position_error_m': 6.920046949926628e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 9.653030946523728e-09, 'rotation_error_deg': 6.583260245733193e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ose2snrd/geometry_audit.json
+[Online reference] accumulated query 94/120; distance=64.7mm
+[Geometry audit] sensor closure={'position_error_m': 1.2071309556682514e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.720803206802974e-08, 'rotation_error_deg': 6.533322654561329e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_m4n__zzy/geometry_audit.json
+[Online reference] accumulated query 95/120; distance=63.5mm
+[Geometry audit] sensor closure={'position_error_m': 6.120542642701723e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.0625699913677065e-08, 'rotation_error_deg': 2.4803318817121156e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_01ihatt7/geometry_audit.json
+[Online reference] accumulated query 96/120; distance=61.7mm
+[Geometry audit] sensor closure={'position_error_m': 1.4828745085490618e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.436987639721783e-08, 'rotation_error_deg': 5.213895703269343e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_21egi6vh/geometry_audit.json
+[Online reference] accumulated query 97/120; distance=60.0mm
+[Online reference] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/near_descent_reference_ab/20261030T102743393509Z/repeat-01-accumulated/capture/20261030T102910140747Z/online_registered_result.json
+(viser) Server stopped
+[INFO]: SimulationContext cleared
+2026-10-30T10:29:21Z [9,538ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:29:22Z [11,101ms] [Warning] [omni.rtx] DLSS increasing input dimensions: Render resolution of (171, 171) is below minimal input resolution of 300.
+2026-10-30T10:29:24Z [13,055ms] [Warning] [omni.kit.material.library.material_extensions] Could not initialize context menu integration: No module named 'omni.kit.context_menu'
+2026-10-30T10:30:36Z [84,690ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:30:36Z [84,692ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:30:36Z [84,693ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:30:36Z [84,693ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:30:36Z [84,698ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:30:36Z [84,699ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:30:36Z [84,699ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU
+2026-10-30T10:30:36Z [84,699ms] [Warning] [omni.replicator.core.scripts.annotators] omni.hydra.engine.stats is not installed, assuming single GPU

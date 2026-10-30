@@ -1,0 +1,32 @@
+Uninstalled 1 package in 2ms
+Installed 1 package in 2ms
+[INFO]: Auto-enabling camera rendering for Kit sensors, recording, or streaming views.
+[INFO]: Running headless because '--viz kit' was not requested. Pass it to open a viewport.
+[INFO]: Using device: cuda:0
+[INFO]: Loading experience file: /home/test/Robot/IsaacLab/apps/isaaclab.python.headless.rendering.kit
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1793356590.517441  827968 descriptor_database.cc:633] File already exists in database: grpc/health/v1/health.proto
+W0000 00:00:1793356590.517463  827968 message.cc:301] Protobuf GeneratedMessageFactory: File is already registered: grpc/health/v1/health.proto
+TU: error: ../src/freedreno/vulkan/tu_knl.cc:387: failed to open device /dev/dri/renderD128 (VK_ERROR_INCOMPATIBLE_DRIVER)
+Loading user config located at: '/home/test/.cache/packman/chk/kit-kernel/110.3.0+feature.manylinux_2_35_aarch64.release/data/Kit/IsaacLab/3.0/user.config.json'
+2026-10-30T10:36:30Z [Info] [carb] Logging to file: /home/test/.cache/packman/chk/kit-kernel/110.3.0+feature.manylinux_2_35_aarch64.release/logs/Kit/IsaacLab/3.0/kit_20261030_183630.log
+2026-10-30T10:36:30Z [3ms] [Warning] [omni.ext.plugin] [ext: isaaclab_assets] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_assets' or '/home/test/Robot/IsaacLab/source/isaaclab_assets/config'
+2026-10-30T10:36:30Z [3ms] [Warning] [omni.ext.plugin] [ext: isaaclab_physx] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_physx' or '/home/test/Robot/IsaacLab/source/isaaclab_physx/config'
+2026-10-30T10:36:30Z [3ms] [Warning] [omni.ext.plugin] [ext: isaaclab_rl] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_rl' or '/home/test/Robot/IsaacLab/source/isaaclab_rl/config'
+2026-10-30T10:36:30Z [3ms] [Warning] [omni.ext.plugin] [ext: isaaclab_contrib] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_contrib' or '/home/test/Robot/IsaacLab/source/isaaclab_contrib/config'
+2026-10-30T10:36:30Z [3ms] [Warning] [omni.ext.plugin] [ext: isaaclab_mimic] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_mimic' or '/home/test/Robot/IsaacLab/source/isaaclab_mimic/config'
+2026-10-30T10:36:30Z [3ms] [Warning] [omni.ext.plugin] [ext: isaaclab_ov] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_ov' or '/home/test/Robot/IsaacLab/source/isaaclab_ov/config'
+2026-10-30T10:36:30Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab' or '/home/test/Robot/IsaacLab/source/isaaclab/config'
+2026-10-30T10:36:30Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_ppisp] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_ppisp' or '/home/test/Robot/IsaacLab/source/isaaclab_ppisp/config'
+2026-10-30T10:36:30Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_teleop] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_teleop' or '/home/test/Robot/IsaacLab/source/isaaclab_teleop/config'
+2026-10-30T10:36:30Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_tasks] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_tasks' or '/home/test/Robot/IsaacLab/source/isaaclab_tasks/config'
+2026-10-30T10:36:30Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_experimental] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_experimental' or '/home/test/Robot/IsaacLab/source/isaaclab_experimental/config'
+2026-10-30T10:36:30Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_newton] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_newton' or '/home/test/Robot/IsaacLab/source/isaaclab_newton/config'
+2026-10-30T10:36:30Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_tasks_experimental] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_tasks_experimental' or '/home/test/Robot/IsaacLab/source/isaaclab_tasks_experimental/config'
+2026-10-30T10:36:30Z [4ms] [Warning] [omni.ext.plugin] [ext: isaaclab_visualizers] Extensions config 'extension.toml' doesn't exist '/home/test/Robot/IsaacLab/source/isaaclab_visualizers' or '/home/test/Robot/IsaacLab/source/isaaclab_visualizers/config'
+2026-10-30T10:36:30Z [153ms] [Warning] [omni.platforminfo.plugin] failed to open the default display.  Can't verify X Server version.
+
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 580.159.03    | Graphics API: Vulkan
+|=============================================================================================|
+| GPU [ISAACLAB] KitLauncher initialization complete
