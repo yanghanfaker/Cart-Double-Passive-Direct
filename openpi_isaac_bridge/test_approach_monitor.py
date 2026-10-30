@@ -60,9 +60,21 @@ class ApproachTests(unittest.TestCase):
         self.assertEqual(result["completed_steps"],80)
         self.assertEqual(result["termination_reason"],"segment_progress_less_than_2mm")
 
-    def test_long_budget_rejects_missing_monitor_or_more_than_400_steps(self):
+    def test_long_budget_rejects_missing_monitor_or_more_than_500_steps(self):
         with self.assertRaises(ValueError):run_openpi_steps(None,None,None,steps=400,extended_approach=True)
-        with self.assertRaises(ValueError):self.run_probe(lambda i:.36,steps=401,extended=True)
+        with self.assertRaises(ValueError):self.run_probe(lambda i:.36,steps=501,extended=True)
+
+    def test_chunk10_500_step_budget_uses_50_requests_and_same_checkpoints(self):
+        result=self.run_probe(lambda i:1-.0005*i,steps=500,initial=1,extended=True,replan=10)
+        self.assertTrue(result["probe_completed"])
+        self.assertEqual(result["completed_steps"],500)
+        self.assertEqual(result["inference_requests"],50)
+        self.assertEqual(len(result["approach_summary"]["segments"]),25)
+
+    def test_500_step_budget_does_not_disable_early_stall_stop(self):
+        result=self.run_probe(lambda i:.36-.0005*min(i,60),steps=500,extended=True,replan=10)
+        self.assertEqual(result["completed_steps"],80)
+        self.assertEqual(result["termination_reason"],"segment_progress_less_than_2mm")
 
     def test_stall_stops_after_executed_checkpoint(self):
         result=self.run_probe(lambda i:.36)

@@ -113,7 +113,7 @@ def main():
     parser.add_argument("--grasp-orient-step-deg", type=float, default=0.5)
     parser.add_argument("--grasp-seed", type=int, default=0)
     parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
-    parser.add_argument("--openpi-approach-long", action="store_true", help="explicit 400-step approach budget and larger total envelope")
+    parser.add_argument("--openpi-approach-long", action="store_true", help="explicit up-to-500-step approach budget and larger total envelope")
     parser.add_argument("--openpi-approach", action="store_true", help="segmented diagnostic-only approach, up to 60 controls")
     parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5,10), default=1)
     parser.add_argument("--openpi-steps", type=int, default=20)
@@ -141,8 +141,8 @@ def main():
         if args.motion_test not in REPLAY_MODES:
             parser.error("--record-jacobians requires a frozen replay mode")
         args.record_physics = True
-    if not 1<=args.openpi_steps<=(400 if args.openpi_approach_long else 60 if args.openpi_approach else 20):
-        parser.error("--openpi-steps must be 1..20, 1..60 with approach, or 1..400 with explicit long approach")
+    if not 1<=args.openpi_steps<=(500 if args.openpi_approach_long else 60 if args.openpi_approach else 20):
+        parser.error("--openpi-steps must be 1..20, 1..60 with approach, or 1..500 with explicit long approach")
     grasp_condition = {"name": "direct", "object_offset_xy_m": list(args.grasp_object_offset),
         "object_yaw_deg": args.grasp_object_yaw, "orient_step_deg": args.grasp_orient_step_deg, "seed": args.grasp_seed}
     try:

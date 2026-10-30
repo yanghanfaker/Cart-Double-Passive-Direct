@@ -52,7 +52,7 @@ def main():
     parser.add_argument("--stream-scenarios-json", type=Path, help="cross gain cases with bounded stream start positions/amplitudes")
     parser.add_argument("--grasp-scenarios-json", type=Path, help="cross gain cases with explicit object poses, seeds and orientation rates")
     parser.add_argument("--replay-actions-json", type=Path, default=Path(__file__).with_name("openpi_replay_actions.json"))
-    parser.add_argument("--openpi-approach-long", action="store_true", help="explicit 400-control approach budget")
+    parser.add_argument("--openpi-approach-long", action="store_true", help="explicit up-to-500-control approach budget")
     parser.add_argument("--openpi-approach", action="store_true", help="up to 60 controls with segmented progress stops")
     parser.add_argument("--openpi-replan-steps", type=int, choices=(1,5,10), nargs="+", help="expand candidate into chunk-length comparisons")
     parser.add_argument("--policy-server-log", type=Path, help="optional server startup log prefix to preserve with results")
@@ -78,8 +78,8 @@ def main():
         if any(mode not in REPLAY_MODES for mode in args.modes):
             parser.error("--record-jacobians requires frozen replay modes only")
         args.record_physics = True
-    if not 1<=args.openpi_steps<=(400 if args.openpi_approach_long else 60 if args.openpi_approach else 20):
-        parser.error("--openpi-steps must be 1..20, 1..60 with approach, or 1..400 with explicit long approach")
+    if not 1<=args.openpi_steps<=(500 if args.openpi_approach_long else 60 if args.openpi_approach else 20):
+        parser.error("--openpi-steps must be 1..20, 1..60 with approach, or 1..500 with explicit long approach")
     if any(mode in args.modes for mode in ("joint-step", "grasp", "openpi-step", *REPLAY_MODES)):
         args.record_physics = True
     joint_overrides = (

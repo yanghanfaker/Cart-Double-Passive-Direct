@@ -1946,3 +1946,54 @@ git push origin main
 
 138项CPU测试和语法检查通过，新增覆盖10步完整顺序、短块拒绝、400步40次推理、块内监测停止、三轮名称与路由。
 原块长1/5和固定动作重放测试继续通过，实际长程模型轨迹待Spark验证。
+
+## 块长10：仅将预算增加到500步，重复3轮
+
+结果472997a7ce83中，第一轮执行满400步，末段仍接近6.70mm，最终83.77mm；尚未进入80mm边界。
+本轮只增加可执行时间，保留所有运动和停止约束，不同时调整进展门槛、增益、图像或动作幅度。
+
+长程模式现在允许显式`--openpi-steps 500`；原400步命令仍只执行最多400步，普通模式20步、非长程接近60步上限保持不变。
+新增`openpi_approach_500_cases.json`，三组增益与此前repeat配置相同，名称加入budget500，防止导出覆盖400步实验文件。
+
+每轮最多500个50ms控制步（25秒仿真时间）、50次推理、2500条10ms物理记录。
+三轮合计最多1500控制步、150次推理、7500条物理记录。每10步更新模型输入，每20步仍检查至少接近2mm。
+夹爪保持打开，每步1mm/0.25度、总位移350mm/净旋转90度、80mm停止边界、远离与物体移动等检查均保持有效。
+增加预算并不会保证执行满500步；任何停止条件触发仍立即终止该轮并保存诊断。
+
+保持OpenPI服务在8000端口运行，另一终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_approach_500_cases.json \
+  --modes openpi-step \
+  --openpi-replan-steps 10 --openpi-steps 500 \
+  --openpi-approach --openpi-approach-long \
+  --openpi-state-frame world \
+  --server-host 127.0.0.1 --server-port 8000 \
+  --policy-server-log /home/test/Robot/openpi/openpi_chunk_probe_server.log \
+  --prompt "pick up the cube" --record-physics
+```
+
+重点看是否触达80mm边界，以及第400步之后还保持接近还是开始反向；同时核对三轮初始输入、
+停止原因、近物体横向偏差、周期末跟踪误差和10ms估算力矩。不同查询的模型输出会变化，
+本轮不是从上一轮400步末状态接着运行，也不保证复现上一轮第一条轨迹。
+
+进入80mm边界时near_boundary_reached=true、stopped_by_monitor=true、termination_reason=near_object_boundary，
+probe_completed=false是预期受控停止。执行满500步但仍未进入边界时probe_completed=true，仅表示预算执行完。
+本轮依然只验证开爪接近，不评价抓取成功。
+
+完成三轮后导出推送，包括正常生成诊断的受控停止：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add three budget500 chunk10 OpenPI approach results"
+git push origin main
+```
+
+140项CPU测试与语法检查通过，新增覆盖500步/50次推理/25个检查段和延长预算后的进展不足停止；
+模拟三轮路由与导出确认同一增益、500步/块长10、独立名称、受控停止后继续以及三份物理轨迹导出。
+实际500步模型轨迹仍待Spark验证。
