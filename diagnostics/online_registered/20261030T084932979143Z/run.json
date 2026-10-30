@@ -1,0 +1,51 @@
+{
+  "status": "completed",
+  "source_manifest": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/run.json",
+  "source_manifest_sha256": "64314275d4efc6d627b6229391f00d45e6ccd4bae4908392c342877c61620ec2",
+  "cases": [
+    {
+      "name": "arm-only",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084932979143Z/arm-only/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084932979143Z/arm-only/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084932979143Z/arm-only/online_settings.json"
+      ],
+      "result": "arm-only/capture/20261030T084933021103Z/online_registered_result.json",
+      "result_sha256": "950992598a90aa0c8f871bc8c20eb0839f940118b0f19844ae8481358639b645",
+      "final_target_reached": true
+    },
+    {
+      "name": "arm-and-target-xy",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084932979143Z/arm-and-target-xy/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084932979143Z/arm-and-target-xy/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084932979143Z/arm-and-target-xy/online_settings.json"
+      ],
+      "result": "arm-and-target-xy/capture/20261030T084951745404Z/online_registered_result.json",
+      "result_sha256": "4cc7f82e72e46ad7091ee23163b99d776a857dba59ffb3f6284a424bb41f618d",
+      "final_target_reached": true
+    }
+  ],
+  "scope": "two independent current-observation one-query probes; each 5 capped actions + 10 fixed-target holds; gripper open",
+  "world_registration_sha256": "352bd9ade078c5887481e09a38d9144b9ddfd4408e0cc4f2fe8a20f9fb79d435",
+  "prompt": "pick up the cube",
+  "server_host": "127.0.0.1",
+  "server_port": 8000,
+  "all_final_targets_reached": true
+}

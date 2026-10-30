@@ -1,0 +1,57 @@
+{
+  "status": "completed",
+  "source_report": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/openpi_image_ab/20261030T081906073633Z/report.json",
+  "source_sha256": "64f1c7c6bbcae89d7abd639999ed4b3c881f77506aa7370d316aa9d231afe7f8",
+  "policy_queries": 0,
+  "selection": "flip_x query nearest its case mean first5 projection, tie by repeat; not best-query selection",
+  "cases": [
+    {
+      "name": "arm-only",
+      "status": "completed",
+      "source_repeat": 2,
+      "source_input_sha256": "13f1a488cf8dce09559b9bc15af2b23ac18c024efb993af00df4eb0090862ed0",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-only/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-only/clean_scene_request.json",
+        "--registered-replay-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-only/replay_request.json"
+      ],
+      "result": "arm-only/capture/20261030T083444800968Z/registered_replay_result.json",
+      "result_sha256": "07ed49fdf0fb0a6b840735dd6088d15236c683848fb577f4e4b4b271b526ae58",
+      "actual_initial_direction_approach_mm": 0.9180897671236006,
+      "commanded_initial_direction_approach_mm": 0.9077044466015648,
+      "final_target_reached": true
+    },
+    {
+      "name": "arm-and-target-xy",
+      "status": "completed",
+      "source_repeat": 9,
+      "source_input_sha256": "8889e96fffd9576518d444cd2dd33153751f1f41b0f205280a86de952f99306f",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-and-target-xy/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-and-target-xy/clean_scene_request.json",
+        "--registered-replay-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/registered_replay/20261030T083444755037Z/arm-and-target-xy/replay_request.json"
+      ],
+      "result": "arm-and-target-xy/capture/20261030T083503176982Z/registered_replay_result.json",
+      "result_sha256": "29763eee1223c3a78ebbd1e000cff2ea802b7e8435ad39dbb7fbdf1ca039489e",
+      "actual_initial_direction_approach_mm": 1.4812317075996084,
+      "commanded_initial_direction_approach_mm": 1.6358753503593673,
+      "final_target_reached": true
+    }
+  ],
+  "scope": "two independent 5-action replay + 10 fixed-target settling periods; 0.5mm/0.1deg caps, gripper open; no new inference",
+  "all_final_targets_reached": true
+}

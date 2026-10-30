@@ -1,0 +1,23 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084831133193Z/arm-only/capture/20261030T084831162088Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084831133193Z/arm-only/capture/20261030T084831162088Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.473491732482327e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.73569536086646e-08, 'rotation_error_deg': 1.1779458330959206e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084831133193Z/arm-only/capture/20261030T084831162088Z/geometry_audit.json
+[Clean scene] {"case": "arm-only", "geometry": true, "projections": {"external_camera": [127.99830196401888, 131.57970982758226], "wrist_camera": [122.46432610464343, 120.71507217728089]}}
+[Registered replay] 01 recorded-action; TCP target error=0.088mm
+[Registered replay] 02 recorded-action; TCP target error=0.043mm
+[Registered replay] 03 recorded-action; TCP target error=0.057mm
+[Registered replay] 04 recorded-action; TCP target error=0.062mm
+[Registered replay] 05 recorded-action; TCP target error=0.050mm
+[Registered replay] 06 fixed-target-settle; TCP target error=0.049mm
+[Registered replay] 07 fixed-target-settle; TCP target error=0.018mm
+[Registered replay] 08 fixed-target-settle; TCP target error=0.011mm
+[Registered replay] 09 fixed-target-settle; TCP target error=0.016mm
+[Registered replay] 10 fixed-target-settle; TCP target error=0.006mm
+[Registered replay] 11 fixed-target-settle; TCP target error=0.006mm
+[Registered replay] 12 fixed-target-settle; TCP target error=0.007mm
+[Registered replay] 13 fixed-target-settle; TCP target error=0.003mm
+[Registered replay] 14 fixed-target-settle; TCP target error=0.004mm
+[Registered replay] 15 fixed-target-settle; TCP target error=0.004mm
+[Registered replay] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084831133193Z/arm-only/capture/20261030T084831162088Z/registered_replay_result.json
+[Online registered] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084831133193Z/arm-only/capture/20261030T084831162088Z/online_registered_result.json
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_registered/20261030T084831133193Z/arm-only/capture/20261030T084831162088Z/run.json
