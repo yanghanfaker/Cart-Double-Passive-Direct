@@ -2176,3 +2176,42 @@ git add -- diagnostics/libero_reference_setup/
 git commit -m "Add isolated LIBERO setup and reference capture results"
 git push origin main
 ```
+
+## 下一轮：冻结图片的坐标 A/B/C 对照
+
+参考采集结果 `1f301b39520b` 已成功。此轮仅检查模型对状态坐标变化的敏感性，不启动 Isaac，不执行动作。
+使用先前四个冻结观测，逐一保持两张224×224 RGB图像、提示词、姿态编码、夹爪状态不变：
+
+- A：原始Isaac状态。
+- B：假设世界轴对齐，位置加上 `[-0.66, 0, 0.912]` m。
+- C：在B基础上，加上 `R_hand * [0,0,-0.0064]` m，将103.4 mm传感器点换成97 mm参考点。
+
+姿态使用手部旋转向量，保持原值，不换成grip_site姿态。参考点转换随每张观测的手部姿态变化。
+该变换只是单姿态几何比较得到的候选，不是多姿态标定结果。摄像机与场景差异依然存在。
+每个观测每条件查询5次，共60次；每轮轮换条件顺序，记录随机采样变化，没有共享随机种子或配对噪声保证。
+记录完整原始10步、前5步与全部动作的方向投影、假想限幅结果和闭爪请求；投影中物体真值只做诊断，不发送给模型。
+物体诊断坐标与状态坐标使用相同世界平移；C额外改变测量点。正投影不能证明真实抓取或控制成功。
+
+保持原有OpenPI服务运行，在另一个Spark终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/.venv/bin/python \
+  openpi_isaac_bridge/frozen_coordinate_probe.py --repeats 5
+```
+
+脚本自动选择仓库 `diagnostics/openpi_frozen_observation/*/report.json` 中最近完成的四观测报告。
+可用 `--source-report /绝对路径/report.json` 明确指定。
+查询前检查源状态103.4 mm偏移、世界帧、原点附近的基座、旋转向量编码、图像SHA及尺寸。
+候选使用同一证据commit，源报告SHA、原始setup、实际发送float32状态、每次输入SHA都会保存。
+输出 `diagnostics/openpi_coordinate_probe/<UTC>/report.json`，失败也保留已完成查询。`actions_executed` 始终为0。
+本地164项CPU/模拟客户端测试通过；Spark真实模型结果待本轮运行。
+
+完成后直接推送本轮目录，无需运行gain_sweep导出：
+
+```bash
+git add -- diagnostics/openpi_coordinate_probe/
+git commit -m "Add frozen coordinate A B C comparison results"
+git push origin main
+```
