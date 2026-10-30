@@ -65,6 +65,7 @@ def main():
         if json.loads(payload).get('mode')=='openpi-grasp':manifest['scope']='OpenPI approach and gated model closure; program lift/hold verification; success reported separately'
         if json.loads(payload).get('mode')=='target-reference-ab':manifest['scope']='fixed recorded stream target-reference comparison; no policy service connection'
         if json.loads(payload).get('mode')=='online-reference-ab':manifest['scope']='short live-observation reference comparison; open gripper, final target hold'
+        if json.loads(payload).get('mode')=='online-reference-ab' and json.loads(payload).get('profile')=='descent':manifest['scope']='extended descent reference comparison; planned early stops and open-gripper hold'
     def save():(folder/'run.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
     save(); print(f'[Geometry runner] Output: {folder}',flush=True)
     try:

@@ -49,37 +49,101 @@ def prepare_source(root,data):
     return configs['current'],gains['current'],results['current']['initial'],cb,payloads,prompt
 
 
+def prepare_online_source(root,data):
+    if data['status']!='completed' or data.get('profile','short')!='short' or not data['initial_inputs_identical'] or not data['all_followup_inputs_changed']:
+        raise ValueError('descent source must be a completed short online comparison with matching/updating inputs')
+    if len(data['cases'])!=6 or data['queries_per_run']!=20:raise ValueError('descent source requires six completed 20-query runs')
+    if sorted(c['reference_mode'] for c in data['cases'])!=['accumulated']*3+['current']*3:raise ValueError('descent source requires three runs per mode')
+    configs=[];gains=[];initials=[];payloads={};settings_list=[]
+    for case in data['cases']:
+        p=root/case['result'];b=p.read_bytes();r=json.loads(b)
+        if digest(b)!=case['result_sha256']:raise ValueError('source live result SHA mismatch')
+        validate_run_result(r,case['reference_mode'],20,'short')
+        if not r['all_followup_inputs_changed']:raise ValueError('source inputs did not update')
+        configs.append(validate_clean_scene(json.loads((root/case['name']/'clean_scene_request.json').read_bytes())))
+        gains.append(json.loads((p.parent/'joint_gains.json').read_bytes()));initials.append(r['initial'])
+        settings_list.append(json.loads((root/case['name']/'online_settings.json').read_bytes()))
+        payloads[case['name']]=b
+    if not all(c==configs[0] for c in configs) or not all(g==gains[0] for g in gains):raise ValueError('source live configs/gains differ')
+    for initial in initials:validate_initial(initial,initials[0])
+    cb=(root/'world_registration.json').read_bytes()
+    if digest(cb)!=data['world_registration_sha256']:raise ValueError('source live calibration SHA mismatch')
+    cal=json.loads(cb)
+    if not cal.get('candidate_geometry_within_thresholds'):raise ValueError('validated calibration required')
+    prompt=settings_list[0]['prompt']
+    for settings in settings_list:
+        if settings['prompt']!=prompt or settings['calibration']!=cal or settings['expected_joint_gains']!=gains[0]:raise ValueError('source live settings differ')
+    if not isinstance(prompt,str) or not prompt.strip():raise ValueError('invalid source prompt')
+    for key,ckey in [('reference_world_rotation','world_from_isaac_rotation'),('reference_world_translation_m','world_from_isaac_translation_m')]:
+        if not np.allclose(configs[0][key],cal[ckey],atol=1e-12,rtol=0):raise ValueError('source scene/calibration mismatch')
+    return configs[0],gains[0],initials[0],cb,payloads,prompt
+
+
+def validate_run_result(r,mode,budget,profile):
+    if r['status']!='completed' or r['reference_mode']!=mode or r.get('profile','short')!=profile or r['hold_controls']!=10 or r['policy_queries']!=r['inference_attempts'] or r['native_controls_executed']!=r['action_controls']+10:
+        raise RuntimeError('incomplete online comparison')
+    if profile=='short':
+        if r['policy_queries']!=budget or r['action_controls']!=5*budget:raise RuntimeError('incomplete short comparison')
+    else:
+        q=r['policy_queries'];a=r['action_controls'];reason=r['stop_reason']
+        if r['queries_requested']!=budget or not 1<=q<=budget or not 5*(q-1)<a<=5*q:raise RuntimeError('invalid descent query/control counts')
+        if reason not in ('near_boundary_reached','descent_height_floor_reached','distance_increased_from_best_over_10mm','progress_below_2mm_per100_controls','query_budget_exhausted'):raise RuntimeError('unknown descent stop reason')
+        if r['boundary_reached']!=(reason=='near_boundary_reached'):raise RuntimeError('boundary flag and reason disagree')
+        if reason=='query_budget_exhausted' and (q!=budget or a!=5*budget):raise RuntimeError('budget exhausted before full budget executed')
+
+
+def numeric_summary(values):
+    return {'mean':statistics.mean(values),'sample_std':statistics.stdev(values) if len(values)>1 else None,'min':min(values),'max':max(values)}
+
+
 def summarize(cases):
     summary={}
     for mode in ('current','accumulated'):
         group=[c for c in cases if c['reference_mode']==mode and c['status']=='completed'];summary[mode]={'completed_runs':len(group)}
         for key in ('distance_reduction_m','final_xy_offset_m','final_ideal_position_error_m','max_applied_backlog_m','max_pre_update_ideal_gap_m','max_applied_target_error_m'):
             values=[c[key] for c in group]
-            if values:summary[mode][key]={'mean':statistics.mean(values),'sample_std':statistics.stdev(values) if len(values)>1 else None,'min':min(values),'max':max(values)}
+            if values:summary[mode][key]=numeric_summary(values)
+        reached=[c for c in group if c.get('boundary_reached')]
+        summary[mode]['boundary_reached_runs']=len(reached)
+        if reached:summary[mode]['action_controls_to_boundary']=numeric_summary([c['action_controls'] for c in reached])
+        summary[mode]['stop_reasons']={reason:sum(c.get('stop_reason')==reason for c in group) for reason in sorted({c.get('stop_reason','query_budget_exhausted') for c in group})}
+        for mm in (200,150,100):
+            key=f'height_{mm}mm';points=[c.get('height_checkpoints',{}).get(key) for c in group];points=[p for p in points if p is not None]
+            summary[mode][key]={'reached_runs':len(points)}
+            for metric in ('xy_offset_m','object_distance_m','action_control'):
+                if points:summary[mode][key][metric]=numeric_summary([p[metric] for p in points])
     return summary
 
 
 def main():
     repo=Path(__file__).resolve().parent.parent;parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source-manifest',type=Path)
-    parser.add_argument('--output-root',type=Path,default=repo/'diagnostics/online_reference_ab')
+    parser.add_argument('--output-root',type=Path)
     parser.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
     parser.add_argument('--server-host',default='127.0.0.1');parser.add_argument('--server-port',type=int,default=8000)
-    parser.add_argument('--queries',type=int,choices=(10,20),default=20);parser.add_argument('--repeats',type=int,choices=(1,3),default=3)
-    args=parser.parse_args();sources=sorted((repo/'diagnostics/target_reference_ab').glob('*/run.json'))
+    parser.add_argument('--profile',choices=('short','descent'),default='short')
+    parser.add_argument('--queries',type=int);parser.add_argument('--repeats',type=int,choices=(1,3),default=3)
+    args=parser.parse_args()
+    if args.queries is None:args.queries=100 if args.profile=='descent' else 20
+    if args.queries not in ((80,100) if args.profile=='descent' else (10,20)):parser.error('queries must be 80/100 for descent, or 10/20 for short')
+    source_category='online_reference_ab' if args.profile=='descent' else 'target_reference_ab'
+    output_category='descent_reference_ab' if args.profile=='descent' else 'online_reference_ab'
+    if args.output_root is None:args.output_root=repo/'diagnostics'/output_category
+    sources=sorted((repo/'diagnostics'/source_category).glob('*/run.json'))
     source=args.source_manifest or next((p for p in reversed(sources) if json.loads(p.read_bytes()).get('status')=='completed'),None)
-    if source is None:parser.error('need completed fixed-stream target reference comparison')
+    if source is None:parser.error('no completed reference comparison source for this profile')
     source=source.expanduser().absolute();data=json.loads(source.read_bytes())
     folder=args.output_root.expanduser().absolute()/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ');folder.mkdir(parents=True,exist_ok=False)
     (folder/'source_reference_manifest.json').write_bytes(source.read_bytes())
     report={'status':'preparing','source_manifest':str(source),'source_sha256':digest(source.read_bytes()),'queries_per_run':args.queries,'repeats':args.repeats,'cases':[],
+        'profile':args.profile,
         'scope':'independent live observations and model outputs for each reference condition; open gripper',
         'sampling':'unpaired stochastic inference, no shared model-noise seed; condition order alternates per repeat'}
     def save():
         report['summary']=summarize(report['cases']);(folder/'run.json').write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8')
     save();print(f'[Online AB runner] Output: {folder}',flush=True)
     try:
-        config,gains,initial,cb,payloads,prompt=prepare_source(source.parent,data)
+        config,gains,initial,cb,payloads,prompt=(prepare_online_source if args.profile=='descent' else prepare_source)(source.parent,data)
         (folder/'world_registration.json').write_bytes(cb)
         for mode,b in payloads.items():(folder/f'source_{mode}_result.json').write_bytes(b)
         report['world_registration_sha256']=digest(cb);report['server_health']=check_openpi_health(args.server_host,args.server_port)
@@ -90,6 +154,7 @@ def main():
                 name=f'repeat-{repeat:02d}-{mode}';target=folder/name;target.mkdir()
                 cf=target/'clean_scene_request.json';cf.write_text(json.dumps(config,indent=2),encoding='utf-8')
                 settings={'mode':'online-reference-ab','reference_mode':mode,'queries':args.queries,'calibration':json.loads(cb),
+                    'profile':args.profile,
                     'expected_joint_gains':gains,'expected_initial':initial,'prompt':prompt,
                     'server_host':args.server_host,'server_port':args.server_port}
                 sf=target/'online_settings.json';sf.write_text(json.dumps(settings,indent=2),encoding='utf-8')
@@ -107,10 +172,11 @@ def main():
                 outputs=list((target/'capture').glob('*/online_registered_result.json'))
                 if len(outputs)!=1:raise RuntimeError('expected one live comparison report')
                 r=json.loads(outputs[0].read_bytes())
-                if r['status']!='completed' or r['reference_mode']!=mode or r['policy_queries']!=args.queries or r['inference_attempts']!=args.queries or r['action_controls']!=5*args.queries or r['hold_controls']!=10 or r['native_controls_executed']!=5*args.queries+10:
-                    raise RuntimeError('incomplete online comparison')
+                validate_run_result(r,mode,args.queries,args.profile)
                 row.update(status='completed',result=outputs[0].relative_to(folder).as_posix(),result_sha256=digest(outputs[0].read_bytes()),first_input_sha256=r['first_input_sha256'],
                     all_followup_inputs_changed=r['all_followup_inputs_changed'],requested_close_actions=r['requested_close_actions'])
+                row.update(stop_reason=r.get('stop_reason','query_budget_exhausted'),boundary_reached=r.get('boundary_reached',False),
+                    action_controls=r['action_controls'],queries_used=r['policy_queries'],height_checkpoints=r.get('height_checkpoints',{}))
                 for key in ('distance_reduction_m','final_xy_offset_m','final_ideal_position_error_m','max_applied_backlog_m','max_pre_update_ideal_gap_m','max_applied_target_error_m'):row[key]=r[key]
                 save()
         report.update(status='completed',initial_inputs_identical=len({c['first_input_sha256'] for c in report['cases']})==1,

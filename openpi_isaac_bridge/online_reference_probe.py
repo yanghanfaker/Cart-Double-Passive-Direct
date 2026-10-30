@@ -1,4 +1,4 @@
-"""Short live-observation comparison of current and accumulated reference modes."""
+"""Live-observation comparison of current and accumulated reference modes."""
 import hashlib
 import json
 import math
@@ -28,12 +28,29 @@ def validate_initial(actual,expected):
     return metrics
 
 
+def comparison_limits(profile):
+    if profile=='short':return {'queries':(10,20),'net_m':.060,'path_m':.080,'rotation_deg':15}
+    if profile=='descent':return {'queries':(80,100),'net_m':.250,'path_m':.280,'rotation_deg':60}
+    raise ValueError('unknown comparison profile')
+
+
+def descent_stop(state,best_distance,window_progress=None):
+    distance=math.dist(state['tcp_world_m'],state['object_pos_world_m'])
+    height=state['tcp_world_m'][2]-state['object_pos_world_m'][2]
+    if distance<=.09:return 'near_boundary_reached'
+    if height<=.04:return 'descent_height_floor_reached'
+    if distance>best_distance+.01:return 'distance_increased_from_best_over_10mm'
+    if window_progress is not None and window_progress<.002:return 'progress_below_2mm_per100_controls'
+    return None
+
+
 def run_online_reference(env,base,arm,settings,output,tensor):
     from openpi_grasp_runtime import GraspRuntime
-    mode=settings['reference_mode'];count=settings['queries']
-    if mode not in ('current','accumulated') or count not in (10,20):raise ValueError('expected current/accumulated and 10/20 queries')
+    mode=settings['reference_mode'];count=settings['queries'];profile=settings.get('profile','short');limits=comparison_limits(profile)
+    if mode not in ('current','accumulated') or count not in limits['queries']:raise ValueError('unsupported reference mode/query budget for profile')
     output=Path(output)
     report={'status':'preparing','mode':'online-reference-ab','reference_mode':mode,'queries_requested':count,
+        'profile':profile,'motion_limits':limits,'stop_reason':None,'boundary_reached':False,'height_checkpoints':{},'progress_windows':[],
         'policy_queries':0,'inference_attempts':0,'action_controls':0,'hold_controls':0,'native_controls_executed':0,
         'queries':[],'requested_close_actions':0,'scope':'each condition queries its own current observations; open gripper; experimental target convention, not grasp validation',
         'timing':'synchronous physics paused during inference, velocities retained; no real-time guarantee'}
@@ -45,10 +62,13 @@ def run_online_reference(env,base,arm,settings,output,tensor):
         from openpi_client.websocket_client_policy import WebsocketClientPolicy
         client=WebsocketClientPolicy(host=settings['server_host'],port=settings['server_port']);report['server_metadata']=read_server_metadata(client)
         runtime=GraspRuntime(env,base,arm,settings,output,tensor,report,save);initial=runtime.state()
+        initial_distance=math.dist(initial['tcp_world_m'],initial['object_pos_world_m'])
+        if profile=='descent' and initial_distance<=.10:raise RuntimeError('descent comparison must start outside 100mm')
         report.update(initial=initial,initial_checks=validate_initial(initial,settings['expected_initial']))
         reference=TargetReference(initial,settings['calibration']['world_from_isaac_rotation'])
         trace=(output/'reference_trace.jsonl').open('w',encoding='utf-8')
         maximum_backlog=0.;maximum_rotation=0.;maximum_applied=0.;maximum_prior_gap=0.;action_end=None;target=None;ideal=None
+        best_distance=initial_distance;window_distance=initial_distance
 
         def sample_query(index):
             row={'query':index,'status':'capturing','executed_prefix_controls':0};report['queries'].append(row);save()
@@ -91,7 +111,7 @@ def run_online_reference(env,base,arm,settings,output,tensor):
                     row.update(archive=archive.relative_to(output).as_posix(),archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest());save()
 
         def execute(selected,ideal_target,phase,source_query,source_prefix,prior_gap):
-            nonlocal maximum_backlog,maximum_rotation,maximum_applied,maximum_prior_gap
+            nonlocal maximum_backlog,maximum_rotation,maximum_applied,maximum_prior_gap,best_distance,window_distance
             before=runtime.state();backlog=math.dist(selected['tcp97_target_world_m'],before['tcp_world_m'])
             rotation=quaternion_distance_deg(selected['hand_target_quat_world_xyzw'],before['hand_quat_world_xyzw'])
             maximum_backlog=max(maximum_backlog,backlog);maximum_rotation=max(maximum_rotation,rotation)
@@ -113,10 +133,28 @@ def run_online_reference(env,base,arm,settings,output,tensor):
             if phase=='model-action':report['action_controls']+=1
             else:report['hold_controls']+=1
             save()
-            if math.dist(after['tcp_world_m'],initial['tcp_world_m'])>.060 or runtime.path>.080 or quaternion_distance_deg(after['hand_quat_world_xyzw'],initial['hand_quat_world_xyzw'])>15:
-                raise RuntimeError('short online comparison exceeded 60mm/15deg or 80mm path envelope')
+            if math.dist(after['tcp_world_m'],initial['tcp_world_m'])>limits['net_m'] or runtime.path>limits['path_m'] or quaternion_distance_deg(after['hand_quat_world_xyzw'],initial['hand_quat_world_xyzw'])>limits['rotation_deg']:
+                raise RuntimeError('online comparison exceeded profile motion envelope')
             if math.dist(after['object_pos_world_m'],initial['object_pos_world_m'])>.002 or math.dist(after['tcp_world_m'],after['object_pos_world_m'])<.08 or min(after['finger_positions_m'])<.03:
                 raise RuntimeError('online comparison must remain open-gripper and distant from stationary object')
+            if phase=='model-action':
+                distance=math.dist(after['tcp_world_m'],after['object_pos_world_m']);height=after['tcp_world_m'][2]-after['object_pos_world_m'][2]
+                before_height=before['tcp_world_m'][2]-before['object_pos_world_m'][2]
+                xy=math.hypot(after['tcp_world_m'][0]-after['object_pos_world_m'][0],after['tcp_world_m'][1]-after['object_pos_world_m'][1])
+                for mm in (200,150,100):
+                    key=f'height_{mm}mm'
+                    if key not in report['height_checkpoints'] and before_height>mm/1000>=height:
+                        report['height_checkpoints'][key]={'action_control':report['action_controls'],'query':source_query,'prefix':source_prefix,
+                            'height_m':height,'xy_offset_m':xy,'object_distance_m':distance,'applied_backlog_m':backlog,'ideal_error_m':row['ideal_error_m']}
+                progress=None
+                if report['action_controls']%100==0:
+                    progress=window_distance-distance;window_distance=distance
+                    report['progress_windows'].append({'action_control':report['action_controls'],'distance_m':distance,'distance_reduction_m':progress})
+                best_distance=min(best_distance,distance)
+                if profile=='descent':
+                    reason=descent_stop(after,best_distance,progress)
+                    if reason:report.update(stop_reason=reason,boundary_reached=reason=='near_boundary_reached')
+                save()
             return after,row
 
         report['status']='running';save()
@@ -128,9 +166,12 @@ def run_online_reference(env,base,arm,settings,output,tensor):
                 target,ideal=reference.advance(action,actual,mode)
                 action_end,last_row=execute(target,ideal,'model-action',index,prefix,prior_gap)
                 query_row['executed_prefix_controls']+=1;save()
-            query_row['status']='completed';save()
+                if report['stop_reason'] is not None:break
+            query_row['status']='stopped' if report['stop_reason'] is not None else 'completed';save()
             print(f'[Online reference] {mode} query {index}/{count}; distance={math.dist(action_end["tcp_world_m"],action_end["object_pos_world_m"])*1000:.1f}mm',flush=True)
-        for _ in range(10):final,last_row=execute(target,ideal,'fixed-target-hold',count,5,math.dist(reference.position,runtime.state()['tcp_world_m']))
+            if report['stop_reason'] is not None:break
+        if report['stop_reason'] is None:report['stop_reason']='query_budget_exhausted'
+        for _ in range(10):final,last_row=execute(target,ideal,'fixed-target-hold',index,prefix,math.dist(reference.position,runtime.state()['tcp_world_m']))
         initial_distance=math.dist(initial['tcp_world_m'],initial['object_pos_world_m']);final_distance=math.dist(final['tcp_world_m'],final['object_pos_world_m'])
         report.update(status='completed',final=final,action_end=action_end,first_input_sha256=report['queries'][0]['input']['input_sha256'],
             all_followup_inputs_changed=all(q['feedback_change']['input_changed'] for q in report['queries'][1:]),
@@ -141,6 +182,8 @@ def run_online_reference(env,base,arm,settings,output,tensor):
             final_ideal_rotation_error_deg=last_row['ideal_rotation_error_deg'],final_applied_rotation_error_deg=last_row['applied_rotation_error_deg'],
             max_applied_backlog_m=maximum_backlog,max_applied_backlog_deg=maximum_rotation,max_applied_target_error_m=maximum_applied,
             max_pre_update_ideal_gap_m=maximum_prior_gap,
+            minimum_approach_distance_m=best_distance,action_end_object_distance_m=math.dist(action_end['tcp_world_m'],action_end['object_pos_world_m']),
+            queries_used=report['policy_queries'],
             backlog_definition='pre-step applied backlog includes the newly issued increment; pre-update ideal gap excludes it')
         runtime.save_images('final');return report
     except Exception as error:

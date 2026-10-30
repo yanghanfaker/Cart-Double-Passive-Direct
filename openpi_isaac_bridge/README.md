@@ -2979,3 +2979,49 @@ git add -- diagnostics/online_reference_ab/
 git commit -m "Add repeated online target reference comparison results"
 git push origin main
 ```
+
+## 延长下降阶段的在线参考对照
+
+上一轮20次查询的六次在线对照已完成。本轮使用`--profile descent`延长趋近，检查累积组的横向优势能否保持到更低位置。
+来源自动选择最新完整的`diagnostics/online_reference_ab/*/run.json`，核对六次结果SHA、初始化、配准、增益和提示词。
+两种方式仍各重复3次、交替顺序；每次最多100次新推理、500步动作，每5步重新获取实际图像和状态。
+全程张爪，保留0.5mm/0.1度动作限幅、原有增益及真实状态输入；末尾保持最后应用目标10步。
+
+以下是正常停止原因，会保存结果并继续下一组：
+
+- TCP距物体中心达到90mm，记录`boundary_reached=true`。
+- TCP高度降到物体中心上方40mm，尚未进入90mm边界。
+- 距离比本次最佳距离增加超过10mm。
+- 每100步距离缩短不足2mm，或用完查询预算。
+
+停止可发生在5步前缀内部，剩余动作不执行，也不再请求下一次推理；最终保持使用实际最后一步的目标。
+`completed`仅表示正常完成记录，是否到达边界必须查看`boundary_reached`和`stop_reason`。
+保留距物体至少80mm、物体位移不超过2mm、张爪、单周期运动/IK修正及关节限位检查；
+本轮总运动范围为净位移250mm、路径280mm、姿态变化60度。违反这些检查仍属于失败，并停止后续组。
+
+报告记录TCP首次向下经过物体中心上方200、150、100mm时的横向偏差、距离、查询和动作编号、目标积压与理想参考误差。
+汇总按相同高度比较，附实际到达该高度的运行数；未到达的检查点不按零误差统计。
+到达90mm边界所需步数只统计真正到达的运行，同时保留各组停止原因。
+两组各自重新推理，随机模型输出不同；这一对照仍不证明同一指令下的因果效果，也不验证闭爪或抓取成功。
+
+保持OpenPI服务在127.0.0.1:8000运行，在另一个Spark终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_online_reference_ab.py --profile descent --queries 100 --repeats 3
+```
+
+可指定`--source-manifest /绝对路径/run.json`选择上一轮完整六次在线对照，或用`--queries 80`缩短预算。
+输出到`diagnostics/descent_reference_ab/<UTC>/`。保留各次查询ZIP、原始轨迹、关键帧、增益、配准和汇总。
+245项本地测试通过，新增覆盖正常提前停止、部分前缀、最终保持、按高度汇总及外层六次调度；真实3192245d28be来源已离线核对。
+实际SDK执行与长程在线响应待Spark验证。
+
+完成后推送：
+
+```bash
+git add -- diagnostics/descent_reference_ab/
+git commit -m "Add descent-stage online reference comparison results"
+git push origin main
+```
