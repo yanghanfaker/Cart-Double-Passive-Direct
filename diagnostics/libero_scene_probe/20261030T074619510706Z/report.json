@@ -1,0 +1,1379 @@
+{
+  "status": "failed",
+  "policy_queries": 0,
+  "model_actions_executed": 0,
+  "dummy_wait_steps": 10,
+  "layouts": [
+    {
+      "label": "default_reset",
+      "sim_time_s": 0.0,
+      "joint_positions": {
+        "robot0_joint1": 0.0,
+        "robot0_joint2": -0.161037389,
+        "robot0_joint3": 0.0,
+        "robot0_joint4": -2.44459747,
+        "robot0_joint5": 0.0,
+        "robot0_joint6": 2.2267522,
+        "robot0_joint7": 0.7853981633974483,
+        "gripper0_finger_joint1": 0.020833,
+        "gripper0_finger_joint2": -0.020833
+      },
+      "robot_root_world": {
+        "position_m": [
+          -0.66,
+          0.0,
+          0.912
+        ],
+        "rotation_matrix": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "eef_observation": {
+        "position_world_m": [
+          -0.20846466056582358,
+          8.710901086077009e-18,
+          1.1732794757296403
+        ],
+        "position_robot_root_m": [
+          0.45153533943417645,
+          8.710901086077009e-18,
+          0.2612794757296403
+        ],
+        "ros_optical_projections": {
+          "agentview": {
+            "uv_px": [
+              128.00004216245347,
+              61.351925512306124
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          },
+          "robot0_eye_in_hand": {
+            "uv_px": [
+              128.0,
+              213.9860039812755
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          }
+        }
+      },
+      "eef_hand_quat_xyzw": [
+        0.999596604879536,
+        0.0002462128318876131,
+        -0.028400120485872846,
+        -6.995295959053311e-06
+      ],
+      "policy_state_float32": [
+        -0.20846466720104218,
+        8.710900891633638e-18,
+        1.1732795238494873,
+        3.1403393745422363,
+        0.0007735038525424898,
+        -0.0892220064997673,
+        0.020833000540733337,
+        -0.020833000540733337
+      ],
+      "objects": {
+        "akita_black_bowl_1": {
+          "position_world_m": [
+            -0.05537689988362822,
+            0.19088782891686873,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.6046231001163718,
+            0.19088782891686873,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                189.58747212755938,
+                144.00767609923776
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                18.719394874379397,
+                62.43599212729977
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "akita_black_bowl_2": {
+          "position_world_m": [
+            -0.16697809040717715,
+            0.32635563202076023,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.4930219095928229,
+            0.32635563202076023,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                224.5426198586412,
+                121.93565038852799
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                -54.91893120134853,
+                126.24996811464766
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "cookies_1": {
+          "position_world_m": [
+            0.08425302317348955,
+            0.026983532476076322,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.7442530231734896,
+            0.026983532476076322,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                137.8196575024528,
+                177.97954202282747
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                112.20143858860112,
+                -21.426097593949724
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "glazed_rim_porcelain_ramekin_1": {
+          "position_world_m": [
+            -0.19190908637062895,
+            0.1985453024229191,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.46809091362937105,
+            0.1985453024229191,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                185.6630718126988,
+                117.49714589756049
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                17.243096068074955,
+                140.17946675062984
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "plate_1": {
+          "position_world_m": [
+            0.06859843939260254,
+            0.2014362811454695,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.7285984393926026,
+            0.2014362811454695,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                200.26842934919958,
+                173.7442874311782
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                9.857721054825811,
+                -11.836186719456697
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "wooden_cabinet_1": {
+          "position_world_m": [
+            0.022663388915185004,
+            -0.2695317483865247,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.6826633889151851,
+            -0.2695317483865247,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                39.196195810820086,
+                177.1626077286299
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                255.88886683788485,
+                35.11161441982402
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "flat_stove_1": {
+          "position_world_m": [
+            -0.40661973518232175,
+            -0.14064494280510037,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.2533802648176783,
+            -0.14064494280510037,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                93.8290364843461,
+                98.72606483131695
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                190.34122764532393,
+                231.19869038955656
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "table_sites": {
+        "table_top": {
+          "position_world_m": [
+            0.0,
+            0.0,
+            0.9
+          ],
+          "position_robot_root_m": [
+            0.66,
+            0.0,
+            -0.01200000000000001
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                128.00005025991294,
+                172.76158321644047
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                128.05133544976744,
+                47.08962576597355
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "objects_of_interest": [
+        "akita_black_bowl_1",
+        "plate_1"
+      ],
+      "cameras": {
+        "agentview": {
+          "position_world_m": [
+            0.6586131746834771,
+            0.0,
+            1.6103500240372424
+          ],
+          "rotation_ros": [
+            [
+              -7.268184498698815e-08,
+              0.6282664504107425,
+              -0.7779982437565529
+            ],
+            [
+              0.9999999999999858,
+              -7.268184498698815e-08,
+              -1.521152659944569e-07
+            ],
+            [
+              -1.521152659944569e-07,
+              -0.7779982437565529,
+              -0.6282664504107283
+            ]
+          ],
+          "K_256": [
+            [
+              309.01933598375615,
+              0,
+              128
+            ],
+            [
+              0,
+              309.01933598375615,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 45.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m": [
+            -0.15303792215905376,
+            2.4631217808074882e-05,
+            1.2672841355231346
+          ],
+          "rotation_ros": [
+            [
+              0.0004918296871690986,
+              -0.9983867450712585,
+              -0.05677733147635976
+            ],
+            [
+              -0.9999998786606143,
+              -0.0004926243561613752,
+              4.5102810375396984e-17
+            ],
+            [
+              -2.796989636314612e-05,
+              0.056777324587033245,
+              -0.9983868662149074
+            ]
+          ],
+          "K_256": [
+            [
+              166.81284772367434,
+              0,
+              128
+            ],
+            [
+              0,
+              166.81284772367434,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 75.0
+        }
+      },
+      "images": {
+        "agentview": {
+          "raw256": {
+            "file": "agentview_raw256.png",
+            "sha256": "58ab0c3bb61898339046e9ce0ecb591133a2a13202d78b4caff58771f08f2883"
+          },
+          "official_rotated256": {
+            "file": "agentview_official_rotated256.png",
+            "sha256": "ee3b997618d9c5871af0380eceba0a10732a7504fd9f6d9eed34a43faed28055"
+          },
+          "policy224": {
+            "file": "agentview_policy224.png",
+            "sha256": "3bb52253dc6dfe23bec83277e7930df54c7ce3d030412bbe91c1a610519b001e"
+          }
+        },
+        "robot0_eye_in_hand": {
+          "raw256": {
+            "file": "robot0_eye_in_hand_raw256.png",
+            "sha256": "28f709818058703ac3ffff7bf5c6fe53dd7f81a1915164bf02ebc389ba1cce04"
+          },
+          "official_rotated256": {
+            "file": "robot0_eye_in_hand_official_rotated256.png",
+            "sha256": "228a96d0fee493415532cda38031ef0b29084ebe081b2a5b62de1074ae4dfcea"
+          },
+          "policy224": {
+            "file": "robot0_eye_in_hand_policy224.png",
+            "sha256": "8f9b2b894b47f1896f1a380653516d6d0bc82d18b68fde836e27cbd6194b6b39"
+          }
+        }
+      },
+      "image_folder": "default_reset",
+      "layout_note": "reset and benchmark-init labels are distinct; object body origins are not common grasp surfaces"
+    },
+    {
+      "label": "benchmark_initial",
+      "sim_time_s": 0.0,
+      "joint_positions": {
+        "robot0_joint1": -0.00013845394136945786,
+        "robot0_joint2": -0.17673447526998573,
+        "robot0_joint3": -0.0365575974683561,
+        "robot0_joint4": -2.457112976205914,
+        "robot0_joint5": 0.005935026720258382,
+        "robot0_joint6": 2.235219967025902,
+        "robot0_joint7": 0.7993834381640941,
+        "gripper0_finger_joint1": 0.020833,
+        "gripper0_finger_joint2": -0.020833
+      },
+      "robot_root_world": {
+        "position_m": [
+          -0.66,
+          0.0,
+          0.912
+        ],
+        "rotation_matrix": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "eef_observation": {
+        "position_world_m": [
+          -0.21081486239297154,
+          -0.015159821457851788,
+          1.1756771209255326
+        ],
+        "position_robot_root_m": [
+          0.4491851376070285,
+          -0.015159821457851788,
+          0.2636771209255325
+        ],
+        "ros_optical_projections": {
+          "agentview": {
+            "uv_px": [
+              123.06622558452713,
+              60.2868961526869
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          },
+          "robot0_eye_in_hand": {
+            "uv_px": [
+              128.0,
+              213.9860039812754
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          }
+        }
+      },
+      "eef_hand_quat_xyzw": [
+        0.9993743055619553,
+        -0.026609451583890425,
+        -0.022577221552164583,
+        -0.005762250944626608
+      ],
+      "policy_state_float32": [
+        -0.21081486344337463,
+        -0.015159821137785912,
+        1.1756771802902222,
+        3.1511967182159424,
+        -0.08390410989522934,
+        -0.07118980586528778,
+        0.020833000540733337,
+        -0.020833000540733337
+      ],
+      "objects": {
+        "akita_black_bowl_1": {
+          "position_world_m": [
+            -0.06348281771240429,
+            0.20206256199913958,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.5965171822875958,
+            0.20206256199913958,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                192.7664108769805,
+                142.27062952002913
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                3.6205011664947353,
+                75.03054504139254
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "akita_black_bowl_2": {
+          "position_world_m": [
+            -0.1887304942403383,
+            0.32038450296164156,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.47126950575966176,
+            0.32038450296164156,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                221.26529701736865,
+                118.05401173546386
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                -54.294098776097584,
+                147.85164106015168
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "cookies_1": {
+          "position_world_m": [
+            0.057859587539025564,
+            0.0264329413431314,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.7178595875390256,
+            0.0264329413431314,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                137.39217461122692,
+                170.90755682409227
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                97.17125374419288,
+                -1.0987946405955942
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "glazed_rim_porcelain_ramekin_1": {
+          "position_world_m": [
+            -0.1973841700047281,
+            0.1891352613576224,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.46261582999527195,
+            0.1891352613576224,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                182.71110999348932,
+                116.54399232257714
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                16.998823369028596,
+                148.85908258607705
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "plate_1": {
+          "position_world_m": [
+            0.053409166801723335,
+            0.2051823366186246,
+            0.97
+          ],
+          "position_robot_root_m": [
+            0.7134091668017234,
+            0.2051823366186246,
+            0.05799999999999994
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                200.61612297702104,
+                169.74785804508883
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                -3.9063592914988154,
+                7.8917401966252605
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "wooden_cabinet_1": {
+          "position_world_m": [
+            0.022663388915185004,
+            -0.2695317483865247,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.6826633889151851,
+            -0.2695317483865247,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                39.196195810820086,
+                177.1626077286299
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                243.22679545295028,
+                29.581976191289403
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "flat_stove_1": {
+          "position_world_m": [
+            -0.40661973518232175,
+            -0.14064494280510037,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.2533802648176783,
+            -0.14064494280510037,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                93.8290364843461,
+                98.72606483131695
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                189.70647551937748,
+                228.8230543038608
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "table_sites": {
+        "table_top": {
+          "position_world_m": [
+            0.0,
+            0.0,
+            0.9
+          ],
+          "position_robot_root_m": [
+            0.66,
+            0.0,
+            -0.01200000000000001
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                128.00005025991294,
+                172.76158321644047
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                117.17656520291786,
+                48.974787660737384
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "objects_of_interest": [
+        "akita_black_bowl_1",
+        "plate_1"
+      ],
+      "cameras": {
+        "agentview": {
+          "position_world_m": [
+            0.6586131746834771,
+            0.0,
+            1.6103500240372424
+          ],
+          "rotation_ros": [
+            [
+              -7.268184498698815e-08,
+              0.6282664504107425,
+              -0.7779982437565529
+            ],
+            [
+              0.9999999999999858,
+              -7.268184498698815e-08,
+              -1.521152659944569e-07
+            ],
+            [
+              -1.521152659944569e-07,
+              -0.7779982437565529,
+              -0.6282664504107283
+            ]
+          ],
+          "K_256": [
+            [
+              309.01933598375615,
+              0,
+              128
+            ],
+            [
+              0,
+              309.01933598375615,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 45.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m": [
+            -0.15658914741173122,
+            -0.019039818241923585,
+            1.2703001490937798
+          ],
+          "rotation_ros": [
+            [
+              -0.05344579562850199,
+              -0.997564412306778,
+              -0.044819529545375235
+            ],
+            [
+              -0.9985174671009114,
+              0.05292541316363791,
+              0.012718826040102056
+            ],
+            [
+              -0.010315756104937693,
+              0.04543285089547631,
+              -0.998914131062071
+            ]
+          ],
+          "K_256": [
+            [
+              166.81284772367434,
+              0,
+              128
+            ],
+            [
+              0,
+              166.81284772367434,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 75.0
+        }
+      },
+      "images": {
+        "agentview": {
+          "raw256": {
+            "file": "agentview_raw256.png",
+            "sha256": "dea1455a050fff6a0ade6d0acc48764f4b600061cc08eb3915775848542da43c"
+          },
+          "official_rotated256": {
+            "file": "agentview_official_rotated256.png",
+            "sha256": "05f0ab3114e09975dddffbceeb289030af0530d67c4e3bbdc34d69e30fbc59c2"
+          },
+          "policy224": {
+            "file": "agentview_policy224.png",
+            "sha256": "6d112affa8a6ff610bc4f6de55d36ef1ff144949464d26bee23bd90f37092d03"
+          }
+        },
+        "robot0_eye_in_hand": {
+          "raw256": {
+            "file": "robot0_eye_in_hand_raw256.png",
+            "sha256": "c5e151f7feccd13ed5ed1902aa8d3f528a36731acc32a746e67ce38aca0cc4f3"
+          },
+          "official_rotated256": {
+            "file": "robot0_eye_in_hand_official_rotated256.png",
+            "sha256": "86a0f8d03850b0a2d43b8eba5ec3a15606953b15b389d7a2ede7fbf3f4580d60"
+          },
+          "policy224": {
+            "file": "robot0_eye_in_hand_policy224.png",
+            "sha256": "c7c46949a9875a378d83ce15aa886630ff74eadf13c817deb2f54ecb96466641"
+          }
+        }
+      },
+      "image_folder": "benchmark_initial",
+      "layout_note": "reset and benchmark-init labels are distinct; object body origins are not common grasp surfaces"
+    },
+    {
+      "label": "benchmark_after10wait",
+      "sim_time_s": 0.5000000000000003,
+      "joint_positions": {
+        "robot0_joint1": -0.00013056616061545798,
+        "robot0_joint2": -0.17083620561307472,
+        "robot0_joint3": -0.02410627542797723,
+        "robot0_joint4": -2.452567438838695,
+        "robot0_joint5": -0.006121396821582007,
+        "robot0_joint6": 2.2259022374621202,
+        "robot0_joint7": 0.7677453302367604,
+        "gripper0_finger_joint1": 0.03872974791904,
+        "gripper0_finger_joint2": -0.03872857216450282
+      },
+      "robot_root_world": {
+        "position_m": [
+          -0.66,
+          0.0,
+          0.912
+        ],
+        "rotation_matrix": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "eef_observation": {
+        "position_world_m": [
+          -0.21124162683394737,
+          -0.011090601889321566,
+          1.1742495176982397
+        ],
+        "position_robot_root_m": [
+          0.44875837316605266,
+          -0.011090601889321566,
+          0.2622495176982397
+        ],
+        "ros_optical_projections": {
+          "agentview": {
+            "uv_px": [
+              124.39523292082238,
+              60.64828009444621
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          },
+          "robot0_eye_in_hand": {
+            "uv_px": [
+              127.99974112876703,
+              213.98576879741273
+            ],
+            "in_image": true,
+            "note": "body origin projection only, not visibility or segmentation"
+          }
+        }
+      },
+      "eef_hand_quat_xyzw": [
+        0.9996096147738877,
+        -0.0009063364830718049,
+        -0.027923584546987797,
+        -0.00026463527139469436
+      ],
+      "policy_state_float32": [
+        -0.21124163269996643,
+        -0.011090601794421673,
+        1.174249529838562,
+        3.140895366668701,
+        -0.00284781982190907,
+        -0.08773931115865707,
+        0.03872336447238922,
+        -0.0387222021818161
+      ],
+      "objects": {
+        "akita_black_bowl_1": {
+          "position_world_m": [
+            -0.06347436697969927,
+            0.20202566461956376,
+            0.8984038715812133
+          ],
+          "position_robot_root_m": [
+            0.5965256330203008,
+            0.20202566461956376,
+            -0.013596128418786768
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                189.86844938016242,
+                158.69430139765544
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                30.348966518203934,
+                76.45637609821773
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "akita_black_bowl_2": {
+          "position_world_m": [
+            -0.1887220435076333,
+            0.32034760558206593,
+            0.8984038715812133
+          ],
+          "position_robot_root_m": [
+            0.4712779564923667,
+            0.32034760558206593,
+            -0.013596128418786768
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                217.46418707306438,
+                134.01567211740155
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                -20.84414795499195,
+                133.70512744068154
+              ],
+              "in_image": false,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "cookies_1": {
+          "position_world_m": [
+            0.05785959204042863,
+            0.026432950193671582,
+            0.9093707146248698
+          ],
+          "position_robot_root_m": [
+            0.7178595920404287,
+            0.026432950193671582,
+            -0.002629285375130186
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                136.99807891486927,
+                185.16406733868914
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                109.76068529580809,
+                15.621460305317918
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "glazed_rim_porcelain_ramekin_1": {
+          "position_world_m": [
+            -0.19738350631991752,
+            0.18914074027953692,
+            0.899341119995436
+          ],
+          "position_robot_root_m": [
+            0.4626164936800825,
+            0.18914074027953692,
+            -0.012658880004564055
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                180.52982473675405,
+                132.26859526422513
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                37.97394613034654,
+                137.5225240434903
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "plate_1": {
+          "position_world_m": [
+            0.05341726860458882,
+            0.20518007059330337,
+            0.9024995808477997
+          ],
+          "position_robot_root_m": [
+            0.7134172686045889,
+            0.20518007059330337,
+            -0.009500419152200346
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                197.25232164802517,
+                185.54103053165946
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                25.83042988688661,
+                19.973165347628854
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "wooden_cabinet_1": {
+          "position_world_m": [
+            0.022663388915185004,
+            -0.2695317483865247,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.6826633889151851,
+            -0.2695317483865247,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                39.196195810820086,
+                177.1626077286299
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                250.1209332419124,
+                33.84497301711838
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        },
+        "flat_stove_1": {
+          "position_world_m": [
+            -0.40661973518232175,
+            -0.14064494280510037,
+            0.905
+          ],
+          "position_robot_root_m": [
+            0.2533802648176783,
+            -0.14064494280510037,
+            -0.007000000000000006
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                93.8290364843461,
+                98.72606483131695
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                185.5881287338337,
+                229.7759876558991
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "table_sites": {
+        "table_top": {
+          "position_world_m": [
+            0.0,
+            0.0,
+            0.9
+          ],
+          "position_robot_root_m": [
+            0.66,
+            0.0,
+            -0.01200000000000001
+          ],
+          "ros_optical_projections": {
+            "agentview": {
+              "uv_px": [
+                128.00005025991294,
+                172.76158321644047
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            },
+            "robot0_eye_in_hand": {
+              "uv_px": [
+                122.73097073498735,
+                46.13207981357403
+              ],
+              "in_image": true,
+              "note": "body origin projection only, not visibility or segmentation"
+            }
+          }
+        }
+      },
+      "objects_of_interest": [
+        "akita_black_bowl_1",
+        "plate_1"
+      ],
+      "cameras": {
+        "agentview": {
+          "position_world_m": [
+            0.6586131746834771,
+            0.0,
+            1.6103500240372424
+          ],
+          "rotation_ros": [
+            [
+              -7.268184498698815e-08,
+              0.6282664504107425,
+              -0.7779982437565529
+            ],
+            [
+              0.9999999999999858,
+              -7.268184498698815e-08,
+              -1.521152659944569e-07
+            ],
+            [
+              -1.521152659944569e-07,
+              -0.7779982437565529,
+              -0.6282664504107283
+            ]
+          ],
+          "K_256": [
+            [
+              309.01933598375615,
+              0,
+              128
+            ],
+            [
+              0,
+              309.01933598375615,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 45.0
+        },
+        "robot0_eye_in_hand": {
+          "position_world_m": [
+            -0.1559044805140866,
+            -0.011235106941018307,
+            1.268305721004725
+          ],
+          "rotation_ros": [
+            [
+              -0.0018002451515721218,
+              -0.9984384905841034,
+              -0.0558331410322908
+            ],
+            [
+              -0.9999982664559156,
+              0.0017708820107287804,
+              0.000575379933480568
+            ],
+            [
+              -0.0004756075672401501,
+              0.055834080068015005,
+              -0.9984399477687183
+            ]
+          ],
+          "K_256": [
+            [
+              166.81284772367434,
+              0,
+              128
+            ],
+            [
+              0,
+              166.81284772367434,
+              128
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ],
+          "fovy_deg": 75.0
+        }
+      },
+      "images": {
+        "agentview": {
+          "raw256": {
+            "file": "agentview_raw256.png",
+            "sha256": "e69e5acf6e770ed524502f9da9cc5da0c579dd886c7de732f20163880ab97c02"
+          },
+          "official_rotated256": {
+            "file": "agentview_official_rotated256.png",
+            "sha256": "1d7a3921bd0fb7cdaf232e29c051ba4e3a6267727624e8aac12d1cfcea64c76f"
+          },
+          "policy224": {
+            "file": "agentview_policy224.png",
+            "sha256": "0eb7d184804e36da2510497b9f8e55c1b5e14f55556b65c96792b8d1a79de977"
+          }
+        },
+        "robot0_eye_in_hand": {
+          "raw256": {
+            "file": "robot0_eye_in_hand_raw256.png",
+            "sha256": "1251645be9135ee870439c9441c1cf93ffa68c31ada7b57989ee923985050754"
+          },
+          "official_rotated256": {
+            "file": "robot0_eye_in_hand_official_rotated256.png",
+            "sha256": "023c2cd04b04ff4ffc3f85699cd6687bc77e8450878410089225fcf941aad827"
+          },
+          "policy224": {
+            "file": "robot0_eye_in_hand_policy224.png",
+            "sha256": "7335754a872b1dbec3f82aee5af0e054fb3f36c88b8ad433a845277c9fa14e7f"
+          }
+        }
+      },
+      "image_folder": "benchmark_after10wait",
+      "layout_note": "reset and benchmark-init labels are distinct; object body origins are not common grasp surfaces"
+    }
+  ],
+  "suite": "libero_spatial",
+  "task_id": 0,
+  "episode_index": 0,
+  "seed": 7,
+  "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "bddl": "/home/test/Robot/openpi/third_party/libero/libero/libero/bddl_files/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate.bddl",
+  "bddl_sha256": "9b59eb1287802868ad9bc78d58e6d36d4ba31134e679cfdbdf4b0feb660c959b",
+  "benchmark_init": {
+    "path": "/home/test/Robot/openpi/third_party/libero/libero/libero/init_files/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate.pruned_init",
+    "exists": true,
+    "status": "loaded_restricted",
+    "sha256": "cbbc73792ce546c9bec181fd328a411d3183074840b282671dee481511381d0a",
+    "count": 50,
+    "loader": "torch weights_only=True with NumPy array/dtype allowlist"
+  },
+  "marker_source_layout": "benchmark_after10wait",
+  "error_type": "AssertionError",
+  "error": "\nNot equal to tolerance rtol=0, atol=1e-08\n\nMismatched elements: 3 / 3 (100%)\nMax absolute difference: 1.56445139e-06\nMax relative difference: 0.00013927\n x: array([-0.155904, -0.011235,  1.268306])\n y: array([-0.155904, -0.011234,  1.268304])"
+}
