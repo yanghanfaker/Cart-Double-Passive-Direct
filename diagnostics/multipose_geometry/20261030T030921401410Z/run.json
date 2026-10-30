@@ -1,0 +1,180 @@
+{
+  "status": "failed",
+  "source_sha256": "855dea334e97ff67a5f1ea46912a2261a1b4fecda1990a750b5bdf5390131c97",
+  "source_path": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/geometry_audit/20261030T021135995628Z/geometry_audit.json",
+  "policy_queries": 0,
+  "reference_python": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu/bin/python3.11",
+  "poses": [
+    {
+      "name": "home",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ],
+      "status": "running",
+      "isaac_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T030921401410Z/home/isaac",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T030921401410Z/home/requested_joint_positions.json"
+      ],
+      "isaac_audit": "home/isaac/20261030T030921431912Z/geometry_audit.json",
+      "isaac_audit_sha256": "2e251430d469ec1ef3f6b0542c7e3f6890ce4e35b10839cf2873b99471857622",
+      "libero_command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu/bin/python3.11",
+        "--isaac-audit",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T030921401410Z/home/isaac/20261030T030921431912Z/geometry_audit.json",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T030921401410Z/home/libero"
+      ]
+    },
+    {
+      "name": "j1-positive",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        0.200000279274758,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ]
+    },
+    {
+      "name": "j2-positive",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.3890000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ]
+    },
+    {
+      "name": "j3-negative",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        -0.19999964056070213,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ]
+    },
+    {
+      "name": "j4-positive",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.629999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ]
+    },
+    {
+      "name": "j5-positive",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        0.20000030559357357,
+        3.0369999408721924,
+        0.7409999966621399
+      ]
+    },
+    {
+      "name": "j6-negative",
+      "split": "fit",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        2.8869999408721925,
+        0.7409999966621399
+      ]
+    },
+    {
+      "name": "mixed12",
+      "split": "validation",
+      "requested_joint_positions_rad": [
+        -0.149999720725242,
+        -0.6890000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ]
+    },
+    {
+      "name": "mixed34",
+      "split": "validation",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        0.16000035943929788,
+        -2.689999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.7409999966621399
+      ]
+    },
+    {
+      "name": "mixed56",
+      "split": "validation",
+      "requested_joint_positions_rad": [
+        2.7927475798605883e-07,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.809999942779541,
+        -0.17999969440642644,
+        3.1569999408721925,
+        0.7409999966621399
+      ]
+    },
+    {
+      "name": "mixed147",
+      "split": "validation",
+      "requested_joint_positions_rad": [
+        0.12000027927475798,
+        -0.5690000057220459,
+        3.594392978811811e-07,
+        -2.709999942779541,
+        3.055935735574167e-07,
+        3.0369999408721924,
+        0.9209999966621398
+      ]
+    }
+  ],
+  "scope": "independent initializations; hold warmup in Isaac; matched actual qpos + forward only in LIBERO; no model actions or grasp tests",
+  "error_type": "RuntimeError",
+  "error": "expected one new reference.json under /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T030921401410Z/home/libero"
+}

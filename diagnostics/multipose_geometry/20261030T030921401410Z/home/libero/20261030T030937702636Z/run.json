@@ -1,0 +1,81 @@
+{
+  "status": "dependency_missing",
+  "isaac_source_sha256": "2e251430d469ec1ef3f6b0542c7e3f6890ce4e35b10839cf2873b99471857622",
+  "python_candidates": [
+    {
+      "requested_python": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu/bin/python3.11",
+      "exit_code": 0,
+      "python": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu/bin/python3.11",
+      "version": "3.11.17 (main, Oct 14 2026, 01:04:26) [Clang 23.1.3 ]",
+      "machine": "aarch64",
+      "modules": {
+        "numpy": {
+          "available": false,
+          "origin": null,
+          "locations": []
+        },
+        "PIL": {
+          "available": false,
+          "origin": null,
+          "locations": []
+        },
+        "yaml": {
+          "available": false,
+          "origin": null,
+          "locations": []
+        },
+        "mujoco": {
+          "available": false,
+          "origin": null,
+          "locations": []
+        },
+        "robosuite": {
+          "available": false,
+          "origin": null,
+          "locations": []
+        },
+        "libero": {
+          "available": true,
+          "origin": null,
+          "locations": [
+            "/home/test/Robot/openpi/third_party/libero/libero"
+          ]
+        },
+        "openpi_client": {
+          "available": false,
+          "origin": null,
+          "locations": []
+        },
+        "torch": {
+          "available": false,
+          "origin": null,
+          "locations": []
+        }
+      },
+      "versions": {
+        "numpy": null,
+        "Pillow": null,
+        "PyYAML": null,
+        "mujoco": null,
+        "robosuite": null,
+        "libero": "0.1.0",
+        "openpi-client": null,
+        "torch": null
+      },
+      "stderr": ""
+    }
+  ],
+  "source_isaac_path": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T030921401410Z/home/isaac/20261030T030921431912Z/geometry_audit.json",
+  "render_backend": "egl",
+  "pynput_backend": "dummy",
+  "package_installs": 0,
+  "policy_queries": 0,
+  "openpi_root": "/home/test/Robot/openpi",
+  "third_party_libero": {
+    "path": "/home/test/Robot/openpi/third_party/libero",
+    "exists": true,
+    "inner_init_exists": true,
+    "assets_exist": true,
+    "bddl_exist": true
+  }
+}
