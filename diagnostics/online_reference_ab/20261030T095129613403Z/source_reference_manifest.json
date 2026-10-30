@@ -1,0 +1,52 @@
+{
+  "status": "completed",
+  "policy_queries": 0,
+  "source_manifest": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/openpi_grasp/20261030T091742826451Z/run.json",
+  "source_sha256": "85c7275fb081f81c90b0c612da3d9499931c998139ea293ee0b0aabe08b2f8a6",
+  "steps": 200,
+  "cases": [
+    {
+      "mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/current/reference_settings.json"
+      ],
+      "result": "current/capture/20261030T093637936458Z/online_registered_result.json",
+      "result_sha256": "045e3c15a00a6b96f66af29e982aa011ae20274dea3df196eb90a7e9d7234fdf",
+      "final_ideal_position_error_m": 0.007000963543430487,
+      "final_applied_target_error_m": 5.567239599041943e-06
+    },
+    {
+      "mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/reference_settings.json"
+      ],
+      "result": "accumulated/capture/20261030T093703540645Z/online_registered_result.json",
+      "result_sha256": "93562be8fbd60727e225c9d46221860225df4ffdb289307f9f1dbdbf11a01742",
+      "final_ideal_position_error_m": 4.740542740606553e-06,
+      "final_applied_target_error_m": 4.740542740606553e-06
+    }
+  ],
+  "scope": "two independent initializations, same recorded action prefixes; current versus accumulated targets; open gripper, no new inference",
+  "fixed_stream_sha256": "0b4cfc3665f4ed20eb5504970d05910971432ec3b9f32ee45269dd5a744e79e1",
+  "world_registration_sha256": "352bd9ade078c5887481e09a38d9144b9ddfd4408e0cc4f2fe8a20f9fb79d435"
+}

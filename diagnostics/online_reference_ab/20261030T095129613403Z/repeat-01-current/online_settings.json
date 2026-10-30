@@ -1,0 +1,333 @@
+{
+  "mode": "online-reference-ab",
+  "reference_mode": "current",
+  "queries": 20,
+  "calibration": {
+    "status": "completed",
+    "policy_queries": 0,
+    "poses": [
+      {
+        "name": "home",
+        "split": "fit",
+        "hand_error_mm": 0.013562079481195165,
+        "hand_rotation_error_deg": 0.04858418589300222,
+        "nominal_base_corrected_tcp_error_mm": 0.5003793153542561,
+        "registered_raw_tcp_error_mm": 6.405557386978395,
+        "registered_corrected_tcp_error_mm": 0.07623829414327754,
+        "fitted_tcp_error_mm": 0.012254962205873084,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 7.139487365748209e-07
+      },
+      {
+        "name": "j1-positive",
+        "split": "fit",
+        "hand_error_mm": 0.06283858171347069,
+        "hand_rotation_error_deg": 0.04528080258020659,
+        "nominal_base_corrected_tcp_error_mm": 0.5002710410605317,
+        "registered_raw_tcp_error_mm": 6.413726331600634,
+        "registered_corrected_tcp_error_mm": 0.09168762288324993,
+        "fitted_tcp_error_mm": 0.049581963468280116,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 1.4469739539890725e-06
+      },
+      {
+        "name": "j2-positive",
+        "split": "fit",
+        "hand_error_mm": 0.04568941689506563,
+        "hand_rotation_error_deg": 0.04865073589665233,
+        "nominal_base_corrected_tcp_error_mm": 0.5002613281461926,
+        "registered_raw_tcp_error_mm": 6.4305762691863935,
+        "registered_corrected_tcp_error_mm": 0.045704600696963665,
+        "fitted_tcp_error_mm": 0.04580200338371907,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 6.814882169692282e-07
+      },
+      {
+        "name": "j3-negative",
+        "split": "fit",
+        "hand_error_mm": 0.03234404617826808,
+        "hand_rotation_error_deg": 0.04962586387033004,
+        "nominal_base_corrected_tcp_error_mm": 0.5002773789797962,
+        "registered_raw_tcp_error_mm": 6.410897572199631,
+        "registered_corrected_tcp_error_mm": 0.07811745696590039,
+        "fitted_tcp_error_mm": 0.020027426853327073,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 1.0305815862921008e-06
+      },
+      {
+        "name": "j4-positive",
+        "split": "fit",
+        "hand_error_mm": 0.090736587807841,
+        "hand_rotation_error_deg": 0.04854193743866921,
+        "nominal_base_corrected_tcp_error_mm": 0.5003267062445411,
+        "registered_raw_tcp_error_mm": 6.355640652990422,
+        "registered_corrected_tcp_error_mm": 0.1511838434540285,
+        "fitted_tcp_error_mm": 0.09078594081094199,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 2.2388682623386558e-06
+      },
+      {
+        "name": "j5-positive",
+        "split": "fit",
+        "hand_error_mm": 0.012136712678064873,
+        "hand_rotation_error_deg": 0.04814808165783604,
+        "nominal_base_corrected_tcp_error_mm": 0.5003008603510026,
+        "registered_raw_tcp_error_mm": 6.4063528236869836,
+        "registered_corrected_tcp_error_mm": 0.07672866608937007,
+        "fitted_tcp_error_mm": 0.014935352916901606,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 5.9343705061110086e-08
+      },
+      {
+        "name": "j6-negative",
+        "split": "fit",
+        "hand_error_mm": 0.05878002134899199,
+        "hand_rotation_error_deg": 0.04863470684789826,
+        "nominal_base_corrected_tcp_error_mm": 0.5003553265744933,
+        "registered_raw_tcp_error_mm": 6.419358059439925,
+        "registered_corrected_tcp_error_mm": 0.024000515677842647,
+        "fitted_tcp_error_mm": 0.06134610078925681,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 2.2692953294267681e-07
+      },
+      {
+        "name": "mixed12",
+        "split": "validation",
+        "hand_error_mm": 0.07620570877711827,
+        "hand_rotation_error_deg": 0.05115229248492095,
+        "nominal_base_corrected_tcp_error_mm": 0.5002762350539919,
+        "registered_raw_tcp_error_mm": 6.399111251684259,
+        "registered_corrected_tcp_error_mm": 0.12130177464038085,
+        "fitted_tcp_error_mm": 0.0714006969235746,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 1.246783540409524e-06
+      },
+      {
+        "name": "mixed34",
+        "split": "validation",
+        "hand_error_mm": 0.061004445003537786,
+        "hand_rotation_error_deg": 0.047330857304684074,
+        "nominal_base_corrected_tcp_error_mm": 0.500259237896574,
+        "registered_raw_tcp_error_mm": 6.375081268359532,
+        "registered_corrected_tcp_error_mm": 0.1217981711493456,
+        "fitted_tcp_error_mm": 0.05836844288328263,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 1.4444712519434688e-06
+      },
+      {
+        "name": "mixed56",
+        "split": "validation",
+        "hand_error_mm": 0.06260086742510111,
+        "hand_rotation_error_deg": 0.04851236181555725,
+        "nominal_base_corrected_tcp_error_mm": 0.5003309353082023,
+        "registered_raw_tcp_error_mm": 6.403072540825271,
+        "registered_corrected_tcp_error_mm": 0.1284495309903604,
+        "fitted_tcp_error_mm": 0.06391028470060697,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 9.864474179721583e-07
+      },
+      {
+        "name": "mixed147",
+        "split": "validation",
+        "hand_error_mm": 0.06306751006710772,
+        "hand_rotation_error_deg": 0.04640271361608038,
+        "nominal_base_corrected_tcp_error_mm": 0.5003486609789204,
+        "registered_raw_tcp_error_mm": 6.379273130749341,
+        "registered_corrected_tcp_error_mm": 0.11814912937620826,
+        "fitted_tcp_error_mm": 0.06563767853159806,
+        "actual_joint_match_max_rad_or_m": 0.0,
+        "requested_actual_max_rad": 2.0426773517101537e-07
+      }
+    ],
+    "world_from_isaac_rotation": [
+      [
+        0.999999768084074,
+        1.5658280538410605e-05,
+        -0.0006808719548613038
+      ],
+      [
+        -1.5661453762031247e-05,
+        0.9999999998665242,
+        -4.655197995381514e-06
+      ],
+      [
+        0.0006808718818779291,
+        4.665860360561563e-06,
+        0.9999997681958287
+      ]
+    ],
+    "world_from_isaac_translation_m": [
+      -0.660035223040693,
+      4.010026113856341e-08,
+      0.9120884499244408
+    ],
+    "fit_position_spread_singular_values_m": [
+      0.1183539102986502,
+      0.11081826164309135,
+      0.02861715044809062
+    ],
+    "fitted_tcp_delta_hand_m": [
+      -6.987066750338806e-05,
+      -1.226477284057767e-06,
+      -0.006405479042674508
+    ],
+    "fixed_tcp_delta_hand_m": [
+      0,
+      0,
+      -0.0064
+    ],
+    "summary": {
+      "fit": {
+        "hand_error_mm": {
+          "rms": 0.05223818603615521,
+          "max": 0.090736587807841
+        },
+        "hand_rotation_error_deg": {
+          "rms": 0.04822608487584599,
+          "max": 0.04962586387033004
+        },
+        "nominal_base_corrected_tcp_error_mm": {
+          "rms": 0.5003102812679066,
+          "max": 0.5003793153542561
+        },
+        "registered_raw_tcp_error_mm": {
+          "rms": 6.406053523664741,
+          "max": 6.4305762691863935
+        },
+        "registered_corrected_tcp_error_mm": {
+          "rms": 0.08596511980842228,
+          "max": 0.1511838434540285
+        },
+        "fitted_tcp_error_mm": {
+          "rms": 0.04976512324063731,
+          "max": 0.09078594081094199
+        }
+      },
+      "validation": {
+        "hand_error_mm": {
+          "rms": 0.06600233289220248,
+          "max": 0.07620570877711827
+        },
+        "hand_rotation_error_deg": {
+          "rms": 0.04838240423831471,
+          "max": 0.05115229248492095
+        },
+        "nominal_base_corrected_tcp_error_mm": {
+          "rms": 0.500303768682197,
+          "max": 0.5003486609789204
+        },
+        "registered_raw_tcp_error_mm": {
+          "rms": 6.389146062452159,
+          "max": 6.403072540825271
+        },
+        "registered_corrected_tcp_error_mm": {
+          "rms": 0.12248205359381287,
+          "max": 0.1284495309903604
+        },
+        "fitted_tcp_error_mm": {
+          "rms": 0.06499569981799032,
+          "max": 0.0714006969235746
+        }
+      }
+    },
+    "validation_criteria": {
+      "corrected_tcp_max_mm": 1.0,
+      "hand_rotation_max_deg": 0.1,
+      "validation_poses": 4
+    },
+    "candidate_geometry_within_thresholds": true,
+    "scope": "fit uses seven hand origins; four held-out poses never used in fitting; geometry only, no camera alignment, controller equivalence or grasp validation"
+  },
+  "expected_joint_gains": {
+    "panda_joint2": {
+      "stiffness": 5400,
+      "damping": 120
+    },
+    "panda_joint4": {
+      "stiffness": 5400,
+      "damping": 120
+    },
+    "panda_joint1": {
+      "stiffness": 1125,
+      "damping": 25
+    },
+    "panda_joint3": {
+      "stiffness": 1125,
+      "damping": 25
+    }
+  },
+  "expected_initial": {
+    "hand_position_world_m": [
+      0.4541459083557129,
+      -0.011145693250000477,
+      0.3585969805717468
+    ],
+    "hand_quat_world_xyzw": [
+      0.999609112739563,
+      -0.0011259691091254354,
+      -0.027931835502386093,
+      -0.0002544944582041353
+    ],
+    "tcp_world_m": [
+      0.4487293054390772,
+      -0.011090239243840826,
+      0.2617483495143246
+    ],
+    "object_pos_world_m": [
+      0.4999989867210388,
+      1.8796170024870662e-06,
+      0.020999621599912643
+    ],
+    "object_quat_world_xyzw": [
+      -1.5812534911674447e-05,
+      -7.962542440509424e-06,
+      -4.784379825650831e-08,
+      0.9999999403953552
+    ],
+    "object_in_tcp_pos_m": [
+      0.0646087300312594,
+      -0.011100881969177436,
+      0.2375164157173958
+    ],
+    "object_in_tcp_quat_xyzw": [
+      -0.9996089370440585,
+      0.0011254816943639552,
+      0.027939814166082554,
+      -0.0002702905249015209
+    ],
+    "joint_positions_rad": [
+      -0.00013009540271013975,
+      -0.1708362102508545,
+      -0.024106340482831,
+      -2.4525673389434814,
+      -0.006120325997471809,
+      2.2259023189544678,
+      0.767745316028595
+    ],
+    "joint_velocities_rad_s": [
+      8.778766158457074e-08,
+      4.953806751473167e-07,
+      7.022991894700681e-07,
+      3.7849106071519145e-09,
+      -2.3794239041308174e-06,
+      2.6366452132720042e-08,
+      -5.643885359063461e-09
+    ],
+    "finger_positions_m": [
+      0.03999999910593033,
+      0.03999999910593033
+    ],
+    "joint_position_targets_rad": [
+      -0.00013009562098886818,
+      -0.1708361953496933,
+      -0.02410632185637951,
+      -2.4525673389434814,
+      -0.0061203730292618275,
+      2.2259023189544678,
+      0.767745316028595
+    ]
+  },
+  "prompt": "pick up the cube",
+  "server_host": "127.0.0.1",
+  "server_port": 8000
+}

@@ -1,0 +1,65 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-current/capture/20261030T095256733677Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-current/capture/20261030T095256733677Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.611587780107312e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.003297291332807e-08, 'rotation_error_deg': 1.634214898135868e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-current/capture/20261030T095256733677Z/geometry_audit.json
+[Clean scene] {"case": "arm-only", "geometry": true, "projections": {"external_camera": [127.99830196401888, 131.57970982758226], "wrist_camera": [122.46434270126815, 120.71510973692267]}}
+[Online reference] current query 1/20; distance=245.5mm
+[Geometry audit] sensor closure={'position_error_m': 1.8521517179995378e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.827202118174066e-08, 'rotation_error_deg': 1.764643609995395e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_2tyi_4so/geometry_audit.json
+[Online reference] current query 2/20; distance=244.5mm
+[Geometry audit] sensor closure={'position_error_m': 1.971704840319626e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.010651593124045e-08, 'rotation_error_deg': 3.257842701009421e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_7prfayok/geometry_audit.json
+[Online reference] current query 3/20; distance=243.6mm
+[Geometry audit] sensor closure={'position_error_m': 1.144601501979481e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.81306993905005e-08, 'rotation_error_deg': 2.2181330343219463e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_k9xhvenx/geometry_audit.json
+[Online reference] current query 4/20; distance=242.5mm
+[Geometry audit] sensor closure={'position_error_m': 1.1772177251042253e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.857423197268448e-08, 'rotation_error_deg': 2.2100758667670232e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_z0xof8fh/geometry_audit.json
+[Online reference] current query 5/20; distance=241.9mm
+[Geometry audit] sensor closure={'position_error_m': 1.7921421186155174e-08, 'rotation_error_deg': 1.2753337833636546e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.061813077734258e-08, 'rotation_error_deg': 3.312495824295665e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_9od3i7mh/geometry_audit.json
+[Online reference] current query 6/20; distance=241.1mm
+[Geometry audit] sensor closure={'position_error_m': 2.1473318342334657e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.046697042031307e-08, 'rotation_error_deg': 2.442159885891003e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_nr54bn5i/geometry_audit.json
+[Online reference] current query 7/20; distance=240.4mm
+[Geometry audit] sensor closure={'position_error_m': 6.627866078622279e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.296106473913095e-08, 'rotation_error_deg': 2.1259852817070143e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_mrp_q4lh/geometry_audit.json
+[Online reference] current query 8/20; distance=239.5mm
+[Geometry audit] sensor closure={'position_error_m': 6.816178569850037e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.8889732530225155e-08, 'rotation_error_deg': 4.747263834730413e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_09bd_3x8/geometry_audit.json
+[Online reference] current query 9/20; distance=238.7mm
+[Geometry audit] sensor closure={'position_error_m': 8.869484916969639e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.1108609146321645e-08, 'rotation_error_deg': 3.65275436064791e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_kjyqxf2p/geometry_audit.json
+[Online reference] current query 10/20; distance=237.9mm
+[Geometry audit] sensor closure={'position_error_m': 1.5249021135593368e-08, 'rotation_error_deg': 1.2771914892751938e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.247616979439633e-08, 'rotation_error_deg': 7.903144194814187e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_py5guedw/geometry_audit.json
+[Online reference] current query 11/20; distance=237.0mm
+[Geometry audit] sensor closure={'position_error_m': 2.4031877274046595e-09, 'rotation_error_deg': 1.2771914892751938e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.033465477911575e-08, 'rotation_error_deg': 5.614366608888653e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_ge8z6268/geometry_audit.json
+[Online reference] current query 12/20; distance=236.0mm
+[Geometry audit] sensor closure={'position_error_m': 1.8173544739892287e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.033396537495148e-08, 'rotation_error_deg': 5.837711363831998e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_9nknu5f7/geometry_audit.json
+[Online reference] current query 13/20; distance=234.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.4019236715978721e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 9.836919810704686e-08, 'rotation_error_deg': 8.47074699243324e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_92zd8wzr/geometry_audit.json
+[Online reference] current query 14/20; distance=233.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.3945344807914088e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.3713403106148956e-08, 'rotation_error_deg': 3.4436174129499173e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_8cuyezr2/geometry_audit.json
+[Online reference] current query 15/20; distance=232.3mm
+[Geometry audit] sensor closure={'position_error_m': 8.621597232803781e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.2057415761642994e-08, 'rotation_error_deg': 4.923192576052257e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_hs1clubl/geometry_audit.json
+[Online reference] current query 16/20; distance=231.3mm
+[Geometry audit] sensor closure={'position_error_m': 1.2970350902310955e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0143993925441834e-08, 'rotation_error_deg': 2.929401733470005e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_cpgjftz6/geometry_audit.json
+[Online reference] current query 17/20; distance=230.2mm
+[Geometry audit] sensor closure={'position_error_m': 4.789293195171518e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.461479758408877e-08, 'rotation_error_deg': 5.695890153354289e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_q3ddutr5/geometry_audit.json
+[Online reference] current query 18/20; distance=229.1mm
+[Geometry audit] sensor closure={'position_error_m': 1.49424002082699e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.9488034948907562e-08, 'rotation_error_deg': 1.2557385296111188e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_o3_rj1l0/geometry_audit.json
+[Online reference] current query 19/20; distance=227.6mm
+[Geometry audit] sensor closure={'position_error_m': 1.5142581409125216e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.9055794228484534e-08, 'rotation_error_deg': 7.409150741624167e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/online_reference_dj7vzfxl/geometry_audit.json
+[Online reference] current query 20/20; distance=226.3mm
+[Online reference] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-current/capture/20261030T095256733677Z/online_registered_result.json
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-current/capture/20261030T095256733677Z/run.json

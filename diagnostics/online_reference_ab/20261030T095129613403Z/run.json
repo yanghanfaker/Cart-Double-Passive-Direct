@@ -1,0 +1,276 @@
+{
+  "status": "completed",
+  "source_manifest": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/run.json",
+  "source_sha256": "6ee19bff6cc45ff4a307b4b555a50d724431adbd5846121a528dfce0610e7533",
+  "queries_per_run": 20,
+  "repeats": 3,
+  "cases": [
+    {
+      "name": "repeat-01-current",
+      "repeat": 1,
+      "reference_mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-01-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-01-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-01-current/online_settings.json"
+      ],
+      "result": "repeat-01-current/capture/20261030T095129647467Z/online_registered_result.json",
+      "result_sha256": "a82b6fcfe38c3c66019561ae80646019b1d215a8963ae6f1111f6f565a354d79",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 0,
+      "distance_reduction_m": 0.02134616934513689,
+      "final_xy_offset_m": 0.009875873214916068,
+      "final_ideal_position_error_m": 0.0037868213665992875,
+      "max_applied_backlog_m": 0.0005000000000000311,
+      "max_pre_update_ideal_gap_m": 0.00381881172712738,
+      "max_applied_target_error_m": 9.087482236063457e-05
+    },
+    {
+      "name": "repeat-01-accumulated",
+      "repeat": 1,
+      "reference_mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-01-accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-01-accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-01-accumulated/online_settings.json"
+      ],
+      "result": "repeat-01-accumulated/capture/20261030T095158917126Z/online_registered_result.json",
+      "result_sha256": "700401a9cbd349eebeb6f28621c9912ebefa02e0b9755d16937ffad95aec7833",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 0,
+      "distance_reduction_m": 0.01832754241832424,
+      "final_xy_offset_m": 0.006358391544502041,
+      "final_ideal_position_error_m": 3.2260285729283168e-06,
+      "max_applied_backlog_m": 0.0005987754739599103,
+      "max_pre_update_ideal_gap_m": 0.0001621983464362986,
+      "max_applied_target_error_m": 0.0001621983464362986
+    },
+    {
+      "name": "repeat-02-accumulated",
+      "repeat": 2,
+      "reference_mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-accumulated/online_settings.json"
+      ],
+      "result": "repeat-02-accumulated/capture/20261030T095227462282Z/online_registered_result.json",
+      "result_sha256": "f3fa254e526d36c3bf6ad243281d1dc23ead411a63d4b8fe1ade149b21ecb4d1",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 0,
+      "distance_reduction_m": 0.01932333786620291,
+      "final_xy_offset_m": 0.006998660480057583,
+      "final_ideal_position_error_m": 1.927178261814974e-06,
+      "max_applied_backlog_m": 0.0005704073582116582,
+      "max_pre_update_ideal_gap_m": 0.00011638280768514247,
+      "max_applied_target_error_m": 0.00011638280768514247
+    },
+    {
+      "name": "repeat-02-current",
+      "repeat": 2,
+      "reference_mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-02-current/online_settings.json"
+      ],
+      "result": "repeat-02-current/capture/20261030T095256733677Z/online_registered_result.json",
+      "result_sha256": "276d8acc64937b867751cdcfe8b929ac99e3005c01e81ac612287b67e50cb505",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 0,
+      "distance_reduction_m": 0.020139055913212356,
+      "final_xy_offset_m": 0.00954712149480088,
+      "final_ideal_position_error_m": 0.003756581035233073,
+      "max_applied_backlog_m": 0.0005000000000000312,
+      "max_pre_update_ideal_gap_m": 0.0037924299400789994,
+      "max_applied_target_error_m": 0.00020720198184681225
+    },
+    {
+      "name": "repeat-03-current",
+      "repeat": 3,
+      "reference_mode": "current",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-03-current/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-03-current/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-03-current/online_settings.json"
+      ],
+      "result": "repeat-03-current/capture/20261030T095325272075Z/online_registered_result.json",
+      "result_sha256": "bad7f9b0e37d58320136072f41287fc942ceae32b6f7c249d7179471f4be2f66",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 0,
+      "distance_reduction_m": 0.019507511852855847,
+      "final_xy_offset_m": 0.00901601324592648,
+      "final_ideal_position_error_m": 0.003603951697986952,
+      "max_applied_backlog_m": 0.000500000000000026,
+      "max_pre_update_ideal_gap_m": 0.0036342569560483223,
+      "max_applied_target_error_m": 0.00017302521354266737
+    },
+    {
+      "name": "repeat-03-accumulated",
+      "repeat": 3,
+      "reference_mode": "accumulated",
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-03-accumulated/capture",
+        "--clean-scene-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-03-accumulated/clean_scene_request.json",
+        "--online-registered-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/online_reference_ab/20261030T095129613403Z/repeat-03-accumulated/online_settings.json"
+      ],
+      "result": "repeat-03-accumulated/capture/20261030T095353419345Z/online_registered_result.json",
+      "result_sha256": "cdd3fc6edc7d0017b19cffcf25c65f482dcc83ebb44c91e15c0ec0d70e62f960",
+      "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+      "all_followup_inputs_changed": true,
+      "requested_close_actions": 0,
+      "distance_reduction_m": 0.01901761484597886,
+      "final_xy_offset_m": 0.006594850882509338,
+      "final_ideal_position_error_m": 2.138866260639353e-06,
+      "max_applied_backlog_m": 0.0005611629433871242,
+      "max_pre_update_ideal_gap_m": 0.00013505440405703358,
+      "max_applied_target_error_m": 0.00013505440405703358
+    }
+  ],
+  "scope": "independent live observations and model outputs for each reference condition; open gripper",
+  "sampling": "unpaired stochastic inference, no shared model-noise seed; condition order alternates per repeat",
+  "summary": {
+    "current": {
+      "completed_runs": 3,
+      "distance_reduction_m": {
+        "mean": 0.0203309123704017,
+        "sample_std": 0.00093422268148672,
+        "min": 0.019507511852855847,
+        "max": 0.02134616934513689
+      },
+      "final_xy_offset_m": {
+        "mean": 0.00947966931854781,
+        "sample_std": 0.00043388032754280303,
+        "min": 0.00901601324592648,
+        "max": 0.009875873214916068
+      },
+      "final_ideal_position_error_m": {
+        "mean": 0.003715784699939771,
+        "sample_std": 9.802338830411352e-05,
+        "min": 0.003603951697986952,
+        "max": 0.0037868213665992875
+      },
+      "max_applied_backlog_m": {
+        "mean": 0.0005000000000000295,
+        "sample_std": 2.9738251180401215e-18,
+        "min": 0.000500000000000026,
+        "max": 0.0005000000000000312
+      },
+      "max_pre_update_ideal_gap_m": {
+        "mean": 0.0037484995410849006,
+        "sample_std": 9.981245337555025e-05,
+        "min": 0.0036342569560483223,
+        "max": 0.00381881172712738
+      },
+      "max_applied_target_error_m": {
+        "mean": 0.00015703400591670472,
+        "sample_std": 5.9789556358390374e-05,
+        "min": 9.087482236063457e-05,
+        "max": 0.00020720198184681225
+      }
+    },
+    "accumulated": {
+      "completed_runs": 3,
+      "distance_reduction_m": {
+        "mean": 0.018889498376835335,
+        "sample_std": 0.0005101102976350544,
+        "min": 0.01832754241832424,
+        "max": 0.01932333786620291
+      },
+      "final_xy_offset_m": {
+        "mean": 0.006650634302356321,
+        "sample_std": 0.00032375904606161244,
+        "min": 0.006358391544502041,
+        "max": 0.006998660480057583
+      },
+      "final_ideal_position_error_m": {
+        "mean": 2.4306910317942146e-06,
+        "sample_std": 6.96867494911692e-07,
+        "min": 1.927178261814974e-06,
+        "max": 3.2260285729283168e-06
+      },
+      "max_applied_backlog_m": {
+        "mean": 0.000576781925186231,
+        "sample_std": 1.9599794440431703e-05,
+        "min": 0.0005611629433871242,
+        "max": 0.0005987754739599103
+      },
+      "max_pre_update_ideal_gap_m": {
+        "mean": 0.0001378785193928249,
+        "sample_std": 2.3037960377105024e-05,
+        "min": 0.00011638280768514247,
+        "max": 0.0001621983464362986
+      },
+      "max_applied_target_error_m": {
+        "mean": 0.0001378785193928249,
+        "sample_std": 2.3037960377105024e-05,
+        "min": 0.00011638280768514247,
+        "max": 0.0001621983464362986
+      }
+    }
+  },
+  "world_registration_sha256": "352bd9ade078c5887481e09a38d9144b9ddfd4408e0cc4f2fe8a20f9fb79d435",
+  "server_health": {
+    "status": "healthy",
+    "path": "/healthz",
+    "http_status": 200,
+    "body": "OK",
+    "elapsed_s": 0.0011356007307767868,
+    "scope": "HTTP health route only; not checkpoint identity or inference validation"
+  },
+  "initial_inputs_identical": true,
+  "all_followup_inputs_changed": true
+}

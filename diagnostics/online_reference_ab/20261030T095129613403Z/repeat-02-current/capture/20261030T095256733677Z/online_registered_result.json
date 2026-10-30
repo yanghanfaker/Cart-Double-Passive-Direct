@@ -1,0 +1,2640 @@
+{
+  "status": "completed",
+  "mode": "online-reference-ab",
+  "reference_mode": "current",
+  "queries_requested": 20,
+  "policy_queries": 20,
+  "inference_attempts": 20,
+  "action_controls": 100,
+  "hold_controls": 10,
+  "native_controls_executed": 110,
+  "queries": [
+    {
+      "query": 1,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.44837191700935364,
+            -0.011086580343544483,
+            0.25535833835601807
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.999609112739563,
+            -0.0011259691091254354,
+            -0.027931835502386093,
+            -0.0002544944582041353
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9996186052134051,
+            -0.001133644247263452,
+            -0.027591533010445653,
+            -0.00025742583521924764
+          ],
+          "mapped_tcp_world_m": [
+            -0.21148441675443663,
+            -0.011098445306428641,
+            1.1741422157950978
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "8c3eed0dc42c95d17844c0fdb00484baf08402dd8e066e4a77cf77439a3ff9bf",
+            "array_sha256": "cf2a2ebeac72aa45fe9e963eb50740f4c9924773928228e99bc4fc64b93248db"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "d09870199d2a500fc2efd0b9b43ce3fdac79eaf6504c7c52ced3fe4118fba526",
+            "array_sha256": "10e8d6bf25cdeb37e0432be80f25d5f2f9b07e144b2a22a32e9e134b8d523ecc"
+          }
+        },
+        "input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+        "state_sent_float32": [
+          -0.2114844173192978,
+          -0.011098445393145084,
+          1.1741422414779663,
+          3.140909194946289,
+          -0.0035620322450995445,
+          -0.08669556677341461,
+          0.03999999910593033,
+          -0.03999999910593033
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 175,
+      "camera_frames": {
+        "external_camera": 2,
+        "wrist_camera": 3
+      },
+      "inference_wall_s": 0.2574366144835949,
+      "post_query_physics_step": 175,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0001.zip",
+      "archive_sha256": "e08ce716a9b6f324e674da75a41071cfb5c26ca60bd26fdd49b1707930dc41e4"
+    },
+    {
+      "query": 2,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.45040005445480347,
+            -0.010064060799777508,
+            0.2548863887786865
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9995623826980591,
+            -0.004195951856672764,
+            -0.029261022806167603,
+            0.0011150805512443185
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9995722491053791,
+            -0.0042040895195481435,
+            -0.028920752420775277,
+            0.0011110936691201396
+          ],
+          "mapped_tcp_world_m": [
+            -0.20943888854620996,
+            -0.010059601542445971,
+            1.173670675545615
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "a2ea652f1b2c6f8e8e39be353b7a06c05ceb82e1ab29f8c67de80c42e307a6ea",
+            "array_sha256": "44d3255b9febc9b8526f4942c76654663c1ef7f3a830ad93abe804f798e70187"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "c1726de84506e3062eb084ce4e4859ee3e2a8715d6f41dbcb2d19d0a5140fced",
+            "array_sha256": "716775436e4ab283c83847a8196b9efe3798d7ec88828a6f9e5f052663a50302"
+          }
+        },
+        "input_sha256": "ebf6e2c9a1f83f78c512e41b989672e169f88142c8a321af8bc83889b6d7ae8b",
+        "state_sent_float32": [
+          -0.20943889021873474,
+          -0.010059601627290249,
+          1.1736706495285034,
+          3.1380295753479004,
+          -0.013198202475905418,
+          -0.09079301357269287,
+          0.03999997302889824,
+          -0.03999998793005943
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 200,
+      "camera_frames": {
+        "external_camera": 4,
+        "wrist_camera": 5
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.0023421734469913926,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2540915571153164,
+      "post_query_physics_step": 200,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0002.zip",
+      "archive_sha256": "ed6b89c14edc57be42688177e4a35d2e7fffa320a972339aa59ca172752c83f9"
+    },
+    {
+      "query": 3,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.4526103734970093,
+            -0.009805167093873024,
+            0.254352867603302
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9994679093360901,
+            -0.007264108397066593,
+            -0.031765952706336975,
+            0.0014084747526794672
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9994786477365064,
+            -0.007272339475642359,
+            -0.031425725105583315,
+            0.0014034240071255479
+          ],
+          "mapped_tcp_world_m": [
+            -0.2071961195706558,
+            -0.009798370423217892,
+            1.1731367163087008
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "fa2eabd2b260b54843564e603fb72b8aba96031ff71fc13e95d90af0d425a62f",
+            "array_sha256": "e00611360ce182d17ded668048bec6bb5eba774ed65ebaf14dd1e709e8d29733"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "7c5c3cb05045ef6731a1fb8b4c6a227d1d2ccad2d273029c1dd08f92543d706f",
+            "array_sha256": "be5afea5989b1bb98a4a294de28938493e7dedd32fd76c18c6b8016a3f452e2e"
+          }
+        },
+        "input_sha256": "2db99152563e88712d327c1f29e5136600e48be4b9a966a2a603d56624269d89",
+        "state_sent_float32": [
+          -0.20719611644744873,
+          -0.00979837030172348,
+          1.1731367111206055,
+          3.1371524333953857,
+          -0.022826338186860085,
+          -0.09863871335983276,
+          0.03999999165534973,
+          -0.03999999538064003
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 225,
+      "camera_frames": {
+        "external_camera": 5,
+        "wrist_camera": 6
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.0023202082273051363,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2536074426025152,
+      "post_query_physics_step": 225,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0003.zip",
+      "archive_sha256": "7d7df9ea81e4848e5dc6f1610bd2cc346b160ae825f1487828a9cce0d0d28701"
+    },
+    {
+      "query": 4,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.45480993390083313,
+            -0.009438373148441315,
+            0.25391945242881775
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9993350505828857,
+            -0.009389433078467846,
+            -0.03519248217344284,
+            0.00164974934887141
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9993469351063458,
+            -0.009397737182653475,
+            -0.0348523064174635,
+            0.001643948533922538
+          ],
+          "mapped_tcp_world_m": [
+            -0.20495241310422585,
+            -0.009429801697951143,
+            1.1727018842125148
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "348871e256ed22f05a8e4b8a640eeb7e06859d80497d7771f30d42d35608e5a0",
+            "array_sha256": "fb80b36f52320bd24590b31fd98552072aa7217c9c70072042e71c4850ed6ad5"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "6fcb68e7a940e722457228c3d03d373bc398e6a489fc34550c2fa4bd017224bb",
+            "array_sha256": "e2a65b7ef959265544308df08cda4fee76608dd68b8b566f1bc74f11c58ffa04"
+          }
+        },
+        "input_sha256": "d777777066fcd251c1fd42a400cc968890033045c6334aa4d6f0af8e68b0ebcc",
+        "state_sent_float32": [
+          -0.2049524188041687,
+          -0.009429801255464554,
+          1.1727018356323242,
+          3.1362595558166504,
+          -0.029493002220988274,
+          -0.10937730967998505,
+          0.03999998793005943,
+          -0.03999999538064003
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 250,
+      "camera_frames": {
+        "external_camera": 6,
+        "wrist_camera": 7
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.0023149814138840137,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2537514269351959,
+      "post_query_physics_step": 250,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0004.zip",
+      "archive_sha256": "26e00acb9019b41bbec249631f959d02ad6a196f5d588502f9318486ae6d7b34"
+    },
+    {
+      "query": 5,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.45695412158966064,
+            -0.008916408754885197,
+            0.2531907558441162
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9992842078208923,
+            -0.013433152809739113,
+            -0.03531953692436218,
+            0.0017689900705590844
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9992960845505774,
+            -0.013441496441485694,
+            -0.03497938814194085,
+            0.0017618117136855448
+          ],
+          "mapped_tcp_world_m": [
+            -0.2028060134049346,
+            -0.008908186800687268,
+            1.1719745314197003
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "0a6e7da93ea0b5fb99401c20b39397de07796c315107ca429a1facdad5dedbc3",
+            "array_sha256": "be19efa0381746ea8c56827da2aebf8abf38616326aecf7eb7851f0e448fb117"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "6788f83c19d390789e064163cf5399028eef5b6f4ac8fa512d25f21faf20d3b6",
+            "array_sha256": "c21ff5e1610b81f2f9aa222e053dd5e7564b9d5de4318683d5f622557adfa7d0"
+          }
+        },
+        "input_sha256": "719c4b6add52249052aabe60f6e9dab59a8e65b05fb9bd41c973b63e5d24a9d4",
+        "state_sent_float32": [
+          -0.2028060108423233,
+          -0.008908187039196491,
+          1.171974539756775,
+          3.1358649730682373,
+          -0.04218040779232979,
+          -0.10976790636777878,
+          0.03999999165534973,
+          -0.03999999910593033
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 275,
+      "camera_frames": {
+        "external_camera": 7,
+        "wrist_camera": 8
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002325533878462601,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2583820316940546,
+      "post_query_physics_step": 275,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0005.zip",
+      "archive_sha256": "94f7c280f1091e7d0e55c1546340063060bc53bffb01a965a9c5e12e8f2c0ff6"
+    },
+    {
+      "query": 6,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.45929986238479614,
+            -0.008631105534732342,
+            0.25298041105270386
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9992860555648804,
+            -0.016857312992215157,
+            -0.03372823819518089,
+            0.0023722124751657248
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9992973478248097,
+            -0.01686586525422275,
+            -0.03338810098077706,
+            0.0023638807974998375
+          ],
+          "mapped_tcp_world_m": [
+            -0.2004802718665653,
+            -0.008616407923108433,
+            1.1717671459041352
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "03ee2cb95635d38f212c5f4e6b34f2f03433c04a447039edb9ec31096feb07b4",
+            "array_sha256": "ec378a156ea5d4793ea0763bcdf8b9cf217c38af9502d32605451f9553353b19"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "6edca37851d811c87325437691ef6fba29dca2388d9823236d35e880fc6c9938",
+            "array_sha256": "af171a7a69711698d74a3fc2a84f76ea15989fdb6522687260a5a91d401e3edb"
+          }
+        },
+        "input_sha256": "d22bda9126e8de35272b68a62c1b0d0e21e754de1997bff540e74866ef546fc3",
+        "state_sent_float32": [
+          -0.20048026740550995,
+          -0.008616408333182335,
+          1.1717671155929565,
+          3.134669542312622,
+          -0.0529060885310173,
+          -0.10473425686359406,
+          0.03999998793005943,
+          -0.03999999538064003
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 300,
+      "camera_frames": {
+        "external_camera": 8,
+        "wrist_camera": 9
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.0023531345331067313,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2539123687893152,
+      "post_query_physics_step": 300,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0006.zip",
+      "archive_sha256": "aeffea72f7723407374ce7c937a0f421d4941a47df336027770c368a7ef73e1f"
+    },
+    {
+      "query": 7,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.46158871054649353,
+            -0.008401896804571152,
+            0.25255095958709717
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9992254972457886,
+            -0.0208707507699728,
+            -0.033258501440286636,
+            0.0025858720764517784
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9992366056894797,
+            -0.02087937628120663,
+            -0.03291839612865292,
+            0.0025761779038093982
+          ],
+          "mapped_tcp_world_m": [
+            -0.1981969836596641,
+            -0.008386109263389806,
+            1.1713396392451458
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "bcdae109ba2c23d932ebb88aebd4d09aa70a6a737fcc6484924c0f9f012740e7",
+            "array_sha256": "e6fd650befd583736822da002cf27d142e6fcc2ebd6b8a7f3e7d01dff7b2c5c3"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "37d118be05d6ec5415e78d0f60375d99ec8837ab3ab6e57ba710b3a36b6c586f",
+            "array_sha256": "baf6cfb39bc1f7cd81c35c14650dc22d990d04c3439cdc69f1011dbc7c3d7493"
+          }
+        },
+        "input_sha256": "292dbb1a37526ee1abbe526ba64010ac3cb16f7b4ddf1dacca6a94e3147d20a1",
+        "state_sent_float32": [
+          -0.19819697737693787,
+          -0.00838610902428627,
+          1.1713396310806274,
+          3.134056329727173,
+          -0.06548713147640228,
+          -0.10324692726135254,
+          0.03999999165534973,
+          -0.03999999910593033
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 325,
+      "camera_frames": {
+        "external_camera": 9,
+        "wrist_camera": 10
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002334350902185864,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2556783314794302,
+      "post_query_physics_step": 325,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0007.zip",
+      "archive_sha256": "c8e99989cc887a728bdffbebdd7817a4140aa606d20242f22eeb5e38a468ec24"
+    },
+    {
+      "query": 8,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.4638501703739166,
+            -0.008083134889602661,
+            0.25217127799987793
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9991099834442139,
+            -0.0247198436409235,
+            -0.034060314297676086,
+            0.002826106268912554
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9991213730798241,
+            -0.024728548881266247,
+            -0.03372026039180879,
+            0.002815095810505525
+          ],
+          "mapped_tcp_world_m": [
+            -0.19592485200997378,
+            -0.008066205016649088,
+            1.1709607985403139
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "1087d69fc5e6f7685a884a05eebbef86b68f69872f6af08993a2880e2af24cff",
+            "array_sha256": "e510f05aeba63083789818fbf2ee7789e7e330d1330c7ec1b2693927d70b5a9e"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "e246ed2d5272294d899b99b24771f2d2441e9bcf94763c50e30221d499247d56",
+            "array_sha256": "cbb4868cc44ad4ccdceab31cf456dfdc386bd41b1b146d1f65ed5faee042e15b"
+          }
+        },
+        "input_sha256": "a524d032c79be25c626065b578e5953127a2a58be1f3ef7ff83b97c8f95641e5",
+        "state_sent_float32": [
+          -0.19592484831809998,
+          -0.008066205307841301,
+          1.170960783958435,
+          3.1332194805145264,
+          -0.07754810899496078,
+          -0.10574588924646378,
+          0.039999984204769135,
+          -0.03999999538064003
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 350,
+      "camera_frames": {
+        "external_camera": 10,
+        "wrist_camera": 11
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002325604005372435,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.25543362833559513,
+      "post_query_physics_step": 350,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0008.zip",
+      "archive_sha256": "6795cb3464b5563b60f748bfee9bdbb3bf05ae89121491d3ba770a6b4d74cc56"
+    },
+    {
+      "query": 9,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.4660828709602356,
+            -0.007788965478539467,
+            0.2515999674797058
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9990203976631165,
+            -0.028721647337079048,
+            -0.03353177383542061,
+            0.0029947711154818535
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9990315190264847,
+            -0.028730408801393013,
+            -0.033191759176577296,
+            0.002982402471740136
+          ],
+          "mapped_tcp_world_m": [
+            -0.19369834966584148,
+            -0.007771464624085863,
+            1.1703914499401589
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "af224ee5fedb2c524c679d56c87847759be1321503034538a35bb3c69d094acc",
+            "array_sha256": "1c969b8706a267173a08c719665d434827ab84676c53dd06e5375f2befc8aa1e"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "3b089f73cff48d04189a8d70b55a8dfb9c13f93aa9ff7fe484a07566347362db",
+            "array_sha256": "c2894a3217b1a09dba7520aa41e7e235a0221ec7dab9c838cca7716a2b7d4020"
+          }
+        },
+        "input_sha256": "6c700a38a1bf3c8982adfb2f11830534f486de20294e14a4b6a3d3d66cabc9e7",
+        "state_sent_float32": [
+          -0.19369834661483765,
+          -0.00777146453037858,
+          1.1703914403915405,
+          3.1326050758361816,
+          -0.09008827060461044,
+          -0.10407746583223343,
+          0.03999999165534973,
+          -0.03999999910593033
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 375,
+      "camera_frames": {
+        "external_camera": 11,
+        "wrist_camera": 12
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002316966563784115,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2555597685277462,
+      "post_query_physics_step": 375,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0009.zip",
+      "archive_sha256": "2f3aa7b2d41fb1372abfb8fcb61f4834a982b3251f775c1af7f14c9ae8d61cf9"
+    },
+    {
+      "query": 10,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.46835583448410034,
+            -0.007563119754195213,
+            0.2511754631996155
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9988910555839539,
+            -0.03274727612733841,
+            -0.033688344061374664,
+            0.0030390536412596703
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9989022842938431,
+            -0.032756053784718006,
+            -0.03334838600361268,
+            0.0030253138595587865
+          ],
+          "mapped_tcp_world_m": [
+            -0.19142297471322212,
+            -0.007546884775770331,
+            1.169968357708115
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "8359907ef116090c98a1c704e0a4920617bf7e447ccc33d2b02dc862c523d91f",
+            "array_sha256": "c6f9f349af59aec3d970fe990fe910bb8c517f67ec3137fec9779f7a970f41d5"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "87dcdbf63650940a9c27cb1399c016a4fe7fa42d5dbe0cb9506c966ffdec9546",
+            "array_sha256": "9d057b7820963bb6bd4c64054b597f09a80b897cedb7fb1790553e27bfe524c5"
+          }
+        },
+        "input_sha256": "dd37988b92a63dbab1f950ca7fc5f4275603bfee166227bb0544490ae590939e",
+        "state_sent_float32": [
+          -0.1914229691028595,
+          -0.007546884939074516,
+          1.1699683666229248,
+          3.1321144104003906,
+          -0.10270845144987106,
+          -0.10456574708223343,
+          0.03999998793005943,
+          -0.03999999538064003
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 400,
+      "camera_frames": {
+        "external_camera": 12,
+        "wrist_camera": 13
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002325246272663798,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2549433037638664,
+      "post_query_physics_step": 400,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0010.zip",
+      "archive_sha256": "83b70bfbec35c796dac9dc77a8719854a65015a01aff3cb5f86ee53d6ff9a2a3"
+    },
+    {
+      "query": 11,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.47060665488243103,
+            -0.007309262175112963,
+            0.25066328048706055
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.998763918876648,
+            -0.03673454001545906,
+            -0.03333711996674538,
+            0.003129312302917242
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9987749556315124,
+            -0.03674334673816592,
+            -0.032997213818793454,
+            0.003114218031197052
+          ],
+          "mapped_tcp_world_m": [
+            -0.18917614976293712,
+            -0.00729346526663046,
+            1.1694580000561807
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "256c795266ab5da39b9bbaa3163406b008ecf60129ac05c12d8e149c338bc8bc",
+            "array_sha256": "445a8174394c8d912f38686dc1cce1289681ea1a7af07da364c0820ff460de80"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "1ed1bf23739b25bc73a04e5e00bddf2621075cc441a723d13f1db22330257cd9",
+            "array_sha256": "202594ca3064900a3a2ce8a6238cb7a0b83a18672df1187c690abdfe8b0c9997"
+          }
+        },
+        "input_sha256": "22662ac6d8d1f6b1f0e94d998712f95f4df943e5971c0acb50174edc623e8205",
+        "state_sent_float32": [
+          -0.18917615711688995,
+          -0.007293465081602335,
+          1.169458031654358,
+          3.1315383911132812,
+          -0.1152043342590332,
+          -0.10345878452062607,
+          0.039999980479478836,
+          -0.03999999165534973
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 425,
+      "camera_frames": {
+        "external_camera": 13,
+        "wrist_camera": 14
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.0023179360441133398,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2546409349888563,
+      "post_query_physics_step": 425,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0011.zip",
+      "archive_sha256": "990d4acd70aedfc34a1584cb6e1b30fba2b024743a22abcfdde91fbea57a385e"
+    },
+    {
+      "query": 12,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.4727882444858551,
+            -0.006860267370939255,
+            0.2499607801437378
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9986394047737122,
+            -0.040710870176553726,
+            -0.03243573009967804,
+            0.003125117626041174
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9986501382651632,
+            -0.04071967788573642,
+            -0.03209587671939578,
+            0.0031086771246925365
+          ],
+          "mapped_tcp_world_m": [
+            -0.18700549396546695,
+            -0.006845786835305133,
+            1.1687577387814794
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "075fb397a701298162df17cfc9122f10ad65b0389b176e5813a0614f80f45469",
+            "array_sha256": "a830bc21d8007dfcc4506dfb5b78a234512c6a22cd2a8ea9569ddc4866e7bd5f"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "9f13e283006603c4887c8b454c72835da5b3e9189968c51e4df4061e8965be28",
+            "array_sha256": "4004d112fb3387f976695aa0b9de2cc30b1722cfbd7f0b1c45ce0bb3fd0fa532"
+          }
+        },
+        "input_sha256": "5aa4c401426f1fbe202c3e4347e98f0731fe6659fc48b51f42c77b3a2f3f2a1a",
+        "state_sent_float32": [
+          -0.18700549006462097,
+          -0.006845786701887846,
+          1.1687577962875366,
+          3.1311581134796143,
+          -0.12767209112644196,
+          -0.10063310712575912,
+          0.039999984204769135,
+          -0.03999999538064003
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 450,
+      "camera_frames": {
+        "external_camera": 14,
+        "wrist_camera": 15
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002324336669335414,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.25358299538493156,
+      "post_query_physics_step": 450,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0012.zip",
+      "archive_sha256": "acd8bf4af6e831c1b127357ddca9abf3688723ee3249510c88e0c1800ce0d1be"
+    },
+    {
+      "query": 13,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.47496700286865234,
+            -0.006517536006867886,
+            0.2492365837097168
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9984877109527588,
+            -0.04467214643955231,
+            -0.03188423439860344,
+            0.0031436767894774675
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.998498266643218,
+            -0.044680962406131224,
+            -0.031544443327810784,
+            0.003125892526905681
+          ],
+          "mapped_tcp_world_m": [
+            -0.18483318030747797,
+            -0.00650418426918838,
+            1.1680354753914435
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "ff94a117c1eaf70eb12fd37e175fb8d75ec59de03fe5dc5dd56f26a721c76e61",
+            "array_sha256": "ef77c6c1ce34734bd9d00bd17f731be31dfa17e8332ff2d26c59c48f23016d0f"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "7859024adffb1f2a7f9a97a9e7e0282c37caa3311c8e18450068ad37d243da72",
+            "array_sha256": "0d69c55cd1bf9506aaa6cbfe38fb9e134984fd33e7c7686f3937932e6336b67c"
+          }
+        },
+        "input_sha256": "05ec01ab39376650ea48a53d1f506f217dee794bd855aa6e872807055efd350a",
+        "state_sent_float32": [
+          -0.18483318388462067,
+          -0.006504184100776911,
+          1.1680355072021484,
+          3.130647659301758,
+          -0.1400907337665558,
+          -0.09890306740999222,
+          0.03999996930360794,
+          -0.039999980479478836
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 475,
+      "camera_frames": {
+        "external_camera": 15,
+        "wrist_camera": 16
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002314585924009773,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2546361945569515,
+      "post_query_physics_step": 475,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0013.zip",
+      "archive_sha256": "e5034ebf414ea8b159854827f17b532a82b8b4cc058993ae264eef1815b8a1d9"
+    },
+    {
+      "query": 14,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.47677451372146606,
+            -0.006247250363230705,
+            0.24776265025138855
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9983711242675781,
+            -0.04824134707450867,
+            -0.030298588797450066,
+            0.003113803220912814
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.998381095705306,
+            -0.048250155015442664,
+            -0.02995884493825644,
+            0.0030948165088794033
+          ],
+          "mapped_tcp_world_m": [
+            -0.1830448485784555,
+            -0.0062347837498047745,
+            1.1665640249434301
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "10e83bc0b5937db25b55801b4d518c11f2ab085f602aaf7422ab2c267c95dea4",
+            "array_sha256": "430c0d41d1d4ec1b4bcff598f54b6709ca0f05f678beb84968f05695dea7a8bc"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "ddb1649ff7e38e49f802dd2bdfcff4292d4021daf7ed49683427fa32c401255f",
+            "array_sha256": "d8e4e5482f77381fe717e7647cfb4d7864698d7904c3ac2f0f5b6eaf7592d6fb"
+          }
+        },
+        "input_sha256": "63b2848ed46759efbc7431a781f29607a3dff0371593f773af7d51c10be2121a",
+        "state_sent_float32": [
+          -0.18304485082626343,
+          -0.0062347836792469025,
+          1.1665639877319336,
+          3.1303420066833496,
+          -0.15128441154956818,
+          -0.09393350034952164,
+          0.03999996930360794,
+          -0.03999997675418854
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 500,
+      "camera_frames": {
+        "external_camera": 16,
+        "wrist_camera": 17
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.0023315405349157614,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2566542234271765,
+      "post_query_physics_step": 500,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0014.zip",
+      "archive_sha256": "6d8988334a4e87ae6cbaaa7ebaeb52b460b9ef48938a8c8f96d5cccaec272a12"
+    },
+    {
+      "query": 15,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.47893983125686646,
+            -0.006065861321985722,
+            0.2469491958618164
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9981970191001892,
+            -0.052162569016218185,
+            -0.029513169080018997,
+            0.003270161570981145
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9982066358816196,
+            -0.052171427785569296,
+            -0.029173493169106415,
+            0.003249846308217206
+          ],
+          "mapped_tcp_world_m": [
+            -0.18088881735827816,
+            -0.006052430171751837,
+            1.1657526277303356
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "fac0c702866e7ecd4c9fd4b435051402963c0168e0e524e65c7a9a00f8447e22",
+            "array_sha256": "b2bed9b5658e009067f379fe216c9004959eab57d01958614fd6fdcd64515bce"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "2d473542856800e3ce835f00063b98c1369ae25e0732ba2a6c9a6fd829278430",
+            "array_sha256": "dec6a57e59622badd5f966bf444ecac55e406ce25fd4549d947da236fb0b8930"
+          }
+        },
+        "input_sha256": "280790dd7bd167b60ee8a7d9ecc96cef51b02e8d8eb9df1393218c7874b6ef9f",
+        "state_sent_float32": [
+          -0.1808888167142868,
+          -0.0060524302534759045,
+          1.165752649307251,
+          3.1294870376586914,
+          -0.16356313228607178,
+          -0.09146209806203842,
+          0.039999980479478836,
+          -0.039999984204769135
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 525,
+      "camera_frames": {
+        "external_camera": 17,
+        "wrist_camera": 18
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002310845278953941,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2569680158048868,
+      "post_query_physics_step": 525,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0015.zip",
+      "archive_sha256": "85c5fb616fb9ed51a71c23c02bf37a61ced2aac22d3cd61dc462909fb4380b30"
+    },
+    {
+      "query": 16,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.4810718297958374,
+            -0.005668695084750652,
+            0.24611583352088928
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.998075008392334,
+            -0.055413637310266495,
+            -0.02764718420803547,
+            0.003331446321681142
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9980840069080635,
+            -0.05542252258757108,
+            -0.027307559102391545,
+            0.003310039311554733
+          ],
+          "mapped_tcp_world_m": [
+            -0.17877995172795935,
+            -0.0056544198692407,
+            1.1649220629903372
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "10d5244bbbeb403a5a6e7e38b24fbec8c294c40c1f04b9d847f38126e4b1f628",
+            "array_sha256": "78af373393549d6b44df54818a8e5c670d0dcd6dac2874e3594bb7a9fab0bbd6"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "f1736f0bcb10af021f9e88e786186863dadc46fedf80921cb726ab14d00c9fc0",
+            "array_sha256": "6b3cea6c3cd75c9dbc6daa5eab8bee08b2a6ad8c45d53f589d9bf8f72129e825"
+          }
+        },
+        "input_sha256": "008d71ead730c89e285d6aaf2d2fb4e4177f73e25afe213ea9ea58f71e68e562",
+        "state_sent_float32": [
+          -0.1787799447774887,
+          -0.005654419772326946,
+          1.1649221181869507,
+          3.1289830207824707,
+          -0.17374904453754425,
+          -0.08560891449451447,
+          0.03999997302889824,
+          -0.039999980479478836
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 550,
+      "camera_frames": {
+        "external_camera": 18,
+        "wrist_camera": 19
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002301202974686552,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2539829406887293,
+      "post_query_physics_step": 550,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0016.zip",
+      "archive_sha256": "3f8d0f0e5c146835fb1938be621da39728ad3ec2ac29d9bbd96e843161991b77"
+    },
+    {
+      "query": 17,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.48323577642440796,
+            -0.005510175600647926,
+            0.24522939324378967
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9978858828544617,
+            -0.05925290286540985,
+            -0.02648281864821911,
+            0.0033938265405595303
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.997894384941065,
+            -0.05926180649572276,
+            -0.02614326551101927,
+            0.003371121827737552
+          ],
+          "mapped_tcp_world_m": [
+            -0.17663012842577602,
+            -0.005495616767867347,
+            1.1640378883804465
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "2acc505c7aa8175e786b0e958764bc6428e0678edc1f81ff52d9299d091cb91d",
+            "array_sha256": "b7718db1283929543df74d8abf104bda5858ab40f6e5daaf0efd3fcbe95d1d39"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "48f8a6c5f5b53bca0cf52254027e1cbcc5292006c1a40bc4d5ee6812902c15ba",
+            "array_sha256": "b0fc898e39aefdaad3ad1846fb4be98e196d21d1b8e89c8d28ba77f6edf454e0"
+          }
+        },
+        "input_sha256": "27e986fe2def50744766f874d035552ad49ede806cb72933e3deaae7081e67cc",
+        "state_sent_float32": [
+          -0.17663012444972992,
+          -0.00549561670050025,
+          1.1640379428863525,
+          3.128267288208008,
+          -0.185777947306633,
+          -0.0819556936621666,
+          0.03999997302889824,
+          -0.039999984204769135
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 575,
+      "camera_frames": {
+        "external_camera": 19,
+        "wrist_camera": 20
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002329959617558708,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.25481061823666096,
+      "post_query_physics_step": 575,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0017.zip",
+      "archive_sha256": "e0757af45e9ba41d6bba07e9daa01a4af0dbea3c27881190891624d9332d8c9a"
+    },
+    {
+      "query": 18,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.4853347837924957,
+            -0.005184125155210495,
+            0.24431999027729034
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9976515769958496,
+            -0.06304287165403366,
+            -0.02645563893020153,
+            0.00410799216479063
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9976601167866268,
+            -0.0630520211591928,
+            -0.026116181946334267,
+            0.0040839982346675095
+          ],
+          "mapped_tcp_world_m": [
+            -0.17453018261727743,
+            -0.005161748079993655,
+            1.1631298663913026
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "4551ea7b42f13e03065ac09b7ef3e1a9caca7085f907a82789f47261e4fd017b",
+            "array_sha256": "e0b99f792c64ee676e66647cc80f892b06015dffff2ed6c02d2356add414c124"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "866ca410f9ed6757e783335c96c858be08e16d2964a93731c27a97e39e78d74b",
+            "array_sha256": "87806fb7179f3f518b1ef97aeedb7312d59fa26803251c86eb70bc5531c9d3bc"
+          }
+        },
+        "input_sha256": "ed6298c8a9eb0d7313caec19bf41a544e72f05a117597f639c2f2aa11b8723fa",
+        "state_sent_float32": [
+          -0.17453017830848694,
+          -0.005161748267710209,
+          1.1631299257278442,
+          3.1261188983917236,
+          -0.19757039844989777,
+          -0.08183377236127853,
+          0.03999997675418854,
+          -0.03999998793005943
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 600,
+      "camera_frames": {
+        "external_camera": 20,
+        "wrist_camera": 21
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.0023120850085324397,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.25613125786185265,
+      "post_query_physics_step": 600,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0018.zip",
+      "archive_sha256": "b886f2b6e5c61b056c2fe46d952ed87e2470e65845e259cc8dec5aac2824dc55"
+    },
+    {
+      "query": 19,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.4874553084373474,
+            -0.005020203068852425,
+            0.24333536624908447
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9974209070205688,
+            -0.0669686496257782,
+            -0.025517258793115616,
+            0.003952265251427889
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.9974290127068761,
+            -0.06697774095507014,
+            -0.025177886141232293,
+            0.003926942398495595
+          ],
+          "mapped_tcp_world_m": [
+            -0.17242097148661112,
+            -0.0050003797502048515,
+            1.1621473193176055
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "66bea78f6584f9905dbd4bdb3a3e23478175a242d0e0df1b7292b6404dd6231b",
+            "array_sha256": "9b6debe9467833ea573b8d3b7dc80e97d21c47fa2311259c02959b4e13b952c3"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "dc83dccfade245fb284592c80ec8e6d9711a9697aa41ee819319cb9c0f1d61fb",
+            "array_sha256": "d9054d0faa7447459dc0b02d06b22491569f35c391a13f8463bba005d8fad968"
+          }
+        },
+        "input_sha256": "04c47055d590c4db335f8d69e00e02c03ecd983252c9e514a45cd593077c3d71",
+        "state_sent_float32": [
+          -0.17242097854614258,
+          -0.005000379867851734,
+          1.1621472835540771,
+          3.1257059574127197,
+          -0.2098923623561859,
+          -0.07890152931213379,
+          0.03999997302889824,
+          -0.039999984204769135
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 625,
+      "camera_frames": {
+        "external_camera": 21,
+        "wrist_camera": 22
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.0023324555814874808,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2559238951653242,
+      "post_query_physics_step": 625,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0019.zip",
+      "archive_sha256": "17bbac3d66360734b21832253506be57e125bf061ee4122994777822278071d8"
+    },
+    {
+      "query": 20,
+      "status": "completed",
+      "executed_prefix_controls": 5,
+      "input": {
+        "state_provenance": {
+          "registration_rotation": [
+            [
+              0.999999768084074,
+              1.5658280538410605e-05,
+              -0.0006808719548613038
+            ],
+            [
+              -1.5661453762031247e-05,
+              0.9999999998665242,
+              -4.655197995381514e-06
+            ],
+            [
+              0.0006808718818779291,
+              4.665860360561563e-06,
+              0.9999997681958287
+            ]
+          ],
+          "registration_translation_m": [
+            -0.660035223040693,
+            4.010026113856341e-08,
+            0.9120884499244408
+          ],
+          "source_sensor_position_world_m": [
+            0.4893089532852173,
+            -0.004771739710122347,
+            0.24197310209274292
+          ],
+          "tcp_delta_hand_m": [
+            0,
+            0,
+            -0.0064
+          ],
+          "source_hand_quat_xyzw": [
+            0.9971315264701843,
+            -0.07052716612815857,
+            -0.02718152105808258,
+            0.0039586168713867664
+          ],
+          "registration_quat_xyzw": [
+            2.3302647240984755e-06,
+            -0.00034043597892386443,
+            -7.829934029103334e-06,
+            0.9999999420183014
+          ],
+          "mapped_hand_quat_xyzw": [
+            0.997140245046631,
+            -0.07053625848460489,
+            -0.02684225714929079,
+            0.0039320705066408605
+          ],
+          "mapped_tcp_world_m": [
+            -0.170545062190612,
+            -0.004754537672464088,
+            1.1607852099806553
+          ],
+          "semantics": "LIBERO world TCP97mm xyz; hand rotation vector without w-sign canonicalization; Isaac finger q1,-q2",
+          "diagnostic_target_usage": "mapped cube center only for projection analysis, never in model observation"
+        },
+        "frames": {
+          "observation/image": {
+            "file": "external_camera_policy224_flip_x.png",
+            "png_sha256": "b3eef6debb121fca25987a151f8a051ef980e1882753187f6a59f3d7b60bdea4",
+            "array_sha256": "dc7607550cd00745c66f2b70cd76f2218ffabca8a140c04cc40ed301f9a3a393"
+          },
+          "observation/wrist_image": {
+            "file": "wrist_camera_policy224_flip_x.png",
+            "png_sha256": "a9f99c0893af44ed5ca14e7e2b55a20b8e9548a9fbe2d81a741bcc647a1ca9bd",
+            "array_sha256": "0297c89bbde1691736f144d1e9c72bb7628fec47b2bdd484b30ef163c3424cf1"
+          }
+        },
+        "input_sha256": "e1e30d7aef26b6091be07abc954316a673deded6e11169b9a9d06d54eb54286d",
+        "state_sent_float32": [
+          -0.1705450564622879,
+          -0.004754537716507912,
+          1.16078519821167,
+          3.124790906906128,
+          -0.2210431843996048,
+          -0.08411699533462524,
+          0.039999984204769135,
+          -0.03999998793005943
+        ],
+        "prompt": "pick up the cube",
+        "scope": "current audited capture, not a previous-run image or state"
+      },
+      "capture_physics_step": 650,
+      "camera_frames": {
+        "external_camera": 22,
+        "wrist_camera": 23
+      },
+      "feedback_change": {
+        "input_changed": true,
+        "state_changed": true,
+        "position_change_m": 0.002331265430634538,
+        "image_array_changed": {
+          "observation/image": true,
+          "observation/wrist_image": true
+        }
+      },
+      "inference_wall_s": 0.2528030164539814,
+      "post_query_physics_step": 650,
+      "post_query_state_checks": {
+        "tcp_error_m": 0.0,
+        "hand_rotation_error_deg": 0.0,
+        "max_joint_error_rad": 0.0,
+        "object_error_m": 0.0
+      },
+      "archive": "queries/query_0020.zip",
+      "archive_sha256": "6fbf69b9b12d2be36e3be48ededf0f1fe347667208ce4ae9446a301f270b8c60"
+    }
+  ],
+  "requested_close_actions": 0,
+  "scope": "each condition queries its own current observations; open gripper; experimental target convention, not grasp validation",
+  "timing": "synchronous physics paused during inference, velocities retained; no real-time guarantee",
+  "server_health": {
+    "status": "healthy",
+    "path": "/healthz",
+    "http_status": 200,
+    "body": "OK",
+    "elapsed_s": 0.001848112791776657,
+    "scope": "HTTP health route only; not checkpoint identity or inference validation"
+  },
+  "server_metadata": {
+    "status": "empty",
+    "value": {},
+    "note": "server supplied; does not independently verify checkpoint or normalization statistics"
+  },
+  "initial": {
+    "hand_position_world_m": [
+      0.4541459083557129,
+      -0.011145693250000477,
+      0.3585969805717468
+    ],
+    "hand_quat_world_xyzw": [
+      0.999609112739563,
+      -0.0011259691091254354,
+      -0.027931835502386093,
+      -0.0002544944582041353
+    ],
+    "tcp_world_m": [
+      0.4487293054390772,
+      -0.011090239243840826,
+      0.2617483495143246
+    ],
+    "object_pos_world_m": [
+      0.4999989867210388,
+      1.8796170024870662e-06,
+      0.020999621599912643
+    ],
+    "object_quat_world_xyzw": [
+      -1.5812534911674447e-05,
+      -7.962542440509424e-06,
+      -4.784379825650831e-08,
+      0.9999999403953552
+    ],
+    "object_in_tcp_pos_m": [
+      0.0646087300312594,
+      -0.011100881969177436,
+      0.2375164157173958
+    ],
+    "object_in_tcp_quat_xyzw": [
+      -0.9996089370440585,
+      0.0011254816943639552,
+      0.027939814166082554,
+      -0.0002702905249015209
+    ],
+    "joint_positions_rad": [
+      -0.00013009540271013975,
+      -0.1708362102508545,
+      -0.024106340482831,
+      -2.4525673389434814,
+      -0.006120325997471809,
+      2.2259023189544678,
+      0.767745316028595
+    ],
+    "joint_velocities_rad_s": [
+      8.778766158457074e-08,
+      4.953806751473167e-07,
+      7.022991894700681e-07,
+      3.7849106071519145e-09,
+      -2.3794239041308174e-06,
+      2.6366452132720042e-08,
+      -5.643885359063461e-09
+    ],
+    "finger_positions_m": [
+      0.03999999910593033,
+      0.03999999910593033
+    ],
+    "joint_position_targets_rad": [
+      -0.00013009562098886818,
+      -0.1708361953496933,
+      -0.02410632185637951,
+      -2.4525673389434814,
+      -0.0061203730292618275,
+      2.2259023189544678,
+      0.767745316028595
+    ]
+  },
+  "initial_checks": {
+    "tcp_error_m": 0.0,
+    "hand_rotation_error_deg": 0.0,
+    "max_joint_error_rad": 0.0,
+    "object_error_m": 0.0
+  },
+  "native_phase_counts": {
+    "approach": 100,
+    "hold": 10
+  },
+  "tcp_path_length_m": 0.04733934897655917,
+  "last_state": {
+    "hand_position_world_m": [
+      0.4964466989040375,
+      -0.003707428928464651,
+      0.343928724527359
+    ],
+    "hand_quat_world_xyzw": [
+      0.997026264667511,
+      -0.07267256081104279,
+      -0.025067834183573723,
+      0.005360068753361702
+    ],
+    "tcp_world_m": [
+      0.4915224310337213,
+      -0.004390771875953825,
+      0.24705620712248566
+    ],
+    "object_pos_world_m": [
+      0.4999989867210388,
+      1.8961648038384737e-06,
+      0.02099960669875145
+    ],
+    "object_quat_world_xyzw": [
+      -1.6035788576118648e-05,
+      -7.959328286233358e-06,
+      -4.565272249124064e-08,
+      0.9999999403953552
+    ],
+    "object_in_tcp_pos_m": [
+      0.01886231958440094,
+      -0.008811888694140369,
+      0.2252982415410967
+    ],
+    "object_in_tcp_quat_xyzw": [
+      -0.997026253868446,
+      0.07267207789805881,
+      0.02507693746201152,
+      0.005344660752372269
+    ],
+    "joint_positions_rad": [
+      0.0009785911533981562,
+      -0.028057720512151718,
+      -0.00790181290358305,
+      -2.3327667713165283,
+      -0.009821256622672081,
+      2.2539472579956055,
+      0.9303980469703674
+    ],
+    "joint_velocities_rad_s": [
+      9.493897778156679e-06,
+      -7.27591350369039e-06,
+      1.2929862350574695e-05,
+      -4.402805643621832e-05,
+      -5.157167379366001e-06,
+      -3.0481702196993865e-05,
+      2.386168944212841e-06
+    ],
+    "finger_positions_m": [
+      0.03999996930360794,
+      0.03999997302889824
+    ],
+    "joint_position_targets_rad": [
+      0.0009801118867471814,
+      -0.02805805578827858,
+      -0.007900319993495941,
+      -2.332767963409424,
+      -0.009821372106671333,
+      2.253946542739868,
+      0.9303981065750122
+    ]
+  },
+  "final": {
+    "hand_position_world_m": [
+      0.4964466989040375,
+      -0.003707428928464651,
+      0.343928724527359
+    ],
+    "hand_quat_world_xyzw": [
+      0.997026264667511,
+      -0.07267256081104279,
+      -0.025067834183573723,
+      0.005360068753361702
+    ],
+    "tcp_world_m": [
+      0.4915224310337213,
+      -0.004390771875953825,
+      0.24705620712248566
+    ],
+    "object_pos_world_m": [
+      0.4999989867210388,
+      1.8961648038384737e-06,
+      0.02099960669875145
+    ],
+    "object_quat_world_xyzw": [
+      -1.6035788576118648e-05,
+      -7.959328286233358e-06,
+      -4.565272249124064e-08,
+      0.9999999403953552
+    ],
+    "object_in_tcp_pos_m": [
+      0.01886231958440094,
+      -0.008811888694140369,
+      0.2252982415410967
+    ],
+    "object_in_tcp_quat_xyzw": [
+      -0.997026253868446,
+      0.07267207789805881,
+      0.02507693746201152,
+      0.005344660752372269
+    ],
+    "joint_positions_rad": [
+      0.0009785911533981562,
+      -0.028057720512151718,
+      -0.00790181290358305,
+      -2.3327667713165283,
+      -0.009821256622672081,
+      2.2539472579956055,
+      0.9303980469703674
+    ],
+    "joint_velocities_rad_s": [
+      9.493897778156679e-06,
+      -7.27591350369039e-06,
+      1.2929862350574695e-05,
+      -4.402805643621832e-05,
+      -5.157167379366001e-06,
+      -3.0481702196993865e-05,
+      2.386168944212841e-06
+    ],
+    "finger_positions_m": [
+      0.03999996930360794,
+      0.03999997302889824
+    ],
+    "joint_position_targets_rad": [
+      0.0009801118867471814,
+      -0.02805805578827858,
+      -0.007900319993495941,
+      -2.332767963409424,
+      -0.009821372106671333,
+      2.253946542739868,
+      0.9303981065750122
+    ]
+  },
+  "action_end": {
+    "hand_position_world_m": [
+      0.49643757939338684,
+      -0.0036912444047629833,
+      0.34392285346984863
+    ],
+    "hand_quat_world_xyzw": [
+      0.9970260858535767,
+      -0.07264261692762375,
+      -0.025159507989883423,
+      0.00537322461605072
+    ],
+    "tcp_world_m": [
+      0.49149542648411604,
+      -0.004375985481288831,
+      0.24705125673334644
+    ],
+    "object_pos_world_m": [
+      0.4999989867210388,
+      1.8801015357894357e-06,
+      0.020999571308493614
+    ],
+    "object_quat_world_xyzw": [
+      -1.576686918269843e-05,
+      -8.221900316129904e-06,
+      1.836187024650826e-08,
+      0.9999999403953552
+    ],
+    "object_in_tcp_pos_m": [
+      0.018932123019819794,
+      -0.008809194869849648,
+      0.2252882898219263
+    ],
+    "object_in_tcp_quat_xyzw": [
+      -0.9970260429554083,
+      0.07264220024073124,
+      0.02516885291887929,
+      0.005358101866682134
+    ],
+    "joint_positions_rad": [
+      0.0009947170037776232,
+      -0.02804160676896572,
+      -0.007884200662374496,
+      -2.332719087600708,
+      -0.009837023913860321,
+      2.2537312507629395,
+      0.9303818345069885
+    ],
+    "joint_velocities_rad_s": [
+      0.0002202758623752743,
+      0.006668701767921448,
+      0.00019553679157979786,
+      -0.006299029104411602,
+      3.750642281374894e-05,
+      0.012775071896612644,
+      0.001053439686074853
+    ],
+    "finger_positions_m": [
+      0.03999996930360794,
+      0.039999980479478836
+    ],
+    "joint_position_targets_rad": [
+      0.0009790112962946296,
+      -0.028057919815182686,
+      -0.007899613119661808,
+      -2.332767963409424,
+      -0.009821586310863495,
+      2.253946542739868,
+      0.9303984642028809
+    ]
+  },
+  "first_input_sha256": "f6e28ed88b3bd61259d0a65916bd63e1abc246c37f20215374999ffa47e74dac",
+  "all_followup_inputs_changed": true,
+  "initial_object_distance_m": 0.24639716985384502,
+  "final_object_distance_m": 0.22625811394063267,
+  "distance_reduction_m": 0.020139055913212356,
+  "final_xy_offset_m": 0.00954712149480088,
+  "command_delta_sum_I_m": [
+    0.04624248985885294,
+    0.006361694430027488,
+    -0.013243109373057272
+  ],
+  "actual_delta_I_m": [
+    0.0427931255946441,
+    0.006699467367887001,
+    -0.014692142391838914
+  ],
+  "final_ideal_position_error_m": 0.003756581035233073,
+  "final_applied_target_error_m": 1.7060783537714687e-06,
+  "final_ideal_rotation_error_deg": 0.6425854188001002,
+  "final_applied_rotation_error_deg": 0.0002031830234202124,
+  "max_applied_backlog_m": 0.0005000000000000312,
+  "max_applied_backlog_deg": 0.10000000000000171,
+  "max_applied_target_error_m": 0.00020720198184681225,
+  "max_pre_update_ideal_gap_m": 0.0037924299400789994,
+  "backlog_definition": "pre-step applied backlog includes the newly issued increment; pre-update ideal gap excludes it"
+}
