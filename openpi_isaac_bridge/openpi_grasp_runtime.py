@@ -49,6 +49,12 @@ class GraspRuntime:
             'joint_velocities_rad_s':tensor(robot.data.joint_vel)[0,self.joints].detach().cpu().tolist(),
             'finger_positions_m':tensor(robot.data.joint_pos)[0,self.fingers].detach().cpu().tolist()}
         if any(not self.np.isfinite(v).all() for v in state.values()):raise RuntimeError('nonfinite native grasp state')
+        try:
+            buffers=getattr(robot.actuators,'target_command',None)
+            targets=buffers.position if buffers is not None else robot.data.joint_pos_target
+            state['joint_position_targets_rad']=tensor(targets)[0,self.joints].detach().cpu().tolist()
+        except (AttributeError,NotImplementedError):state['joint_position_targets_rad']=None
+        if state['joint_position_targets_rad'] is not None and not self.np.isfinite(state['joint_position_targets_rad']).all():raise RuntimeError('nonfinite native joint targets')
         return state
 
     def emit(self,row):

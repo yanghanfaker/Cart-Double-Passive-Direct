@@ -477,12 +477,13 @@ def main():
                     if online_registered is not None:
                         if not clean_result['geometry_checks_passed']:raise RuntimeError('clean scene checks failed before live query')
                         mode=online_registered.get('mode','single')
-                        if mode not in ('single','three-round-replan','openpi-grasp'):raise ValueError('unknown online registered mode')
+                        if mode not in ('single','three-round-replan','openpi-grasp','target-reference-ab'):raise ValueError('unknown online registered mode')
                         from online_registered_probe import run_online_registered
                         from replanning_probe import run_replanning
                         from openpi_grasp_runtime import run_openpi_grasp
+                        from target_reference_probe import run_target_reference
                         with torch.inference_mode():
-                            {'single':run_online_registered,'three-round-replan':run_replanning,'openpi-grasp':run_openpi_grasp}[mode](env,base,arm_term,online_registered,output,tensor)
+                            {'single':run_online_registered,'three-round-replan':run_replanning,'openpi-grasp':run_openpi_grasp,'target-reference-ab':run_target_reference}[mode](env,base,arm_term,online_registered,output,tensor)
                 elif alignment_setup is not None:
                     from camera_alignment_probe import finish_capture
                     finish_capture(base,alignment_setup,images,output,tensor)

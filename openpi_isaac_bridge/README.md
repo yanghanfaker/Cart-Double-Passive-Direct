@@ -2857,3 +2857,65 @@ git pull --ff-only
 平移指令增量总和XYZ约[4.31,22.19,-246.28]mm，实际净位移约[-10.47,23.74,-248.85]mm，
 X方向另少14.77mm。模型累计指令本身也没有保持对准方块，需分别分析模型方向与累计跟踪差异。
 这组结果不能仅凭单步误差小就排除控制影响，也不能将失败归因于上述空握手日志。
+
+## 下一轮：固定模型动作的目标参考方式对照
+
+`run_target_reference_ab.py`定位700步中观察到的有符号跟踪残差积累。
+默认从最近完成的openpi_grasp记录中提取前200步实际执行过的动作，即前40次推理各自的前5步；
+逐个核对查询ZIP SHA、原始返回/执行请求、实际控制序号、物理子步和张爪记录，未执行的后5步不混入。
+没有新推理，不需要OpenPI服务。两组独立初始化到相同源姿态与物体位置，保持相同增益、0.5mm/0.1度限幅和50ms控制周期。
+
+两组唯一区别是TCP目标的参考方式：
+
+```text
+current:
+    p_target(k) = p_actual(k-1) + bounded_delta(k)
+    q_target(k) = dq(k) * q_actual(k-1)
+
+accumulated:
+    p_target(k) = p_target(k-1) + bounded_delta(k)
+    q_target(k) = dq(k) * q_target(k-1)
+```
+
+两组都独立维护同一个“理想累加参考”，并比较各自实际TCP与该参考的差。
+TCP97到IK107的10mm刚体补偿使用所选目标手部姿态；旋转按世界轴左乘，平移不加入配准平移。
+200步动作后，各自固定最后应用目标保持10步。current组保持自身最后目标，不额外补回历史丢失量。
+报告同时记录应用目标误差与理想参考误差；current组最后一步到位不意味着到达全部增量的理想终点。
+累加参考是诊断条件，改变了训练控制语义，不能仅凭其跟踪更准就直接替换在线OpenPI执行方式。
+源动作来自原路径中的不同观测，另一条路径上的固定回放是用于隔离执行器的对照，不是新的模型闭环策略输出。
+
+已离线核对70b59de7282e的前40个ZIP、200个动作。其理想累计XYZ位移约[67.629,6.652,-55.006]mm，
+最大净位移约87.43mm、最大姿态变化约12.10度，位于本轮120mm/25度及150mm路径范围内。
+两组全程张爪，距物体至少80mm，物体位移<=2mm；继续检查单周期1.5mm/0.3度与关节软限位。
+累积目标若令IK修正超过既有1.5mm/0.3度范围，会保存记录并停止，不自动饱和后宣称通过。
+
+逐周期保存两份记录：motion.jsonl含实际应用TCP/IK目标、实际关节角/速度、可用的关节位置目标、物体与夹爪；
+reference_trace.jsonl含理想累加参考、所选应用目标和实际误差。关节目标接口不可用时明确保存null。
+motion_images保留关键帧。两组报告字段action_end_actual_minus_command_I_m与final_actual_minus_command_I_m分别表示动作结束、保持结束的有符号累计差。
+sum_action_applied_target_residual_I_m是每周期对所应用目标的残差之和；只有current组的动作段具有直接的逐步增量损失解释。
+
+在Spark执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_target_reference_ab.py --steps 200
+```
+
+可用`--source-manifest /绝对路径/run.json`指定抓取来源；`--steps 100`运行更短前缀。
+输出到`diagnostics/target_reference_ab/<UTC>/`，含固定动作/指纹、来源查询索引及两组独立捕获目录。
+总报告的completed表示两组完成；结果需分别比较理想参考误差、应用目标误差、关节响应及源流实际方向。
+指令本身若偏离物体，执行得更准确也不自动意味着抓取更好。
+
+237项本地测试通过，包括逐步参考与累积参考的数学区别、世界旋转与TCP点补偿、
+固定90%响应模拟中的历史损失分离、实际执行前缀提取/篡改拒绝、两组同流调度与失败保留。
+真实来源的200步指令也已离线检查；累积条件下的实际Isaac动态与关节响应待Spark验证。
+
+完成后推送：
+
+```bash
+git add -- diagnostics/target_reference_ab/
+git commit -m "Add fixed-stream target reference comparison results"
+git push origin main
+```
