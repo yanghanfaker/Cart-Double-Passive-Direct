@@ -2291,3 +2291,44 @@ git add -- diagnostics/multipose_geometry/
 git commit -m "Retry multi pose geometry with preserved reference venv"
 git push origin main
 ```
+
+## 下一轮：复用11姿态的相机元数据与图像方向审计
+
+`camera_reference_audit.py`读取已完成的多姿态目录和analysis.json，不启动Isaac或LIBERO，不查询模型，不更改运行相机。
+逐对验证原始审计SHA、两侧RGB原图SHA、LIBERO180度旋转的像素关系，生成22组相机对照。
+核对配准后的光心、完整朝向与光轴夹角、内参/FOV，以及手腕相机相对手掌的安装变化。
+
+已用f6b92772cdc7的11组真实采集在本地完整运行：Isaac手腕安装位置基本固定，但跨初始化姿态的安装朝向相对home最大变化约89.594°；LIBERO局部朝向保持固定。
+现有Isaac初始化代码每次朝世界参考点重新对准相机，因而不能将这些不同初始姿态的相机视作同一固定安装。
+这不是同回合相机抖动或导致策略停滞的证据：同样初始姿态的回合仍可能共享相同安装。
+外部光心位置也有约837mm差异、光轴约47.7°，视场角两边并不相同，不能仅靠翻转图片完成对齐。
+
+直接使用现有独立参考环境执行，无需启动任何仿真或模型服务：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/camera_reference_audit.py
+```
+
+默认读取最近完成的 `diagnostics/multipose_geometry/*/run.json`；可用 `--source-manifest /绝对路径/run.json` 指定。
+输出 `diagnostics/camera_reference_audit/<UTC>/`：
+
+- `analysis_zh.md`、`report.json`：几何差异与每姿态投影。
+- `comparison.html`：原始/180度旋转图，22组四列画廊，可浏览器打开。
+- 每姿态子目录：源RGB副本、Isaac旋转副本、投影SVG，不覆盖原始采集。
+- `candidate_camera_parameters.json`：参考外部相机映射到Isaac世界、参考手腕相机的固定手部局部安装、256像素内参，仅为建议参数，未应用。
+
+红色投影是从仿真三维坐标算出的标签，不是图像检测结果；可能被遮挡。
+原生帧缓冲方向还没有用独立可见标记验证，因此既不自动选择最佳翻转，也不宣布相机已标定。
+下一阶段才在静态采集里应用候选光学参数，并用可见标记核对渲染像素。
+相机ROS光轴约定与接口参考[Isaac Lab官方相机文档](https://isaac-sim.github.io/IsaacLab/v3.0.0-beta/source/api/lab/isaaclab.sensors.html)；
+本轮四元数顺序沿用实际保存的xyzw审计，不借用旧版文档的四元数排列假设。
+176项本地CPU测试通过，完整流程另已通过已下载的真实11姿态资料验证；Spark复现后推送：
+
+```bash
+git add -- diagnostics/camera_reference_audit/
+git commit -m "Add camera geometry and image orientation audit"
+git push origin main
+```
