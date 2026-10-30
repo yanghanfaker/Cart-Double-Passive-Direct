@@ -1997,3 +1997,58 @@ git push origin main
 140项CPU测试与语法检查通过，新增覆盖500步/50次推理/25个检查段和延长预算后的进展不足停止；
 模拟三轮路由与导出确认同一增益、500步/块长10、独立名称、受控停止后继续以及三份物理轨迹导出。
 实际500步模型轨迹仍待Spark验证。
+
+## 静态输入几何审计：相机、手部、TCP与投影
+
+500步结果f21e2a40f594中，三轮在300–320步提前触发进展不足，新增预算未被使用。
+本轮不再增加步数或调整驱动，记录此前缺失的实际几何数据，区分测量、坐标假设和训练参考缺口。
+
+新增独立运行器 `run_geometry_audit.py` 和 `geometry-audit`模式，复用当前候选增益、seed=0、固定方块位置、
+50ms控制周期、两路相机及固定腕部初始瞄准方式。仅执行原有30+5步开爪零增量预热，
+之后不执行诊断运动、不请求模型、不修改相机或TCP参数；采集前后物理步计数必须相同。
+不用启动OpenPI模型服务；openpi依赖仅用于复用相同的224像素图像预处理。
+
+执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_geometry_audit.py \
+  --isaaclab-root /home/test/Robot/IsaacLab
+```
+
+结果直接写入仓库 `diagnostics/geometry_audit/<UTC时间>/`，无需gain_sweep导出：
+
+- `geometry_audit.json`：基座、传感器父刚体、IK父刚体、传感器TCP、IK TCP与物体根坐标；配置偏置、关节位置/速度、模型8维世界状态。
+- 相机实际K、ROS/OpenGL/world朝向、双向4×4变换、帧号、拍摄元数据及原图摘要；不从配置中的eye/target推测实际相机位姿。
+- 原始256像素PNG、原预处理生成的224像素PNG、两张`*_projection.svg`独立投影图。SVG嵌入原始PNG字节并叠加矢量标记，不修改模型输入图像。
+- TCP/IK偏置闭合：父刚体实测位姿乘配置偏置，与对应传感器/控制器实测位姿比较。0.1mm/0.05度标记只评价这项内部闭合。
+- `camera_implementation.txt`：已安装运行时相机属性的源代码，便于核对实际版本；`actuator_audit.json`、`source_case.json`、`joint_gains.json`、`run.json`和控制台日志。
+
+投影使用ROS相机坐标：+Z前方、+X向右、+Y向下，u/v由K和相机坐标计算。
+约定来自[Isaac Lab相机数据接口](https://github.com/isaac-sim/IsaacLab/blob/main/source/isaaclab/isaaclab/sensors/camera/camera_data.py)。
+图中标记物体根坐标、传感器TCP、IK TCP、传感器父刚体和机器人根坐标，behind/outside情况记录到JSON；
+inside_image仅表示位于视锥内，不处理遮挡。物体根坐标和手指刚体原点也不冒称表面中心或接触点。
+
+若RGB包含绑定的capture位姿/内参，则用于投影；否则明确使用当前CameraData位姿并标记拍摄时刻绑定不可用。
+刚体点均为当前静态采集位姿，未提供延迟图像的刚体历史；该限制也保留在报告中。
+没有人工或独立检测的2D对应点，本轮不自动给出像素重投影准确率；投影图用于后续检查。
+
+此模式的observation.json也保存与闭环相同语义的世界TCP状态、带符号旋转向量和[q1,-q2]，不使用旧捕获模式的两指同号状态。
+姿态四元数为当前Isaac运行时xyzw顺序；模型状态适配遵循[OpenPI LIBERO示例](https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/main.py)。
+
+**解释边界：**内部偏置闭合通过不代表LIBERO训练TCP已对齐。训练环境的物理安装关系、相机参考和跨场景注册没有独立测量，
+仍标记unverified，不会自动修改偏置、图像翻转或动作映射。本轮也不验证抓取或策略成功。
+
+正常完成run.json和geometry_audit.json均为completed，policy_queries=0、diagnostic_motion_steps=0，
+采集前后physics_step_count相同；失败时保留日志和部分报告，应先检查console.log。
+147项CPU测试及语法检查通过；模拟采集验证当前位姿/绑定capture元数据两种路径、偏置闭合、状态符号、图像/投影文件以及无额外物理步。
+实际Isaac相机与刚体数据接口仍待Spark验证。
+
+运行结束后直接推送：
+
+```bash
+git add -- diagnostics/geometry_audit/
+git commit -m "Add static camera and TCP geometry audit results"
+git push origin main
+```

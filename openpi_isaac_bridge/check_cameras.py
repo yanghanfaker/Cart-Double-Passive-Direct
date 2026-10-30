@@ -119,7 +119,7 @@ def main():
     parser.add_argument("--openpi-steps", type=int, default=20)
     parser.add_argument("--openpi-state-frame", choices=("world", "root"), default="world")
     parser.add_argument("--motion-test", choices=(
-        "none", "x", "y", "z", "gripper", "rx", "ry", "rz",
+        "none", "geometry-audit", "x", "y", "z", "gripper", "rx", "ry", "rz",
         "track-x", "track-y", "track-z", "track-rx", "track-ry", "track-rz", "libero-map", "libero-stream", "step-response", "joint-step", "grasp", "openpi-step", *REPLAY_MODES,
     ), default="none")
     parser.add_argument("--server-host", default="127.0.0.1")
@@ -165,11 +165,11 @@ def main():
         args.record_physics = True
     if not math.isfinite(args.joint_step_rad) or not 0 < args.joint_step_rad <= 0.005:
         parser.error("--joint-step-rad must be finite and in (0, 0.005]")
-    if args.gain_profile != "baseline" and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
+    if args.gain_profile != "baseline" and args.motion_test not in ("geometry-audit", "step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
         parser.error("experimental gain profiles require step-response, libero-stream, joint-step, or grasp")
     if args.record_physics and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
         parser.error("--record-physics requires step-response, libero-stream, joint-step, or grasp")
-    if args.joint_gains_json and args.motion_test not in ("step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
+    if args.joint_gains_json and args.motion_test not in ("geometry-audit", "step-response", "libero-stream", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
         parser.error("per-joint gains require step-response, libero-stream, joint-step, or grasp")
     if args.warmup_steps < 1:
         parser.error("--warmup-steps must be positive")
@@ -190,7 +190,7 @@ def main():
     gain_config = configure_gain_profile(cfg.scene.robot.actuators, args.gain_profile, joint_overrides)
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
-    if args.motion_test in ("libero-map", "libero-stream", "step-response", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
+    if args.motion_test in ("geometry-audit", "libero-map", "libero-stream", "step-response", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
         # LIBERO's default 20 Hz is a simulation period, not wall-clock speed.
         decimation = round(0.05 / float(cfg.sim.dt))
         if decimation < 1 or not math.isclose(decimation * float(cfg.sim.dt), 0.05, abs_tol=1e-8):
@@ -202,7 +202,7 @@ def main():
         cfg.events.reset_object_position.params["pose_range"] = {
             "x": (args.grasp_object_offset[0],)*2, "y": (args.grasp_object_offset[1],)*2,
             "z": (0.0, 0.0), "yaw": (math.radians(args.grasp_object_yaw),)*2}
-    elif args.motion_test in ("openpi-step", *REPLAY_MODES):
+    elif args.motion_test in ("geometry-audit", "openpi-step", *REPLAY_MODES):
         cfg.seed = 0
         cfg.events.reset_object_position.params["pose_range"] = {"x": (0.0,0.0), "y": (0.0,0.0), "z": (0.0,0.0)}
     # The command target axes/spheres are real rendered geometry, so disable
@@ -290,7 +290,7 @@ def main():
                 # Parent-relative mounting remains on the hand after setting.
                 wrist = base.scene["wrist_camera"]
                 wrist_eye = tensor(wrist.data.pos_w).clone()
-                if args.motion_test in ("openpi-step", *REPLAY_MODES):
+                if args.motion_test in ("geometry-audit", "openpi-step", *REPLAY_MODES):
                     # Fixed scene reference for this diagnostic, independent of
                     # actual object position. Never re-aim during the loop.
                     wrist_target = origin + torch.tensor([[0.5,0.0,0.04]],device=origin.device)
@@ -379,13 +379,17 @@ def main():
                 state = torch.cat(
                     (position_b, axis_angle_from_quat(rotation_b), fingers), dim=-1
                 )[0].detach().cpu().numpy().astype(np.float32)
+                if args.motion_test == "geometry-audit":
+                    state=np.asarray(libero_state_vector(ee_pos[0].cpu().tolist(),ee_quat[0].cpu().tolist(),
+                        fingers[0].cpu().tolist()),dtype=np.float32)
                 if state.shape != (8,) or not np.isfinite(state).all():
                     raise RuntimeError(f"Invalid state: {state}")
 
             report = {
                 "task": "IsaacContrib-Lift-Cube-Franka-IK-Rel",
                 "state": state.tolist(),
-                "state_layout": "EE xyz in robot root frame; rotation vector; two finger joint positions",
+                "state_layout": ("world TCP xyz; signed rotation vector; Isaac q1 and negated q2" if args.motion_test=="geometry-audit" else
+                                 "EE xyz in robot root frame; rotation vector; two finger joint positions"),
                 "finger_names": list(finger_names),
                 "gripper_during_capture": "open (Isaac action +1)",
                 "images": image_report,
@@ -395,7 +399,7 @@ def main():
                     "external_eye_env": args.external_eye,
                     "external_target_env": args.external_target,
                     "wrist_offset_hand": args.wrist_offset,
-                    "wrist_initial_aim": ("fixed scene reference [0.5,0,0.04]; no object tracking" if args.motion_test in ("openpi-step", *REPLAY_MODES) else
+                    "wrist_initial_aim": ("fixed scene reference [0.5,0,0.04]; no object tracking" if args.motion_test in ("geometry-audit", "openpi-step", *REPLAY_MODES) else
                                           "one-time calibration from ground-truth cube position; not for online tracking"),
                     "wrist_eye_world_at_calibration": wrist_eye[0].cpu().tolist(),
                     "wrist_target_world_at_calibration": wrist_target[0].cpu().tolist(),
@@ -407,6 +411,11 @@ def main():
             )
             print(json.dumps(report, indent=2), flush=True)
             print(f"Saved camera check to: {output}", flush=True)
+
+            if args.motion_test == "geometry-audit":
+                from geometry_audit import capture_geometry
+                capture_geometry(base,cfg,arm_term,images,output,tensor,args.warmup_steps+5)
+                return
 
             physics_context = {}
             if args.record_physics:
