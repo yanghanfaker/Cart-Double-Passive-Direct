@@ -3,7 +3,6 @@ import hashlib
 import json
 import math
 from pathlib import Path
-import socket
 import tempfile
 import zipfile
 
@@ -12,6 +11,7 @@ from openpi_grasp_logic import run_grasp_experiment,bounded_goal_target
 from online_registered_probe import prepare_capture_observation,query_once
 from registered_replay_probe import target_from_action
 from replanning_probe import capture_round,feedback_change
+from openpi_health import check_openpi_health
 
 
 class GraspRuntime:
@@ -136,7 +136,7 @@ def run_openpi_grasp(env,base,arm,settings,output,tensor):
     def save():(output/'online_registered_result.json').write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8')
     runtime=None;save()
     try:
-        with socket.create_connection((settings['server_host'],settings['server_port']),timeout=3):pass
+        report['server_health']=check_openpi_health(settings['server_host'],settings['server_port']);save()
         from openpi_client.websocket_client_policy import WebsocketClientPolicy
         client=WebsocketClientPolicy(host=settings['server_host'],port=settings['server_port']);report['server_metadata']=read_server_metadata(client)
         runtime=GraspRuntime(env,base,arm,settings,output,tensor,report,save)

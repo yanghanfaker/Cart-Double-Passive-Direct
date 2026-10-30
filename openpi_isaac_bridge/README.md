@@ -2821,3 +2821,39 @@ git add -- diagnostics/openpi_grasp/
 git commit -m "Add gated OpenPI grasp experiment results"
 git push origin main
 ```
+
+## 修复抓取入口的空TCP探测日志
+
+70b59de7282e完成140次真实推理和700步趋近动作，推理耗时约0.251–0.261秒。
+服务端出现的`InvalidMessage: did not receive a valid HTTP request`及`stream ends after 0 bytes`，
+与抓取外层和Isaac内部两处`socket.create_connection(...); close`端口检查一致：它们只建立TCP后立即断开，
+WebSocket服务尝试读取HTTP升级请求时读到EOF。随后正常客户端仍可连接和推理。
+
+新增`openpi_health.py`，抓取入口两处检查均改为完整`GET /healthz HTTP`请求，要求200及正文OK，保留3秒连接超时。
+该路由来自OpenPI官方`websocket_policy_server._health_check`：
+https://github.com/Physical-Intelligence/openpi/blob/main/src/openpi/serving/websocket_policy_server.py
+健康检查只确认服务HTTP路由，不能确认checkpoint身份或模型输出质量。
+旧服务若未实现此路由会明确报HTTP状态，不能把任意端口可连接当作模型服务健康。
+
+更新代码后可单独检查服务，无需启动Isaac或重新运行整段抓取：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/openpi_health.py --host 127.0.0.1 --port 8000
+```
+
+预期输出status=healthy、http_status=200。本次修复范围是抓取入口的健康检查。
+232项本地测试通过，包括真实本地HTTP请求、错误状态/其他网页拒绝和断线失败保存；Spark现有服务的健康路由待实际调用。
+
+本轮抓取没有成功，实际停止原因为`approach_progress_less_than_2mm_per100_controls`。
+物体距离从246.4mm降至最近51.8mm后又增大到63.5mm；最后100步距离反而增加10.4mm。
+303次模型闭爪请求全部因横向偏差不满足条件而被拦截，没有实际闭爪，也没有执行程序抬升。
+最近点横向偏48.3mm、TCP高于方块中心18.6mm；最后横向偏63.0mm、TCP比中心低8.1mm。
+
+单步位置跟踪误差中位0.0438mm、95分位0.3170mm、最大0.6092mm；
+但当前逐步相对目标会丢弃前一步未完成量，700步的有符号误差会积累：
+平移指令增量总和XYZ约[4.31,22.19,-246.28]mm，实际净位移约[-10.47,23.74,-248.85]mm，
+X方向另少14.77mm。模型累计指令本身也没有保持对准方块，需分别分析模型方向与累计跟踪差异。
+这组结果不能仅凭单步误差小就排除控制影响，也不能将失败归因于上述空握手日志。

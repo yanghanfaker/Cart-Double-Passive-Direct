@@ -5,12 +5,12 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import socket
 import subprocess
 import sys
 import numpy as np
 
 from clean_scene_probe import validate_clean_scene
+from openpi_health import check_openpi_health
 
 
 def main():
@@ -55,7 +55,7 @@ def main():
         command=[sys.executable,str(Path(__file__).with_name('run_geometry_audit.py')),'--isaaclab-root',str(args.isaaclab_root.absolute()),
             '--output-root',str(folder/'capture'),'--clean-scene-json',str(cf),'--online-registered-json',str(sf)]
         report.update(status='running',command=command,world_registration_sha256=hashlib.sha256(calibration_bytes).hexdigest());save()
-        with socket.create_connection((args.server_host,args.server_port),timeout=3):pass
+        report['server_health']=check_openpi_health(args.server_host,args.server_port);save()
         env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.pop('PYTHONPATH',None)
         with (folder/'runner.log').open('w',encoding='utf-8') as log:
             with subprocess.Popen(command,env=env,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace') as child:

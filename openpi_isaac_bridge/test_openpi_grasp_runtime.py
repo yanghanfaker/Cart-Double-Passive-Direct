@@ -40,7 +40,7 @@ class RuntimeArchiveTests(unittest.TestCase):
                 client=MagicMock();client.infer.return_value={'actions':chunk};client.get_server_metadata.return_value={}
                 module=types.ModuleType('openpi_client.websocket_client_policy');module.WebsocketClientPolicy=MagicMock(return_value=client)
                 settings={'calibration':cal,'prompt':'pick up the cube','server_host':'127.0.0.1','server_port':8000,'max_queries':1}
-                with (patch.dict(sys.modules,{'openpi_client.websocket_client_policy':module}),patch.object(runtime_module.socket,'create_connection',MagicMock()),
+                with (patch.dict(sys.modules,{'openpi_client.websocket_client_policy':module}),patch.object(runtime_module,'check_openpi_health',MagicMock(return_value={'status':'healthy'})),
                         patch.object(runtime_module,'GraspRuntime',Runtime),patch.object(runtime_module,'capture_round',snapshot),patch.object(runtime_module,'run_grasp_experiment',driver)):
                     if invalid:
                         with self.assertRaises(ValueError):runtime_module.run_openpi_grasp(None,base,None,settings,root,None)

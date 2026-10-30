@@ -115,7 +115,7 @@ class OpenPIGraspTests(unittest.TestCase):
                     def __exit__(self,*args):pass
                     def wait(self):return 1 if fail else 0
                 with (patch.object(sys,'argv',['grasp','--source-manifest',str(source_manifest),'--output-root',str(root/'out'),'--max-queries','1']),
-                        patch.object(runner.socket,'create_connection',MagicMock()),patch.object(runner.subprocess,'Popen',Process)):
+                        patch.object(runner,'check_openpi_health',MagicMock(return_value={'status':'healthy'})),patch.object(runner.subprocess,'Popen',Process)):
                     self.assertEqual(runner.main(),1 if fail else 0)
                 self.assertEqual(len(commands),1);report=json.loads(next((root/'out').glob('*/run.json')).read_bytes())
                 self.assertEqual(report['status'],'failed' if fail else 'completed');self.assertFalse(report['success'])
