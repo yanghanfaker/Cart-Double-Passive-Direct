@@ -200,10 +200,11 @@ def main():
     env=os.environ.copy();third=args.openpi_root/'third_party/libero'
     env['PYTHONPATH']=str(third)+os.pathsep+env.get('PYTHONPATH','')
     env['MUJOCO_GL']=args.mujoco_gl;env['PYOPENGL_PLATFORM']=args.mujoco_gl if args.mujoco_gl!='glx' else 'glx'
+    env.setdefault('PYNPUT_BACKEND','dummy')
     paths=[args.python] if args.python else [args.openpi_root/'examples/libero/.venv/bin/python',args.openpi_root/'.venv/bin/python',Path(sys.executable)]
     candidates=list(dict.fromkeys(str(p.expanduser().absolute()) for p in paths))
     report={'status':'preflight','isaac_source_sha256':hashlib.sha256(payload).hexdigest(),'python_candidates':[],
-        'source_isaac_path':str(source),'render_backend':args.mujoco_gl,'package_installs':0,'policy_queries':0,
+        'source_isaac_path':str(source),'render_backend':args.mujoco_gl,'pynput_backend':env['PYNPUT_BACKEND'],'package_installs':0,'policy_queries':0,
         'openpi_root':str(args.openpi_root),'third_party_libero':{'path':str(third),'exists':third.is_dir(),
             'inner_init_exists':(third/'libero/libero/__init__.py').is_file(),
             'assets_exist':(third/'libero/libero/assets').is_dir(),'bddl_exist':(third/'libero/libero/bddl_files').is_dir()}}

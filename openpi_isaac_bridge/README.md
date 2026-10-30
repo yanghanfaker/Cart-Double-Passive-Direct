@@ -2122,3 +2122,57 @@ git add -- diagnostics/libero_reference/
 git commit -m "Add LIBERO reference availability and geometry audit"
 git push origin main
 ```
+
+## 依赖预检e8840bdf84a8之后：独立参考环境安装并重试采集
+
+实际报告显示：OpenPI环境为Python3.11.17/aarch64，已有numpy1.26.4、mujoco2.3.7、torch2.7.1和LIBERO资源，
+首轮模块预检缺robosuite；`examples/libero/.venv`不存在。系统Python3.12缺少更多依赖。
+这只说明模块可定位，不代表其他依赖已经成功导入或GPU渲染可用。
+
+新增`setup_libero_reference_env.py`，创建`/home/test/Robot/openpi/examples/libero/.venv`，与模型环境`openpi/.venv`分开。
+只借用现有Python3.11解释器创建新venv，不启用system-site-packages、不复用模型环境包目录；所有uv pip install均显式指定新解释器。
+不运行OpenPI的uv sync、不修改其锁文件，也不安装到系统Python。已有未由本脚本管理的同名环境会拒绝覆盖，不自动删除。
+
+直接运行，安装完成后自动执行同关节姿态的参考采集：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/setup_libero_reference_env.py \
+  --openpi-root /home/test/Robot/openpi
+```
+
+首次需要下载并安装参考依赖，可能耗时数分钟，终端会输出各阶段进展。
+直接运行时依赖方案见`libero_reference_runtime.txt`：固定Python3.11对应的numpy1.26.4、mujoco2.3.7、robosuite1.4.1、torch2.7.1、
+numba0.61.2、scipy1.15.3和必要的静态环境导入依赖；这是参考采集的运行时配方，不是checkpoint训练环境的完整复现或完整哈希锁。
+robosuite版本与[OpenPI LIBERO示例依赖](https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/requirements.in)一致；
+已通过PyPI官方元数据核对MuJoCo、PyTorch、Numba/llvmlite、SciPy、OpenCV、Matplotlib的相应ARM轮子。
+
+安装阶段先装显式运行时，再在新环境中安装本地openpi-client及其依赖，最后以`--no-deps`安装已有LIBERO源码，
+避免LIBERO旧训练依赖列表重新强制安装旧numpy/torch等。本配方只支持这项静态几何采集，不宣称支持全部LIBERO训练流程。
+LIBERO源码和assets继续使用现有third_party目录，不重新下载数据集。
+
+离屏子进程使用EGL，并将PYNPUT_BACKEND设为dummy用于无桌面输入导入；不启动键鼠监听器、不修改主进程桌面环境。
+后端选择依据[pynput实现](https://github.com/moses-palmer/pynput/blob/v1.7.7/lib/pynput/_util/__init__.py)。
+
+输出保存在仓库`diagnostics/libero_reference_setup/<UTC时间>/`：
+
+- `setup.json`和各阶段日志：命令、返回码、安装/采集状态。
+- `model_environment_before.json`及`model_environment_after.json`：原模型环境的Python和发行包版本清单，用于检查本次前后是否相同；这不检查所有文件或并发进程状态。
+- `runtime_requirements.txt`：本次实际使用的直接版本配方副本。
+- `capture/<UTC时间>/`：自动重试的预检、reference.json、图像、XML及worker日志。
+
+状态`completed`只在安装和参考采集均完成时出现。`environment_ready_capture_failed`表示新环境已安装，原生导入、资源或渲染等仍有问题，
+应保留capture子目录日志。安装阶段失败则为failed，停止后续步骤并保留安装日志；不会回退到给模型环境补装。
+可用`--skip-capture`只安装新环境；正常测试命令无需加该选项。
+
+158项CPU测试和语法检查通过，覆盖安装目标、新环境保护、模型版本前后记录以及不能将缺依赖采集标成成功。
+ARM轮子元数据已核对，但尚未在Spark实际解析安装全部传递依赖、编译潜在源包或验证EGL；真实结果以日志为准。
+
+运行结束后，推送整个安装及参考采集记录，无需再次手工启动审计或运行gain_sweep导出：
+
+```bash
+git add -- diagnostics/libero_reference_setup/
+git commit -m "Add isolated LIBERO setup and reference capture results"
+git push origin main
+```
