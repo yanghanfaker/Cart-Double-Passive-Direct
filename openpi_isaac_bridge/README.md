@@ -2749,3 +2749,75 @@ git add -- diagnostics/registered_replanning/
 git commit -m "Add three-round registered replanning results"
 git push origin main
 ```
+
+## 抓取实验：OpenPI趋近/闭爪请求与程序抬升验证
+
+1843fd4adb66已完成同一场景3轮反馈，输入确实更新，关节位置和速度在轮次之间连续。
+本轮在同样的arm-only方块代理场景中尝试抓取，沿用相机、配准、提示词与执行器增益。
+模型的原训练场景与当前代理场景差异继续存在；测试结果需要由实际物体运动判断。
+
+`run_openpi_grasp_capture.py`使用最近通过的registered_replanning/run.json作为来源，核对源结果、世界配准SHA及初始化配置。
+启用明确的`openpi-grasp`模式，默认最多200次新推理，每次验证整个至少10步的动作序列，只执行前5步。
+趋近预算最多1000个50ms控制周期，即50秒仿真运动；初始化、推理、归档和验证动作时间另计。
+保持既有0.5mm/0.1度向量限幅，不增加驱动增益。相机/状态每5步重新采集，推理期间同步仿真停步。
+
+阶段与判据：
+
+1. 趋近：OpenPI决定平移/旋转，夹爪保持张开。每100个动作周期至少缩短2mm物体距离；
+   距离比初始增加超过2cm、方块在提起前移动超过2cm、掉落或控制采样估计速度超过0.5m/s会停止。
+2. 模型闭爪请求：只有原始夹爪动作>0时才考虑闭爪。TCP横向距物体中心<=12mm、
+   TCP比物体中心高-5到20mm、总距离<=15mm、手部局部Z轴朝下偏差<=20度时放行。
+   未对准的请求只计数，继续张爪；没有模型闭爪请求时不自动强制抓取。
+3. 闭爪检查：冻结当前位置/姿态并关闭夹爪60周期（3秒仿真）。检查双指仍有阻挡间隙、
+   最近10周期稳定、左右对称、物体距TCP<=15mm以及位姿保持。空夹不进入抬升。
+4. 验证抬升：通过闭爪检查后，由程序生成当前TCP向上5cm目标并保持闭爪，最多250周期到达。
+5. 验证保持：保持40周期（2秒仿真）。物体必须始终比初始支撑高至少35mm，
+   保持中相对TCP漂移<=10mm、相对旋转漂移<=10度，整个提起过程相对位置变化<=15mm，双指保持阻挡。
+
+这是一项混合实验：OpenPI决定趋近运动和闭爪请求，仿真真值用于闭爪放行与成功检查，程序生成抬升/保持目标。
+报告不将程序验证抬升计为模型自主完成，也不将几何阻挡候选计为测得双指接触力。
+TCP97输入、世界坐标反变换和IK107目标补偿沿用已通过的实现；固定验证目标也通过同样0.5mm/0.1度中间目标推进。
+
+全程额外检查单周期运动<=1.5mm/0.3度、相对最初TCP净位移<=35cm、手部姿态变化<=90度、
+累计实际TCP路径<=85cm及关节软限位。物体速度是50ms采样位置差的估计，不是逐物理子步接触冲量检测。
+任一停止条件保留已执行记录；status=completed只表示实验正常结束，抓取是否通过看success与outcome。
+例如预算耗尽、空夹、抬升未带动物体或保持滑落都应为success=false。
+
+保持原OpenPI服务在127.0.0.1:8000运行。在另一个Spark终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_openpi_grasp_capture.py --max-queries 200
+```
+
+可用`--source-manifest /绝对路径/run.json`指定三轮反馈来源，`--server-host`/`--server-port`指定现有服务。
+需要重启模型服务时，沿用此前已验证的方式：
+
+```bash
+cd /home/test/Robot/openpi
+XLA_FLAGS="--xla_gpu_enable_triton_gemm=false" \
+XLA_PYTHON_CLIENT_PREALLOCATE=false \
+uv run scripts/serve_policy.py --env LIBERO --port 8000
+```
+
+输出`diagnostics/openpi_grasp/<UTC>/`。总run.json链接到捕获目录中的online_registered_result.json，
+其中success/outcome/grasp_result记录结果，native_controls_executed记录实际env.step次数。
+motion.jsonl逐周期保存尝试/结果事件，含关节位置速度、TCP、物体相对位姿、目标、实际夹爪动作及模型动作来源。
+每20个周期和阶段变化时保存两路运动图像；每次查询的完整geometry、原始/策略图像、输入指纹、
+原始返回和执行请求保存为queries/query_NNNN.zip，顶层查询记录含归档SHA。
+ZIP用于控制长实验文件数量，输入图像仍以无损PNG完整保留。
+失败或停止后也请推送整个输出目录，以便区分模型方向、闭爪门槛、动态跟踪与实际夹持问题。
+
+228项本地测试通过，包括闭爪几何门槛、空夹不抬升、物体打飞/滑落/未随动时失败、模型未请求闭爪时不代替闭爪、
+固定目标TCP补偿与限幅、完整未来动作验证、查询归档及非法输出保留、外层完成/成功分离。
+最新推送来源的配置和配准也已离线核对。物理接触、夹持能力和真实模型长时运动仍待Spark执行验证。
+
+实验结束后推送：
+
+```bash
+git add -- diagnostics/openpi_grasp/
+git commit -m "Add gated OpenPI grasp experiment results"
+git push origin main
+```
