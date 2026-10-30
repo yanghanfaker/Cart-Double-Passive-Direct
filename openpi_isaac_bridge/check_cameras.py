@@ -104,6 +104,7 @@ def main():
     parser.add_argument("--camera-alignment-json", type=Path, help="camera proposal plus visible markers; static geometry-audit only")
     parser.add_argument("--clean-scene-json", type=Path, help="unmarked proxy scene configuration; static geometry-audit only")
     parser.add_argument("--registered-replay-json", type=Path, help="explicit short frozen registered replay after clean static capture")
+    parser.add_argument("--online-registered-json", type=Path, help="one live query and short registered motion after clean capture")
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--gain-profile", choices=tuple(GAIN_PROFILES), default="baseline")
     parser.add_argument("--record-jacobians", action="store_true", help="capture actual IK Jacobians during frozen replay only")
@@ -157,6 +158,11 @@ def main():
         geometry_joints = clean_scene['arm_positions_rad']
         alignment_candidate = clean_scene['camera_candidate']
     registered_replay = None
+    online_registered = None
+    if args.online_registered_json:
+        if args.motion_test != 'geometry-audit' or clean_scene is None or args.registered_replay_json:
+            parser.error('--online-registered-json requires clean geometry-audit and cannot combine frozen replay')
+        online_registered = json.loads(args.online_registered_json.read_text(encoding='utf-8'))
     if args.registered_replay_json:
         if args.motion_test != 'geometry-audit' or clean_scene is None:
             parser.error('--registered-replay-json requires geometry-audit and --clean-scene-json')
@@ -468,6 +474,11 @@ def main():
                         from registered_replay_probe import run_registered_replay
                         with torch.inference_mode():
                             run_registered_replay(env,base,arm_term,registered_replay,output,tensor)
+                    if online_registered is not None:
+                        if not clean_result['geometry_checks_passed']:raise RuntimeError('clean scene checks failed before live query')
+                        from online_registered_probe import run_online_registered
+                        with torch.inference_mode():
+                            run_online_registered(env,base,arm_term,online_registered,output,tensor)
                 elif alignment_setup is not None:
                     from camera_alignment_probe import finish_capture
                     finish_capture(base,alignment_setup,images,output,tensor)

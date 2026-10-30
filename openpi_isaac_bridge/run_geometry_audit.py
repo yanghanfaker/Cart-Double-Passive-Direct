@@ -16,10 +16,12 @@ def main():
     parser.add_argument('--camera-alignment-json',type=Path)
     parser.add_argument('--clean-scene-json',type=Path)
     parser.add_argument('--registered-replay-json',type=Path)
+    parser.add_argument('--online-registered-json',type=Path)
     args=parser.parse_args()
     if args.clean_scene_json and (args.geometry_joints_json or args.camera_alignment_json):
         parser.error('clean scene input cannot combine pose or marker-camera inputs')
     if args.registered_replay_json and not args.clean_scene_json:parser.error('registered replay requires clean scene input')
+    if args.online_registered_json and (not args.clean_scene_json or args.registered_replay_json):parser.error('online registered probe requires clean scene and excludes frozen replay')
     root=args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():parser.error('Isaac Lab directory not found')
     script=Path(__file__).with_name('check_cameras.py').resolve()
@@ -54,6 +56,11 @@ def main():
     manifest={'status':'running','command':command,'output':str(folder),
               'scope':'static geometry capture after hold warmup; no model inference or diagnostic motion'}
     if args.registered_replay_json:manifest['scope']='static capture followed by explicit bounded frozen registered replay; no inference'
+    if args.online_registered_json:
+        payload=args.online_registered_json.expanduser().absolute().read_bytes();json.loads(payload)
+        (folder/'online_registered_settings.json').write_bytes(payload)
+        command += ['--online-registered-json',str(folder/'online_registered_settings.json')]
+        manifest['scope']='current clean capture, one live registered query, bounded five-action execution and fixed-target hold'
     def save():(folder/'run.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
     save(); print(f'[Geometry runner] Output: {folder}',flush=True)
     try:
@@ -61,7 +68,7 @@ def main():
             with subprocess.Popen(command,cwd=root,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace') as process:
                 for line in process.stdout:
                     log.write(line)
-                    if any(tag in line for tag in ('[Geometry audit]','[Actuator audit]','[Camera alignment]','[Clean scene]','[Registered replay]')):print(line,end='',flush=True)
+                    if any(tag in line for tag in ('[Geometry audit]','[Actuator audit]','[Camera alignment]','[Clean scene]','[Registered replay]','[Online registered]')):print(line,end='',flush=True)
                 manifest['exit_code']=process.wait()
         report_path=folder/'geometry_audit.json'
         if manifest['exit_code']!=0 or not report_path.is_file() or json.loads(report_path.read_text())['status']!='completed':
@@ -73,6 +80,9 @@ def main():
         if args.registered_replay_json:
             replay=folder/'registered_replay_result.json'
             if not replay.is_file() or json.loads(replay.read_text())['status']!='completed':manifest['status']='failed';return 1
+        if args.online_registered_json:
+            online=folder/'online_registered_result.json'
+            if not online.is_file() or json.loads(online.read_text())['status']!='completed':manifest['status']='failed';return 1
         manifest['status']='completed';return 0
     except Exception as error:
         manifest.update(status='failed',error=str(error));raise

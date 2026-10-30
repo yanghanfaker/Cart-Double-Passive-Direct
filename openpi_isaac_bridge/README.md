@@ -2627,3 +2627,61 @@ git add -- diagnostics/registered_replay/
 git commit -m "Add short registered frozen action replay results"
 git push origin main
 ```
+
+## 下一轮：实时注册观测、一次新推理与短动作执行
+
+57f68f80de69的两组冻结动作回放已在Spark执行：5动作+10保持均完成，最终位置误差约0.00384/0.02360mm。
+这是仿真内部目标跟踪误差，不等于跨场景配准或实体机器人的精度；第二组仍存在首周期滞后和保持初期振荡。
+本轮沿用同一场景、执行器、50ms控制周期、0.5mm/0.1度动作限幅和张爪条件，只更换动作来源为本次实时观测的新推理。
+
+`run_online_registered_capture.py`从最近两组最终目标均通过的registered_replay/run.json读取场景配置，
+核对前轮结果与世界配准SHA、初始角度和坐标参数一致性，然后分别启动两个独立Isaac进程。
+每组完成35步张爪保持预热，保存本次无标记图像和geometry_audit，检查相机、物体支撑及初始化后：
+
+1. 从本次几何记录构造LIBERO世界TCP97位置、手部旋转向量及[q1,-q2]状态，保留四元数符号分支。
+2. 读取本次224RGB图像，核对SHA，逐像素确认两路输入都是原图的精确水平翻转；不读取旧实验图像作为新输入。
+3. 发送一次`pick up the cube`请求，保存float32状态、图像/输入指纹、完整返回动作、推理耗时和握手metadata。
+4. 验证整个动作chunk至少10步且全部有限值；只执行前5步，随后固定最后绝对目标保持10步。
+
+每组只有一次查询，不重复采样挑选输出，也没有第二次重规划。推理期间不推进仿真，前后物理步计数必须相同。
+动作执行复用已在Spark通过的世界反变换、TCP97到IK107补偿及运动/物体/关节检查。
+模拟客户端、网络不可达、未来动作NaN、图像变化、仿真步数变化均有本地测试；任何失败保留已有报告并停止后续动作。
+新模型输出无效时保留响应文件，没有执行动作；查询响应已收到与动作实际执行次数分别记录。
+
+本轮仍是一次推理后的短开环动作段，没有验证多轮视觉反馈、接触、闭爪、抓取或抬升。
+两组输入场景不同，第二组方块靠近腕部图像边缘这一限制仍然存在。
+status=completed与final_target_reached继续分别记录，不将运行结束自动解释为目标达成。
+
+保持原来的OpenPI服务在127.0.0.1:8000运行。如果服务已停止，在独立终端使用此前已验证的启动方式：
+
+```bash
+cd /home/test/Robot/openpi
+XLA_FLAGS="--xla_gpu_enable_triton_gemm=false" \
+XLA_PYTHON_CLIENT_PREALLOCATE=false \
+uv run scripts/serve_policy.py --env LIBERO --port 8000
+```
+
+在另一个Spark终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_online_registered_capture.py
+```
+
+外层使用原有参考venv，内部Isaac通过`uv run --extra viser --extra openpi isaaclab -p`调用现有客户端。
+可用`--source-manifest /绝对路径/run.json`指定前轮回放，`--server-host`/`--server-port`选择服务；提示词默认继承前轮冻结报告。
+输出到`diagnostics/online_registered/<UTC>/`，每组包含online_registered_result.json、online_model_response.json、
+online_replay_request.json、registered_replay_result.json、输入图像、15周期双相机图像和日志。
+握手metadata不能独立证明checkpoint身份，推理墙钟耗时不作为真实机器人实时性保证。
+
+213项本地测试通过；上一轮两组真实采集文件的新输入准备也已离线验证。新的一次真实模型查询与Isaac运动待Spark运行。
+
+结束后推送：
+
+```bash
+git add -- diagnostics/online_registered/
+git commit -m "Add live registered observation short motion results"
+git push origin main
+```
