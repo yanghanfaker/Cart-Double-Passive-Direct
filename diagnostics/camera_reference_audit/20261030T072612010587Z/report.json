@@ -1,0 +1,2219 @@
+{
+  "status": "completed",
+  "policy_queries": 0,
+  "simulation_launches": 0,
+  "camera_parameters_applied": false,
+  "source_manifest": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/multipose_geometry/20261030T031238379197Z/run.json",
+  "source_manifest_sha256": "35b287e6ca682d159652208368ea64c8241cba38f083442ef61abff80f69c37f",
+  "calibration_sha256": "352bd9ade078c5887481e09a38d9144b9ddfd4408e0cc4f2fe8a20f9fb79d435",
+  "poses": [
+    {
+      "name": "home",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              103.7857203784837,
+              42.89316085263072
+            ],
+            "tcp97": [
+              119.02704683178803,
+              62.849236366918895
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              128.00007999079494,
+              -12.403312543014827
+            ],
+            "tcp97": [
+              128.00009891989288,
+              20.265467079825417
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.0029023974167870625,
+            "tcp97": 0.011263427155616717
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.84943246885495,
+          "full_orientation_difference_deg": 43.96019195191044,
+          "optical_forward_difference_deg": 42.39472050356531,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              147.33970527033193,
+              243.2534704556598
+            ],
+            "hand": [
+              167.62694938633294,
+              312.3784448801191
+            ],
+            "tcp97": [
+              134.2662654330075,
+              147.17127101911774
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              22.377706993094368,
+              2675.5819122001435
+            ],
+            "hand": null,
+            "tcp97": [
+              128.0,
+              213.98600398127545
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 5.082443278254005,
+            "hand": null,
+            "tcp97": 0.13523582802477815
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.09999996392910401,
+              8.394992853449615e-10,
+              0.0199999855300706
+            ],
+            "rotation_ros": [
+              [
+                -0.15976033442672155,
+                -0.7208555417907856,
+                -0.6744211765754212
+              ],
+              [
+                0.9800061346656179,
+                -0.19789501043972196,
+                -0.02062864175891258
+              ],
+              [
+                -0.11859431504763376,
+                -0.6642325290984894,
+                0.7380586262119072
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.050000000000000044,
+              5.938655925066417e-19,
+              -4.618830432530243e-18
+            ],
+            "rotation_ros": [
+              [
+                -8.353196414743489e-17,
+                -1.0000000000000004,
+                1.0885745787633749e-16
+              ],
+              [
+                1.0000000000000004,
+                -7.743435058606559e-17,
+                1.1968180178453545e-17
+              ],
+              [
+                -1.173851171390514e-17,
+                3.749480930813375e-18,
+                1.0000000000000004
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "j1-positive",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              113.2399423157876,
+              39.26016563716486
+            ],
+            "tcp97": [
+              128.86787181345733,
+              57.19520183375503
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              155.1420144580966,
+              -13.15163315503644
+            ],
+            "tcp97": [
+              160.35264812573428,
+              19.106500421159712
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.02210101982478671,
+            "tcp97": 0.02627551688634671
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.85656553217949,
+          "full_orientation_difference_deg": 88.56827026640222,
+          "optical_forward_difference_deg": 44.96067116834985,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              237.22228066710161,
+              169.76583588571813
+            ],
+            "hand": [
+              304.16082735665583,
+              172.00713279490677
+            ],
+            "tcp97": [
+              142.25410962036915,
+              151.19630015917093
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              22.375530844855508,
+              2675.58181444055
+            ],
+            "hand": null,
+            "tcp97": [
+              128.00000000000003,
+              213.9860039812755
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 5.049891786478089,
+            "hand": null,
+            "tcp97": 0.16603827237444865
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.10000002187299202,
+              4.717893331461514e-09,
+              0.019999982340811635
+            ],
+            "rotation_ros": [
+              [
+                -0.6972389735006651,
+                -0.21785497140755977,
+                -0.6829326652494747
+              ],
+              [
+                0.12533206356233656,
+                -0.9750742540767339,
+                0.18309034076080485
+              ],
+              [
+                -0.7057972001042127,
+                0.042064361040107495,
+                0.7071639851232121
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.05000000000000005,
+              -3.2639804512238967e-18,
+              -4.9310938796535186e-17
+            ],
+            "rotation_ros": [
+              [
+                -8.833017801787586e-17,
+                -1.0,
+                -5.103431939868572e-17
+              ],
+              [
+                1.0,
+                -1.4093060409635953e-16,
+                -4.50831789691722e-17
+              ],
+              [
+                4.074180614097821e-17,
+                5.420357799598389e-17,
+                0.9999999999999999
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "j2-positive",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              108.00250827143427,
+              61.845227522429965
+            ],
+            "tcp97": [
+              120.01612142937903,
+              83.0382119147818
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              128.00007622964526,
+              15.091430067158607
+            ],
+            "tcp97": [
+              128.00007636872738,
+              48.62727294421424
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.014275677505825127,
+            "tcp97": 0.008803856852076838
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.81931976361382,
+          "full_orientation_difference_deg": 81.52983696286682,
+          "optical_forward_difference_deg": 35.05314334328399,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              255.42643283633262,
+              168.39289777546165
+            ],
+            "hand": [
+              377.39459845317333,
+              195.2978618896087
+            ],
+            "tcp97": [
+              162.62747258430434,
+              135.91374471855565
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              77.00487703916338,
+              1365.7595548188256
+            ],
+            "hand": null,
+            "tcp97": [
+              128.0,
+              213.9860039812754
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 1.3654134857322673,
+            "hand": null,
+            "tcp97": 0.08473961438612265
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.09999996839818451,
+              8.075069134568617e-10,
+              0.019999992196555114
+            ],
+            "rotation_ros": [
+              [
+                -0.7908694028561494,
+                -0.21028938546045473,
+                -0.5747207687117476
+              ],
+              [
+                0.2664781494859995,
+                -0.9637382797831539,
+                -0.014068543887865503
+              ],
+              [
+                -0.5509219395454087,
+                -0.1642769078211294,
+                0.8182286441357652
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.05000000000000001,
+              -4.415697933090767e-19,
+              -4.931330001333984e-18
+            ],
+            "rotation_ros": [
+              [
+                3.676027042268291e-17,
+                -0.9999999999999998,
+                -7.413708653544372e-17
+              ],
+              [
+                0.9999999999999998,
+                -1.3600583806716023e-17,
+                -9.580696520872538e-18
+              ],
+              [
+                2.8489441156789167e-17,
+                5.6172541532104e-17,
+                0.9999999999999999
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "j3-negative",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              89.78509979719978,
+              47.83782658076456
+            ],
+            "tcp97": [
+              105.29771105026056,
+              69.34483558873117
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              100.48649820226248,
+              -11.46060305062501
+            ],
+            "tcp97": [
+              98.60482515809964,
+              20.96274659113996
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.011104778999115857,
+            "tcp97": 0.015976687822789853
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.851943243435926,
+          "full_orientation_difference_deg": 85.03089011738307,
+          "optical_forward_difference_deg": 43.24621242025974,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              17.57121177018131,
+              168.82268454626526
+            ],
+            "hand": [
+              -52.42731734870732,
+              181.4476146803374
+            ],
+            "tcp97": [
+              112.01616874344121,
+              146.5862646225885
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              162.12415323728922,
+              2620.9769720626236
+            ],
+            "hand": null,
+            "tcp97": [
+              128.00000000000003,
+              213.98600398127553
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 4.879417802223219,
+            "hand": null,
+            "tcp97": 0.14204261370866464
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.10000002462582447,
+              2.3633021685415956e-09,
+              0.020000000680120113
+            ],
+            "rotation_ros": [
+              [
+                0.6999582733415853,
+                -0.23831685247462095,
+                -0.6732484633530598
+              ],
+              [
+                0.20563875557909111,
+                0.9700127273870428,
+                -0.12956855679922155
+              ],
+              [
+                0.6839379487823066,
+                -0.047753392902914325,
+                0.7279756147576032
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.05000000000000009,
+              -5.173958053871434e-18,
+              -4.4789819060127814e-17
+            ],
+            "rotation_ros": [
+              [
+                -1.0892444012732192e-16,
+                -1.0000000000000007,
+                -7.158328958391001e-17
+              ],
+              [
+                1.0000000000000007,
+                -9.403238190101046e-17,
+                6.389240443328971e-17
+              ],
+              [
+                -3.8720473675911316e-17,
+                1.2709444081516784e-16,
+                1.0000000000000007
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "j4-positive",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              108.0059769938236,
+              17.690974184537662
+            ],
+            "tcp97": [
+              126.85098566955972,
+              35.631519805211795
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              127.99989814163848,
+              -47.086770989353965
+            ],
+            "tcp97": [
+              127.99991969819703,
+              -16.268897129789025
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.0393761103513318,
+            "tcp97": 0.057975657664846164
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.893795453575244,
+          "full_orientation_difference_deg": 58.46247440132552,
+          "optical_forward_difference_deg": 54.632954114930065,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              158.88877926853164,
+              216.24902714728282
+            ],
+            "hand": [
+              173.84013306763933,
+              239.59097997382494
+            ],
+            "tcp97": [
+              129.4516568413938,
+              122.6619354626566
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": null,
+            "hand": null,
+            "tcp97": [
+              128.0,
+              213.98600398127556
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": null,
+            "hand": null,
+            "tcp97": 0.207189384413649
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.10000008966808269,
+              2.524287644108742e-09,
+              0.019999968730235962
+            ],
+            "rotation_ros": [
+              [
+                -0.22709625889620122,
+                -0.532564544525923,
+                -0.8153540918577925
+              ],
+              [
+                0.9345202630919405,
+                -0.35476157700749494,
+                -0.028567487634122556
+              ],
+              [
+                -0.2740422724068679,
+                -0.768452490003807,
+                0.578257385202324
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.05000000000000008,
+              3.339449163554117e-18,
+              -5.451890960912055e-17
+            ],
+            "rotation_ros": [
+              [
+                6.722760296642448e-17,
+                -0.9999999999999998,
+                -2.8260432028264636e-16
+              ],
+              [
+                0.9999999999999999,
+                6.646573025248838e-17,
+                -7.308152079541596e-17
+              ],
+              [
+                1.0774841365289639e-16,
+                5.386062821002435e-17,
+                0.9999999999999999
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "j5-positive",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              101.28649743518838,
+              43.91298552335232
+            ],
+            "tcp97": [
+              117.02533391070757,
+              63.92074841761185
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              122.64300449980306,
+              -12.047083400977064
+            ],
+            "tcp97": [
+              123.29132837066619,
+              20.52985687597313
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.0005939850989570579,
+            "tcp97": 0.010707747506899696
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.85074439724916,
+          "full_orientation_difference_deg": 67.60723802011503,
+          "optical_forward_difference_deg": 42.33205121144388,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              42.093131896373656,
+              208.24243021784557
+            ],
+            "hand": [
+              -27.090961843992254,
+              237.83074815140964
+            ],
+            "tcp97": [
+              107.93271164147907,
+              135.24670236361348
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              440.7536594910606,
+              2719.721069587116
+            ],
+            "hand": null,
+            "tcp97": [
+              128.00000000000003,
+              213.98600398127547
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 5.3380104505316,
+            "hand": null,
+            "tcp97": 0.1366728253418992
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.10000000801689567,
+              1.594471962077191e-09,
+              0.020000044164585007
+            ],
+            "rotation_ros": [
+              [
+                0.6119396955326033,
+                -0.4177016046093857,
+                -0.6716064163914822
+              ],
+              [
+                0.6040106179497851,
+                0.7950137767834042,
+                0.05589515299653298
+              ],
+              [
+                0.510588858510821,
+                -0.43986186949010647,
+                0.7387966928277933
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.04999999999999996,
+              1.280222291209051e-17,
+              8.349229611838515e-17
+            ],
+            "rotation_ros": [
+              [
+                -9.35154566190083e-17,
+                -1.0000000000000004,
+                -9.753005953335063e-18
+              ],
+              [
+                1.0000000000000007,
+                -1.9534514654386367e-16,
+                9.606187923403084e-17
+              ],
+              [
+                -4.0647116047685484e-18,
+                6.608242795032602e-17,
+                1.0000000000000007
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "j6-negative",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              103.39574009658863,
+              48.19780378354529
+            ],
+            "tcp97": [
+              116.21675814236255,
+              69.76444271773792
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              128.00008983649332,
+              -5.164149733867193
+            ],
+            "tcp97": [
+              128.0000953368447,
+              28.87742609897443
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.014679117984800153,
+            "tcp97": 0.00644255537120531
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.79501694751949,
+          "full_orientation_difference_deg": 36.704733078695035,
+          "optical_forward_difference_deg": 34.115278354040996,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              152.52947887373793,
+              250.37714131989043
+            ],
+            "hand": [
+              192.5336791409432,
+              390.4222065687483
+            ],
+            "tcp97": [
+              138.38361892293977,
+              164.11715989740554
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              91.51453941372182,
+              1011.3363489890272
+            ],
+            "hand": null,
+            "tcp97": [
+              128.0,
+              213.98600398127545
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.6571344038961818,
+            "hand": null,
+            "tcp97": 0.038995569490891904
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.10000002520323974,
+              2.6997387163100868e-09,
+              0.020000036090982713
+            ],
+            "rotation_ros": [
+              [
+                -0.20072083547986616,
+                -0.8029553934044662,
+                -0.5612252510418111
+              ],
+              [
+                0.9724384396505324,
+                -0.23268418190046403,
+                -0.014884642533459795
+              ],
+              [
+                -0.11863653439940751,
+                -0.5487446653007125,
+                0.8275292532652287
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.050000000000000024,
+              -1.109998040078393e-18,
+              1.6799186790003585e-17
+            ],
+            "rotation_ros": [
+              [
+                -2.3752708522522538e-18,
+                -1.0000000000000007,
+                2.6263738336180405e-17
+              ],
+              [
+                1.0000000000000007,
+                -3.8369427627442895e-17,
+                -3.1317749038959264e-17
+              ],
+              [
+                1.74696852616074e-17,
+                1.2964301210045972e-16,
+                1.0000000000000004
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mixed12",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              89.29039020052468,
+              32.010803393697216
+            ],
+            "tcp97": [
+              105.16695417763464,
+              51.81384904272509
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              108.11837152152182,
+              -31.97018251045247
+            ],
+            "tcp97": [
+              103.36839066400543,
+              -1.6969991501388326
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.027617982072343263,
+            "tcp97": 0.038581188995517414
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.873458330547976,
+          "full_orientation_difference_deg": 68.59471232817357,
+          "optical_forward_difference_deg": 47.94224159311398,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              47.14771400952432,
+              200.7258076440183
+            ],
+            "hand": [
+              9.08322243533265,
+              235.1129977652714
+            ],
+            "tcp97": [
+              130.40907922184238,
+              149.33939145459271
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              -251.78413739979084,
+              9258.867743948074
+            ],
+            "hand": null,
+            "tcp97": [
+              127.99999999999999,
+              213.9860039812755
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 60.12377226728629,
+            "hand": null,
+            "tcp97": 0.2069953685699714
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.09999996209641934,
+              -5.27091158299846e-09,
+              0.0200000480508314
+            ],
+            "rotation_ros": [
+              [
+                0.48482856578116795,
+                -0.48954067082761055,
+                -0.7247697519959209
+              ],
+              [
+                0.5695400814587017,
+                0.8056084614737239,
+                -0.16315361600024367
+              ],
+              [
+                0.6637509754528361,
+                -0.3336838899431502,
+                0.6693950284979836
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.049999999999999996,
+              -7.214048552590852e-19,
+              4.827520879758258e-17
+            ],
+            "rotation_ros": [
+              [
+                6.532497761438582e-17,
+                -1.0000000000000004,
+                9.532712424507583e-17
+              ],
+              [
+                1.0000000000000004,
+                3.572411968519775e-17,
+                2.8586087186326257e-17
+              ],
+              [
+                -3.940429627914298e-17,
+                -2.2149713605978678e-17,
+                1.0000000000000004
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mixed34",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              116.32099298028565,
+              25.0334720262006
+            ],
+            "tcp97": [
+              133.48632252411934,
+              42.50341859148288
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              154.37415265482605,
+              -33.582673497817645
+            ],
+            "tcp97": [
+              157.12256343320763,
+              -1.8897251907487678
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.02428684789737875,
+            "tcp97": 0.03939084426604542
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.88018245529573,
+          "full_orientation_difference_deg": 96.43050984612807,
+          "optical_forward_difference_deg": 51.3219853270402,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              225.3607051129052,
+              152.09328457272005
+            ],
+            "hand": [
+              263.07686873210395,
+              143.1300434847791
+            ],
+            "tcp97": [
+              129.78898152653312,
+              133.83350007798293
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": null,
+            "hand": null,
+            "tcp97": [
+              128.00000000000003,
+              213.9860039812754
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": null,
+            "hand": null,
+            "tcp97": 0.18151211033248593
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.10000001967852183,
+              8.299713185375443e-09,
+              0.019999995287264122
+            ],
+            "rotation_ros": [
+              [
+                -0.6209834694337019,
+                -0.08242195633821932,
+                -0.7794781278544408
+              ],
+              [
+                0.06949178349682301,
+                -0.9963292059124799,
+                0.049990053733098165
+              ],
+              [
+                -0.7807371021774959,
+                -0.023124328297013243,
+                0.6244316157308972
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.04999999999999997,
+              -2.1813484704559676e-18,
+              5.04344314942624e-17
+            ],
+            "rotation_ros": [
+              [
+                -1.1268554092231113e-16,
+                -0.9999999999999999,
+                -6.36867608148708e-17
+              ],
+              [
+                1.0,
+                -1.744782629487383e-16,
+                5.399084534265097e-17
+              ],
+              [
+                -2.044282621616196e-17,
+                -7.864998901107785e-17,
+                1.0000000000000002
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mixed56",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              105.88380243146356,
+              38.00886224120362
+            ],
+            "tcp97": [
+              122.68816462851585,
+              55.91401380867405
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              133.73415261445402,
+              -18.315470938276334
+            ],
+            "tcp97": [
+              133.98704729257292,
+              12.344211035117585
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.015045066746236914,
+            "tcp97": 0.02765693597376923
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.89490454165324,
+          "full_orientation_difference_deg": 74.06830515528405,
+          "optical_forward_difference_deg": 48.4866858394982,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              210.29678875969674,
+              205.35515983829816
+            ],
+            "hand": [
+              258.61493025819334,
+              205.498824273946
+            ],
+            "tcp97": [
+              140.5069331050436,
+              124.20869576907825
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": null,
+            "hand": null,
+            "tcp97": [
+              127.99999999999996,
+              213.98600398127556
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": null,
+            "hand": null,
+            "tcp97": 0.2223175251218168
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.09999997029629247,
+              1.7378783622494684e-09,
+              0.019999979338772973
+            ],
+            "rotation_ros": [
+              [
+                -0.5856127562124255,
+                -0.32199004220354627,
+                -0.7438952295068464
+              ],
+              [
+                0.5646883150569667,
+                -0.8204466033876792,
+                -0.08941184388962907
+              ],
+              [
+                -0.5815365909376717,
+                -0.47242966006737797,
+                0.6622880111320234
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.0500000000000001,
+              1.620590126405513e-17,
+              -2.646844234345097e-17
+            ],
+            "rotation_ros": [
+              [
+                1.0943313770957931e-16,
+                -1.0000000000000004,
+                4.7162922425182857e-17
+              ],
+              [
+                1.0000000000000002,
+                7.655022398750286e-17,
+                -7.193666617406728e-17
+              ],
+              [
+                4.739130390076859e-17,
+                1.3760443191686117e-16,
+                1.0000000000000004
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mixed147",
+      "cameras": {
+        "external_camera": {
+          "camera_center_difference_after_world_registration_mm": 837.2761139198429,
+          "full_orientation_difference_deg": 59.38419760529131,
+          "optical_forward_difference_deg": 47.68654256340963,
+          "isaac_vertical_fov_deg": 58.71550672076532,
+          "libero_vertical_fov_deg": 45.0,
+          "isaac_K": [
+            [
+              227.55555725097656,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              227.55555725097656,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              309.01933598375615,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              309.01933598375615,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              53.192816394063755,
+              118.87714941430573
+            ],
+            "hand": [
+              113.10375542837618,
+              27.704642485972233
+            ],
+            "tcp97": [
+              130.68890400308968,
+              45.51636874279617
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              128.00004263415858,
+              67.84192472341904
+            ],
+            "hand": [
+              146.0035990872534,
+              -30.73104420173416
+            ],
+            "tcp97": [
+              149.90677906567362,
+              1.19324510253001
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 0.020346735578386177,
+            "hand": 0.02471656308949924,
+            "tcp97": 0.03801986769961153
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved"
+        },
+        "wrist_camera": {
+          "camera_center_difference_after_world_registration_mm": 53.869114767225554,
+          "full_orientation_difference_deg": 79.44093268802749,
+          "optical_forward_difference_deg": 50.0456883356963,
+          "isaac_vertical_fov_deg": 96.73292090291682,
+          "libero_vertical_fov_deg": 75.0,
+          "isaac_K": [
+            [
+              113.77777862548828,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              113.77777862548828,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "libero_K": [
+            [
+              166.81284772367434,
+              0.0,
+              128.0
+            ],
+            [
+              0.0,
+              166.81284772367434,
+              128.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "isaac_projected_pixels": {
+            "base": [
+              222.06124169259863,
+              168.36797720027323
+            ],
+            "hand": [
+              258.8926623738004,
+              202.25650260413252
+            ],
+            "tcp97": [
+              126.13169523960413,
+              150.74877952652218
+            ]
+          },
+          "libero_projected_pixels": {
+            "base": [
+              14648.398850598203,
+              115239.52885552385
+            ],
+            "hand": null,
+            "tcp97": [
+              127.99999999999996,
+              213.9860039812753
+            ]
+          },
+          "registered_geometry_in_reference_camera_pixel_difference": {
+            "base": 10371.187862845274,
+            "hand": null,
+            "tcp97": 0.18206469782381673
+          },
+          "pixel_measurement_status": "not measured: mathematical projections only; occlusion and framebuffer orientation unresolved",
+          "isaac_hand_local_mount": {
+            "position_m": [
+              0.10000008064500675,
+              3.0339462826080416e-09,
+              0.0199999600409756
+            ],
+            "rotation_ros": [
+              [
+                -0.5574699138613138,
+                -0.36964751541901886,
+                -0.7433626365940149
+              ],
+              [
+                0.35519409253908324,
+                -0.915511547460742,
+                0.18888028772578297
+              ],
+              [
+                -0.750376206822149,
+                -0.1587429394038791,
+                0.641666757300563
+              ]
+            ]
+          },
+          "libero_hand_local_mount": {
+            "position_m": [
+              0.04999999999999999,
+              1.946665481084582e-18,
+              9.277642302971147e-18
+            ],
+            "rotation_ros": [
+              [
+                6.832714614934229e-17,
+                -1.0,
+                -1.804489678798547e-16
+              ],
+              [
+                1.0,
+                3.993193214141756e-17,
+                -3.675758364341341e-17
+              ],
+              [
+                -7.049822963830931e-17,
+                -1.7173315263245202e-16,
+                1.0000000000000002
+              ]
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "scope": "camera metadata and image provenance audit; projected labels are not independently measured pixel correspondences",
+  "pixel_convention": "ROS +Z forward, +X right, +Y down. MuJoCo framebuffer orientation not assumed verified.",
+  "reference_preprocessing": "saved LIBERO raw[::-1,::-1] then resize224; not automatically applied to Isaac",
+  "external_api_reference": "https://isaac-sim.github.io/IsaacLab/v3.0.0-beta/source/api/lab/isaaclab.sensors.html",
+  "wrist_mount_variation_from_home": {
+    "isaac": {
+      "max_translation_mm": 0.00012686750456100871,
+      "max_rotation_deg": 89.5944642545258
+    },
+    "libero": {
+      "max_translation_mm": 1.2184400851214685e-13,
+      "max_rotation_deg": 0.0
+    }
+  },
+  "candidate_parameters": "candidate_camera_parameters.json",
+  "gallery": "comparison.html",
+  "calibration_verdict": "not calibrated: no independently measured 2D correspondences, no aligned render validation"
+}
