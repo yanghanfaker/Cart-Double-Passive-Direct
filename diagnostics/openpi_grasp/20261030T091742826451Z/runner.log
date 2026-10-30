@@ -1,0 +1,292 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/openpi_grasp/20261030T091742826451Z/capture/20261030T091742850683Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/openpi_grasp/20261030T091742826451Z/capture/20261030T091742850683Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.473491732482327e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.73569536086646e-08, 'rotation_error_deg': 1.1779458330959206e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/openpi_grasp/20261030T091742826451Z/capture/20261030T091742850683Z/geometry_audit.json
+[Clean scene] {"case": "arm-only", "geometry": true, "projections": {"external_camera": [127.99830196401888, 131.57970982758226], "wrist_camera": [122.46432610464343, 120.71507217728089]}}
+[Geometry audit] sensor closure={'position_error_m': 1.0088090334164596e-08, 'rotation_error_deg': 1.2728823350081491e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.009141163207001e-08, 'rotation_error_deg': 2.918297534551545e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_ixrhklwp/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0791829927533647e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.998952799240355e-08, 'rotation_error_deg': 2.1990563771820357e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_sl2x_7_q/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.198924665977165e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.314127774125658e-08, 'rotation_error_deg': 5.662383889581773e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_4v9493zk/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0959258198073756e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.4281589761071173e-08, 'rotation_error_deg': 2.791406590737572e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_7wi6t_x6/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.1308626558309017e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.869917861635261e-08, 'rotation_error_deg': 1.7998760737469158e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_3oilfod3/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.484049289072388e-09, 'rotation_error_deg': 1.2734733674876438e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.938397216100275e-08, 'rotation_error_deg': 1.6683649753102007e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_yvzkjv84/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2329005512828838e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.806483857109302e-08, 'rotation_error_deg': 4.818336747956517e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_lylgxjib/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.5030333745119564e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.1880476861957825e-08, 'rotation_error_deg': 7.589955082317745e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_60ch0glp/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0647881586999584e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.0360067244530222e-08, 'rotation_error_deg': 7.61760709085946e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_rqqhqi20/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.4612529293593209e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 8.911455522964416e-08, 'rotation_error_deg': 1.977214510389333e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_ab1_wjmy/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3518457008287375e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.788689996304943e-08, 'rotation_error_deg': 8.447948656934403e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_ncay40q8/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.623219013863136e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.9220989736667734e-08, 'rotation_error_deg': 1.9876175066148737e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_9284w0r4/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.54085265844499e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.7501293116219664e-08, 'rotation_error_deg': 5.066024969975649e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_kh3ihrxk/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.984050909216988e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.7675692129320895e-08, 'rotation_error_deg': 2.95266143846917e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_qgqu4uiz/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 7.653912081256268e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.8435160357903658e-08, 'rotation_error_deg': 5.122075813684172e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_t5q1ft_w/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2830208835159853e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.9072538916742243e-08, 'rotation_error_deg': 1.2873408240641506e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_f2pgkq8a/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.8375249515881935e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.385942805923113e-08, 'rotation_error_deg': 4.18251616388497e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_4lp83_7m/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.781912019906821e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.596327766353734e-08, 'rotation_error_deg': 4.5741336700524536e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_gartkzam/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.329819604892666e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.5017646782051804e-08, 'rotation_error_deg': 2.630906990197958e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_7x33ept_/geometry_audit.json
+[OpenPI grasp] controls=100; distance=225.6mm; progress100=20.8mm
+[Geometry audit] sensor closure={'position_error_m': 1.583259092718507e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.2894825139242348e-08, 'rotation_error_deg': 7.054788931735285e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_gphxi_zc/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.442808187275949e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.852104674697444e-08, 'rotation_error_deg': 5.726698026975454e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_mzrj4yl0/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 7.262806192328323e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 9.016344787274112e-08, 'rotation_error_deg': 6.108245178293067e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_3ix4sv5t/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.8217635826389405e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.514417317747734e-08, 'rotation_error_deg': 3.5510850657036794e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_m_9ansfl/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0503763796745506e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.593397256346935e-08, 'rotation_error_deg': 3.776655176720943e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_irigjrtj/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3597191283825946e-08, 'rotation_error_deg': 1.2821707369689053e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.7299855397715615e-08, 'rotation_error_deg': 4.187085991200368e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture__osnw9om/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.8544077104770847e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.8826253816440855e-08, 'rotation_error_deg': 4.155047123157253e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_j3anfsem/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.884277879482073e-09, 'rotation_error_deg': 1.2822772751234386e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.644393825340318e-08, 'rotation_error_deg': 2.5360077523954044e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_52_m8zl0/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.8609672346615435e-08, 'rotation_error_deg': 1.2822766826422894e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.636766366426043e-08, 'rotation_error_deg': 3.424974565860833e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_aapbmr2l/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.4797660909230721e-08, 'rotation_error_deg': 1.2827394398786037e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.3274783989475121e-08, 'rotation_error_deg': 4.890226515979581e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_5eihxgp2/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.250924298573011e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.767007453244114e-08, 'rotation_error_deg': 3.444040732229345e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_fynez7na/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.3174191139890927e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.9692828240354037e-08, 'rotation_error_deg': 3.659796994486434e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_3mqpix84/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.781936618123071e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.677371496058169e-08, 'rotation_error_deg': 8.200713873799734e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_kftk5gu9/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.3201580156140925e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.859473620684811e-08, 'rotation_error_deg': 3.2836278650157337e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_9ust9drx/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.8847738939313157e-08, 'rotation_error_deg': 1.282892856201421e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.1863191269773833e-08, 'rotation_error_deg': 9.747255548059341e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_sne7kdaw/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.547828071633498e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.70092038676204e-08, 'rotation_error_deg': 9.549205927740522e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_blalm4_b/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.889913064936349e-09, 'rotation_error_deg': 1.2828928562014214e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.7102649393926303e-09, 'rotation_error_deg': 4.7485331605609556e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_24slx1_l/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3002999268051549e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.4886810999381034e-08, 'rotation_error_deg': 1.7679365409681926e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_89exnz6t/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.155159715359806e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.891045955359329e-08, 'rotation_error_deg': 5.650665535710097e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_w8nmw22i/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.7999027198510774e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.7787804473175005e-08, 'rotation_error_deg': 3.8605363865243645e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_mwss87h3/geometry_audit.json
+[OpenPI grasp] controls=200; distance=183.5mm; progress100=42.1mm
+[Geometry audit] sensor closure={'position_error_m': 2.9378415107161725e-08, 'rotation_error_deg': 1.283354799272097e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.176170444319055e-08, 'rotation_error_deg': 6.009872718548972e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_7sx2lntb/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3812830534738568e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.883200405046579e-08, 'rotation_error_deg': 4.0969006973136345e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_74hayixu/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.017367482857297e-08, 'rotation_error_deg': 1.2833547992720967e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.055617870801417e-08, 'rotation_error_deg': 5.206157612185376e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_ejghuo3m/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3192836980856647e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.360726916330571e-08, 'rotation_error_deg': 2.2165381533543674e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_35uwf3fh/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.0454764186534738e-08, 'rotation_error_deg': 1.2778004605374507e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.280964988781234e-08, 'rotation_error_deg': 4.0011999177902036e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_picrdz0k/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.08901192856363e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.03458525538962e-08, 'rotation_error_deg': 1.9839943950824116e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_dbyscfpz/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.5134383115496633e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.525377331608667e-08, 'rotation_error_deg': 6.706709753910682e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_eh7fvhwy/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.9897387288616243e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.412768710145507e-08, 'rotation_error_deg': 9.326819330725618e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_n_h12mja/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.6950477940681205e-09, 'rotation_error_deg': 1.2796545855183171e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.476987937641818e-08, 'rotation_error_deg': 3.5058248974254835e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_jiyrdfxl/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.496080359168345e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.645711864922065e-08, 'rotation_error_deg': 6.099747976431696e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_4i4u4978/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.3623531850531636e-08, 'rotation_error_deg': 1.279654585518317e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.873907093736426e-09, 'rotation_error_deg': 9.248038138289439e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture__ej82ehi/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.643475148877225e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.120781565162953e-08, 'rotation_error_deg': 4.297906899797099e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_2bwx7tw5/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.0522806637062002e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.567857749670804e-08, 'rotation_error_deg': 6.163500128244552e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_4kags4w8/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.892465185186177e-08, 'rotation_error_deg': 1.2796545855183171e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.313275302807004e-08, 'rotation_error_deg': 5.083640253233699e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture__p7wmd63/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.825733498482131e-08, 'rotation_error_deg': 1.2796545855183171e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.159889256574841e-08, 'rotation_error_deg': 6.015149654356825e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_1su9nkhg/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3241748707200193e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.418320313145861e-08, 'rotation_error_deg': 3.5193318722372255e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_9rbn5cdm/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2704615733460235e-08, 'rotation_error_deg': 1.2870443750669175e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.927921947844305e-08, 'rotation_error_deg': 9.28161951387088e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_mxqpbe4r/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.113252147244997e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.4740130747679113e-08, 'rotation_error_deg': 3.526456770753088e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_gpwmk782/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.513608265069063e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.640420151363701e-08, 'rotation_error_deg': 1.0439385615720296e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_xn_y7nev/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3278187250481393e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.706633542408767e-08, 'rotation_error_deg': 1.048237079933928e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_ytq2cxk0/geometry_audit.json
+[OpenPI grasp] controls=300; distance=132.6mm; progress100=50.9mm
+[Geometry audit] sensor closure={'position_error_m': 1.1346307415970517e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 8.75387872562715e-09, 'rotation_error_deg': 5.219494898882269e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_ihs6fc08/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.168275524169415e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.541009020373973e-08, 'rotation_error_deg': 1.3278350193847938e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_xgzs7e42/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.061994788634072e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.7309694022651825e-08, 'rotation_error_deg': 1.1799073536847758e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_gtkp7heb/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3918365611150137e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.3233186839048527e-08, 'rotation_error_deg': 1.7076562507708765e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_r1zkp2pu/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.801009538482849e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.118265707260273e-08, 'rotation_error_deg': 1.3302032788551353e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_3kn1cig0/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2563901436530778e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.4768214989226124e-08, 'rotation_error_deg': 3.561791267498649e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_5p12bnrh/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0863275766106577e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.040602250698648e-08, 'rotation_error_deg': 5.132042285521466e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_sjgrytdy/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 7.433611823929506e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.2589375590630716e-08, 'rotation_error_deg': 1.2754646925989041e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_5r2iwrxw/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.3895366648216183e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.394800739869012e-08, 'rotation_error_deg': 6.99125047464781e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_uejyzhgn/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.189079022006262e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.4497352200822774e-08, 'rotation_error_deg': 5.143101797536071e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_31e27c47/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.5831980881045254e-09, 'rotation_error_deg': 1.2943919763907412e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.2787440024114376e-08, 'rotation_error_deg': 1.336701165942427e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_03nf8bir/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2854413372866148e-08, 'rotation_error_deg': 1.2943919763907412e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.791886207275751e-08, 'rotation_error_deg': 5.151098039075169e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_g2ls4z3h/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.5682113015429983e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.1920708384971486e-08, 'rotation_error_deg': 3.540519967366381e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_nab1o8bn/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.948808636371082e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.530525608733358e-08, 'rotation_error_deg': 7.756396646889767e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_vseibyxo/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.5896739091197102e-08, 'rotation_error_deg': 1.2943919763907412e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.3266166594479055e-08, 'rotation_error_deg': 5.165569143959593e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_yhnj4pd0/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 8.92079441046734e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.720947354122789e-09, 'rotation_error_deg': 3.5424661947346876e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_mr9ko4sl/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0649806328870066e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.386143836178967e-08, 'rotation_error_deg': 1.5597721572851185e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_i5479hd_/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.128374237858233e-08, 'rotation_error_deg': 1.2943919763907409e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.696464418387117e-08, 'rotation_error_deg': 6.208789933862825e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_c8xk4k3f/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.1432874129046952e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.546800557643666e-09, 'rotation_error_deg': 1.090230609415909e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_n_8nxej_/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.5741271254701515e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.5521733213453894e-08, 'rotation_error_deg': 6.238804971961149e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_5s47zre7/geometry_audit.json
+[OpenPI grasp] controls=400; distance=86.2mm; progress100=46.4mm
+[Geometry audit] sensor closure={'position_error_m': 1.3523757294124848e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.4911833128289107e-08, 'rotation_error_deg': 4.7330390612661726e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_f6b6eklx/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.596861479894593e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.191875542387276e-08, 'rotation_error_deg': 9.239059232721622e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_6cxu90km/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3731124348222903e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.9541001220225234e-08, 'rotation_error_deg': 1.9794114512923955e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_cxxrxqdz/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.05579091769363e-09, 'rotation_error_deg': 1.2943919763907412e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.99001001425708e-08, 'rotation_error_deg': 1.556550056975237e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_ls1l8r0y/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.1966788306683422e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.8251133130996556e-08, 'rotation_error_deg': 4.795279597796177e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture__97y6wkn/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2601610981945027e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.1983236036795073e-08, 'rotation_error_deg': 1.2557744239854629e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_i87c6p60/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.046494678962741e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.269534284413171e-08, 'rotation_error_deg': 1.1932386163948005e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_51eqty7f/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.5434147216033574e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.367149246802372e-08, 'rotation_error_deg': 1.282517886518963e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_sp0wb45v/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.1600381554529843e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.4716528225692902e-08, 'rotation_error_deg': 1.1929776182424979e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_yas16139/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.203077183829727e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.26485530752134e-08, 'rotation_error_deg': 5.156357398544675e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture__2a0ug78/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.376004063048762e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.321366525689492e-08, 'rotation_error_deg': 1.27631525324443e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_2jbpezvj/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.866749442274054e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.5755247243923893e-08, 'rotation_error_deg': 1.7061172923084215e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture__uakskd7/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.919599486429549e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.3047643932251924e-08, 'rotation_error_deg': 6.829858534318196e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_8gj1rq14/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.438695453688321e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.176081364789568e-08, 'rotation_error_deg': 1.1971249910044982e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_cms34m1v/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0259937186045913e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0077951791069292e-08, 'rotation_error_deg': 1.139638076074462e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_jfe5852e/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.147649627012742e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.9118840187242254e-08, 'rotation_error_deg': 1.691064618086165e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_dmdn48c_/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.1712652464681668e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.89756146223875e-08, 'rotation_error_deg': 1.3246282355416558e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_u82v93qe/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.929002509694717e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.1094203973839745e-09, 'rotation_error_deg': 5.132873930404319e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_37x0k7dy/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.770438639674987e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.2322120796991228e-08, 'rotation_error_deg': 1.6985712256006379e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_mtj2pq7h/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0346971256674653e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.4433104471420076e-08, 'rotation_error_deg': 1.6977690615021857e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_adx7lx8e/geometry_audit.json
+[OpenPI grasp] controls=500; distance=59.7mm; progress100=26.4mm
+[Geometry audit] sensor closure={'position_error_m': 3.0142921503998887e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.2042666017858006e-08, 'rotation_error_deg': 1.24912063428248e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_u1nd4sh6/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 8.024222513121989e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.4171244152796833e-08, 'rotation_error_deg': 1.2572328387059426e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_80jmlnf7/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.920061816857643e-09, 'rotation_error_deg': 1.301698103900465e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.297687862879452e-08, 'rotation_error_deg': 3.5855269319837016e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_hjal9tiq/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.766083736525242e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.2971551573822597e-08, 'rotation_error_deg': 1.2535372279650255e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_h1dml5cw/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.5008532920655412e-08, 'rotation_error_deg': 1.2943919763907409e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.5548289846094985e-08, 'rotation_error_deg': 6.061422763666213e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_7bp66myy/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0387580911833828e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.4995727954212916e-08, 'rotation_error_deg': 6.242966613801871e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_rnt05jud/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2787949286893067e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.8597892243850175e-08, 'rotation_error_deg': 9.364014197310719e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_2zv_nypp/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.982242128935814e-09, 'rotation_error_deg': 1.2870443750669175e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.204026451894309e-08, 'rotation_error_deg': 7.920194526370859e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_0d21sz2o/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2822412734044415e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.6353892926522124e-08, 'rotation_error_deg': 1.1979855054130785e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_jph0zhyk/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.63032284887539e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.7716487524490812e-08, 'rotation_error_deg': 1.6418923059118636e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_oz1tpx7g/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 7.625994325692529e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.519148479093896e-08, 'rotation_error_deg': 1.0324836957986495e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_jpg979d5/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 8.377680295852491e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0165856966150797e-08, 'rotation_error_deg': 9.752458352434952e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_lniz0o6y/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.5123800563462248e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.6787728078787465e-08, 'rotation_error_deg': 1.0612953020493952e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_e7q9vf9n/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.603241276404039e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.7609054461601533e-08, 'rotation_error_deg': 9.725939908340588e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_3d2ig979/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.083361815914822e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.107102104246278e-08, 'rotation_error_deg': 1.1951588781709405e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_afvgcqc3/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.886743360932414e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.3955571446095694e-08, 'rotation_error_deg': 1.01072217797742e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_hcf31er9/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 8.617782672903997e-09, 'rotation_error_deg': 1.2852009111820061e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.3449635875237302e-08, 'rotation_error_deg': 5.804398223430705e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_2047x686/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.612428845519796e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.8178908876974752e-08, 'rotation_error_deg': 1.028028226537203e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_5cf163zr/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.399510155101728e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.8517915934733402e-08, 'rotation_error_deg': 3.6093680601513336e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_bs0c41m7/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2918892321358128e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.7771472537887954e-08, 'rotation_error_deg': 9.481773638924583e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_wh_j15kw/geometry_audit.json
+[OpenPI grasp] controls=600; distance=53.1mm; progress100=6.6mm
+[Geometry audit] sensor closure={'position_error_m': 4.889784032670311e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0001679558449285e-08, 'rotation_error_deg': 9.235788820979855e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_d2p3j1k9/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 8.781852271244182e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.732564587247183e-08, 'rotation_error_deg': 5.77632768061866e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_xv2v3z00/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.9090734845302214e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 8.607824157302361e-09, 'rotation_error_deg': 3.6481872243303064e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_8ce0rxrc/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2871082997780656e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.9399479967330626e-08, 'rotation_error_deg': 9.632640084258874e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_kwun0zbm/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.244533954493296e-09, 'rotation_error_deg': 1.2847396319025016e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.8808917059960784e-08, 'rotation_error_deg': 1.7065366322839976e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_ahbicqh7/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.522092055985684e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.3223439582315416e-08, 'rotation_error_deg': 5.279997009073272e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_vevog0hf/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.27504679150199e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.039141898148222e-08, 'rotation_error_deg': 1.0503233271079147e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture__nvx27bs/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.6844208754588138e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.8595308926510212e-08, 'rotation_error_deg': 3.970420078352807e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_1n348dvd/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.723249162828223e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.1656116421402077e-08, 'rotation_error_deg': 2.3689968164837425e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_zmy5mjq9/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.4667583552470843e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.2021298186333193e-08, 'rotation_error_deg': 2.2269197024082797e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_3tuenpni/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.7712549663225238e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.0206770834323555e-08, 'rotation_error_deg': 3.1327048586909224e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_771xonny/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.115092897278519e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.181195773064758e-08, 'rotation_error_deg': 6.091143543889989e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_brjo1pz1/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.4700851404035878e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.345823877449907e-08, 'rotation_error_deg': 2.3072009769369812e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_vstzdt6w/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.887888892037974e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.2902969428784006e-08, 'rotation_error_deg': 6.180699378671354e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_k1nvaxxv/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.4425537444861419e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.185497054763471e-09, 'rotation_error_deg': 3.5290232422854664e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_n4w9yiqd/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.738148929728167e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.627384912661344e-08, 'rotation_error_deg': 4.1866250927358446e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_elcemb08/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.2648021011172676e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.25610897087462e-08, 'rotation_error_deg': 5.738109729972647e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_eeu2mf9g/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.58791045883188e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.171467235710162e-08, 'rotation_error_deg': 2.9024534991361287e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_614mcwft/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.1985750088458696e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.3262379116956416e-08, 'rotation_error_deg': 3.671412377801142e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_n1p2dvlf/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 5.77640329316968e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.303671192241743e-08, 'rotation_error_deg': 7.719307386730981e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/openpi_grasp_capture_r1izubs0/geometry_audit.json
+[OpenPI grasp] controls=700; distance=63.5mm; progress100=-10.4mm
+[OpenPI grasp] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/openpi_grasp/20261030T091742826451Z/capture/20261030T091742850683Z/online_registered_result.json
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/openpi_grasp/20261030T091742826451Z/capture/20261030T091742850683Z/run.json
