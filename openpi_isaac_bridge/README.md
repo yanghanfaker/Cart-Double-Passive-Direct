@@ -2052,3 +2052,73 @@ git add -- diagnostics/geometry_audit/
 git commit -m "Add static camera and TCP geometry audit results"
 git push origin main
 ```
+
+## LIBERO参考侧：依赖检查与同关节姿态的静态采集
+
+Isaac审计b775a025b12e显示内部偏置闭合与图像投影一致；尚缺训练参考侧的EEF和相机记录。
+新增`libero_reference_audit.py`，读取最新的已完成Isaac几何审计，先检查现有Python环境，条件具备时采集LIBERO参考。
+不启动模型服务、不查询策略、不安装包、不改变Isaac配置，也不修改当前OpenPI环境。
+
+按[OpenPI LIBERO示例说明](https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/README.md)，
+模型服务和LIBERO仿真可以使用不同环境。本脚本优先检查`openpi/examples/libero/.venv/bin/python`，
+再检查`openpi/.venv/bin/python`和运行脚本的Python；可用`--python /绝对路径/python`指定已有解释器。
+检查只读取模块位置和发行版本，包含numpy、PIL、yaml、mujoco、robosuite、libero、openpi_client和torch。
+运行时只在子进程的PYTHONPATH中加入现有`third_party/libero`，不会初始化/下载子模块。
+
+执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/libero_reference_audit.py \
+  --openpi-root /home/test/Robot/openpi
+```
+
+默认从仓库`diagnostics/geometry_audit/`选取最新已完成记录；需要固定源时，可追加：
+
+```text
+--isaac-audit /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/geometry_audit/20261030T021135995628Z/geometry_audit.json
+```
+
+输出直接写入`diagnostics/libero_reference/<UTC时间>/`。状态必须按以下含义解释：
+
+- `dependency_missing`：现有候选解释器没有完整依赖，只保存可用性/版本报告；没有生成LIBERO几何参考。这是预检完成，不是几何测试通过。
+- `completed`：原生LIBERO环境创建、静态关节设置、观测和相机采集完成。
+- `capture_failed`或`capture_timeout`：依赖表面可用但实际导入、资源或渲染等失败；查看`reference.json`和`worker.log`。原生采集子进程有120秒时限。
+
+依赖不齐也请保留并推送报告，下一步按实际解释器、架构和缺失项准备环境，不直接套用旧版CUDA/torch锁定文件。
+运行器不会自动安装依赖或替换模型服务环境。模型服务可以继续运行，本脚本不连接其端口。
+
+条件具备时，默认采集`libero_spatial`第0个任务、seed=0、256像素双相机；使用普通任务reset，
+不加载演示初始状态、不评测任务成功率。默认使用子进程EGL离屏渲染，后端信息记录到报告。
+LIBERO首次导入的路径配置写在本次结果目录的`libero_config/`中，并通过子进程LIBERO_CONFIG_PATH使用，
+不改写`~/.libero`。接口依据[LIBERO环境包装器](https://github.com/Lifelong-Robot-Learning/LIBERO/blob/master/libero/libero/envs/env_wrapper.py)核对。
+
+静态参考采集内容：
+
+- 依据实际关节名后缀匹配7个臂关节和2个夹爪关节，检查MuJoCo关节范围后设置为Isaac源角度；夹爪采用参考侧[q1,-q2]符号。
+- 只直接设置qpos、将相关qvel置零并调用forward；不调用env.step、不执行dummy动作或模型动作。采集前后MuJoCo时间必须相同。
+- 保存机器人根刚体、EEF手部刚体、夹爪根刚体、实际grip_site的局部/世界位姿，以及观测中的EEF位置与四元数。
+- 分别比较观测位置与grip_site、观测朝向与EEF刚体/站点朝向，保存已安装观测代码，避免混淆参考框架。
+- 保存agentview与robot0_eye_in_hand的实际位置、朝向、父刚体、fovy和推导K，以及世界/基座参考下的记录。
+- 保存观测原图256、按官方示例旋转180度后的256图及模型224图，共6张PNG。此处只处理LIBERO参考图，不改变Isaac图像。
+- 保存实际机器人/夹爪/合并场景XML、控制器限幅参数、源代码、版本预检与Isaac源记录摘要，便于核对依赖和物理安装关系。
+
+观测与预处理依据[OpenPI LIBERO示例](https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/main.py)；
+[robosuite 1.4.1观测实现](https://github.com/ARISE-Initiative/robosuite/blob/v1.4.1/robosuite/robots/single_arm.py)中，
+EEF位置取夹爪站点，四元数取EEF手部刚体；脚本保留两种来源及实际安装版本代码，不假定它们局部朝向相同。
+
+解释边界：直接设置相同数值的关节角不代表驱动已经到位，也不能自动证明关节零点/符号、基座、手部框架和场景已注册。
+本轮场景不是Isaac的方块场景，参考环境版本也未独立证明与checkpoint训练版本完全相同；这些差异保留为待比较项。
+不会据局部偏置数字自动替换Isaac TCP或翻转其图像。
+
+154项CPU测试与语法检查通过；模拟原生接口采集覆盖9关节设置、6种图像输出、EEF来源、XML保存和无env.step/时间推进。
+实际LIBERO依赖、资源和GPU渲染可用性仍待Spark运行确认。
+
+无论预检缺依赖还是采集完成，结束后推送本轮记录（不调用gain_sweep导出）：
+
+```bash
+git add -- diagnostics/libero_reference/
+git commit -m "Add LIBERO reference availability and geometry audit"
+git push origin main
+```
