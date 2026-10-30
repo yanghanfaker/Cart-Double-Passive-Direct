@@ -2523,3 +2523,52 @@ git add -- diagnostics/clean_scene_capture/
 git commit -m "Add unmarked proxy scene initialization comparison"
 git push origin main
 ```
+
+## 下一轮：冻结两组无标记观测的原图/左右翻转模型对照
+
+`frozen_image_probe.py`从最近完成且几何检查通过的clean_scene_capture中读取arm-only与arm-and-target-xy，
+对每组分别查询no_flip和flip_x：两路相机一起水平翻转，状态与提示词保持不变。
+默认每条件重复10次，共2组×2条件×10=40次推理。奇偶轮交替条件顺序；没有共享随机噪声种子，不宣称配对随机实验。
+不启动仿真，不执行任何模型动作，不改变在线预处理或执行器参数。
+
+发送的状态不是直接复用geometry_audit中的原始Isaac状态：
+
+- 103.4mm传感器点沿当前手部局部轴修正-6.4mm，换为97mm TCP。
+- 使用已通过多姿态验证的世界R/t转换TCP位置，手部姿态也乘同一个世界旋转。
+- 通过注册四元数与原始手部四元数相乘，保留原始符号分支，不将手部强制规范成w>=0；再用既有LIBERO旋转向量编码。
+- 双指状态按[q1,-q2]转换，保留当前实际张开位置。
+
+立方体中心只用于注册世界中的局部趋近投影，不包含在模型输入字典中；输入只有8维state、两张224RGB、提示词。
+完整动作原始值与假想1mm/0.25度限幅结果均保存，记录前5步、前10步、全chunk的投影与闭爪请求。
+若返回超过10步，也验证全部未来动作；少于10步会停止，不默默截断或补零。
+这些投影是固定观测方向上的数值诊断，不是实际行程或抓取成功率，不进行IK/旋转杠杆臂执行。
+
+源manifest/result/geometry/setup/图像SHA均记录；逐像素确认flip_x副本只是原224RGB左右翻转，不另做resize或180度旋转。
+每次实际发送float32状态、输入SHA、耗时、完整输出、按条件的均值/样本标准差/范围都会保存。
+提示词默认沿用当前方块任务的`pick up the cube`，两组/两条件相同；黑碗任务的物体、桌面外观和语义差异仍存在。
+两组结果分开统计，第二组仍有方块触边这一已知限制，不能把它与第一组混成同一个输入样本。
+
+保持原有OpenPI服务在127.0.0.1:8000运行。在另一个Spark终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/.venv/bin/python \
+  openpi_isaac_bridge/frozen_image_probe.py --repeats 10
+```
+
+使用模型环境中的现有客户端，不安装任何包。启动前先校验全部输入，随后检查端口可达；服务不可达会保存错误，不进入客户端无限重连。
+可用`--source-manifest /绝对路径/run.json`指定输入；`--server-host`/`--server-port`选择现有服务。
+可选`--policy-server-log /已有日志路径`复制128KiB以内日志前缀以辅助记录，但日志和握手metadata不能独立证明checkpoint身份。
+
+输出 `diagnostics/openpi_image_ab/<UTC>/report.json`，含两组图像副本、原几何及相机setup、世界配准与输入来源副本。
+异常保留已经完成的查询。actions_executed始终为0，policy_queries成功完成时为40。
+200项本地CPU、源输入校验、符号/坐标转换、模型客户端模拟与完整CLI流程测试通过；实际b942542a4757来源的两组输入准备也已本地验证，真实模型推理待Spark运行。
+
+结束后：
+
+```bash
+git add -- diagnostics/openpi_image_ab/
+git commit -m "Add frozen original versus horizontal flip policy comparison"
+git push origin main
+```
