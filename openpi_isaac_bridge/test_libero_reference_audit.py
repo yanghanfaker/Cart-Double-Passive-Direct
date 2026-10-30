@@ -33,6 +33,12 @@ class ReferenceTests(unittest.TestCase):
         with self.assertRaises(ValueError):audit.ordered_joints(['robot0_joint1'],'arm')
         with self.assertRaises(ValueError):audit.ordered_joints(['a_finger_joint1','b_finger_joint1','b_finger_joint2'],'finger')
 
+    def test_combined_arm_and_finger_dictionary_does_not_alias_arm_joints(self):
+        names=['gripper0_finger_joint2','robot0_joint7','robot0_joint1','gripper0_finger_joint1']+[f'robot0_joint{i}' for i in range(2,7)]
+        self.assertEqual(audit.ordered_joints(names,'arm'),[f'robot0_joint{i}' for i in range(1,8)])
+        self.assertEqual(audit.ordered_joints(names,'finger'),['gripper0_finger_joint1','gripper0_finger_joint2'])
+        with self.assertRaises(ValueError):audit.ordered_joints(names+['other_joint1'],'arm')
+
     def test_preflight_runs_without_importing_libero(self):
         result=subprocess.run([sys.executable,'-c',audit.PREFLIGHT],capture_output=True,text=True,check=True)
         report=json.loads(result.stdout)

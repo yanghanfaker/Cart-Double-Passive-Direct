@@ -39,7 +39,9 @@ def source_targets(audit):
 
 
 def ordered_joints(names,kind):
-    suffix=r'joint([1-7])$' if kind=='arm' else r'finger_joint([12])$'
+    # The arm lookup can receive a combined arm+gripper dictionary. A finger
+    # name also ends in joint1/2; exclude that namespace before suffix matching.
+    suffix=r'(?<!finger_)joint([1-7])$' if kind=='arm' else r'finger_joint([12])$'
     size=7 if kind=='arm' else 2;indexed={}
     for name in names:
         match=re.search(suffix,name)

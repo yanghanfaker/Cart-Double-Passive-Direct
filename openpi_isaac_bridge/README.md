@@ -2452,3 +2452,28 @@ git add -- diagnostics/libero_scene_probe/
 git commit -m "Retry LIBERO scene probe with synchronized observations"
 git push origin main
 ```
+
+## e48f599ef265之后：方向测量通过，修复末尾混合关节字典汇总
+
+本轮同步刷新后，XML恢复前后两台相机的position/rotation/K差异均为0，原1e-8容差已通过。
+两台相机标记测量也全部通过：LIBERO原始RGB到ROS需flip_y，官方180度预处理图到ROS需flip_x，最大标记误差约0.725像素。
+上一轮Isaac原图到ROS为identity，因此在已测光学约定下，候选Isaac输入应测试水平翻转匹配参考策略画面，而不是直接复制180度翻转。
+尚未部署任何策略预处理改动，也不能据此断言抓取失败完全由镜像引起。
+
+原运行最终failed发生在纯布局汇总：ordered_joints对合并arm+finger字典查找时，finger_joint1/2也符合joint1/2结尾，被当成重复机械臂关节。
+现在机械臂匹配显式排除finger_前缀；真实arm重名仍拒绝。对已推送三个真实布局进行顺序复核正确，新增混合字典回归，189项CPU测试通过。
+原始failed记录保留，不改写成completed。拉取修复后重跑同一命令以生成正常完成的完整记录：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/libero_scene_probe.py
+```
+
+结束后：
+
+```bash
+git add -- diagnostics/libero_scene_probe/
+git commit -m "Complete LIBERO scene probe with distinct arm and finger lookup"
+git push origin main
+```
