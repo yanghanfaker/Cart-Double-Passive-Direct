@@ -101,6 +101,7 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("logs/openpi_camera_check"))
     parser.add_argument("--warmup-steps", type=int, default=30)
     parser.add_argument("--geometry-joints-json", type=Path, help="explicit initial arm pose for static geometry-audit only")
+    parser.add_argument("--camera-alignment-json", type=Path, help="camera proposal plus visible markers; static geometry-audit only")
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--gain-profile", choices=tuple(GAIN_PROFILES), default="baseline")
     parser.add_argument("--record-jacobians", action="store_true", help="capture actual IK Jacobians during frozen replay only")
@@ -132,6 +133,13 @@ def main():
     parser.add_argument("--wrist-offset", type=float, nargs=3, default=(0.10, 0.0, 0.02))
     add_launcher_args(parser)
     args = parser.parse_args()
+    alignment_candidate = None
+    alignment_setup = None
+    if args.camera_alignment_json:
+        if args.motion_test != "geometry-audit":
+            parser.error("--camera-alignment-json requires geometry-audit")
+        from camera_alignment_probe import validate_candidate
+        alignment_candidate = validate_candidate(json.loads(args.camera_alignment_json.read_text(encoding="utf-8")))
     geometry_joints = None
     if args.geometry_joints_json:
         if args.motion_test != "geometry-audit":
@@ -309,6 +317,9 @@ def main():
                     wrist_target = tensor(base.scene["object"].data.root_pos_w).clone()
                     wrist_target[:, 2] += 0.02
                 wrist.set_world_poses_from_view(eyes=wrist_eye, targets=wrist_target)
+                if alignment_candidate is not None:
+                    from camera_alignment_probe import apply_and_spawn
+                    alignment_setup = apply_and_spawn(base,alignment_candidate,args.output.expanduser().resolve(),tensor)
                 # Force fresh renders after changing the camera pose; reuse the
                 # exact sensor/step path already verified by the first capture.
                 for _ in range(5):
@@ -417,6 +428,10 @@ def main():
                 },
                 "validated": "capture only; LIBERO reference frames, cameras and action mapping are not calibrated",
             }
+            if alignment_setup is not None:
+                report['camera_setup']={'effective_pose_source':'camera_alignment_setup.json',
+                    'wrist_initial_aim':'fixed hand-local candidate; legacy look-at is overridden before capture',
+                    'calibration_markers_present':True,'candidate_source':str(args.camera_alignment_json)}
             (output / "observation.json").write_text(
                 json.dumps(report, indent=2), encoding="utf-8"
             )
@@ -426,6 +441,9 @@ def main():
             if args.motion_test == "geometry-audit":
                 from geometry_audit import capture_geometry
                 capture_geometry(base,cfg,arm_term,images,output,tensor,args.warmup_steps+5)
+                if alignment_setup is not None:
+                    from camera_alignment_probe import finish_capture
+                    finish_capture(base,alignment_setup,images,output,tensor)
                 return
 
             physics_context = {}

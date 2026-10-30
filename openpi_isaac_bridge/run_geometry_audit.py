@@ -13,6 +13,7 @@ def main():
     parser.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
     parser.add_argument('--output-root',type=Path,default=Path(__file__).resolve().parent.parent/'diagnostics/geometry_audit')
     parser.add_argument('--geometry-joints-json',type=Path)
+    parser.add_argument('--camera-alignment-json',type=Path)
     args=parser.parse_args()
     root=args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():parser.error('Isaac Lab directory not found')
@@ -32,6 +33,11 @@ def main():
         validate_arm_pose(json.loads(payload))
         (folder/'requested_arm_pose.json').write_bytes(payload)
         command += ['--geometry-joints-json',str(folder/'requested_arm_pose.json')]
+    if args.camera_alignment_json:
+        payload=args.camera_alignment_json.expanduser().absolute().read_bytes()
+        json.loads(payload)
+        (folder/'camera_candidate.json').write_bytes(payload)
+        command += ['--camera-alignment-json',str(folder/'camera_candidate.json')]
     manifest={'status':'running','command':command,'output':str(folder),
               'scope':'static geometry capture after hold warmup; no model inference or diagnostic motion'}
     def save():(folder/'run.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
@@ -41,11 +47,13 @@ def main():
             with subprocess.Popen(command,cwd=root,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace') as process:
                 for line in process.stdout:
                     log.write(line)
-                    if '[Geometry audit]' in line or '[Actuator audit]' in line:print(line,end='',flush=True)
+                    if '[Geometry audit]' in line or '[Actuator audit]' in line or '[Camera alignment]' in line:print(line,end='',flush=True)
                 manifest['exit_code']=process.wait()
         report_path=folder/'geometry_audit.json'
         if manifest['exit_code']!=0 or not report_path.is_file() or json.loads(report_path.read_text())['status']!='completed':
             manifest['status']='failed';print(f'[Geometry runner] Inspect {folder/"console.log"}',file=sys.stderr);return 1
+        if args.camera_alignment_json and not (folder/'camera_alignment_result.json').is_file():
+            manifest['status']='failed';return 1
         manifest['status']='completed';return 0
     except Exception as error:
         manifest.update(status='failed',error=str(error));raise

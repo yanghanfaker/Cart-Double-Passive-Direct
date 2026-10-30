@@ -2332,3 +2332,50 @@ git add -- diagnostics/camera_reference_audit/
 git commit -m "Add camera geometry and image orientation audit"
 git push origin main
 ```
+
+## 下一轮：候选相机在Isaac中的静态渲染标记验证
+
+`run_camera_alignment.py`读取最近完成的相机审计，校验源manifest SHA，复制candidate_camera_parameters.json，
+依次为home、mixed34、mixed56创建3次独立静态采集。使用旧Isaac审计实际关节角初始化，不调用OpenPI，不改关节增益。
+仅显式geometry-audit测试选项支持相机候选，普通训练、播放和模型动作流程不变。
+
+在35步hold预热的最后5步之前，将外部相机设置到候选Isaac世界位姿；手腕相机按照当前手部位姿安装候选局部变换，
+覆盖旧look-at朝向，并更新参考内参。后续不再朝世界目标重新对准。
+使用当前[官方Camera实现](https://github.com/isaac-sim/IsaacLab/blob/main/source/isaaclab/isaaclab/sensors/camera/camera.py)的set_world_poses（ROS、xyzw）和set_intrinsic_matrices接口。
+实际安装后的位姿/K与setter实现源码保存，便于发现本地版本差异。
+
+每台相机前方生成3个不对称分布的品红、青、黄球形标记，发光材质，不添加刚体或碰撞API。
+标记世界坐标由事先请求的相机参数推导，期望像素为(58,67)、(184,91)、(103,192)。
+随后检测真实RGB里的颜色连通区域质心，对比原图、水平翻转、垂直翻转和180度旋转四种假设。
+这比只将三维点投影回元数据更进一步，但颜色检测仍是启发式；结果需结合原图检查遮挡/漏检。
+这些标记属于独立标定场景，绝不能用作策略输入图像。
+
+运行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_camera_alignment.py
+```
+
+无需启动OpenPI或LIBERO服务，Isaac会启动3次；Viser可查看标记场景。使用现有候选关节增益。
+输入默认最近完成的 `diagnostics/camera_reference_audit/*/report.json`，也可用`--camera-audit /绝对路径/report.json`指定。
+输出 `diagnostics/camera_alignment/<UTC>/`，包括：
+
+- 顶层run.json：3姿态汇总、相机固定安装变化、图像方向一致性及all_camera_tests_passed。
+- 每姿态capture子目录的camera_alignment_setup.json、camera_alignment_result.json、geometry_audit.json。
+- 原始256RGB、4种方向副本、期望位置叠加SVG、全部颜色组件及匹配误差；候选参数、API源码与日志。
+
+诊断阈值：位姿位置0.1mm、朝向0.05度、内参元素0.05像素；3标记最大误差2像素，最佳与次佳假设RMS差至少10像素；
+跨姿态安装变化仍需小于0.1mm/0.05度且每台相机的图像方向一致。
+完成采集不等于通过，查看all_camera_tests_passed。像素检测不通过仍保存其余姿态；进程异常则停止并保存日志。
+此次只验证Isaac原始图像与ROS光学几何的关系，不直接决定Isaac应如何对应LIBERO策略预处理，也不验证抓取。
+182项本地CPU/合成图像/模拟调度测试通过；本机没有Isaac原生渲染，真实材质、标记可见性和GPU接口仍待Spark运行。
+
+结束后（成功或失败均保留记录）：
+
+```bash
+git add -- diagnostics/camera_alignment/
+git commit -m "Add static aligned camera landmark render results"
+git push origin main
+```
