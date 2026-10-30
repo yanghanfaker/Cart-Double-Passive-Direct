@@ -2422,3 +2422,33 @@ git add -- diagnostics/libero_scene_probe/
 git commit -m "Add native LIBERO initialization and camera direction audit"
 git push origin main
 ```
+
+## c8c56fa7f87e之后：同步MuJoCo衍生量再校验标记相机
+
+实际运行已成功受限加载50组pruned_init，保存3阶段布局和18张干净图像，完成10步等待。
+随后原始state逐元素恢复成功，但手腕相机位置在XML重建forward后出现约1.564e-6m差异，触发atol=1e-8检查，尚未生成marker_test。
+这不是缺依赖或初始状态缺失，也没有LIBERO原生图像方向的最终结论。
+
+[MuJoCo 2.3.7模拟流程文档](https://mujoco.readthedocs.io/en/2.3.7/programming/simulation.html)
+说明先做前向计算、再积分状态，中间结果可能滞后一个时间步。该机制与当前记录相符；需重跑观测同步后再判断，不把它直接当作已经证明的唯一原因。
+修复在每次布局保存及生成标记之前显式sim.forward()和force_update观测，检查模拟state和time没有推进。
+报告新增observation_synchronization，记录刷新前后相机差异；marker_camera_restoration保存XML重建前后两份相机参数、差异和原始1e-8容差。
+没有放宽容差、没有增加等待步、没有改控制器或相机安装参数。
+benchmark_initialization_available现在在标记测试前写入，即使后面失败也可明确知道初始化是否成功。
+188项本地CPU/同步顺序/不推进时间回归测试通过；本机无MuJoCo原生环境，实际问题是否解决以Spark重跑结果为准。
+
+重跑命令与上一轮相同：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/libero_scene_probe.py
+```
+
+结束后：
+
+```bash
+git add -- diagnostics/libero_scene_probe/
+git commit -m "Retry LIBERO scene probe with synchronized observations"
+git push origin main
+```

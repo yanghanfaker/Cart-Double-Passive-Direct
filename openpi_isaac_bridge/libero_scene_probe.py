@@ -66,6 +66,23 @@ def camera_data(sim):
     return result
 
 
+def camera_differences(before,after):
+    import numpy as np
+    return {view:{key+'_max_abs_difference':float(np.max(np.abs(np.array(c[key])-np.array(after[view][key]))))
+        for key in ('position_world_m','rotation_ros','K_256')} for view,c in before.items()}
+
+
+def synchronized_observation(env):
+    """Refresh derived kinematics at the integrated state without advancing time."""
+    import numpy as np
+    state=np.asarray(env.get_sim_state()).copy();before=camera_data(env.sim)
+    env.sim.forward()
+    observation=env.env._get_observations(force_update=True)
+    np.testing.assert_array_equal(state,np.asarray(env.get_sim_state()))
+    after=camera_data(env.sim)
+    return observation,{'state_and_time_unchanged':True,'camera_refresh_differences':camera_differences(before,after)}
+
+
 def capture_layout(env,obs,folder,label):
     import numpy as np
     from camera_reference_audit import camera_from_world
@@ -97,7 +114,8 @@ def capture_layout(env,obs,folder,label):
 
 
 def run_worker(folder,args):
-    report={'status':'starting','policy_queries':0,'model_actions_executed':0,'dummy_wait_steps':0,'layouts':[]}
+    report={'status':'starting','policy_queries':0,'model_actions_executed':0,'dummy_wait_steps':0,'layouts':[],
+        'observation_synchronization':[]}
     def save():(folder/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8')
     save();env=None
     try:
@@ -119,6 +137,7 @@ def run_worker(folder,args):
             task_description=str(task.language),bddl=str(bddl),bddl_sha256=hashlib.sha256(bddl.read_bytes()).hexdigest())
         env=OffScreenRenderEnv(bddl_file_name=str(bddl),camera_heights=256,camera_widths=256)
         env.seed(args.seed);obs=env.reset()
+        obs,sync=synchronized_observation(env);report['observation_synchronization'].append({'stage':'default_reset',**sync})
         report['layouts'].append(capture_layout(env,obs,folder/'default_reset','default_reset'));save()
         init_path=Path(get_libero_path('init_states'))/task.problem_folder/task.init_states_file
         report['benchmark_init']={'path':str(init_path),'exists':init_path.is_file(),'status':'missing'}
@@ -135,11 +154,15 @@ def run_worker(folder,args):
                 report['benchmark_init'].update(status='load_failed',error_type=type(error).__name__,error=str(error))
         if initial is not None:
             obs=env.set_init_state(initial)
+            obs,sync=synchronized_observation(env);report['observation_synchronization'].append({'stage':'benchmark_initial',**sync})
             report['layouts'].append(capture_layout(env,obs,folder/'benchmark_initial','benchmark_initial'));save()
             for _ in range(10):
                 obs,_,_,_=env.step([0.]*6+[-1.]);report['dummy_wait_steps']+=1
+            obs,sync=synchronized_observation(env);report['observation_synchronization'].append({'stage':'benchmark_after10wait',**sync})
             report['layouts'].append(capture_layout(env,obs,folder/'benchmark_after10wait','benchmark_after10wait'))
+        report['benchmark_initialization_available']=initial is not None
         report['marker_source_layout']=report['layouts'][-1]['label'];save()
+        obs,sync=synchronized_observation(env);report['observation_synchronization'].append({'stage':'before_markers',**sync});save()
         before=np.asarray(env.get_sim_state()).copy();cameras=camera_data(env.sim)
         markers={view:marker_layout(c['position_world_m'],c['rotation_ros'],c['K_256']) for view,c in cameras.items()}
         original_xml=env.env.model.get_xml();xml=marked_xml(original_xml,markers)
@@ -150,6 +173,8 @@ def run_worker(folder,args):
         if [int(env.sim.model.nq),int(env.sim.model.nv)]!=dimensions:raise RuntimeError('marker insertion changed dynamic state dimensions')
         after=np.asarray(env.get_sim_state());np.testing.assert_array_equal(before,after)
         actual_cameras=camera_data(env.sim)
+        report['marker_camera_restoration']={'tolerance_max_abs':1e-8,'before':cameras,'after':actual_cameras,
+            'differences':camera_differences(cameras,actual_cameras),'state_exactly_restored':True};save()
         for view in cameras:
             for key in ('position_world_m','rotation_ros','K_256'):np.testing.assert_allclose(cameras[view][key],actual_cameras[view][key],atol=1e-8,rtol=0)
         marker_obs=env.env._get_observations(force_update=True)

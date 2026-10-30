@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from unittest.mock import patch
+from types import SimpleNamespace
 import xml.etree.ElementTree as ET
 
 import libero_scene_probe as probe
@@ -56,6 +57,26 @@ class LiberoSceneTests(unittest.TestCase):
                 self.assertEqual(calls[0][1]['env']['MUJOCO_GL'],'egl')
                 self.assertNotIn('--query',calls[0][0])
                 if not worker_failure:self.assertFalse(manifest['benchmark_initialization_available'])
+
+    def test_refreshes_derived_camera_state_without_integrating(self):
+        import numpy as np
+        events=[];state=np.array([.5,1.,2.])
+        old={'view':{'position_world_m':[0,0,1.0000015],'rotation_ros':np.eye(3).tolist(),'K_256':np.eye(3).tolist()}}
+        new={'view':{'position_world_m':[0,0,1.],'rotation_ros':np.eye(3).tolist(),'K_256':np.eye(3).tolist()}}
+        def forward():events.append('forward')
+        def observe(force_update):events.append('observe');self.assertTrue(force_update);return {'fresh':True}
+        env=SimpleNamespace(get_sim_state=lambda:state.copy(),sim=SimpleNamespace(forward=forward),env=SimpleNamespace(_get_observations=observe))
+        with patch.object(probe,'camera_data',side_effect=[old,new]):obs,record=probe.synchronized_observation(env)
+        self.assertEqual(events,['forward','observe']);self.assertTrue(obs['fresh'])
+        self.assertTrue(record['state_and_time_unchanged'])
+        self.assertAlmostEqual(record['camera_refresh_differences']['view']['position_world_m_max_abs_difference'],1.5e-6)
+
+    def test_refresh_rejects_unexpected_state_advance(self):
+        import numpy as np
+        state=np.array([0.,1.]);cam={}
+        def forward():state[0]+=.002
+        env=SimpleNamespace(get_sim_state=lambda:state.copy(),sim=SimpleNamespace(forward=forward),env=SimpleNamespace(_get_observations=lambda **kwargs:{}))
+        with patch.object(probe,'camera_data',return_value=cam),self.assertRaises(AssertionError):probe.synchronized_observation(env)
 
 
 if __name__=='__main__':unittest.main()
