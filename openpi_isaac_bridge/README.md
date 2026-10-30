@@ -1779,3 +1779,62 @@ git push origin main
 
 本轮配置通过增益校验及名称长度/唯一性校验；用模拟子进程验证三轮路由、受控停止后继续执行、
 三份trace及预览图无覆盖导出，9项现有运行器测试通过。实际环境重置一致性及三轮模型结果待Spark验证。
+
+## 冻结观测：同一输入的完整动作块与限幅核对
+
+三轮结果2397bb6005eb均在126.9–144.1mm最近距离附近触发进展不足停止。
+本轮不再移动机械臂，直接读取这三轮保存的模型输入，检查相同输入下动作的变化以及限幅影响。
+
+新增 `frozen_observation_probe.py`，不启动Isaac、不创建环境、不执行机械臂或夹爪动作。
+选择4组观测：第一轮初始观测，以及三轮最后一个控制步执行前的观测。
+最后观测可能原本属于块内缓存步，当时没有送给模型；本轮明确将该保存观测作为新模型输入，
+不能将新返回的动作与原缓存动作当作同一输入的重现。
+
+每组连续查询3次，共12次推理。原始224×224 RGB PNG不再缩放、旋转或修改，状态使用保存的
+`state_observed`转为float32，prompt使用原运行的值；记录每次输入摘要以检查同组输入一致性。
+模型服务的随机状态继续推进，没有控制模型随机种子，也不模拟执行动作后的未来观测。
+
+运行前保持8000端口模型服务启动。以下命令固定读取已分析的三轮源目录，避免latest指向别的测试：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+
+cd /home/test/Robot/IsaacLab
+uv run --extra viser --extra openpi python \
+  /home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/frozen_observation_probe.py \
+  --latest /home/test/Robot/IsaacLab/logs/openpi_gain_sweep/20261029T092353347485Z/sweep_summary.json \
+  --repeats 3 \
+  --server-host 127.0.0.1 --server-port 8000 \
+  --policy-server-log /home/test/Robot/openpi/openpi_chunk_probe_server.log
+```
+
+使用Lab环境的openpi/viser依赖，但本脚本不需要SimulationApp，且不会启动Viser画面。
+原三轮目录中的PNG需要保留，缺失时脚本会报错，不会换用其他帧。
+
+输出自动保存在仓库 `diagnostics/openpi_frozen_observation/<UTC时间>/`，每次使用新目录：
+
+- `report.json`：源清单SHA256、源步数、状态、prompt、图像SHA256、服务握手信息、12次完整动作块。
+- 每个动作的原始值、已有LIBERO映射解码值、假设应用1mm/0.25度限幅后的值及保留比例。
+- 分别汇总前5个动作和整个动作块的平移向量和、固定观测方向上的接近投影、限幅次数及闭爪请求数。
+- 8张原样复制的观测PNG，以及用户指定服务启动日志的最多128KiB前缀。
+
+`[Frozen query]`中接近投影为正表示朝向方块，为负表示远离；bounded Z正值表示向世界+Z抬升。
+这些是固定观测下的数值汇总，不是执行轨迹、IK目标或接触结果。物体真值只用于投影诊断，不送入模型。
+映射记录中的夹爪值也只是数值对照；每项executed=false，报告actions_executed=0。
+
+报告保留源TCP偏置和坐标假设；实际相机外参/内参、LIBERO训练TCP注册资料不在源清单中，明确标为未验证。
+这轮不会声称已校准相机或TCP，也不会基于缺失资料修改坐标变换。
+
+正常完成时report.status=completed、4组各3次查询；失败时保存已完成的查询及错误，不应当作完整结果。
+本地128项CPU测试与语法检查通过；真实保存图像配合模拟服务的端到端检查确认4×3查询、重复输入相同、
+8张图无修改复制、JSON保存且没有Isaac导入。实际OpenPI响应仍待Spark验证。
+
+结束后直接提交新目录，不需要调用gain_sweep的导出脚本：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git add -- diagnostics/openpi_frozen_observation/
+git commit -m "Add frozen observation OpenPI action diagnostics"
+git push origin main
+```
