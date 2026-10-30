@@ -99,13 +99,47 @@ class MultiPoseTests(unittest.TestCase):
                     def __exit__(self,*args):pass
                     def wait(self):return 0
                 args=['probe','--source-audit',str(source),'--reference-python',sys.executable,'--output-root',str(folder/'out')]
-                with patch.object(sys,'argv',args),patch.object(runner.subprocess,'Popen',Child):
+                with patch.object(sys,'argv',args),patch.object(runner.subprocess,'Popen',Child),patch.object(runner,'preflight_reference',return_value={'prefix':'fixture-venv'}):
                     self.assertEqual(runner.main(),1 if missing else 0)
                 manifest=json.loads(next((folder/'out').glob('*/run.json')).read_text())
                 self.assertEqual(manifest['status'],'failed' if missing else 'completed')
                 self.assertEqual(len(commands),2 if missing else 23)
                 self.assertNotIn('--query',commands[0])
                 self.assertIn('--geometry-joints-json',commands[0])
+
+    def test_venv_interpreter_does_not_resolve_symlink_target(self):
+        from unittest.mock import MagicMock
+        path=MagicMock()
+        path.expanduser.return_value=path
+        path.absolute.return_value=Path('/fixture/reference/.venv/bin/python')
+        path.resolve.return_value=Path('/fixture/base/bin/python')
+        with patch.object(runner,'Path',return_value=path):
+            self.assertEqual(str(runner.interpreter_path('venv/python')),str(Path('/fixture/reference/.venv/bin/python')))
+        path.resolve.assert_not_called()
+
+    def test_preflight_rejects_bare_interpreter_and_missing_modules(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            for prefix,base,modules,passed in [('venv','base',{'numpy':True},True),
+                ('base','base',{'numpy':True},False),('venv','base',{'numpy':False},False)]:
+                result=subprocess.CompletedProcess([],0,json.dumps({'python':'fixture','prefix':prefix,'base_prefix':base,'modules':modules}),'')
+                with patch.object(runner.subprocess,'run',return_value=result) as process:
+                    if passed:runner.preflight_reference(Path('fixture'),root,root)
+                    else:
+                        with self.assertRaises(RuntimeError):runner.preflight_reference(Path('fixture'),root,root)
+                    self.assertEqual(process.call_args.args[0][0],'fixture')
+                    self.assertNotIn('VIRTUAL_ENV',process.call_args.kwargs['env'])
+
+    def test_preflight_failure_stops_before_isaac(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder=Path(tmp);source=folder/'source.json'
+            source.write_text(json.dumps({'status':'completed','joint_names':[f'panda_joint{i}' for i in range(1,8)],
+                'joint_positions_rad':[0,-.569,0,-2.81,0,3.037,.741],'finger_positions_isaac_m':[.04,.04]}))
+            args=['probe','--source-audit',str(source),'--reference-python',sys.executable,'--output-root',str(folder/'out')]
+            with patch.object(sys,'argv',args),patch.object(runner,'preflight_reference',side_effect=RuntimeError('bad environment')),patch.object(runner.subprocess,'Popen') as process:
+                self.assertEqual(runner.main(),1)
+                process.assert_not_called()
 
 
 if __name__=='__main__':unittest.main()

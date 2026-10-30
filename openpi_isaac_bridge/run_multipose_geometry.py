@@ -3,12 +3,46 @@ import argparse
 from datetime import datetime,timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
 
 from libero_reference_audit import source_targets
 from multipose_geometry import design_poses
+
+
+REFERENCE_PREFLIGHT = """import importlib.util,json,sys
+names=('numpy','PIL','yaml','mujoco','robosuite','libero','openpi_client','torch')
+modules={}
+for name in names:
+ try: modules[name]=importlib.util.find_spec(name) is not None
+ except Exception: modules[name]=False
+print(json.dumps({'python':sys.executable,'prefix':sys.prefix,'base_prefix':sys.base_prefix,'modules':modules}))
+"""
+
+
+def interpreter_path(path):
+    # venv/bin/python is commonly a symlink. resolve() would select the bare
+    # base interpreter and lose pyvenv.cfg discovery and all venv packages.
+    return Path(path).expanduser().absolute()
+
+
+def preflight_reference(executable,openpi_root,folder):
+    env=os.environ.copy()
+    env.pop('VIRTUAL_ENV',None)
+    env['PYTHONPATH']=str(openpi_root/'third_party/libero')
+    result=subprocess.run([str(executable),'-c',REFERENCE_PREFLIGHT],env=env,
+        stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=30)
+    (folder/'reference_preflight.log').write_text(result.stdout+'\n'+result.stderr,encoding='utf-8')
+    if result.returncode!=0:raise RuntimeError('reference Python preflight failed; inspect reference_preflight.log')
+    report=json.loads(result.stdout.strip().splitlines()[-1])
+    (folder/'reference_preflight.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
+    missing=[name for name,available in report['modules'].items() if not available]
+    if report['prefix']==report['base_prefix']:
+        raise RuntimeError('reference Python is a base interpreter, not the existing LIBERO venv; inspect reference_preflight.json')
+    if missing:raise RuntimeError('reference venv cannot locate modules: '+', '.join(missing))
+    return report
 
 
 def unique_completed(root,filename):
@@ -32,7 +66,7 @@ def main():
     source=args.source_audit or next((p for p in reversed(candidates) if json.loads(p.read_text()).get('status')=='completed'),None)
     if source is None:parser.error('no completed original geometry audit; pass --source-audit')
     payload=source.read_bytes();home,_=source_targets(json.loads(payload));poses=design_poses(home)
-    reference_python=(args.reference_python or args.openpi_root/'examples/libero/.venv/bin/python').resolve()
+    reference_python=interpreter_path(args.reference_python or args.openpi_root/'examples/libero/.venv/bin/python')
     if not reference_python.is_file():parser.error('existing isolated LIBERO interpreter missing')
     folder=args.output_root.resolve()/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     folder.mkdir(parents=True,exist_ok=False)
@@ -50,6 +84,9 @@ def main():
                 if child.wait()!=0:raise RuntimeError(f'subprocess failed; inspect {log}')
     save();print(f'[Multi-pose] Output: {folder}',flush=True)
     try:
+        print('[Multi-pose] Verify existing LIBERO venv before starting Isaac',flush=True)
+        manifest['reference_preflight']=preflight_reference(reference_python,args.openpi_root.resolve(),folder)
+        save()
         for item in poses:
             item['status']='running';save()
             target=folder/item['name'];target.mkdir()
@@ -84,6 +121,8 @@ def main():
         return 0
     except Exception as error:
         manifest.update(status='failed',error_type=type(error).__name__,error=str(error))
+        for item in poses:
+            if item.get('status')=='running':item.update(status='failed',error=str(error))
         print(f'[Multi-pose] STOP: {error}',flush=True)
         return 1
     finally:

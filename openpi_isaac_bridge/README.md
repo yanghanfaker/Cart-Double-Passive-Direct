@@ -2258,3 +2258,36 @@ git add -- diagnostics/multipose_geometry/
 git commit -m "Add multi pose geometry calibration and held out validation"
 git push origin main
 ```
+
+## 多姿态首轮1383effb9bdf：解释器符号链接修复
+
+首轮没有完成11姿态：home的Isaac审计成功，传感器闭合误差约1.33e-8m，IK闭合误差约6.22e-8m；
+随后LIBERO停在dependency_missing预检，未创建参考环境，也没有最终analysis.json。
+run.json实际使用 `/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu/bin/python3.11`，而不是隔离参考venv入口。
+原因是runner对venv/bin/python调用Path.resolve()，展开了符号链接，导致启动基础解释器、失去venv包搜索路径。
+这次日志不是TCP或雅可比误差证据，也不证明原venv的包丢失。
+
+修复后保留venv入口路径，只展开用户目录并转换成绝对路径，不解析符号链接。
+新增启动前预检：在任何Isaac启动前记录实际sys.executable、sys.prefix、sys.base_prefix和8个模块可定位性；
+若选到基础解释器或缺模块立即停止，不先浪费一次Isaac采集。
+预检只读取模块位置，不加载原生仿真；真正导入与渲染仍由各姿态LIBERO采集验证。
+不会安装包、修改模型环境或覆盖旧报告。失败姿态现在明确标记failed。
+172项本地CPU/模拟流程测试通过，新增解释器路径、基础解释器拒绝、缺模块及启动前停止回归。
+
+拉取修复后重跑同一设计，明确指定现有隔离环境入口：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_multipose_geometry.py \
+  --reference-python /home/test/Robot/openpi/examples/libero/.venv/bin/python
+```
+
+生成新的UTC目录，保留首轮失败记录，不需要重新安装依赖。
+完成或失败后推送整个结果目录：
+
+```bash
+git add -- diagnostics/multipose_geometry/
+git commit -m "Retry multi pose geometry with preserved reference venv"
+git push origin main
+```
