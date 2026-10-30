@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 from openpi_step_probe import bounded_openpi_action
-from replay_probe import REPLAY_MODES, load_replay, replay_mapping, run_replay, quaternion_distance_deg
+from replay_probe import COMPONENT_REPLAY_MODES as REPLAY_MODES, PREFIX_REPLAY_MODES, load_replay, replay_mapping, run_replay, quaternion_distance_deg, replay_plan
 from gain_cases import validate_gain_cases
 import run_gain_sweep
 
@@ -17,6 +17,51 @@ import run_gain_sweep
 class ReplayTests(unittest.TestCase):
     def setUp(self):
         self.data = load_replay(Path(__file__).with_name("openpi_replay_actions.json"))
+
+    def test_prefix_and_full_use_exact_same_first_five_and_equal_time(self):
+        data=load_replay(Path(__file__).with_name("openpi_chunk_prefix_actions.json"))
+        plans=[replay_plan(data,m) for m in PREFIX_REPLAY_MODES]
+        self.assertEqual([len(p) for p in plans],[10,10])
+        self.assertEqual(plans[0][:5],plans[1][:5])
+        self.assertTrue(all(p["source_action_index"] is None and p["action"]==[0]*7 for p in plans[0][5:]))
+        self.assertEqual([p["source_action_index"] for p in plans[1]],list(range(10)))
+
+    def test_prefix_modes_reject_old_fixture_and_old_mode_rejects_prefix_fixture(self):
+        data=load_replay(Path(__file__).with_name("openpi_chunk_prefix_actions.json"))
+        for fixture,mode in [(self.data,PREFIX_REPLAY_MODES[0]),(data,REPLAY_MODES[2])]:
+            with self.assertRaises(ValueError):replay_plan(fixture,mode)
+
+    def test_prefix_replay_exact_motion_then_zero_tail_and_common_window_summary(self):
+        data=load_replay(Path(__file__).with_name("openpi_chunk_prefix_actions.json"))
+        for mode,count in zip(PREFIX_REPLAY_MODES,[5,10]):
+            executed=[]
+            def execute(mapping,index):
+                executed.append(mapping)
+                return {"period_position_error_m":.0001 if index<5 else .0002,"period_rotation_error_deg":.01}
+            report=run_replay(data,mode,lambda:data["initial_pose_root"],execute,announce=lambda x:None)
+            self.assertTrue(report["probe_completed"])
+            self.assertEqual(report["completed_steps"],10)
+            self.assertEqual(report["active_steps"],count)
+            self.assertEqual(report["zero_input_steps"],10-count)
+            for i,mapping in enumerate(executed):
+                expected=bounded_openpi_action(data["actions"][i] if i<count else [0]*7)
+                self.assertEqual(mapping["bounded_delta_world_m"],expected["bounded_delta_world_m"])
+                self.assertEqual(mapping["bounded_delta_world_rad"],expected["bounded_delta_world_rad"])
+                self.assertEqual(mapping["applied_isaac_gripper"],1)
+            self.assertAlmostEqual(report["comparison_window_error_summary"]["period_position_error_m"]["rms"],math.sqrt((.0001**2+.0002**2)/2))
+
+    def test_prefix_fixture_future_actions_are_checked_even_for_prefix_mode(self):
+        data=load_replay(Path(__file__).with_name("openpi_chunk_prefix_actions.json"))
+        data["actions"][-1][0]=float("inf")
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/"bad.json";path.write_text(json.dumps(data))
+            with self.assertRaises(ValueError):load_replay(path)
+
+    def test_prefix_pose_mismatch_executes_nothing(self):
+        data=load_replay(Path(__file__).with_name("openpi_chunk_prefix_actions.json"))
+        state=copy.deepcopy(data["initial_pose_root"]);state["position_m"][0]+=.001
+        result=run_replay(data,PREFIX_REPLAY_MODES[0],lambda:state,lambda *a:self.fail("must not execute"),announce=lambda x:None)
+        self.assertEqual(result["completed_steps"],0)
 
     def test_initial_angle_removes_float32_norm_bias_and_sign(self):
         q = self.data["initial_pose_root"]["quat_xyzw"]

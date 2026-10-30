@@ -6,7 +6,9 @@ from pathlib import Path
 
 from openpi_step_probe import bounded_openpi_action, validate_action_chunk
 
-REPLAY_MODES = ("openpi-replay-translation", "openpi-replay-rotation", "openpi-replay-mixed")
+COMPONENT_REPLAY_MODES = ("openpi-replay-translation", "openpi-replay-rotation", "openpi-replay-mixed")
+PREFIX_REPLAY_MODES = ("openpi-replay-prefix5", "openpi-replay-full10")
+REPLAY_MODES = COMPONENT_REPLAY_MODES + PREFIX_REPLAY_MODES
 
 
 def quaternion_distance_deg(first, second):
@@ -30,8 +32,9 @@ def load_replay(path):
     raw = Path(path).read_bytes()
     data = json.loads(raw)
     actions = validate_action_chunk(data["actions"])
-    if len(actions) != 20 or data.get("control_dt_s") != 0.05:
-        raise ValueError("replay requires exactly 20 actions at 50 ms")
+    expected=10 if data.get("experiment")=="chunk-prefix-comparison" else 20
+    if len(actions) != expected or data.get("control_dt_s") != 0.05:
+        raise ValueError(f"replay requires exactly {expected} actions at 50 ms for this fixture")
     pose = data["initial_pose_root"]
     if (len(pose["position_m"]) != 3 or len(pose["quat_xyzw"]) != 4
             or not all(math.isfinite(v) for v in pose["position_m"] + pose["quat_xyzw"])
@@ -39,6 +42,19 @@ def load_replay(path):
         raise ValueError("invalid replay initial pose")
     data["sha256"] = hashlib.sha256(raw).hexdigest()
     return data
+
+
+def replay_plan(data, mode):
+    if mode not in REPLAY_MODES:
+        raise ValueError("unknown replay mode")
+    prefix=data.get("experiment")=="chunk-prefix-comparison"
+    if prefix != (mode in PREFIX_REPLAY_MODES):
+        raise ValueError("prefix comparison requires its 10-action fixture and prefix5/full10 modes")
+    active=(5 if mode=="openpi-replay-prefix5" else 10) if prefix else 20
+    total=10 if prefix else 40
+    return [{"action":data["actions"][i] if i<active else [0.0]*7,
+             "phase":"replay" if i<active else "zero-input-tail",
+             "source_action_index":i if i<active else None} for i in range(total)]
 
 
 def replay_mapping(action, mode):
@@ -57,10 +73,14 @@ def replay_mapping(action, mode):
 
 def run_replay(data, mode, read_state, execute, announce=print):
     trace = []
-    report = {"probe_completed": False, "completed_steps": 0, "requested_steps": 40,
+    plan=replay_plan(data,mode)
+    active=sum(r["phase"]=="replay" for r in plan)
+    report = {"probe_completed": False, "completed_steps": 0, "requested_steps": len(plan),
               "source_commit": data["source_commit"], "fixture_sha256": data["sha256"],
               "component": mode, "trace": trace,
-              "scope": "20 frozen increments followed by 20 zero increments; 50ms each; current-pose relative targets; gripper open; no inference"}
+              "active_steps":active,"zero_input_steps":len(plan)-active,
+              "scope": (f"{active} frozen increments followed by {len(plan)-active} zero increments; 50ms each; current-pose relative targets; gripper open; no inference"),
+              "source_query":data.get("source_query")}
     try:
         state = read_state()
         expected = data["initial_pose_root"]
@@ -72,10 +92,10 @@ def run_replay(data, mode, read_state, execute, announce=print):
         report["initial_rotation_error_deg"] = angle
         if error > .00025 or angle > .1:
             raise RuntimeError("reset pose differs from recorded source by >0.25mm or >0.1deg")
-        for index in range(40):
-            action = data["actions"][index] if index < 20 else [0.0]*7
+        for index,planned in enumerate(plan):
+            action = planned["action"]
             mapped = replay_mapping(action, mode)
-            row = {"step": index+1, "phase": "replay" if index < 20 else "zero-input-tail",
+            row = {"step": index+1, "phase": planned["phase"],"source_action_index":planned["source_action_index"],
                    "raw_source_action": action, "action_mapping": mapped, "executed": False}
             trace.append(row)
             row.update(execute(mapped, index))
@@ -88,13 +108,19 @@ def run_replay(data, mode, read_state, execute, announce=print):
                     row[name] = sum(a*b for a,b in zip(desired,actual))/denominator if denominator > 1e-20 else None
             row["executed"] = True
             report["completed_steps"] += 1
-            announce(f"[OpenPI replay] {mode} {index+1}/40: {row['phase']}")
+            announce(f"[OpenPI replay] {mode} {index+1}/{len(plan)}: {row['phase']}")
         report["probe_completed"] = True
         report["period_error_summary"] = {
-            field: {"rms": math.sqrt(sum(row[field]**2 for row in trace[:20])/20),
-                    "max": max(row[field] for row in trace[:20])}
+            field: {"rms": math.sqrt(sum(row[field]**2 for row in trace[:active])/active),
+                    "max": max(row[field] for row in trace[:active])}
             for field in ("period_position_error_m", "period_rotation_error_deg")
-            if all(field in row for row in trace[:20])}
+            if all(field in row for row in trace[:active])}
+        if data.get("experiment")=="chunk-prefix-comparison":
+            report["comparison_window_error_summary"]={
+                field:{"rms":math.sqrt(sum(row[field]**2 for row in trace)/len(trace)),
+                       "max":max(row[field] for row in trace)}
+                for field in ("period_position_error_m","period_rotation_error_deg")
+                if all(field in row for row in trace)}
     except Exception as error:
         report.update(failure_reason=str(error), error_type=type(error).__name__)
         announce(f"[OpenPI replay] stopped: {type(error).__name__}: {error}")

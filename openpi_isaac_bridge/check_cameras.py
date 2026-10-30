@@ -90,7 +90,7 @@ def main():
     from grasp_scenarios import validate_grasp_scenarios
     from openpi_step_probe import run_openpi_steps, libero_state_vector, read_server_metadata
     from approach_monitor import ApproachMonitor
-    from replay_probe import REPLAY_MODES, load_replay, run_replay
+    from replay_probe import REPLAY_MODES, load_replay, run_replay, replay_plan
     from kinematic_attribution import JacobianTap, enrich_kinematic_row, summarize_kinematics, resolved_body_identity, resolve_sensor_body_path
     from isaaclab_rl.entrypoints.simple_agents import create_zero_action_policy
     from isaaclab_tasks.contrib.lift.config.franka.ik_rel_env_cfg import (
@@ -668,7 +668,7 @@ def main():
                             pe,re=compute_pose_error(p[None],q[None],target_pos,target_quat,rot_error_type="axis_angle")
                             values=tracking_action(pe[0].cpu().tolist(),re[0].cpu().tolist(),float(arm_term.cfg.scale),rotation_step_deg=.25)
                             values[6]=1.0
-                            physics_context.update(case="openpi",phase=("model-step" if args.motion_test=="openpi-step" else ("replay" if index<20 else "zero-input-tail")),case_control_step=index+1)
+                            physics_context.update(case="openpi",phase=("model-step" if args.motion_test=="openpi-step" else active_replay_plan[index]["phase"]),case_control_step=index+1)
                             physics_context.update(sensor_target_pos_root_m=target_pos[0].cpu().tolist(),
                                 sensor_target_quat_root_xyzw=target_quat[0].cpu().tolist())
                             checked_step(torch.tensor([values],dtype=torch.float32,device=base.device),before)
@@ -712,6 +712,7 @@ def main():
                             "gripper":"forced open; model request recorded but not executed"}
                         if args.motion_test in REPLAY_MODES:
                             replay_data = load_replay(args.replay_actions_json)
+                            active_replay_plan = replay_plan(replay_data,args.motion_test)
                             if not math.isclose(float(base.step_dt), .05, abs_tol=1e-8):
                                 raise RuntimeError("Replay requires 50 ms control period")
                             def replay_state():
@@ -719,6 +720,8 @@ def main():
                                 return {"position_m":p.cpu().tolist(),"quat_xyzw":q.cpu().tolist()}
                             measured["replay_setup"] = dict(measured["openpi_setup"],
                                 timing="fixed action replay; no inference; 50ms simulated period",
+                                initial_joint_pos_rad=tensor(robot.data.joint_pos)[0,arm_ids].cpu().tolist(),
+                                initial_joint_vel_rad_s=tensor(robot.data.joint_vel)[0,arm_ids].cpu().tolist(),
                                 source_commit=replay_data["source_commit"], fixture_sha256=replay_data["sha256"])
                             measured["replay_result"] = run_replay(replay_data,args.motion_test,replay_state,policy_execute,
                                 announce=lambda message:print(message,flush=True))

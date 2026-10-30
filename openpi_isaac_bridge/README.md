@@ -1838,3 +1838,58 @@ git add -- diagnostics/openpi_frozen_observation/
 git commit -m "Add frozen observation OpenPI action diagnostics"
 git push origin main
 ```
+
+## 同一动作块：前5步与完整10步的等时重放
+
+冻结观测结果dc5dcaefdce0中，12个动作块的后5步均有正接近投影，前5步有7次负投影。
+本轮检查截断块对实际运动的局部影响，不重新调用模型，也不改变增益或每步限幅。
+
+固定使用初始观测第3次查询的完整10步动作，写入`openpi_chunk_prefix_actions.json`。
+该块前5步固定方向投影-0.662mm，完整10步+3.279mm，是特意选择的诊断反例，不是随机样本或成功率测试。
+fixture保存源提交、报告SHA256、输入SHA256、查询编号和原初始TCP位姿，动作值原样保存。
+只在初始姿态做对照，不声称重现近物体关节状态。
+
+两组分别启动新Isaac进程、固定seed=0和方块位置，保持候选增益及夹爪打开：
+
+- `openpi-replay-prefix5`：执行动作0–4，然后5步零平移/零旋转增量。
+- `openpi-replay-full10`：执行动作0–9。
+
+两组均为10个50ms控制周期，共0.5秒仿真时间、50条10ms物理采样。前5步动作完全相同。
+零输入尾段每次相对于实测当前TCP生成零增量，不是锁定第5步目标的定点保持；惯性和控制响应仍可能带来位移。
+每步仍为1mm/0.25度范数上限，夹爪始终打开，原重放总位移30mm/净旋转6度及单周期等检查保持有效。
+初始化TCP必须与源记录相差不超过0.25mm/0.1度，否则在执行前停止；两组初始关节位置/速度也保存用于事后比较。
+原来的三种20步分量重放仍为20步动作+20步零输入；新10步fixture只能与新两种模式配套使用，混用会拒绝。
+
+不需要启动OpenPI服务，执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+python3 openpi_isaac_bridge/run_gain_sweep.py \
+  --isaaclab-root /home/test/Robot/IsaacLab \
+  --gain-cases-json openpi_isaac_bridge/openpi_j13_candidate_cases.json \
+  --modes openpi-replay-prefix5 openpi-replay-full10 \
+  --replay-actions-json openpi_isaac_bridge/openpi_chunk_prefix_actions.json \
+  --record-physics
+```
+
+Viser会随两个进程分别启动，但每组运动很短，应以保存记录为准，不为观看增加物理步或重复执行。
+预期每组replay_result.probe_completed=true、completed_steps=10；物理记录recorded_controls=10、recorded_substeps=50。
+prefix5的active_steps=5、zero_input_steps=5；full10分别为10和0。
+物理记录phase也区分replay/zero-input-tail。报告的comparison_window_error_summary覆盖相同10周期，
+period_error_summary只覆盖各自实际动作段，前者更适合等时误差对照。
+
+比较两组初始TCP和关节状态、前5步响应是否一致、第5/10步位置与物体距离、后5步实际位移、跟踪误差及估算力矩。
+即使full10更接近，也只能证明本固定块的局部差异，不能直接推断长程闭环或抓取成功。
+
+运行完成后导出、推送：
+
+```bash
+python3 openpi_isaac_bridge/export_gain_results.py --include-physics-traces
+git add -- diagnostics/gain_sweep/
+git commit -m "Add fixed chunk prefix5 versus full10 replay results"
+git push origin main
+```
+
+133项CPU测试及语法检查通过，覆盖等时计划、共享前5步、零输入尾段、完整未来动作校验、fixture混用拒绝和初始化不匹配拦截。
+模拟子进程检查确认两组独立启动、同一fixture/候选增益、无需OpenPI依赖、两份物理轨迹无覆盖导出；实际Isaac轨迹待Spark验证。

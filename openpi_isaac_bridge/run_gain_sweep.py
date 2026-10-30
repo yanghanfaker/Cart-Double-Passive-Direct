@@ -9,7 +9,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-from replay_probe import REPLAY_MODES, load_replay
+from replay_probe import REPLAY_MODES, load_replay, replay_plan
 from gain_probe import GAIN_PROFILES
 from gain_cases import validate_gain_cases
 from joint_identification import screen_joint_steps
@@ -116,7 +116,10 @@ def main():
         if any(len(case["name"])>80 for case in cases):
             parser.error("approach case name exceeds 80 characters")
     if any(mode in REPLAY_MODES for mode in args.modes):
-        load_replay(args.replay_actions_json)
+        replay_data=load_replay(args.replay_actions_json)
+        for mode in args.modes:
+            if mode in REPLAY_MODES:
+                replay_plan(replay_data,mode)
     root = args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():
         parser.error(f"Isaac Lab directory not found: {root}")
