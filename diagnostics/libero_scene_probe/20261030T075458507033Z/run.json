@@ -1,0 +1,41 @@
+{
+  "status": "completed",
+  "reference_python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+  "policy_queries": 0,
+  "package_installs": 0,
+  "preflight": {
+    "python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "prefix": "/home/test/Robot/openpi/examples/libero/.venv",
+    "base_prefix": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu",
+    "modules": {
+      "numpy": true,
+      "PIL": true,
+      "yaml": true,
+      "mujoco": true,
+      "robosuite": true,
+      "libero": true,
+      "openpi_client": true,
+      "torch": true
+    }
+  },
+  "source_alignment": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/run.json",
+  "isaac_source_sha256": "fa78f77722a9c7fa5292e7299bb4554d8b5b91dbcb37563c797cbae1c2e43534",
+  "world_registration_sha256": "352bd9ade078c5887481e09a38d9144b9ddfd4408e0cc4f2fe8a20f9fb79d435",
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_scene_probe.py",
+    "--worker",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/libero_scene_probe/20261030T075458507033Z",
+    "--suite",
+    "libero_spatial",
+    "--task-id",
+    "0",
+    "--episode-index",
+    "0",
+    "--seed",
+    "7"
+  ],
+  "worker_exit_code": 0,
+  "all_marker_views_passed": true,
+  "benchmark_initialization_available": true
+}
