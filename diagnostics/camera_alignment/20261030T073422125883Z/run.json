@@ -1,0 +1,97 @@
+{
+  "status": "completed",
+  "policy_queries": 0,
+  "source_camera_audit": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_reference_audit/20261030T072612010587Z/report.json",
+  "source_camera_audit_sha256": "1a25ab287b9668503c8f02b69195e927e61df13313a6db0315fe17a4af69402a",
+  "candidate_sha256": "4f42942975dc0f10bbea8371e8b56d24524d989f4aea3f981e8b7429cc2fd7a0",
+  "poses": [
+    {
+      "name": "home",
+      "status": "completed",
+      "command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/home/capture",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/home/initial_joint_positions.json",
+        "--camera-alignment-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/candidate_camera_parameters.json"
+      ],
+      "result": "home/capture/20261030T073422142021Z/camera_alignment_result.json",
+      "result_sha256": "bf1050c4e99d90e598312215d52234d49f6cd4d83a35a7fdf7fef9bb9f236b6f",
+      "all_cameras_passed": true
+    },
+    {
+      "name": "mixed34",
+      "status": "completed",
+      "command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/mixed34/capture",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/mixed34/initial_joint_positions.json",
+        "--camera-alignment-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/candidate_camera_parameters.json"
+      ],
+      "result": "mixed34/capture/20261030T073439282468Z/camera_alignment_result.json",
+      "result_sha256": "113a9c6fdfdacb23fbdfa782c82bbb882d04d82f93f7fbe81059fc6b080d04b1",
+      "all_cameras_passed": true
+    },
+    {
+      "name": "mixed56",
+      "status": "completed",
+      "command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/mixed56/capture",
+        "--geometry-joints-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/mixed56/initial_joint_positions.json",
+        "--camera-alignment-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/candidate_camera_parameters.json"
+      ],
+      "result": "mixed56/capture/20261030T073456012892Z/camera_alignment_result.json",
+      "result_sha256": "ddd21a53d7b4fcf654a3f99280c622d5780a2e8bb956898b99c85ac49059c554",
+      "all_cameras_passed": true
+    }
+  ],
+  "scope": "three independent static scenes with nonphysical colored calibration spheres; no policy inputs or actions",
+  "camera_summary": {
+    "external_camera": {
+      "all_pose_results_passed": true,
+      "raw_to_ros_image_transforms": [
+        "identity",
+        "identity",
+        "identity"
+      ],
+      "image_orientation_consistent": true,
+      "pose_frame_translation_variation_m": 0.0,
+      "pose_frame_rotation_variation_deg": 0.0,
+      "scope": "world frame for external camera; hand-local frame for wrist camera",
+      "passed": true
+    },
+    "wrist_camera": {
+      "all_pose_results_passed": true,
+      "raw_to_ros_image_transforms": [
+        "identity",
+        "identity",
+        "identity"
+      ],
+      "image_orientation_consistent": true,
+      "pose_frame_translation_variation_m": 1.0840118083366585e-07,
+      "pose_frame_rotation_variation_deg": 2.0526110585337575e-05,
+      "scope": "world frame for external camera; hand-local frame for wrist camera",
+      "passed": true
+    }
+  },
+  "all_camera_tests_passed": true,
+  "limitations": "Only Isaac raw-to-ROS framebuffer direction tested. LIBERO raw-to-policy preprocessing remains separate; no policy image flip is deployed."
+}

@@ -1,0 +1,6 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/home/capture/20261030T073422142021Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/home/capture/20261030T073422142021Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0828705066296566e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.1646021833966601e-08, 'rotation_error_deg': 1.7531010767604633e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/home/capture/20261030T073422142021Z/geometry_audit.json
+[Camera alignment] {"external_camera": {"metadata": true, "landmarks": true, "transform": "identity"}, "wrist_camera": {"metadata": true, "landmarks": true, "transform": "identity"}}
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/home/capture/20261030T073422142021Z/run.json

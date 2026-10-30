@@ -1,0 +1,554 @@
+{
+  "status": "completed",
+  "policy_queries": 0,
+  "camera_parameters_applied_to_static_test": true,
+  "scene_contains_calibration_markers": true,
+  "camera_motion_during_capture": "five existing hold controls after one-time installation",
+  "thresholds": {
+    "position_m": 0.0001,
+    "rotation_deg": 0.05,
+    "K_max_abs_px": 0.05,
+    "landmark_max_px": 2,
+    "orientation_rms_gap_px": 10
+  },
+  "cameras": {
+    "external_camera": {
+      "position_error_m": 2.8749685302561765e-08,
+      "rotation_error_deg": 0.0,
+      "K_max_abs_error_px": 1.2160775099800958e-05,
+      "live_pose_in_requested_frame": {
+        "position_m": [
+          1.3191235065460205,
+          2.3865657567512244e-05,
+          0.697363555431366
+        ],
+        "rotation_ros": [
+          [
+            -1.5750936671166116e-05,
+            0.6277366095245893,
+            -0.7784258145863878
+          ],
+          [
+            0.9999999998644284,
+            6.150098025847761e-06,
+            -1.5274795315434186e-05
+          ],
+          [
+            -4.801153156874793e-06,
+            -0.7784258147214478,
+            -0.6277366095363559
+          ]
+        ]
+      },
+      "metadata_passed": true,
+      "landmarks": {
+        "passed": true,
+        "best_transform": "identity",
+        "best_max_pixel_error": 1.3722587140667302,
+        "best_rms_pixel_error": 1.1586536161472514,
+        "runner_up_rms_gap_px": 83.12159937206981,
+        "components": [
+          [
+            {
+              "pixels": 68,
+              "centroid_xy": [
+                57.14705882352941,
+                66.5
+              ]
+            }
+          ],
+          [
+            {
+              "pixels": 9,
+              "centroid_xy": [
+                120.0,
+                11.0
+              ]
+            },
+            {
+              "pixels": 71,
+              "centroid_xy": [
+                183.30985915492957,
+                90.16901408450704
+              ]
+            },
+            {
+              "pixels": 133,
+              "centroid_xy": [
+                127.22556390977444,
+                125.15037593984962
+              ]
+            }
+          ],
+          [
+            {
+              "pixels": 13,
+              "centroid_xy": [
+                141.23076923076923,
+                44.23076923076923
+              ]
+            },
+            {
+              "pixels": 142,
+              "centroid_xy": [
+                127.40140845070422,
+                135.0
+              ]
+            },
+            {
+              "pixels": 63,
+              "centroid_xy": [
+                101.96825396825396,
+                191.0952380952381
+              ]
+            }
+          ]
+        ],
+        "hypotheses": [
+          {
+            "transform": "identity",
+            "rms_pixel_error": 1.1586536161472514,
+            "max_pixel_error": 1.3722587140667302,
+            "matches": [
+              {
+                "id": 0,
+                "centroid_raw_xy": [
+                  57.14705882352941,
+                  66.5
+                ],
+                "centroid_after_transform_xy": [
+                  57.14705882352941,
+                  66.5
+                ],
+                "pixel_error": 0.9886903714100936,
+                "component_pixels": 68
+              },
+              {
+                "id": 1,
+                "centroid_raw_xy": [
+                  183.30985915492957,
+                  90.16901408450704
+                ],
+                "centroid_after_transform_xy": [
+                  183.30985915492957,
+                  90.16901408450704
+                ],
+                "pixel_error": 1.0801999712007961,
+                "component_pixels": 71
+              },
+              {
+                "id": 2,
+                "centroid_raw_xy": [
+                  101.96825396825396,
+                  191.0952380952381
+                ],
+                "centroid_after_transform_xy": [
+                  101.96825396825396,
+                  191.0952380952381
+                ],
+                "pixel_error": 1.3722587140667302,
+                "component_pixels": 63
+              }
+            ]
+          },
+          {
+            "transform": "flip_y",
+            "rms_pixel_error": 84.28025298821706,
+            "max_pixel_error": 121.5029938258746,
+            "matches": [
+              {
+                "id": 0,
+                "centroid_raw_xy": [
+                  57.14705882352941,
+                  66.5
+                ],
+                "centroid_after_transform_xy": [
+                  57.14705882352941,
+                  188.5
+                ],
+                "pixel_error": 121.5029938258746,
+                "component_pixels": 68
+              },
+              {
+                "id": 1,
+                "centroid_raw_xy": [
+                  127.22556390977444,
+                  125.15037593984962
+                ],
+                "centroid_after_transform_xy": [
+                  127.22556390977444,
+                  129.84962406015038
+                ],
+                "pixel_error": 68.79411226971479,
+                "component_pixels": 133
+              },
+              {
+                "id": 2,
+                "centroid_raw_xy": [
+                  141.23076923076923,
+                  44.23076923076923
+                ],
+                "centroid_after_transform_xy": [
+                  141.23076923076923,
+                  210.76923076923077
+                ],
+                "pixel_error": 42.5896200927523,
+                "component_pixels": 13
+              }
+            ]
+          },
+          {
+            "transform": "flip_x",
+            "rms_pixel_error": 93.79170463426563,
+            "max_pixel_error": 139.8538349696187,
+            "matches": [
+              {
+                "id": 0,
+                "centroid_raw_xy": [
+                  57.14705882352941,
+                  66.5
+                ],
+                "centroid_after_transform_xy": [
+                  197.85294117647058,
+                  66.5
+                ],
+                "pixel_error": 139.8538349696187,
+                "component_pixels": 68
+              },
+              {
+                "id": 1,
+                "centroid_raw_xy": [
+                  127.22556390977444,
+                  125.15037593984962
+                ],
+                "centroid_after_transform_xy": [
+                  127.77443609022556,
+                  125.15037593984962
+                ],
+                "pixel_error": 65.78420945641278,
+                "component_pixels": 133
+              },
+              {
+                "id": 2,
+                "centroid_raw_xy": [
+                  101.96825396825396,
+                  191.0952380952381
+                ],
+                "centroid_after_transform_xy": [
+                  153.03174603174602,
+                  191.0952380952381
+                ],
+                "pixel_error": 50.039926109951864,
+                "component_pixels": 63
+              }
+            ]
+          },
+          {
+            "transform": "rotate180",
+            "rms_pixel_error": 114.68792850939175,
+            "max_pixel_error": 185.25953458785688,
+            "matches": [
+              {
+                "id": 0,
+                "centroid_raw_xy": [
+                  57.14705882352941,
+                  66.5
+                ],
+                "centroid_after_transform_xy": [
+                  197.85294117647058,
+                  188.5
+                ],
+                "pixel_error": 185.25953458785688,
+                "component_pixels": 68
+              },
+              {
+                "id": 1,
+                "centroid_raw_xy": [
+                  127.22556390977444,
+                  125.15037593984962
+                ],
+                "centroid_after_transform_xy": [
+                  127.77443609022556,
+                  129.84962406015038
+                ],
+                "pixel_error": 68.34184169736096,
+                "component_pixels": 133
+              },
+              {
+                "id": 2,
+                "centroid_raw_xy": [
+                  141.23076923076923,
+                  44.23076923076923
+                ],
+                "centroid_after_transform_xy": [
+                  113.76923076923077,
+                  210.76923076923077
+                ],
+                "pixel_error": 21.63932427386738,
+                "component_pixels": 13
+              }
+            ]
+          }
+        ],
+        "scope": "known colored marker centroids only; no object recognition, distortion fit or policy validation"
+      },
+      "passed": true
+    },
+    "wrist_camera": {
+      "position_error_m": 6.547675626381746e-08,
+      "rotation_error_deg": 8.622691156561379e-06,
+      "K_max_abs_error_px": 3.2284740996146866e-06,
+      "live_pose_in_requested_frame": {
+        "position_m": [
+          0.049999956994287054,
+          9.42015224159043e-09,
+          -4.8466225283094744e-08
+        ],
+        "rotation_ros": [
+          [
+            5.4666111605755606e-08,
+            -0.9999999999999943,
+            8.897679971174953e-08
+          ],
+          [
+            0.9999999999999921,
+            5.466612123581682e-08,
+            1.118675816357101e-07
+          ],
+          [
+            -1.1186758620509233e-07,
+            8.897679321724768e-08,
+            0.9999999999999896
+          ]
+        ]
+      },
+      "metadata_passed": true,
+      "landmarks": {
+        "passed": true,
+        "best_transform": "identity",
+        "best_max_pixel_error": 1.2680419932990639,
+        "best_rms_pixel_error": 1.074565180787388,
+        "runner_up_rms_gap_px": 106.48630732746611,
+        "components": [
+          [
+            {
+              "pixels": 54,
+              "centroid_xy": [
+                57.148148148148145,
+                66.5
+              ]
+            }
+          ],
+          [
+            {
+              "pixels": 47,
+              "centroid_xy": [
+                183.48936170212767,
+                90.2127659574468
+              ]
+            }
+          ],
+          [
+            {
+              "pixels": 67,
+              "centroid_xy": [
+                102.05970149253731,
+                191.1492537313433
+              ]
+            }
+          ]
+        ],
+        "hypotheses": [
+          {
+            "transform": "identity",
+            "rms_pixel_error": 1.074565180787388,
+            "max_pixel_error": 1.2680419932990639,
+            "matches": [
+              {
+                "id": 0,
+                "centroid_raw_xy": [
+                  57.148148148148145,
+                  66.5
+                ],
+                "centroid_after_transform_xy": [
+                  57.148148148148145,
+                  66.5
+                ],
+                "pixel_error": 0.9877507668958978,
+                "component_pixels": 54
+              },
+              {
+                "id": 1,
+                "centroid_raw_xy": [
+                  183.48936170212767,
+                  90.2127659574468
+                ],
+                "centroid_after_transform_xy": [
+                  183.48936170212767,
+                  90.2127659574468
+                ],
+                "pixel_error": 0.9383437051574431,
+                "component_pixels": 47
+              },
+              {
+                "id": 2,
+                "centroid_raw_xy": [
+                  102.05970149253731,
+                  191.1492537313433
+                ],
+                "centroid_after_transform_xy": [
+                  102.05970149253731,
+                  191.1492537313433
+                ],
+                "pixel_error": 1.2680419932990639,
+                "component_pixels": 67
+              }
+            ]
+          },
+          {
+            "transform": "flip_x",
+            "rms_pixel_error": 107.5608725082535,
+            "max_pixel_error": 139.85274565196178,
+            "matches": [
+              {
+                "id": 0,
+                "centroid_raw_xy": [
+                  57.148148148148145,
+                  66.5
+                ],
+                "centroid_after_transform_xy": [
+                  197.85185185185185,
+                  66.5
+                ],
+                "pixel_error": 139.85274565196178,
+                "component_pixels": 54
+              },
+              {
+                "id": 1,
+                "centroid_raw_xy": [
+                  183.48936170212767,
+                  90.2127659574468
+                ],
+                "centroid_after_transform_xy": [
+                  71.51063829787233,
+                  90.2127659574468
+                ],
+                "pixel_error": 112.49211631749961,
+                "component_pixels": 47
+              },
+              {
+                "id": 2,
+                "centroid_raw_xy": [
+                  102.05970149253731,
+                  191.1492537313433
+                ],
+                "centroid_after_transform_xy": [
+                  152.94029850746267,
+                  191.1492537313433
+                ],
+                "pixel_error": 49.94754432630409,
+                "component_pixels": 67
+              }
+            ]
+          },
+          {
+            "transform": "flip_y",
+            "rms_pixel_error": 110.50023786382033,
+            "max_pixel_error": 128.15270341738147,
+            "matches": [
+              {
+                "id": 0,
+                "centroid_raw_xy": [
+                  57.148148148148145,
+                  66.5
+                ],
+                "centroid_after_transform_xy": [
+                  57.148148148148145,
+                  188.5
+                ],
+                "pixel_error": 121.50298618378687,
+                "component_pixels": 54
+              },
+              {
+                "id": 1,
+                "centroid_raw_xy": [
+                  183.48936170212767,
+                  90.2127659574468
+                ],
+                "centroid_after_transform_xy": [
+                  183.48936170212767,
+                  164.7872340425532
+                ],
+                "pixel_error": 73.78900093592388,
+                "component_pixels": 47
+              },
+              {
+                "id": 2,
+                "centroid_raw_xy": [
+                  102.05970149253731,
+                  191.1492537313433
+                ],
+                "centroid_after_transform_xy": [
+                  102.05970149253731,
+                  63.85074626865671
+                ],
+                "pixel_error": 128.15270341738147,
+                "component_pixels": 67
+              }
+            ]
+          },
+          {
+            "transform": "rotate180",
+            "rms_pixel_error": 154.20275345262118,
+            "max_pixel_error": 185.25871225503084,
+            "matches": [
+              {
+                "id": 0,
+                "centroid_raw_xy": [
+                  57.148148148148145,
+                  66.5
+                ],
+                "centroid_after_transform_xy": [
+                  197.85185185185185,
+                  188.5
+                ],
+                "pixel_error": 185.25871225503084,
+                "component_pixels": 54
+              },
+              {
+                "id": 1,
+                "centroid_raw_xy": [
+                  183.48936170212767,
+                  90.2127659574468
+                ],
+                "centroid_after_transform_xy": [
+                  71.51063829787233,
+                  164.7872340425532
+                ],
+                "pixel_error": 134.53034008654936,
+                "component_pixels": 47
+              },
+              {
+                "id": 2,
+                "centroid_raw_xy": [
+                  102.05970149253731,
+                  191.1492537313433
+                ],
+                "centroid_after_transform_xy": [
+                  152.94029850746267,
+                  63.85074626865671
+                ],
+                "pixel_error": 137.53641207663765,
+                "component_pixels": 67
+              }
+            ]
+          }
+        ],
+        "scope": "known colored marker centroids only; no object recognition, distortion fit or policy validation"
+      },
+      "passed": true
+    }
+  },
+  "all_cameras_passed": true,
+  "scope": "Isaac static camera and colored-marker rendering only; no LIBERO framebuffer marker capture or policy/scene-domain validation"
+}

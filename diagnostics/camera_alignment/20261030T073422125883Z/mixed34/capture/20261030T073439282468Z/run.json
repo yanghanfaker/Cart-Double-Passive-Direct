@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "command": [
+    "uv",
+    "run",
+    "--extra",
+    "viser",
+    "--extra",
+    "openpi",
+    "isaaclab",
+    "-p",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py",
+    "--viz",
+    "viser",
+    "--motion-test",
+    "geometry-audit",
+    "--gain-profile",
+    "kp2p25-kd0p25",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/mixed34/capture/20261030T073439282468Z/joint_gains.json",
+    "--output",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/mixed34/capture/20261030T073439282468Z",
+    "--geometry-joints-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/mixed34/capture/20261030T073439282468Z/requested_arm_pose.json",
+    "--camera-alignment-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/mixed34/capture/20261030T073439282468Z/camera_candidate.json"
+  ],
+  "output": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/camera_alignment/20261030T073422125883Z/mixed34/capture/20261030T073439282468Z",
+  "scope": "static geometry capture after hold warmup; no model inference or diagnostic motion",
+  "exit_code": 0
+}
