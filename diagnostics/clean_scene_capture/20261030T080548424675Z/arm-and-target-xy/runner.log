@@ -1,0 +1,6 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/arm-and-target-xy/capture/20261030T080621474100Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/arm-and-target-xy/capture/20261030T080621474100Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.638206327599226e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.785769451721895e-08, 'rotation_error_deg': 1.2413437462321592e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/arm-and-target-xy/capture/20261030T080621474100Z/geometry_audit.json
+[Clean scene] {"case": "arm-and-target-xy", "geometry": true, "projections": {"external_camera": [191.2494352103256, 150.827242420429], "wrist_camera": [19.902564005305333, 71.98648791856459]}}
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/clean_scene_capture/20261030T080548424675Z/arm-and-target-xy/capture/20261030T080621474100Z/run.json
