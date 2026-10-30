@@ -1,0 +1,15 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.611587780107312e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.003297291332807e-08, 'rotation_error_deg': 1.634214898135868e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z/geometry_audit.json
+[Clean scene] {"case": "arm-only", "geometry": true, "projections": {"external_camera": [127.99830196401888, 131.57970982758226], "wrist_camera": [122.46434270126815, 120.71510973692267]}}
+[Target reference] accumulated 25/210; ideal error=0.060mm
+[Target reference] accumulated 50/210; ideal error=0.058mm
+[Target reference] accumulated 75/210; ideal error=0.035mm
+[Target reference] accumulated 100/210; ideal error=0.030mm
+[Target reference] accumulated 125/210; ideal error=0.050mm
+[Target reference] accumulated 150/210; ideal error=0.031mm
+[Target reference] accumulated 175/210; ideal error=0.054mm
+[Target reference] accumulated 200/210; ideal error=0.034mm
+[Target reference] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z/online_registered_result.json
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z/run.json

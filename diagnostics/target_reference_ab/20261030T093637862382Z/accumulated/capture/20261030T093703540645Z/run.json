@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "command": [
+    "uv",
+    "run",
+    "--extra",
+    "viser",
+    "--extra",
+    "openpi",
+    "isaaclab",
+    "-p",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py",
+    "--viz",
+    "viser",
+    "--motion-test",
+    "geometry-audit",
+    "--gain-profile",
+    "kp2p25-kd0p25",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z/joint_gains.json",
+    "--output",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z/online_registered_settings.json"
+  ],
+  "output": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/target_reference_ab/20261030T093637862382Z/accumulated/capture/20261030T093703540645Z",
+  "scope": "fixed recorded stream target-reference comparison; no policy service connection",
+  "exit_code": 0
+}
