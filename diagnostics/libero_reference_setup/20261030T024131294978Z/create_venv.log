@@ -1,0 +1,3 @@
+Using CPython 3.11.17 interpreter at: /home/test/Robot/openpi/.venv/bin/python
+Creating virtual environment at: /home/test/Robot/openpi/examples/libero/.venv
+Activate with: source /home/test/Robot/openpi/examples/libero/.venv/bin/activate

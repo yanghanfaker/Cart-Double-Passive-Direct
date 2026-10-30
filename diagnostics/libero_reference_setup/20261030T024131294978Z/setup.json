@@ -1,0 +1,79 @@
+{
+  "status": "completed",
+  "base_python": "/home/test/Robot/openpi/.venv/bin/python",
+  "reference_environment": "/home/test/Robot/openpi/examples/libero/.venv",
+  "commands": [
+    {
+      "label": "create_venv",
+      "command": [
+        "uv",
+        "venv",
+        "--python",
+        "/home/test/Robot/openpi/.venv/bin/python",
+        "/home/test/Robot/openpi/examples/libero/.venv"
+      ],
+      "exit_code": 0
+    },
+    {
+      "label": "install_1",
+      "command": [
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--requirement",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_runtime.txt"
+      ],
+      "exit_code": 0
+    },
+    {
+      "label": "install_2",
+      "command": [
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--constraint",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_runtime.txt",
+        "--editable",
+        "/home/test/Robot/openpi/packages/openpi-client"
+      ],
+      "exit_code": 0
+    },
+    {
+      "label": "install_3",
+      "command": [
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--no-deps",
+        "--editable",
+        "/home/test/Robot/openpi/third_party/libero"
+      ],
+      "exit_code": 0
+    },
+    {
+      "label": "capture_reference",
+      "command": [
+        "/usr/bin/python3",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--python",
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/libero_reference_setup/20261030T024131294978Z/capture"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "requirements_sha256": "7dab43a4bed3bcf56bbe06867a4bf0f46a445c0884ad558264500378ed50833a",
+  "scope": "new venv only; pinned direct runtime dependencies, not a fully hashed training lockfile; no installs target model Python",
+  "reference_run_report": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/libero_reference_setup/20261030T024131294978Z/capture/20261030T024139997801Z/run.json",
+  "reference_status": "completed",
+  "model_environment_versions_unchanged": true
+}

@@ -1,0 +1,11 @@
+Using Python 3.11.17 environment at: /home/test/Robot/openpi/examples/libero/.venv
+Resolved 9 packages in 582ms
+   Building openpi-client @ file:///home/test/Robot/openpi/packages/openpi-client
+      Built openpi-client @ file:///home/test/Robot/openpi/packages/openpi-client
+Prepared 5 packages in 323ms
+Installed 5 packages in 1ms
+ + dm-tree==0.1.10
+ + msgpack==1.2.4
+ + openpi-client==0.1.0 (from file:///home/test/Robot/openpi/packages/openpi-client)
+ + websockets==17.3
+ + wrapt==2.5.2
