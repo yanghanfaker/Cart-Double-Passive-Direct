@@ -14,7 +14,10 @@ def main():
     parser.add_argument('--output-root',type=Path,default=Path(__file__).resolve().parent.parent/'diagnostics/geometry_audit')
     parser.add_argument('--geometry-joints-json',type=Path)
     parser.add_argument('--camera-alignment-json',type=Path)
+    parser.add_argument('--clean-scene-json',type=Path)
     args=parser.parse_args()
+    if args.clean_scene_json and (args.geometry_joints_json or args.camera_alignment_json):
+        parser.error('clean scene input cannot combine pose or marker-camera inputs')
     root=args.isaaclab_root.expanduser().resolve()
     if not root.is_dir():parser.error('Isaac Lab directory not found')
     script=Path(__file__).with_name('check_cameras.py').resolve()
@@ -38,6 +41,10 @@ def main():
         json.loads(payload)
         (folder/'camera_candidate.json').write_bytes(payload)
         command += ['--camera-alignment-json',str(folder/'camera_candidate.json')]
+    if args.clean_scene_json:
+        payload=args.clean_scene_json.expanduser().absolute().read_bytes();json.loads(payload)
+        (folder/'clean_scene_request.json').write_bytes(payload)
+        command += ['--clean-scene-json',str(folder/'clean_scene_request.json')]
     manifest={'status':'running','command':command,'output':str(folder),
               'scope':'static geometry capture after hold warmup; no model inference or diagnostic motion'}
     def save():(folder/'run.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
@@ -47,12 +54,14 @@ def main():
             with subprocess.Popen(command,cwd=root,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace') as process:
                 for line in process.stdout:
                     log.write(line)
-                    if '[Geometry audit]' in line or '[Actuator audit]' in line or '[Camera alignment]' in line:print(line,end='',flush=True)
+                    if any(tag in line for tag in ('[Geometry audit]','[Actuator audit]','[Camera alignment]','[Clean scene]')):print(line,end='',flush=True)
                 manifest['exit_code']=process.wait()
         report_path=folder/'geometry_audit.json'
         if manifest['exit_code']!=0 or not report_path.is_file() or json.loads(report_path.read_text())['status']!='completed':
             manifest['status']='failed';print(f'[Geometry runner] Inspect {folder/"console.log"}',file=sys.stderr);return 1
         if args.camera_alignment_json and not (folder/'camera_alignment_result.json').is_file():
+            manifest['status']='failed';return 1
+        if args.clean_scene_json and not (folder/'clean_scene_result.json').is_file():
             manifest['status']='failed';return 1
         manifest['status']='completed';return 0
     except Exception as error:

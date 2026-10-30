@@ -2477,3 +2477,49 @@ git add -- diagnostics/libero_scene_probe/
 git commit -m "Complete LIBERO scene probe with distinct arm and finger lookup"
 git push origin main
 ```
+
+## 下一轮：三组无标记代理场景，分离初始姿态与目标XY影响
+
+`run_clean_scene_capture.py`读取最新完整LIBERO初始化报告及其对应相机候选，校验源文件SHA，生成3组独立Isaac静态采集：
+
+1. baseline：旧Isaac实际初始角度、旧方块XY、已验证参考相机。
+2. arm-only：LIBERO benchmark_after10wait的7个实际机械臂角度、旧方块XY、同一套相机。
+3. arm-and-target-xy：同一组LIBERO角度，方块XY改为目标黑碗根原点通过逆世界变换得到的水平位置，同一套相机。
+
+本轮以方块作为代理物体，不移植碗、盘子或LIBERO桌面，不宣称完整场景复现。
+只复制目标水平位置；方块继续使用原配置的出生高度和支撑表面，不能将碗根原点的Z直接作为方块中心Z。
+已用46c3f50bb810实际记录生成配置，第三组XY约(0.596548,0.202035)m，参考角度来源是实际等待后的关节而非默认reset。
+夹爪沿用张开保持，未强行匹配参考等待中的细小双指位置差。
+
+新增`--clean-scene-json`仅用于geometry-audit，禁止与其他初始姿态/标记相机输入文件组合。
+普通训练、播放、OpenPI动作流程不变。相机应用复用上一轮已在Spark验证的接口，关闭标记生成；
+每个独立进程在现有35步hold预热后保存原始256RGB及224策略尺寸图像，同时额外保存左右翻转224副本。
+没有模型查询、没有模型动作，也没有部署图像预处理变化。
+
+报告核对：初始机械臂角误差<=0.001rad、方块XY误差<=1mm、方块落稳Z相对基线变化<=2mm；
+相机位置/旋转/内参沿用0.1mm/0.05度/0.05像素阈值。
+另外记录方块中心投影、距画面边界余量、局部颜色饱和像素数。投影不等于可见性，颜色数只作为启发式提示，不宣称分割成功。
+baseline原姿态可能视野差，它是对照；all_geometry_checks_passed不等于两路目标都可见，也不等于抓取成功。
+
+使用现有独立参考venv执行外层配置生成与调度（需要其中的NumPy/Pillow，不安装包）：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_clean_scene_capture.py
+```
+
+无需启动OpenPI服务；会独立启动Isaac 3次，Viser可查看无标记场景。执行器增益不变。
+输出 `diagnostics/clean_scene_capture/<UTC>/`：run.json、每组请求配置、完整geometry_audit与clean_scene_result.json、RGB/左右翻转副本、源证据及日志。
+`comparison.html`并排展示各组无翻转/左右翻转图，并附LIBERO基准官方预处理的干净参考图。
+194项本地CPU、合成画面、三组调度及失败保留测试通过；实际配置生成也已用推送记录验证；新的Isaac支撑与真实可见性待Spark运行。
+可用`--native-report /绝对路径/report.json`指定基准记录。
+
+结束后：
+
+```bash
+git add -- diagnostics/clean_scene_capture/
+git commit -m "Add unmarked proxy scene initialization comparison"
+git push origin main
+```

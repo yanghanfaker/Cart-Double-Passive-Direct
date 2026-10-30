@@ -102,6 +102,7 @@ def main():
     parser.add_argument("--warmup-steps", type=int, default=30)
     parser.add_argument("--geometry-joints-json", type=Path, help="explicit initial arm pose for static geometry-audit only")
     parser.add_argument("--camera-alignment-json", type=Path, help="camera proposal plus visible markers; static geometry-audit only")
+    parser.add_argument("--clean-scene-json", type=Path, help="unmarked proxy scene configuration; static geometry-audit only")
     parser.add_argument("--query", action="store_true")
     parser.add_argument("--gain-profile", choices=tuple(GAIN_PROFILES), default="baseline")
     parser.add_argument("--record-jacobians", action="store_true", help="capture actual IK Jacobians during frozen replay only")
@@ -146,6 +147,14 @@ def main():
             parser.error("--geometry-joints-json requires geometry-audit")
         from multipose_geometry import validate_arm_pose
         geometry_joints = validate_arm_pose(json.loads(args.geometry_joints_json.read_text(encoding="utf-8")))
+    clean_scene = None
+    if args.clean_scene_json:
+        if args.motion_test != 'geometry-audit' or args.geometry_joints_json or args.camera_alignment_json:
+            parser.error('--clean-scene-json requires geometry-audit and cannot combine other pose/camera input files')
+        from clean_scene_probe import validate_clean_scene
+        clean_scene = validate_clean_scene(json.loads(args.clean_scene_json.read_text(encoding='utf-8')))
+        geometry_joints = clean_scene['arm_positions_rad']
+        alignment_candidate = clean_scene['camera_candidate']
     if args.openpi_approach_long and not args.openpi_approach:
         parser.error("--openpi-approach-long requires --openpi-approach")
     if args.openpi_approach and (args.motion_test!="openpi-step" or args.openpi_replan_steps not in (5,10)):
@@ -224,6 +233,9 @@ def main():
     elif args.motion_test in ("geometry-audit", "openpi-step", *REPLAY_MODES):
         cfg.seed = 0
         cfg.events.reset_object_position.params["pose_range"] = {"x": (0.0,0.0), "y": (0.0,0.0), "z": (0.0,0.0)}
+    if clean_scene is not None:
+        original_object_pos = tuple(cfg.scene.object.init_state.pos)
+        cfg.scene.object.init_state.pos = (*clean_scene['object_xy_world_m'], original_object_pos[2])
     # The command target axes/spheres are real rendered geometry, so disable
     # their creation before constructing the scene, not just in the web viewer.
     cfg.commands.object_pose.debug_vis = False
@@ -319,7 +331,7 @@ def main():
                 wrist.set_world_poses_from_view(eyes=wrist_eye, targets=wrist_target)
                 if alignment_candidate is not None:
                     from camera_alignment_probe import apply_and_spawn
-                    alignment_setup = apply_and_spawn(base,alignment_candidate,args.output.expanduser().resolve(),tensor)
+                    alignment_setup = apply_and_spawn(base,alignment_candidate,args.output.expanduser().resolve(),tensor,spawn_markers=clean_scene is None)
                 # Force fresh renders after changing the camera pose; reuse the
                 # exact sensor/step path already verified by the first capture.
                 for _ in range(5):
@@ -431,7 +443,7 @@ def main():
             if alignment_setup is not None:
                 report['camera_setup']={'effective_pose_source':'camera_alignment_setup.json',
                     'wrist_initial_aim':'fixed hand-local candidate; legacy look-at is overridden before capture',
-                    'calibration_markers_present':True,'candidate_source':str(args.camera_alignment_json)}
+                    'calibration_markers_present':clean_scene is None,'candidate_source':str(args.camera_alignment_json or args.clean_scene_json)}
             (output / "observation.json").write_text(
                 json.dumps(report, indent=2), encoding="utf-8"
             )
@@ -441,7 +453,10 @@ def main():
             if args.motion_test == "geometry-audit":
                 from geometry_audit import capture_geometry
                 capture_geometry(base,cfg,arm_term,images,output,tensor,args.warmup_steps+5)
-                if alignment_setup is not None:
+                if clean_scene is not None:
+                    from clean_scene_probe import finish_clean_capture
+                    finish_clean_capture(clean_scene,output,images)
+                elif alignment_setup is not None:
                     from camera_alignment_probe import finish_capture
                     finish_capture(base,alignment_setup,images,output,tensor)
                 return

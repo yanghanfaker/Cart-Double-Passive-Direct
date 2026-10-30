@@ -91,7 +91,7 @@ def analyze_markers(image,markers):
         'scope':'known colored marker centroids only; no object recognition, distortion fit or policy validation'}
 
 
-def apply_and_spawn(base,candidate,output,tensor):
+def apply_and_spawn(base,candidate,output,tensor,spawn_markers=True):
     import numpy as np
     import torch
     import inspect
@@ -109,7 +109,8 @@ def apply_and_spawn(base,candidate,output,tensor):
     index=resolved['sensor_body_ids'][0]
     hand={'position_m':tensor(robot.data.body_pos_w)[0,index].cpu().tolist(),'quat_xyzw':tensor(robot.data.body_quat_w)[0,index].cpu().tolist()}
     H=np.array(pose_matrix(hand));setup={'status':'applied_to_static_test_only','policy_queries':0,
-        'markers_have_physics':False,'quaternion_order':'xyzw','hand_pose_at_application':hand,'cameras':{}}
+        'markers_have_physics':False,'scene_contains_markers':spawn_markers,
+        'quaternion_order':'xyzw','hand_pose_at_application':hand,'cameras':{}}
     impl=[]
     for name,c in candidate['cameras'].items():
         p=np.array(c['position_m']);R=np.array(c['rotation_ros'])
@@ -118,7 +119,7 @@ def apply_and_spawn(base,candidate,output,tensor):
         camera.set_world_poses(positions=torch.tensor([p.tolist()],device=device,dtype=torch.float32),
             orientations=torch.tensor([quat_xyzw(R)],device=device,dtype=torch.float32),convention='ros')
         camera.set_intrinsic_matrices(torch.tensor([c['K_256']],device=device,dtype=torch.float32))
-        markers=marker_layout(p,R,c['K_256'])
+        markers=marker_layout(p,R,c['K_256']) if spawn_markers else []
         for marker in markers:
             path=f'/World/CameraAlignmentMarkers/{name}/marker{marker["id"]}'
             sphere=UsdGeom.Sphere.Define(stage,path);sphere.CreateRadiusAttr(marker['radius_m'])

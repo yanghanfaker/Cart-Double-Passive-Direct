@@ -106,7 +106,8 @@ def capture_geometry(base,cfg,arm_term,images,output,tensor,warmup_controls):
             'wrist_initial_aim':'fixed scene reference [0.5,0,0.04]; no live object re-aiming'}
         if (output/'camera_alignment_setup.json').is_file():
             report['scene_setup']['wrist_initial_aim']='overridden by fixed hand-local candidate; see camera_alignment_setup.json'
-            report['scene_setup']['contains_nonphysical_camera_calibration_markers']=True
+            setup=json.loads((output/'camera_alignment_setup.json').read_text())
+            report['scene_setup']['contains_nonphysical_camera_calibration_markers']=setup.get('scene_contains_markers',True)
         root=pose(arr(robot.data.root_pos_w)[0],arr(robot.data.root_quat_w)[0])
         sensor=pose(arr(ee.data.target_pos_w)[0][0],arr(ee.data.target_quat_w)[0][0])
         ikp,ikq=arm_term._compute_frame_pose()
