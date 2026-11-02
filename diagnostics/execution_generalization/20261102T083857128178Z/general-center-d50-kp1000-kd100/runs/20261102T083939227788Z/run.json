@@ -1,0 +1,20 @@
+{
+  "status": "completed",
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+    "--isaaclab-root",
+    "/home/test/Robot/IsaacLab",
+    "--output-root",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_generalization/20261102T083857128178Z/general-center-d50-kp1000-kd100/runs/20261102T083939227788Z/capture",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_generalization/20261102T083857128178Z/general-center-d50-kp1000-kd100/runs/20261102T083939227788Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_generalization/20261102T083857128178Z/general-center-d50-kp1000-kd100/runs/20261102T083939227788Z/segment_settings.json",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_generalization/20261102T083857128178Z/general-center-d50-kp1000-kd100/runs/20261102T083939227788Z/execution_joint_gains.json"
+  ],
+  "policy_queries": 0,
+  "result": "capture/20261102T083939243775Z/online_registered_result.json",
+  "result_sha256": "2045ea592866df24df0cfe9d16080a9c139b5ae6e4e6b7f2425b7471d6a59f7f"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "general-shoulder-up-d50-kp1000-kd100",
+  "kind": "combined",
+  "pose_variant": "shoulder-up",
+  "arm_profile": "d50",
+  "finger_profile": "kp1000-kd100",
+  "gripper_mode": "substep",
+  "cap_m": 0.002,
+  "rotation_cap_deg": 0.1,
+  "requires": [],
+  "finger_armature": 1.0
+}

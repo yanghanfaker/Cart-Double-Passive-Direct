@@ -1,0 +1,15 @@
+{
+  "python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+  "prefix": "/home/test/Robot/openpi/examples/libero/.venv",
+  "base_prefix": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu",
+  "modules": {
+    "numpy": true,
+    "PIL": true,
+    "yaml": true,
+    "mujoco": true,
+    "robosuite": true,
+    "libero": true,
+    "openpi_client": true,
+    "torch": true
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "status": "completed",
+  "request_sha256": "141ece940f6465e1e2e36adbd2efe1a6fa8a07e88cfcae72310f2ae4ed123163",
+  "actions_executed": 0,
+  "policy_queries": 0,
+  "preflight": {
+    "python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "prefix": "/home/test/Robot/openpi/examples/libero/.venv",
+    "base_prefix": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu",
+    "modules": {
+      "numpy": true,
+      "PIL": true,
+      "yaml": true,
+      "mujoco": true,
+      "robosuite": true,
+      "libero": true,
+      "openpi_client": true,
+      "torch": true
+    }
+  },
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+    "--worker",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_generalization/20261102T083857128178Z/pose_references/shoulder-down",
+    "--suite",
+    "libero_spatial",
+    "--task-id",
+    "0",
+    "--seed",
+    "7"
+  ],
+  "reference_sha256": "f59a6121609ff24cd6f86d12e588af486af21655ec63d8c3e9c6ac3b6efd710f"
+}

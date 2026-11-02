@@ -1,0 +1,55 @@
+{
+  "status": "completed",
+  "actions_executed": 0,
+  "new_policy_queries": 0,
+  "native_fk_time_advanced_s": 0,
+  "isaac_minus_dynamic": {
+    "vector_mm": [
+      -0.27386722787474654,
+      0.22518672018981278,
+      -0.39632706966608033
+    ],
+    "norm_mm": 0.5317776448890509
+  },
+  "static_minus_dynamic": {
+    "vector_mm": [
+      -0.19121307745655156,
+      0.25417296228780195,
+      -0.43383131842267275
+    ],
+    "norm_mm": 0.5379367514800565
+  },
+  "isaac_minus_static": {
+    "vector_mm": [
+      -0.08265415041819497,
+      -0.028986242097989168,
+      0.03750424875659242
+    ],
+    "norm_mm": 0.09528105523719393
+  },
+  "positions_L_m": {
+    "isaac": [
+      -0.004025979917525846,
+      0.14072965945525917,
+      1.0312173963901712
+    ],
+    "native_dynamic": [
+      -0.0037521126896510994,
+      0.14050447273506936,
+      1.0316137234598373
+    ],
+    "native_static": [
+      -0.003943325767107651,
+      0.14075864569735716,
+      1.0311798921414146
+    ]
+  },
+  "rotations_deg": {
+    "isaac_vs_dynamic": 0.064942440575963,
+    "static_vs_dynamic": 0.022155165748836265,
+    "isaac_vs_static": 0.04954446963971551
+  },
+  "isaac_native_joint_difference_max_rad": 1.7697765494761875e-07,
+  "scope": "native static FK after direct joint assignment versus recorded dynamic observation and saved Isaac static capture; no action replay; scene/object images are not matched",
+  "interpretation": "static-vs-dynamic includes observation refresh/kinematic consistency; remaining Isaac-vs-static includes model, TCP and registration differences plus small joint initialization residual; not a unique causal diagnosis"
+}

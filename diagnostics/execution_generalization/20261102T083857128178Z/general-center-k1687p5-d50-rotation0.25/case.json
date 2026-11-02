@@ -1,0 +1,13 @@
+{
+  "name": "general-center-k1687p5-d50-rotation0.25",
+  "kind": "combined",
+  "pose_variant": "center",
+  "arm_profile": "k1687p5-d50",
+  "finger_profile": "kp350-kd50",
+  "gripper_mode": "substep",
+  "cap_m": 0.002,
+  "rotation_cap_deg": 0.25,
+  "requires": [
+    "general-center-k1687p5-d50-kp350-kd50"
+  ]
+}

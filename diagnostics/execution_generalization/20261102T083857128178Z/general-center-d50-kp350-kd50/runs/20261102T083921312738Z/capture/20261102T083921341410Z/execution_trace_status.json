@@ -1,0 +1,16 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "general-center-d50-kp350-kd50",
+    "kind": "combined",
+    "pose_variant": "center",
+    "arm_profile": "d50",
+    "finger_profile": "kp350-kd50",
+    "gripper_mode": "substep",
+    "cap_m": 0.002,
+    "rotation_cap_deg": 0.1,
+    "requires": []
+  }
+}

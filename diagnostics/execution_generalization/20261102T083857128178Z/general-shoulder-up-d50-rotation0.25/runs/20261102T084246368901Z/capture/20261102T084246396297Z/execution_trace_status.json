@@ -1,0 +1,18 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "general-shoulder-up-d50-rotation0.25",
+    "kind": "combined",
+    "pose_variant": "shoulder-up",
+    "arm_profile": "d50",
+    "finger_profile": "kp350-kd50",
+    "gripper_mode": "substep",
+    "cap_m": 0.002,
+    "rotation_cap_deg": 0.25,
+    "requires": [
+      "general-shoulder-up-d50-kp350-kd50"
+    ]
+  }
+}

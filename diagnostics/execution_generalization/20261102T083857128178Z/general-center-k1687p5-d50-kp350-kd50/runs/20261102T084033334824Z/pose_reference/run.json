@@ -1,0 +1,34 @@
+{
+  "status": "completed",
+  "request_sha256": "66f0b59a9cfbcda038aacd71bf4856d028069eed292f633657476d6dcf62f4f6",
+  "actions_executed": 0,
+  "policy_queries": 0,
+  "preflight": {
+    "python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "prefix": "/home/test/Robot/openpi/examples/libero/.venv",
+    "base_prefix": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu",
+    "modules": {
+      "numpy": true,
+      "PIL": true,
+      "yaml": true,
+      "mujoco": true,
+      "robosuite": true,
+      "libero": true,
+      "openpi_client": true,
+      "torch": true
+    }
+  },
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+    "--worker",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_generalization/20261102T083857128178Z/pose_references/center",
+    "--suite",
+    "libero_spatial",
+    "--task-id",
+    "0",
+    "--seed",
+    "7"
+  ],
+  "reference_sha256": "1c6fa0a6a2e3c285fe55039a9cda841c1b9bf607160045da83963192b0b6a8d0"
+}

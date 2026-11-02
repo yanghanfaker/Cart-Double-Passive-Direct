@@ -1,0 +1,60 @@
+{
+  "status": "completed",
+  "source_segment_sha256": "fe26ea50b4273ec4806c9cc691951c4d35b4abb92fd448525cbda58cd4e16559",
+  "saved_geometry_sha256": "a8e40b922753186989f26bf61a1b16a9f9c72301f2875e3fc6915201bd6181ce",
+  "actions_executed": 0,
+  "new_policy_queries": 0,
+  "preflight": {
+    "python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "prefix": "/home/test/Robot/openpi/examples/libero/.venv",
+    "base_prefix": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu",
+    "modules": {
+      "numpy": true,
+      "PIL": true,
+      "yaml": true,
+      "mujoco": true,
+      "robosuite": true,
+      "libero": true,
+      "openpi_client": true,
+      "torch": true
+    }
+  },
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/libero_reference_audit.py",
+    "--worker",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_pose_refresh/20261102T023159344475Z",
+    "--suite",
+    "libero_spatial",
+    "--task-id",
+    "0",
+    "--seed",
+    "7"
+  ],
+  "position_differences": {
+    "isaac_minus_dynamic": {
+      "vector_mm": [
+        -0.27386722787474654,
+        0.22518672018981278,
+        -0.39632706966608033
+      ],
+      "norm_mm": 0.5317776448890509
+    },
+    "static_minus_dynamic": {
+      "vector_mm": [
+        -0.19121307745655156,
+        0.25417296228780195,
+        -0.43383131842267275
+      ],
+      "norm_mm": 0.5379367514800565
+    },
+    "isaac_minus_static": {
+      "vector_mm": [
+        -0.08265415041819497,
+        -0.028986242097989168,
+        0.03750424875659242
+      ],
+      "norm_mm": 0.09528105523719393
+    }
+  }
+}
