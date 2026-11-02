@@ -3222,3 +3222,33 @@ git add -- diagnostics/native_libero_rollout/
 git commit -m "Add native LIBERO three-episode rollout results"
 git push origin main
 ```
+
+## 原生固定响应回放验证
+
+`native_libero_replay.py`从最新完整三回合成功记录读取55份完整响应，复用相同任务、种子、基准初始状态和10步等待，
+按原来的5步前缀调度重放全部268步。无需OpenPI服务，无新模型推理。输出目录为`diagnostics/native_libero_replay/<UTC>/`。
+
+本轮验证跨仿真固定动作对照的原生基线，尚未在Isaac执行相同动作。
+每次回放请求都检查原始输入指纹（原生dtype状态、两路图像及提示词）完全相等；任一像素或数值差异都会保存并停止，
+不会静默接受渲染或重置差异。输入严格检查失败不等于控制器有误，应先看`replay_checks.json`。
+检查归档/响应SHA和动作前缀一致性，成功判定和步数必须复现；逐步末端位置、手指及关节响应允许最大绝对差1e-7。
+此阈值只用于同环境重放，不能用作Isaac/MuJoCo之间的等价标准。
+
+`report.json`和每回合记录复用原生轨迹格式，其中policy_queries计数代表读取归档响应；实际新推理次数为0，
+详见`replay_checks.json`的`new_policy_queries`、输入核对及轨迹最大误差。保存双视角GIF和原生回放查询ZIP。
+12项针对性CPU测试通过；真实三回合55份响应268步来源已校验，原生动力学/渲染复现待Spark执行。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/native_libero_replay.py
+```
+
+运行后推送（失败记录也请保留）：
+
+```bash
+git add -- diagnostics/native_libero_replay/
+git commit -m "Add native fixed-response replay validation"
+git push origin main
+```

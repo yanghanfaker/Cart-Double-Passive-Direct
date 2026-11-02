@@ -131,7 +131,7 @@ def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220):
     return report
 
 
-def worker(folder, args):
+def worker(folder, args, client_factory=None):
     report = {'status': 'starting', 'episodes': [], 'suite': 'libero_spatial', 'task_id': args.task_id,
               'seed': args.seed, 'scope': 'native task baseline, not matched Isaac cube scene or full benchmark; local seed does not seed server inference'}
     def save(): save_json(folder/'report.json', report)
@@ -162,8 +162,8 @@ def worker(folder, args):
         with torch.serialization.safe_globals(allowed): states = torch.load(init, map_location='cpu', weights_only=True)
         if len(states) < 3: raise ValueError('need at least three benchmark initial states')
         report['initialization'] = 'benchmark states 0,1,2; restricted torch loader; ten dummy wait steps each'
-        report['server_health'] = check_openpi_health(args.server_host, args.server_port)
-        client = WebsocketClientPolicy(host=args.server_host, port=args.server_port)
+        report['server_health'] = check_openpi_health(args.server_host, args.server_port) if client_factory is None else {'status': 'offline_replay_no_network'}
+        client = WebsocketClientPolicy(host=args.server_host, port=args.server_port) if client_factory is None else client_factory()
         report['server_metadata'] = read_server_metadata(client)
         env = OffScreenRenderEnv(bddl_file_name=str(bddl), camera_heights=256, camera_widths=256)
         env.seed(args.seed)
