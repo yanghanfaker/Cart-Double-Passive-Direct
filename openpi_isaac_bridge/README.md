@@ -3127,3 +3127,50 @@ git add -- diagnostics/low_pose_policy_audit/
 git commit -m "Add low-pose frozen policy direction audit results"
 git push origin main
 ```
+
+## 同一输出的平移限幅对照（离线，不执行动作）
+
+`action_cap_audit.py`复用完整低位冻结推理报告中的每一份响应，逐一比较0.5、1、2、5、10mm和无桥接平移限幅。
+六个条件使用完全相同的输入和动作，不重新调用OpenPI。无桥接限幅仍保留LIBERO控制输入的[-1,1]裁剪和0.05m缩放。
+这是固定起点的理想平移积分，不执行旋转、IK、物理仿真、接触或下一次观测；不修改在线控制器的任何限制。
+
+检查18个源观测、完整重复次数、输入指纹、响应SHA，以及0.5mm结果与已有桥接分析一致。
+输出前5/10步的合成位移、向外投影、横向偏差、高度、最低高度、逐动作平均保留比例及路径保留比例。
+同时记录首个闭爪请求所在动作执行前/后的假想高度；臂和夹爪可以同时动作，这两个值不是实际闭合时刻。
+低于物体中心只是几何标记，不能直接判定撞桌。统计按源观测先平均重复输出，再汇总同高度六个源观测。
+current/accumulated仅是源观测标签，本轮没有执行两个控制器。前10步分析不代表在线已执行前10步。
+
+本地266项CPU测试通过；已对提交4c9db0c4792f中的90份真实响应完成540个配对条件分析。
+每个条件的前5步均90/90水平净投影向外。100mm附近输入中：
+
+| 每步平移上限 | 前5步末端假想高度（mm） | 前5步末端横向偏差（mm） | 首个闭爪请求前假想高度（mm） |
+|---|---:|---:|---:|
+| 0.5mm | 97.23 | 10.46 | 96.48 |
+| 1mm | 94.91 | 11.27 | 93.40 |
+| 2mm | 90.26 | 12.92 | 87.24 |
+| 5mm | 76.32 | 18.07 | 68.76 |
+| 10mm | 53.08 | 26.90 | 37.96 |
+| 无桥接平移限幅 | -65.23 | 72.37 | -112.99 |
+
+高度以物体中心为零点，起始实际高度并非恰好100mm。表中先对同一观测的5次输出平均，再平均6个源观测。
+放宽限幅增加下降行程，也增大这批前5步输出的横向偏离；不能据此选择一个“抓取成功”的限幅。
+仍需原生LIBERO同阶段策略/输入对照，以及真实控制器动态验证。
+
+在Spark复现无需启动Isaac、Viser或OpenPI服务：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/action_cap_audit.py
+```
+
+默认选择最新完整的低位冻结报告；也可指定`--source-report /绝对路径/report.json`。
+输出`diagnostics/action_cap_audit/<UTC>/report.json`，同时复制源报告和校验过的响应供复核。
+运行后推送：
+
+```bash
+git add -- diagnostics/action_cap_audit/
+git commit -m "Add paired translation cap audit results"
+git push origin main
+```
