@@ -1,0 +1,16 @@
+{
+  "name": "combined-5mm-substep",
+  "kind": "combined",
+  "cap_m": 0.005,
+  "rotation_cap_deg": 0.5,
+  "gripper_mode": "substep",
+  "requires": [
+    "rotation-0.5deg-rx-negative",
+    "rotation-0.5deg-rx-positive",
+    "rotation-0.5deg-ry-negative",
+    "rotation-0.5deg-ry-positive",
+    "rotation-0.5deg-rz-negative",
+    "rotation-0.5deg-rz-positive",
+    "combined-2mm-substep"
+  ]
+}

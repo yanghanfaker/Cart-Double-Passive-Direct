@@ -1,0 +1,8 @@
+{
+  "name": "finger-inherited",
+  "kind": "gripper",
+  "gripper_mode": "substep",
+  "cap_m": 0.0005,
+  "finger_profile": "inherited",
+  "requires": []
+}

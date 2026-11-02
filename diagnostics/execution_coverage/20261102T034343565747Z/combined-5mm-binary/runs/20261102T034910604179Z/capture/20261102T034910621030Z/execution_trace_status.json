@@ -1,0 +1,21 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "combined-5mm-binary",
+    "kind": "combined",
+    "cap_m": 0.005,
+    "rotation_cap_deg": 0.5,
+    "gripper_mode": "binary",
+    "requires": [
+      "rotation-0.5deg-rx-negative",
+      "rotation-0.5deg-rx-positive",
+      "rotation-0.5deg-ry-negative",
+      "rotation-0.5deg-ry-positive",
+      "rotation-0.5deg-rz-negative",
+      "rotation-0.5deg-rz-positive",
+      "combined-2mm-binary"
+    ]
+  }
+}

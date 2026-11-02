@@ -1,0 +1,10 @@
+{
+  "name": "rotation-0.1deg-rz-positive",
+  "kind": "rotation",
+  "axis": 2,
+  "sign": 1,
+  "rotation_cap_deg": 0.1,
+  "cap_m": 0.0005,
+  "gripper_mode": "binary",
+  "requires": []
+}

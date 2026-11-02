@@ -1,0 +1,15 @@
+{
+  "name": "combined-2mm-substep",
+  "kind": "combined",
+  "cap_m": 0.002,
+  "rotation_cap_deg": 0.1,
+  "gripper_mode": "substep",
+  "requires": [
+    "rotation-0.1deg-rx-negative",
+    "rotation-0.1deg-rx-positive",
+    "rotation-0.1deg-ry-negative",
+    "rotation-0.1deg-ry-positive",
+    "rotation-0.1deg-rz-negative",
+    "rotation-0.1deg-rz-positive"
+  ]
+}

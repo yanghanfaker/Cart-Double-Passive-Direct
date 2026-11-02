@@ -1,0 +1,18 @@
+{
+  "status": "completed",
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+    "--isaaclab-root",
+    "/home/test/Robot/IsaacLab",
+    "--output-root",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/finger-kp250-kd10/runs/20261102T034438658801Z/capture",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/finger-kp250-kd10/runs/20261102T034438658801Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/finger-kp250-kd10/runs/20261102T034438658801Z/segment_settings.json"
+  ],
+  "policy_queries": 0,
+  "result": "capture/20261102T034438675349Z/online_registered_result.json",
+  "result_sha256": "3d4ebe2a418931e31dca5e18d6bc918eea1ac141bce4327c1fca9dc7f08fbe42"
+}

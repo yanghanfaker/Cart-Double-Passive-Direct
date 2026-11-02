@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "command": [
+    "uv",
+    "run",
+    "--extra",
+    "viser",
+    "--extra",
+    "openpi",
+    "isaaclab",
+    "-p",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py",
+    "--viz",
+    "viser",
+    "--motion-test",
+    "geometry-audit",
+    "--gain-profile",
+    "kp2p25-kd0p25",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/rotation-0.1deg-rx-positive/runs/20261102T034515553582Z/capture/20261102T034515570032Z/joint_gains.json",
+    "--output",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/rotation-0.1deg-rx-positive/runs/20261102T034515553582Z/capture/20261102T034515570032Z",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/rotation-0.1deg-rx-positive/runs/20261102T034515553582Z/capture/20261102T034515570032Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/rotation-0.1deg-rx-positive/runs/20261102T034515553582Z/capture/20261102T034515570032Z/online_registered_settings.json"
+  ],
+  "output": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/rotation-0.1deg-rx-positive/runs/20261102T034515553582Z/capture/20261102T034515570032Z",
+  "scope": "current clean capture, one live registered query, bounded five-action execution and fixed-target hold",
+  "exit_code": 0
+}

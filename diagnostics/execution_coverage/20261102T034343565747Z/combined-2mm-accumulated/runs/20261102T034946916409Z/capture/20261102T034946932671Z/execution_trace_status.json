@@ -1,0 +1,16 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "combined-2mm-accumulated",
+    "kind": "combined",
+    "cap_m": 0.002,
+    "rotation_cap_deg": 0.1,
+    "gripper_mode": "substep",
+    "requires": [
+      "combined-2mm-substep"
+    ],
+    "reference_mode": "accumulated"
+  }
+}

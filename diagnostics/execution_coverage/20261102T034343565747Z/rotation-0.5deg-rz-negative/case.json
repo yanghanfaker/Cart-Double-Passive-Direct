@@ -1,0 +1,12 @@
+{
+  "name": "rotation-0.5deg-rz-negative",
+  "kind": "rotation",
+  "axis": 2,
+  "sign": -1,
+  "rotation_cap_deg": 0.5,
+  "cap_m": 0.0005,
+  "gripper_mode": "binary",
+  "requires": [
+    "rotation-0.1deg-rz-negative"
+  ]
+}

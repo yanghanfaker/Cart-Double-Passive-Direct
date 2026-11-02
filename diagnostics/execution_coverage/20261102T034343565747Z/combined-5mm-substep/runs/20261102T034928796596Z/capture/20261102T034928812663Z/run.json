@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "command": [
+    "uv",
+    "run",
+    "--extra",
+    "viser",
+    "--extra",
+    "openpi",
+    "isaaclab",
+    "-p",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py",
+    "--viz",
+    "viser",
+    "--motion-test",
+    "geometry-audit",
+    "--gain-profile",
+    "kp2p25-kd0p25",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/combined-5mm-substep/runs/20261102T034928796596Z/capture/20261102T034928812663Z/joint_gains.json",
+    "--output",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/combined-5mm-substep/runs/20261102T034928796596Z/capture/20261102T034928812663Z",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/combined-5mm-substep/runs/20261102T034928796596Z/capture/20261102T034928812663Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/combined-5mm-substep/runs/20261102T034928796596Z/capture/20261102T034928812663Z/online_registered_settings.json"
+  ],
+  "output": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_coverage/20261102T034343565747Z/combined-5mm-substep/runs/20261102T034928796596Z/capture/20261102T034928812663Z",
+  "scope": "current clean capture, one live registered query, bounded five-action execution and fixed-target hold",
+  "exit_code": 0
+}
