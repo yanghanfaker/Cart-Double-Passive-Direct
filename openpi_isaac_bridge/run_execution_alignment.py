@@ -1,4 +1,4 @@
-"""Run isolated gripper and progressive translation diagnostics in fresh Isaac scenes."""
+"""Run declared execution or deterministic contact diagnostics in fresh Isaac scenes."""
 import argparse
 from datetime import datetime,timezone
 import hashlib
@@ -13,16 +13,22 @@ from execution_coverage_cases import coverage_cases
 from execution_focus_cases import focus_cases
 from execution_sync_cases import sync_cases
 from execution_generalization import generalization_cases
+from execution_contact import contact_cases
 from native_libero_rollout import save_json
 
 
 def summarize(result):
     r=json.loads(result.read_bytes());trace_path=result.parent/'physics_joint_trace.jsonl'
-    if not trace_path.exists():
+    compressed=trace_path.with_suffix('.jsonl.gz')
+    if not trace_path.exists() and not compressed.exists():
         if r['status']=='completed':raise RuntimeError('completed case missing physics trace')
         return {'status':r['status'],'error':r.get('error'),'controls':len(r.get('trace',[])),'physics_samples':0,
             'result_sha256':hashlib.sha256(result.read_bytes()).hexdigest()}
-    rows=[json.loads(line) for line in trace_path.read_text().splitlines()]
+    if trace_path.exists():lines=trace_path.read_text().splitlines()
+    else:
+        import gzip
+        with gzip.open(compressed,'rt',encoding='utf-8') as source:lines=source.read().splitlines()
+    rows=[json.loads(line) for line in lines]
     if r['status']=='completed' and len(rows)!=5*len(r['trace']):raise RuntimeError('completed case has incomplete physics trace')
     errors=np.array([np.array(x['position_target_rad'])-x['position_rad'] for x in rows])
     effort_rows=[x for x in rows if all(x[k]['status']=='available' for k in ('computed_torque','applied_torque','effort_limits'))]
@@ -43,7 +49,8 @@ def summarize(result):
         'max_period_end_tcp_error_m':max((x['tcp97_target_error_m'] for x in map(json.loads,(result.parent/'motion.jsonl').read_text().splitlines()) if x['event']=='result'),default=None),
         'stream_initial':r.get('stream_initial'),'initial_velocity_comparison':r.get('initial_velocity_comparison'),
         'finger_dynamics_audit':json.loads((result.parent/'finger_dynamics_audit.json').read_bytes()) if (result.parent/'finger_dynamics_audit.json').exists() else None,
-        'actual_tcp_delta_m':(np.array((r['final'] if 'final' in r else r['last_state'])['tcp_world_m'])-r['initial']['tcp_world_m']).tolist(),
+        'grasp_result':r.get('grasp_result'),
+        'actual_tcp_delta_m':(np.array(r.get('final',r.get('last_state',r['initial']))['tcp_world_m'])-r['initial']['tcp_world_m']).tolist(),
         'finger_controls':[{'step':x['step'],'sign':x['native_gripper_sign'],
             'ramp_target_m':x['ramp_target_m'],'finger_positions_m':x['after']['finger_positions_m']} for x in r['trace']],
         'result_sha256':hashlib.sha256(result.read_bytes()).hexdigest()}
@@ -52,10 +59,10 @@ def summarize(result):
 def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
-    p.add_argument('--suite',choices=['alignment','coverage','focus','sync','generalization'],default='alignment')
+    p.add_argument('--suite',choices=['alignment','coverage','focus','sync','generalization','contact'],default='alignment')
     p.add_argument('--output-root',type=Path)
-    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()],nargs='+')
-    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases,'generalization':generalization_cases}[args.suite]()
+    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()],nargs='+')
+    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases,'generalization':generalization_cases,'contact':contact_cases}[args.suite]()
     if args.only:
         wanted=set(args.only);declared={c['name']:c for c in selected}
         if wanted-set(declared):p.error('--only must belong to selected suite')
@@ -69,9 +76,10 @@ def main():
     report={'status':'running','new_policy_queries':0,'cases':[],
         'suite':args.suite,'scope':'independent fresh no-contact scenes; prerequisite failures skip dependent cases; synthetic preconditioning changes pose and velocity, not native dynamic restoration; no grasp success claim'}
     report['code_sha256']={name:hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','execution_generalization.py','libero_reference_audit.py','run_multipose_geometry.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
+        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','execution_generalization.py','execution_contact.py','grasp_probe.py','openpi_grasp_logic.py','libero_reference_audit.py','run_multipose_geometry.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
     if args.suite=='generalization':
         report.update(pose_reference_root='pose_references',scope='three static native-FK checked starting poses; same archived actions reused counterfactually; no new inference, contact, or grasp success claim')
+    if args.suite=='contact':report['scope']='ten fresh deterministic cube approach/closure/lift diagnostics; two repeats per height/finger and open negative controls; success reported separately from completed execution; no VLA inference or measured contact force'
     def save():save_json(folder/'run.json',report)
     save();translation_failed=False
     env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.pop('PYTHONPATH',None)

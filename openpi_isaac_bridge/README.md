@@ -3604,3 +3604,54 @@ git add -- diagnostics/execution_generalization/
 git commit -m "Add cross pose arm and gripper candidate validation results"
 git push origin main
 ```
+
+## 两组夹爪的确定性接触、抬升和保持测试
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_execution_alignment.py --suite contact
+```
+
+共10个独立场景，不需要OpenPI服务，不执行归档模型动作。
+原生片段与静态FK来源只用于初始化和参数来源核验，继续实测检查初始TCP位置0.5mm、姿态0.1deg、关节0.001rad。
+机械臂固定J1/J3=1687.5/50，其他五关节、质量、摩擦、力矩限制和速度限制沿用来源。
+
+| 分组 | 数量 | 对照 |
+|---|---:|---|
+| 接触抓持 | 8 | 夹爪350/50和1000/100+armature1 × 抓取TCP高度为方块中心或中心上方5mm × 各重复两次 |
+| 张开负对照 | 2 | 各高度一组350/50，整程保持张开；不得接受抓持候选，不尝试抬升 |
+
+重复使用相同确定性初始化，检查可重复性，不当作不同随机场景的统计成功率。
+1000/100组同时包含armature1，应作为整组候选比较，不能将差异单独归因于刚度或阻尼。
+方块保留原资产、支撑高度和碰撞，XY放到静态映射TCP的X+10mm、Y不变处，使初始TCP在物体上方约10cm。
+这是主动引入接触的专用实验：原无接触套件的远离方块条件只在contact模式中改为8cm初始垂直净空检查，
+其余无接触用例不变。保留每周期1.5mm/0.3deg、总路径、软关节限位、物体速度与跌落保护。
+
+程序使用仿真真值物体位置生成固定世界目标：先在初始高位调整成方块yaw对齐的朝下姿态，
+移动到物体上方8cm，再下降到声明的抓取高度。目标序列采用相同的0.5mm/0.1deg有界反馈控制与到达条件，
+每阶段要求连续5个周期位置误差<=2mm、姿态误差<=2deg；实际关节命令与耗时由响应决定，非完全相同的开环关节轨迹。
+到达后仍检查close_gate，再保持目标、按10ms子步增量闭合3秒。
+最后10个周期的手指位置稳定、双指有阻挡迹象、物体靠近TCP且姿态保持，才允许执行程序生成的+5cm抬升。
+只有抬升到位并保持2秒，物体持续离开原高度>=3.5cm、TCP相对物体漂移/旋转满足阈值，才报告verified_lift_hold。
+抬升全程也计入相对位移检查，防止途中滑落又恢复被终点掩盖。
+
+每10ms记录七关节与两指的目标、实际位置/速度、驱动力缓冲、物体世界与TCP相对位姿、物体速度估计。
+contact物理步轨迹关闭后保存为physics_joint_trace.jsonl.gz，解压逐字节摘要核验后替换原文件；
+成功与失败前缀均保留，runner直接读取压缩轨迹，避免长测试单文件超过GitHub大小限制。
+驱动力不是接触力；没有接触传感器，报告contact_measurement=unavailable。
+夹爪停止只能作为阻挡候选，成功仍需物体随动抬升及稳定保持；不证明双侧接触分布或真实机器人抓取可靠性。
+10ms物体速度超过0.5m/s或跌落超过1cm会在汇总中否决成功；既有50ms运行时保护仍独立执行。
+每20个控制周期及阶段变化时保存相机图片，结束保存contact_final图片。
+
+结果位于diagnostics/execution_contact/<UTC>/。run.json中的completed表示执行流程结束，
+抓取结果单独看summary.grasp_result.success/outcome/close_check/hold_check/physics_checks。
+close_candidate_failed或lift_hold_failed不能当成抓取成功；原生保护中断会标记failed并保留前缀，其他独立场景继续。
+张开负对照若没有正确拒绝候选，标记该用例失败。所有失败、负对照和逐步数据一起推送。
+
+```bash
+git add -- diagnostics/execution_contact/
+git commit -m "Add deterministic finger contact lift and hold comparison results"
+git push origin main
+```

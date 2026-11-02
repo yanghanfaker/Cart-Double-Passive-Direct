@@ -1,4 +1,4 @@
-"""No-contact execution diagnostics; native SDK imports are deferred."""
+"""Declared execution diagnostics; native SDK imports are deferred."""
 import math
 import numpy as np
 
@@ -17,7 +17,8 @@ def validate_case(case):
     from execution_focus_cases import focus_cases
     from execution_sync_cases import sync_cases
     from execution_generalization import generalization_cases
-    if case not in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases():raise ValueError('execution case must exactly match a declared no-contact diagnostic')
+    from execution_contact import contact_cases
+    if case not in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases():raise ValueError('execution case must exactly match a declared diagnostic')
     return case
 
 
@@ -168,7 +169,7 @@ def run_alignment(runtime,R,settings,first,report,save):
         jac=tensor(r.arm._compute_frame_jacobian())[0].detach().cpu().numpy()
         if jac.shape!=(6,7) or not np.isfinite(jac).all():raise RuntimeError('expected finite actual 6x7 IK Jacobian')
         sv=np.linalg.svd(jac,compute_uv=False)
-        return {'position_target_rad':targets(r.joints),'position_before_rad':state['joint_positions_rad'],
+        result={'position_target_rad':targets(r.joints),'position_before_rad':state['joint_positions_rad'],
             'velocity_before_rad_s':state['joint_velocities_rad_s'],'velocity_target':velocity_target(),
             'arm_stiffness':optional('joint_stiffness',r.joints),'arm_damping':optional('joint_damping',r.joints),
             'root_quat_world_xyzw':tensor(r.robot.data.root_quat_w)[0].detach().cpu().tolist(),
@@ -183,11 +184,17 @@ def run_alignment(runtime,R,settings,first,report,save):
             'jacobian_root':jac.tolist(),'jacobian_singular_values':sv.tolist(),
             'jacobian_condition':float(sv[0]/sv[-1]) if sv[-1]>1e-12 else None,
             'jacobian_note':'mixed translation/rotation units; condition number depends on chosen units'}
+        if case['kind']=='contact-grasp':result['object_before_world_m']=state['object_pos_world_m']
+        return result
     def state():
         s=r.state()
-        return {'position_rad':s['joint_positions_rad'],'velocity_rad_s':s['joint_velocities_rad_s'],
+        result={'position_rad':s['joint_positions_rad'],'velocity_rad_s':s['joint_velocities_rad_s'],
             'finger_position_m':s['finger_positions_m'],'finger_velocity':optional('joint_vel',r.fingers),
             'hand_quat_world_xyzw':s['hand_quat_world_xyzw'],'tcp_world_m':s['tcp_world_m']}
+        if case['kind']=='contact-grasp':
+            result.update(object_pos_world_m=s['object_pos_world_m'],object_quat_world_xyzw=s['object_quat_world_xyzw'],
+                object_in_tcp_pos_m=s['object_in_tcp_pos_m'],object_in_tcp_quat_xyzw=s['object_in_tcp_quat_xyzw'])
+        return result
     def enrich(row):
         from execution_focus_cases import linearized_tcp
         predicted=linearized_tcp(row['jacobian_root'],np.array(row['position_rad'])-row['position_before_rad'],
@@ -204,12 +211,20 @@ def run_alignment(runtime,R,settings,first,report,save):
             parts['pd_components']={'position_nm':p.tolist(),'velocity_nm':d.tolist(),'sum_nm':(p+d).tolist(),
                 'scope':'buffer-based PD reconstruction before integration; not measured solver torque'}
         else:parts['pd_components']={'status':'unavailable'}
-        return {'kinematic_decomposition':parts}
+        result={'kinematic_decomposition':parts}
+        if case['kind']=='contact-grasp':
+            speed=float(np.linalg.norm(np.array(row['object_pos_world_m'])-row['object_before_world_m'])/.01)
+            result.update(object_speed_10ms_estimate_m_s=speed,object_speed_10ms_above_0p5=speed>.5,
+                contact_force_measurement='unavailable; finger drive force is not contact force')
+        return result
     recorder=None;override=None
     try:
         recorder=PhysicsJointRecorder(r.base.scene,float(r.base.physics_dt),.05,command,state,r.output/'physics_joint_trace.jsonl',
             {'joint_names':[f'panda_joint{i}' for i in range(1,8)],'effort_note':'SDK fields; availability explicit; no solver-force measurement claim'},enrich_row=enrich)
         override=FingerOverride(r,case['gripper_mode'])
+        if case['kind']=='contact-grasp':
+            from execution_contact import run_contact_runtime
+            return run_contact_runtime(r,settings,first,report,save,recorder,override)
         target=target_from_action(first['hand_position_world_m'],first['hand_quat_world_xyzw'],R,[0]*7)
         plan=motion_plan(case,settings['raw_actions']);sign=-1.
         for i,(phase,planned) in enumerate(plan):
@@ -235,5 +250,9 @@ def run_alignment(runtime,R,settings,first,report,save):
         if override is not None:override.close()
         if recorder is not None:
             recorder.close()
+            trace_file=recorder.path
+            if case['kind']=='contact-grasp':
+                from execution_contact import compress_trace
+                trace_file=compress_trace(trace_file)
             save_json(r.output/'execution_trace_status.json',{'controls':recorder.control_count,'substeps':recorder.substep_count,
-                'complete':recorder.context is None,'case':case})
+                'complete':recorder.context is None,'case':case,'trace_file':trace_file.name})

@@ -92,7 +92,11 @@ def run_segment(env,base,arm,settings,output,tensor):
             initial_joint_error_rad=float(np.max(np.abs(np.array(first['joint_positions_rad'])-native['robot0_joint_pos']))))
         save()
         if error>.0005 or rotation>.1 or report['initial_joint_error_rad']>.001:raise RuntimeError('native/Isaac initial pose mismatch')
-        if min(first['finger_positions_m'])<.035 or math.dist(first['tcp_world_m'],first['object_pos_world_m'])<.12:raise RuntimeError('need open gripper and distant cube')
+        contact=settings.get('execution_case',{}).get('kind')=='contact-grasp'
+        if min(first['finger_positions_m'])<.035:raise RuntimeError('need open gripper')
+        if contact:
+            if first['tcp_world_m'][2]-first['object_pos_world_m'][2]<.08:raise RuntimeError('contact orientation clearance below 8cm')
+        elif math.dist(first['tcp_world_m'],first['object_pos_world_m'])<.12:raise RuntimeError('need distant cube')
         report.update(initial=first,initial_tcp_error_m=error,initial_rotation_error_deg=rotation);save()
         if 'execution_case' in settings:
             from execution_alignment_probe import run_alignment
@@ -138,6 +142,10 @@ def main():
     if args.execution_case_json:
         from execution_alignment_probe import validate_case
         settings['execution_case']=validate_case(read(args.execution_case_json))
+        if settings['execution_case']['kind']=='contact-grasp':
+            from execution_contact import contact_scene
+            config=contact_scene(config,settings)
+            settings['scope']='deterministic cube contact/lift diagnostic with fixed arm gains and two finger candidates; no policy inference or native scene equivalence claim'
         if 'pose_variant' in settings['execution_case']:
             from execution_generalization import prepare_pose
             if args.pose_cache_root is None:p.error('pose variant requires --pose-cache-root')
