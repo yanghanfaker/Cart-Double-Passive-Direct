@@ -3252,3 +3252,38 @@ git add -- diagnostics/native_libero_replay/
 git commit -m "Add native fixed-response replay validation"
 git push origin main
 ```
+
+## Isaac执行侧：原生首次闭爪片段，无接触
+
+`isaac_native_segment.py`要求已完成原生固定响应回放，从第0回合首次实际请求闭爪所在查询取完整5步，
+该来源为query8，前4步张爪、第5步请求闭爪。无新推理。机械臂初始化为该查询前的7关节姿态；
+原生TCP/手部姿态经既有配准与Isaac初始化核对，阈值0.5mm/0.1度/0.001rad，失败即停止。
+方块XY移到[0.7,0.25]m并保持原支撑高度；开始时TCP距方块至少120mm，执行中至少100mm、方块漂移至多2mm。
+
+原始模型动作经当前桥接解码，保留0.5mm/0.1度限幅和current实际姿态相对目标。
+夹爪按现有二值映射执行正值闭合、负值张开，零保持前值；原生的增量式夹爪响应并未在此仿制。
+5个50ms控制周期后保持最后目标和夹爪指令20周期，总共25周期；最后保持段没有对应原生固定参考，不能当作原生回放的一部分。
+保留既有IK修正、每周期运动、关节软限位与环境终止检查；不放宽全局控制限制。
+
+结果`diagnostics/isaac_native_segment/<UTC>/capture/<UTC>/online_registered_result.json`逐步记录
+原生参考、Isaac实际关节/目标/手指、映射后TCP、初始配准误差；`motion.jsonl`包括实际送入IK的目标和执行检查。
+结果用于量化当前限幅IK/二值夹爪与原生OSC的执行差异，不是控制器等价、匹配场景或抓取成功证明。
+若任何初始化或无接触检查失败，请保留输出并推送，不自动更改阈值。
+
+保持现有Isaac安装即可，无需启动OpenPI服务：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/isaac_native_segment.py
+```
+
+Viser由Isaac子进程启动，记录较短，主要查看JSON轨迹。原生真实来源已离线准备校验，实际SDK执行待Spark。
+可用`--native-report`指定原生回放report.json，`--scene-manifest`指定完整near-descent/run.json。
+
+```bash
+git add -- diagnostics/isaac_native_segment/
+git commit -m "Add Isaac native segment response results"
+git push origin main
+```
