@@ -1,0 +1,37 @@
+{
+  "status": "completed",
+  "preflight": {
+    "python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "prefix": "/home/test/Robot/openpi/examples/libero/.venv",
+    "base_prefix": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu",
+    "modules": {
+      "numpy": true,
+      "PIL": true,
+      "yaml": true,
+      "mujoco": true,
+      "robosuite": true,
+      "libero": true,
+      "openpi_client": true,
+      "torch": true
+    }
+  },
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_libero_rollout.py",
+    "--worker",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_libero_rollout/20261102T020216245722Z",
+    "--openpi-root",
+    "/home/test/Robot/openpi",
+    "--server-host",
+    "127.0.0.1",
+    "--server-port",
+    "8000",
+    "--task-id",
+    "0",
+    "--seed",
+    "7"
+  ],
+  "worker_exit_code": 0,
+  "successes": 3,
+  "completed_episodes": 3
+}

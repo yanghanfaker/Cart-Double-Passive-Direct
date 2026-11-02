@@ -1,0 +1,66 @@
+[robosuite WARNING] No private macro file found! (macros.py:53)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:54)
+[robosuite WARNING] To setup, run: python /home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py (macros.py:55)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+/home/test/Robot/openpi/packages/openpi-client/src/openpi_client/websocket_client_policy.py:40: DeprecationWarning: connect() must be used as a context manager: with connect(...) as websocket: ...; alternatively, use websocket = connect(..., legacy=True) to connect directly
+  metadata = msgpack_numpy.unpackb(conn.recv())
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Native LIBERO] episode-00 query=1, action step=1
+[Native LIBERO] episode-00 query=2, action step=6
+[Native LIBERO] episode-00 query=3, action step=11
+[Native LIBERO] episode-00 query=4, action step=16
+[Native LIBERO] episode-00 query=5, action step=21
+[Native LIBERO] episode-00 query=6, action step=26
+[Native LIBERO] episode-00 query=7, action step=31
+[Native LIBERO] episode-00 query=8, action step=36
+[Native LIBERO] episode-00 query=9, action step=41
+[Native LIBERO] episode-00 query=10, action step=46
+[Native LIBERO] episode-00 query=11, action step=51
+[Native LIBERO] episode-00 query=12, action step=56
+[Native LIBERO] episode-00 query=13, action step=61
+[Native LIBERO] episode-00 query=14, action step=66
+[Native LIBERO] episode-00 query=15, action step=71
+[Native LIBERO] episode-00 query=16, action step=76
+[Native LIBERO] episode-00 query=17, action step=81
+[Native LIBERO] episode-00 query=18, action step=86
+[Native LIBERO] episode-00 query=19, action step=91
+[Native LIBERO] episode-00 query=20, action step=96
+[Native LIBERO] episode-00 query=21, action step=101
+[Native LIBERO] episode-00 query=22, action step=106
+[Native LIBERO] episode-01 query=1, action step=1
+[Native LIBERO] episode-01 query=2, action step=6
+[Native LIBERO] episode-01 query=3, action step=11
+[Native LIBERO] episode-01 query=4, action step=16
+[Native LIBERO] episode-01 query=5, action step=21
+[Native LIBERO] episode-01 query=6, action step=26
+[Native LIBERO] episode-01 query=7, action step=31
+[Native LIBERO] episode-01 query=8, action step=36
+[Native LIBERO] episode-01 query=9, action step=41
+[Native LIBERO] episode-01 query=10, action step=46
+[Native LIBERO] episode-01 query=11, action step=51
+[Native LIBERO] episode-01 query=12, action step=56
+[Native LIBERO] episode-01 query=13, action step=61
+[Native LIBERO] episode-01 query=14, action step=66
+[Native LIBERO] episode-01 query=15, action step=71
+[Native LIBERO] episode-01 query=16, action step=76
+[Native LIBERO] episode-02 query=1, action step=1
+[Native LIBERO] episode-02 query=2, action step=6
+[Native LIBERO] episode-02 query=3, action step=11
+[Native LIBERO] episode-02 query=4, action step=16
+[Native LIBERO] episode-02 query=5, action step=21
+[Native LIBERO] episode-02 query=6, action step=26
+[Native LIBERO] episode-02 query=7, action step=31
+[Native LIBERO] episode-02 query=8, action step=36
+[Native LIBERO] episode-02 query=9, action step=41
+[Native LIBERO] episode-02 query=10, action step=46
+[Native LIBERO] episode-02 query=11, action step=51
+[Native LIBERO] episode-02 query=12, action step=56
+[Native LIBERO] episode-02 query=13, action step=61
+[Native LIBERO] episode-02 query=14, action step=66
+[Native LIBERO] episode-02 query=15, action step=71
+[Native LIBERO] episode-02 query=16, action step=76
+[Native LIBERO] episode-02 query=17, action step=81
