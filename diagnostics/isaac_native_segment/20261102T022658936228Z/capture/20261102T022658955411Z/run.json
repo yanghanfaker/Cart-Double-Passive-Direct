@@ -1,0 +1,31 @@
+{
+  "status": "failed",
+  "command": [
+    "uv",
+    "run",
+    "--extra",
+    "viser",
+    "--extra",
+    "openpi",
+    "isaaclab",
+    "-p",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py",
+    "--viz",
+    "viser",
+    "--motion-test",
+    "geometry-audit",
+    "--gain-profile",
+    "kp2p25-kd0p25",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/isaac_native_segment/20261102T022658936228Z/capture/20261102T022658955411Z/joint_gains.json",
+    "--output",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/isaac_native_segment/20261102T022658936228Z/capture/20261102T022658955411Z",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/isaac_native_segment/20261102T022658936228Z/capture/20261102T022658955411Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/isaac_native_segment/20261102T022658936228Z/capture/20261102T022658955411Z/online_registered_settings.json"
+  ],
+  "output": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/isaac_native_segment/20261102T022658936228Z/capture/20261102T022658955411Z",
+  "scope": "current clean capture, one live registered query, bounded five-action execution and fixed-target hold",
+  "exit_code": 1
+}
