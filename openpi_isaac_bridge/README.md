@@ -3287,3 +3287,34 @@ git add -- diagnostics/isaac_native_segment/
 git commit -m "Add Isaac native segment response results"
 git push origin main
 ```
+
+## 初始化超差后的原生静态FK刷新检查
+
+`native_pose_refresh.py`读取最新因`native/Isaac initial pose mismatch`停止且执行0步的片段。
+把原生动态观测同时记录的7个关节角、两指关节值交给已有原生参考捕获器：直接设置qpos、对应qvel为零，
+调用forward并强制更新观测；验证刷新前后仿真时间相同，无控制动作、新推理或Isaac启动。
+原生参考场景reset是创建环境的必要初始化，不属于回放原始动态仿真状态。
+
+分析三组位置向量和范数（mm）：Isaac减原动态观测、原生静态FK减原动态观测、Isaac减原生静态FK；
+同时输出相应方向角差。原生静态关节必须与原动态关节一致，Isaac关节初始化残差单独记录。
+静态/动态差异反映观测刷新和运动学一致性；剩余跨模型差异可能包含模型、TCP、配准及微小关节残差，不能单独判定唯一原因。
+不修改0.5mm阈值。场景图像和物体布局未作匹配，不用新图像作策略比较。
+
+3项针对性CPU测试通过，覆盖误差向量分解、时间不变/关节匹配拒绝和原数据保留；真实超差姿态已离线准备。
+SDK静态捕获待Spark执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/native_pose_refresh.py
+```
+
+无需启动OpenPI或Isaac。输出`diagnostics/native_pose_refresh/<UTC>/analysis.json`、`reference.json`和`worker.log`，保留输入及源码/模型参考。
+可用`--segment-manifest /绝对路径/run.json`指定上轮停止记录。
+
+```bash
+git add -- diagnostics/native_pose_refresh/
+git commit -m "Add native static pose refresh results"
+git push origin main
+```
