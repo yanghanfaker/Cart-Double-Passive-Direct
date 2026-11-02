@@ -3318,3 +3318,30 @@ git add -- diagnostics/native_pose_refresh/
 git commit -m "Add native static pose refresh results"
 git push origin main
 ```
+
+## 使用静态FK参考重跑Isaac片段
+
+`isaac_native_segment.py`现在要求最新完整的`diagnostics/native_pose_refresh/*/run.json`，
+也可通过`--pose-refresh-manifest`明确指定。验证原动作、原生动态初态、5步原生参考、配准、来源报告SHA和执行器配置均一致，
+核对原静态审计的几何/来源SHA，并重算误差分解；不允许把其他片段的静态参考套入本轮。
+
+仅初始化配准比较改用原生静态FK的位置和手部方向，关节初态仍来自原记录。
+原始动态观测另存`native_dynamic_initial`，每步原生参考及原始动作保持原值；复制6个静态来源文件到本轮`static_reference/`。
+初始误差在检查失败前也会写入结果。仍使用0.5mm/0.1度配准门限、原运动限幅和无接触检查。
+Isaac从静止保持起步，原生片段原本处于运动中，速度条件未匹配；不能把全部响应差异都解释为控制器误差。
+
+已对0787ab305867真实静态来源验证原输入不被修改、动作保留和不同动作流拒绝。
+重跑命令及推送路径不变：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/isaac_native_segment.py
+```
+
+```bash
+git add -- diagnostics/isaac_native_segment/
+git commit -m "Add Isaac segment replay with static FK initialization"
+git push origin main
+```

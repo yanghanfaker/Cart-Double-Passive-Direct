@@ -1,5 +1,7 @@
 """Five archived native commands through the capped Isaac bridge, no contact."""
 import argparse
+import copy
+import os
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -18,6 +20,30 @@ from geometry_audit import multiply
 
 def read(p): return json.loads(Path(p).read_bytes())
 def sha(b): return hashlib.sha256(b).hexdigest()
+
+
+def use_static_reference(settings, manifest):
+    manifest=Path(manifest);root=manifest.parent;m=read(manifest)
+    if m['status']!='completed' or m['actions_executed']!=0 or m['new_policy_queries']!=0:raise ValueError('completed static refresh required')
+    payloads={name:(root/name).read_bytes() for name in ('reference.json','segment_settings.json','saved_isaac_geometry.json','source_segment_run.json','analysis.json')}
+    if sha(payloads['saved_isaac_geometry.json'])!=m['saved_geometry_sha256'] or sha(payloads['source_segment_run.json'])!=m['source_segment_sha256']:
+        raise ValueError('static refresh source SHA mismatch')
+    old=json.loads(payloads['segment_settings.json']);ref=json.loads(payloads['reference.json'])
+    for key in ('raw_actions','native_initial','native_segment','calibration','source_native_report_sha256','expected_joint_gains'):
+        if old[key]!=settings[key]:raise ValueError('static reference belongs to different segment: '+key)
+    from native_pose_refresh import analyze
+    # Independently recompute the saved decomposition before using its reference.
+    analysis=analyze(json.loads(payloads['saved_isaac_geometry.json']),old,ref)
+    stored=json.loads(payloads['analysis.json'])
+    for key in ('isaac_minus_dynamic','static_minus_dynamic','isaac_minus_static'):
+        if not np.allclose(analysis[key]['vector_mm'],stored[key]['vector_mm'],atol=1e-8,rtol=0):raise ValueError('static analysis disagrees')
+    result=copy.deepcopy(settings);result['native_dynamic_initial']=copy.deepcopy(settings['native_initial'])
+    for key in ('robot0_eef_pos','robot0_eef_quat'):
+        result['native_initial'][key]=ref['observation'][key]
+    result['initial_reference']='static native FK at recorded arm joints; original dynamic pose retained separately'
+    result['initial_velocity_note']='Isaac starts held near zero velocity; original native segment was moving; this is an execution diagnostic, not matched dynamic state replay'
+    result['static_reference_sha256']=sha(payloads['reference.json']);result['static_refresh_manifest_sha256']=sha(manifest.read_bytes())
+    return result,{**payloads,'run.json':manifest.read_bytes()}
 
 
 def prepare(native, scene, calibration):
@@ -58,7 +84,10 @@ def run_segment(env,base,arm,settings,output,tensor):
         I=np.array(pose_matrix({'position_m':[0,0,0],'quat_xyzw':first['hand_quat_world_xyzw']}))[:3,:3]
         L=np.array(pose_matrix({'position_m':[0,0,0],'quat_xyzw':native['robot0_eef_quat']}))[:3,:3]
         rotation=rotation_angle(L.T@R@I)
-        if error>.0005 or rotation>.1 or np.max(np.abs(np.array(first['joint_positions_rad'])-native['robot0_joint_pos']))>.001:raise RuntimeError('native/Isaac initial pose mismatch')
+        report.update(initial=first,initial_tcp_error_m=error,initial_rotation_error_deg=rotation,
+            initial_joint_error_rad=float(np.max(np.abs(np.array(first['joint_positions_rad'])-native['robot0_joint_pos']))))
+        save()
+        if error>.0005 or rotation>.1 or report['initial_joint_error_rad']>.001:raise RuntimeError('native/Isaac initial pose mismatch')
         if min(first['finger_positions_m'])<.035 or math.dist(first['tcp_world_m'],first['object_pos_world_m'])<.12:raise RuntimeError('need open gripper and distant cube')
         report.update(initial=first,initial_tcp_error_m=error,initial_rotation_error_deg=rotation);save()
         gripper=1.;target=None
@@ -83,6 +112,7 @@ def run_segment(env,base,arm,settings,output,tensor):
 def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--native-report',type=Path);p.add_argument('--scene-manifest',type=Path)
+    p.add_argument('--pose-refresh-manifest',type=Path)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
     p.add_argument('--output-root',type=Path,default=repo/'diagnostics/isaac_native_segment');args=p.parse_args()
     native=args.native_report or next((f for f in sorted((repo/'diagnostics/native_libero_replay').glob('*/report.json'),reverse=True) if read(f.parent/'replay_checks.json').get('status')=='completed'),None)
@@ -92,13 +122,20 @@ def main():
     if sha(cb)!=m['world_registration_sha256']:raise ValueError('calibration SHA mismatch')
     config,settings=prepare(native,read(scene.parent/m['cases'][0]['name']/'clean_scene_request.json'),json.loads(cb))
     settings['expected_joint_gains']=read((scene.parent/m['cases'][0]['result']).parent/'joint_gains.json')
+    refresh=args.pose_refresh_manifest or next((f for f in sorted((repo/'diagnostics/native_pose_refresh').glob('*/run.json'),reverse=True) if read(f).get('status')=='completed'),None)
+    if refresh is None:p.error('completed native static refresh required')
+    settings,reference_files=use_static_reference(settings,refresh)
+    config['reference_eef_position_world_m']=settings['native_initial']['robot0_eef_pos']
     folder=args.output_root.absolute()/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ');folder.mkdir(parents=True)
+    reference_folder=folder/'static_reference';reference_folder.mkdir()
+    for name,payload in reference_files.items():(reference_folder/name).write_bytes(payload)
     save_json(folder/'clean_scene_request.json',config);save_json(folder/'segment_settings.json',settings)
     command=[sys.executable,str(Path(__file__).with_name('run_geometry_audit.py')),'--isaaclab-root',str(args.isaaclab_root.absolute()),'--output-root',str(folder/'capture'),
         '--clean-scene-json',str(folder/'clean_scene_request.json'),'--online-registered-json',str(folder/'segment_settings.json')]
     report={'status':'running','command':command,'policy_queries':0};save_json(folder/'run.json',report)
     try:
-        code=subprocess.call(command)
+        child_env=os.environ.copy();child_env.pop('VIRTUAL_ENV',None);child_env.pop('PYTHONPATH',None)
+        code=subprocess.call(command,env=child_env)
         results=list((folder/'capture').glob('*/online_registered_result.json'))
         if code or len(results)!=1 or read(results[0])['status']!='completed':raise RuntimeError('segment failed; inspect capture console and result')
         report.update(status='completed',result=results[0].relative_to(folder).as_posix(),result_sha256=sha(results[0].read_bytes()));return 0
