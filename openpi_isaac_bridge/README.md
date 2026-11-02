@@ -3466,3 +3466,48 @@ git add -- diagnostics/execution_coverage/
 git commit -m "Add gripper rotation and coupled execution coverage results"
 git push origin main
 ```
+
+## 下一轮分解测试：夹爪滞后、J6削顶、绕X轴TCP漂移
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_execution_alignment.py --suite focus
+```
+
+共19个独立、远离方块的用例，无需OpenPI服务；继续使用同一归档5步片段，不修改机械臂增益或力矩限制。
+
+| 分组 | 数量 | 变化与判断目标 |
+|---|---:|---|
+| 夹爪阻尼/惯性 | 6 | 继承350/10、1000/50、1000/100、350/50、350/100，以及1000/100+两指armature=1；统一子步增量 |
+| J6力矩分解 | 7 | 仅平移5mm、仅归档旋转0.1/0.5deg，以及平移2/5mm×旋转0.1/0.5deg的完整2×2组合；夹爪全开 |
+| 绕X轴漂移 | 6 | 正负方向0.5deg，分别用当前实际姿态、累积目标、固定初始TCP位置但姿态按当前值更新 |
+
+夹爪armature组与1000/100组只相差两指惯性参数，保留finger2零刚度零阻尼；
+它改变有效关节惯性，不改连杆质量、碰撞或接触摩擦。构造前检查配置接口支持armature，
+运行后核对ArticulationData.joint_armature两指均为1；无法确认则该用例失败，其他独立方向继续。
+不是原生质量和驱动结构的完整复制，也不把不同引擎同名参数视为严格等价。
+参考官方属性归属：https://isaac-sim.github.io/IsaacLab/develop/source/concepts/actuators.html
+
+J6组保持同一初始状态，先分别测平移、旋转，再比较四种组合，以定位削顶由哪个动作分量触发。
+所有组保存computed/applied torque差异、逐关节请求力矩/限制比例、削顶物理步数量。
+运行completed仅表示执行完成；即使出现削顶也可能完成，必须检查saturation字段。
+不提高12Nm等现有限制，不预先把饱和认定为驱动能力不足。
+
+绕X轴的anchored_tcp参考组固定初始TCP97位置，每周期仍从实际姿态计算旋转增量；
+accumulated组同时积累位置和姿态。这两种方式用来区分位置误差累积和姿态残余误差，不自动替代原生OSC。
+每个10ms物理步新增真实IK107雅可比的位移分解：
+J×实际关节位移、J×目标关节位移、root到world旋转，以及IK107到TCP97的-10mm刚性点修正。
+记录预测TCP位移与实际位移残差，以检查控制点、坐标和局部运动学一致性；它是一阶近似，不是动力学预测。
+还记录关节刚度/阻尼、速度目标和积分前速度，重建PD位置项、速度项与和；该值不是求解器实测力矩。
+
+较大的组合要求对应分量用例和较小组合先完成；正反绕X组各自独立，参考方式对照依赖同方向current组。
+不改既有alignment八用例或coverage二十二用例定义。保留静态初始化、关节限位、无接触和整体运动保护。
+结果输出diagnostics/execution_focus/<UTC>/，所有失败、跳过、配置与物理步记录均需推送。
+
+```bash
+git add -- diagnostics/execution_focus/
+git commit -m "Add gripper lag J6 saturation and TCP drift decomposition results"
+git push origin main
+```

@@ -10,6 +10,7 @@ import sys
 import numpy as np
 from execution_alignment_probe import cases
 from execution_coverage_cases import coverage_cases
+from execution_focus_cases import focus_cases
 from native_libero_rollout import save_json
 
 
@@ -22,7 +23,13 @@ def summarize(result):
     rows=[json.loads(line) for line in trace_path.read_text().splitlines()]
     if r['status']=='completed' and len(rows)!=5*len(r['trace']):raise RuntimeError('completed case has incomplete physics trace')
     errors=np.array([np.array(x['position_target_rad'])-x['position_rad'] for x in rows])
+    effort_rows=[x for x in rows if all(x[k]['status']=='available' for k in ('computed_torque','applied_torque','effort_limits'))]
+    saturation={'sample_count':len(effort_rows),'clipped_samples':int(sum(np.max(np.abs(np.array(x['computed_torque']['value'])-x['applied_torque']['value']))>1e-5 for x in effort_rows)),
+        'peak_requested_fraction_per_joint':np.max([np.abs(x['computed_torque']['value'])/np.array(x['effort_limits']['value']) for x in effort_rows],axis=0).tolist() if effort_rows else None,
+        'scope':'computed versus applied buffer difference; not an independent solver-force measurement'}
     return {'status':r['status'],'error':r.get('error'),'controls':len(r['trace']),'physics_samples':len(rows),
+        'saturation':saturation,
+        'max_tcp_linearization_residual_m':max((x['kinematic_decomposition']['actual_linearization_residual_m'] for x in rows),default=None),
         'initial_tcp_error_m':r['initial_tcp_error_m'],
         'joint_max_abs_tracking_error_rad':np.max(np.abs(errors),axis=0).tolist() if len(rows) else None,
         'peak_abs_joint_velocity_rad_s':np.max(np.abs([x['velocity_rad_s'] for x in rows]),axis=0).tolist() if rows else None,
@@ -41,10 +48,10 @@ def summarize(result):
 def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
-    p.add_argument('--suite',choices=['alignment','coverage'],default='alignment')
+    p.add_argument('--suite',choices=['alignment','coverage','focus'],default='alignment')
     p.add_argument('--output-root',type=Path)
-    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()],nargs='+')
-    args=p.parse_args();selected=cases() if args.suite=='alignment' else coverage_cases()
+    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()],nargs='+')
+    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases}[args.suite]()
     if args.only:
         wanted=set(args.only);declared={c['name']:c for c in selected}
         if wanted-set(declared):p.error('--only must belong to selected suite')
@@ -53,12 +60,12 @@ def main():
                 if dependency not in wanted:wanted.add(dependency);add_dependencies(dependency)
         for name in list(wanted):add_dependencies(name)
         selected=[c for c in selected if c['name'] in wanted]
-    args.output_root=args.output_root or repo/('diagnostics/execution_coverage' if args.suite=='coverage' else 'diagnostics/execution_alignment')
+    args.output_root=args.output_root or repo/f'diagnostics/execution_{args.suite}'
     folder=args.output_root.absolute()/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ');folder.mkdir(parents=True)
     report={'status':'running','new_policy_queries':0,'cases':[],
         'suite':args.suite,'scope':'independent fresh no-contact scenes; prerequisite failures skip dependent cases; synthetic preconditioning changes pose and velocity, not native dynamic restoration; no grasp success claim'}
     report['code_sha256']={name:hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','check_cameras.py','isaac_native_segment.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
+        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','check_cameras.py','isaac_native_segment.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
     def save():save_json(folder/'run.json',report)
     save();translation_failed=False
     env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.pop('PYTHONPATH',None)

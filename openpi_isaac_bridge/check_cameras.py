@@ -234,7 +234,7 @@ def main():
         from execution_alignment_probe import validate_case
         from execution_coverage_cases import configure_finger_profile
         execution_case=validate_case(online_registered['execution_case'])
-        finger_gain_audit=configure_finger_profile(cfg.scene.robot.actuators,execution_case.get('finger_profile','inherited'))
+        finger_gain_audit=configure_finger_profile(cfg.scene.robot.actuators,execution_case.get('finger_profile','inherited'),armature=execution_case.get('finger_armature'))
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
     if args.motion_test in ("geometry-audit", "libero-map", "libero-stream", "step-response", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):

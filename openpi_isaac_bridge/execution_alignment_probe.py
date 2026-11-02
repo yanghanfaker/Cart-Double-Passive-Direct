@@ -14,7 +14,8 @@ def cases():
 
 def validate_case(case):
     from execution_coverage_cases import coverage_cases
-    if case not in cases()+coverage_cases():raise ValueError('execution case must exactly match a declared no-contact diagnostic')
+    from execution_focus_cases import focus_cases
+    if case not in cases()+coverage_cases()+focus_cases():raise ValueError('execution case must exactly match a declared no-contact diagnostic')
     return case
 
 
@@ -41,6 +42,8 @@ def motion_plan(case,actions):
         if case['kind']=='rotation':
             a=[0.]*7;a[3+case['axis']]=float(case['sign']);a[6]=-1.
         elif case['kind']=='translation':a[3:6]=[0.,0.,0.];a[6]=-1.
+        elif case['kind']=='recorded-rotation':a[:3]=[0.,0.,0.];a[6]=-1.
+        if case.get('force_open'):a[6]=-1.
         plan.append(('command',a))
     return plan+[('hold',None)]*20
 
@@ -51,6 +54,8 @@ def next_target(before,previous,R,raw,case):
     hand=before['hand_position_world_m'];quat=before['hand_quat_world_xyzw']
     if previous is not None and case.get('reference_mode')=='accumulated':
         quat=previous['hand_target_quat_world_xyzw']
+        hand=(np.array(previous['tcp97_target_world_m'])-rotate(quat,[0,0,.097])).tolist()
+    elif previous is not None and case.get('reference_mode')=='anchored_tcp':
         hand=(np.array(previous['tcp97_target_world_m'])-rotate(quat,[0,0,.097])).tolist()
     return target_from_action(hand,quat,R,raw,translation_cap=case['cap_m'],rotation_cap=math.radians(case.get('rotation_cap_deg',.1)))
 
@@ -92,6 +97,8 @@ def run_alignment(runtime,R,settings,first,report,save):
     case=validate_case(settings['execution_case']);r=runtime;tensor=r.tensor
     if getattr(r.base,'_physics_handles_decimation',False):raise RuntimeError('substep tracing requires environment-owned decimation')
     if not math.isclose(float(r.base.physics_dt),.01,abs_tol=1e-9):raise RuntimeError('expected 10ms Isaac physics period')
+    if list(r.arm._joint_names)!=[f'panda_joint{i}' for i in range(1,8)] or not r.robot.is_fixed_base:
+        raise RuntimeError('Jacobian decomposition requires fixed base and matching seven-joint order')
     def optional(field,ids):
         try:
             data=tensor(getattr(r.robot.data,field))[0,ids].detach().cpu().numpy()
@@ -105,12 +112,24 @@ def run_alignment(runtime,R,settings,first,report,save):
         values=tensor(data)[0,ids].detach().cpu().numpy()
         if not np.isfinite(values).all():raise RuntimeError('nonfinite target buffer')
         return values.tolist()
+    def velocity_target():
+        try:
+            commands=getattr(r.robot.actuators,'target_command',None)
+            buffer=commands.velocity if commands is not None else r.robot.data.joint_vel_target
+            values=tensor(buffer)[0,r.joints].detach().cpu().numpy()
+            if not np.isfinite(values).all():raise RuntimeError('nonfinite velocity target')
+            return {'value':values.tolist(),'status':'available'}
+        except (AttributeError,NotImplementedError) as error:return {'value':None,'status':'unavailable','reason':str(error)}
     # Read actual buffers, including USD-inherited active gains and zero passive drive.
-    finger_audit={key:optional(key,r.fingers) for key in ('joint_stiffness','joint_damping','joint_effort_limits','joint_vel_limits')}
+    finger_audit={key:optional(key,r.fingers) for key in ('joint_stiffness','joint_damping','joint_effort_limits','joint_vel_limits','joint_armature')}
     finger_audit['asset']=str(getattr(getattr(r.robot.cfg,'spawn',None),'usd_path','unavailable'))
     finger_audit['note']='finger1 active; finger2 passive/mimic; authored USD fields may differ from resolved solver properties'
     from execution_coverage_cases import FINGER_PROFILES
     requested=FINGER_PROFILES[case.get('finger_profile','inherited')]
+    if 'finger_armature' in case:
+        actual=finger_audit['joint_armature']
+        if actual['status']!='available' or not np.allclose(actual['value'],[case['finger_armature']]*2,atol=1e-6,rtol=0):
+            raise RuntimeError('finger armature override not confirmed in articulation data')
     if requested is not None:
         for key,expected in zip(('joint_stiffness','joint_damping'),requested):
             actual=finger_audit[key]
@@ -142,6 +161,10 @@ def run_alignment(runtime,R,settings,first,report,save):
         if jac.shape!=(6,7) or not np.isfinite(jac).all():raise RuntimeError('expected finite actual 6x7 IK Jacobian')
         sv=np.linalg.svd(jac,compute_uv=False)
         return {'position_target_rad':targets(r.joints),'position_before_rad':state['joint_positions_rad'],
+            'velocity_before_rad_s':state['joint_velocities_rad_s'],'velocity_target':velocity_target(),
+            'arm_stiffness':optional('joint_stiffness',r.joints),'arm_damping':optional('joint_damping',r.joints),
+            'root_quat_world_xyzw':tensor(r.robot.data.root_quat_w)[0].detach().cpu().tolist(),
+            'hand_quat_before_world_xyzw':state['hand_quat_world_xyzw'],'tcp_before_world_m':state['tcp_world_m'],
             'finger_target_m':finger_target,'finger_before_m':state['finger_positions_m'],
             'finger_applied_torque':optional('applied_torque',r.fingers),
             'finger_computed_torque':optional('computed_torque',r.fingers),
@@ -157,10 +180,27 @@ def run_alignment(runtime,R,settings,first,report,save):
         return {'position_rad':s['joint_positions_rad'],'velocity_rad_s':s['joint_velocities_rad_s'],
             'finger_position_m':s['finger_positions_m'],'finger_velocity':optional('joint_vel',r.fingers),
             'hand_quat_world_xyzw':s['hand_quat_world_xyzw'],'tcp_world_m':s['tcp_world_m']}
+    def enrich(row):
+        from execution_focus_cases import linearized_tcp
+        predicted=linearized_tcp(row['jacobian_root'],np.array(row['position_rad'])-row['position_before_rad'],
+            row['root_quat_world_xyzw'],row['hand_quat_before_world_xyzw'])
+        actual=np.array(row['tcp_world_m'])-row['tcp_before_world_m']
+        expected=linearized_tcp(row['jacobian_root'],np.array(row['position_target_rad'])-row['position_before_rad'],
+            row['root_quat_world_xyzw'],row['hand_quat_before_world_xyzw'])
+        parts={'actual_joint_delta_prediction':predicted,'target_joint_delta_prediction':expected,
+            'observed_tcp_delta_world_m':actual.tolist(),
+            'actual_linearization_residual_m':float(np.linalg.norm(actual-predicted['tcp97_predicted_world_m']))}
+        if all(row[k]['status']=='available' for k in ('arm_stiffness','arm_damping','velocity_target')):
+            p=np.array(row['arm_stiffness']['value'])*(np.array(row['position_target_rad'])-row['position_before_rad'])
+            d=np.array(row['arm_damping']['value'])*(np.array(row['velocity_target']['value'])-row['velocity_before_rad_s'])
+            parts['pd_components']={'position_nm':p.tolist(),'velocity_nm':d.tolist(),'sum_nm':(p+d).tolist(),
+                'scope':'buffer-based PD reconstruction before integration; not measured solver torque'}
+        else:parts['pd_components']={'status':'unavailable'}
+        return {'kinematic_decomposition':parts}
     recorder=None;override=None
     try:
         recorder=PhysicsJointRecorder(r.base.scene,float(r.base.physics_dt),.05,command,state,r.output/'physics_joint_trace.jsonl',
-            {'joint_names':[f'panda_joint{i}' for i in range(1,8)],'effort_note':'SDK fields; availability explicit; no solver-force measurement claim'})
+            {'joint_names':[f'panda_joint{i}' for i in range(1,8)],'effort_note':'SDK fields; availability explicit; no solver-force measurement claim'},enrich_row=enrich)
         override=FingerOverride(r,case['gripper_mode'])
         target=target_from_action(first['hand_position_world_m'],first['hand_quat_world_xyzw'],R,[0]*7)
         plan=motion_plan(case,settings['raw_actions']);sign=-1.
