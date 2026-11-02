@@ -146,6 +146,9 @@ def main():
             from execution_contact import contact_scene
             config=contact_scene(config,settings)
             settings['scope']='deterministic cube contact/lift diagnostic with fixed arm gains and two finger candidates; no policy inference or native scene equivalence claim'
+            if settings['execution_case'].get('hybrid_role')=='policy':
+                settings.update(server_host='127.0.0.1',server_port=8000,prompt=settings['execution_case']['prompt'],
+                    scope='live policy approach followed by explicit program refinement and verified grasp; cube proxy domain, not native LIBERO task')
         if 'pose_variant' in settings['execution_case']:
             from execution_generalization import prepare_pose
             if args.pose_cache_root is None:p.error('pose variant requires --pose-cache-root')

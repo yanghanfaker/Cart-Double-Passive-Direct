@@ -3655,3 +3655,63 @@ git add -- diagnostics/execution_contact/
 git commit -m "Add deterministic finger contact lift and hold comparison results"
 git push origin main
 ```
+
+## OpenPI接近与程序抓持交接的交叉测试
+
+保持此前通过原生LIBERO基线的模型服务在127.0.0.1:8000运行，使用相同checkpoint与归一化配置。
+本轮需要模型服务；runner先用HTTP /healthz检查，不使用裸TCP空连接。
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_execution_alignment.py --suite hybrid
+```
+
+共10个独立场景：前后两次程序抓取参考，中间8次在线接近。
+固定同一接触场景、J1/J3=1687.5/50、夹爪350/50、程序抓取高度=方块中心上方5mm，提示词为pick up the cube。
+夹爪另一组和抓取高度不在本轮同时变化。
+
+| 在线测试因素 | 取值 | 定位问题 |
+|---|---|---|
+| 每次查询执行前缀 | 前1步 / 前5步 | 更频繁的视觉反馈是否改变接近方向和到达情况 |
+| 程序交接触发 | geometry / model-close | 能到位却没有闭合请求，或闭合请求早于到位 |
+| 重复 | 各组合两次，第二轮反向顺序 | 检查在线输出变化并减小固定运行顺序的影响 |
+
+两种前缀均最多执行600个50ms接近控制周期；前1步最多600次查询，前5步最多120次查询。
+每次只执行声明的前缀，剩余未来动作被新观测后的预测替代，这是本轮明确测试的重规划设置。
+推理时仿真暂停，记录真实推理耗时，不宣称实时20Hz闭环。
+100周期距离改善少于2mm、距离增加超过2cm、物体被推走超过2cm或既有运动保护触发时结束该方向。
+
+接近期间实际夹爪始终张开，原始模型第7维仍完整记录：正值为请求闭合。
+模型六维位姿指令继续按已核对的LIBERO缩放映射，限幅0.5mm/0.1deg，不提高力矩或运动边界。
+geometry在实际末端进入close_gate后即交接，不要求模型请求闭合；model-close还要求当前预测动作第7维为正。
+close_gate保持原条件：横向<=12mm、TCP相对物体高度[-5,20]mm、三维距离<=15mm、手部朝下倾角<=20deg。
+若在执行一步后geometry已到位，则直接交接，不额外查询一次模型。
+每个动作决定记录查询编号、前缀索引、原始动作、执行与否、执行前后状态及门控结果。
+
+交接后程序先使用物体真值将TCP细调到中心上方5mm，并将手部调整为方块yaw对齐的朝下姿态，
+再沿用通过验证的3秒子步闭合、+5cm抬升及2秒保持。细调量、起点和固定目标分别保存。
+这属于模型接近+程序辅助抓持，不能记作模型自主完成闭合或抬升。
+物体真值只用于门控、停止检查和交接后的程序目标，模型输入仍为两幅相机图像、8维机器人状态及提示词。
+模型服务的随机状态不在此重置，两次运行不当作严格同随机种子的配对实验。
+
+前置条件为完整通过的diagnostics/execution_contact记录，核对十个源结果摘要、8组正例与2组负例。
+保存source_contact_run.json及源文件摘要。前置程序参考必须抓取成功，才允许启动在线组；
+结束时再跑一次程序参考，若失败会标记该参考failed，需要先检查环境/控制状态再解释策略组。
+程序参考不调用模型，在线组每次查询都保存当前图像、状态、动作块和ZIP摘要。
+相邻观测的物理步间隔按实际执行前缀检查（1步=5个物理步，5步=25个物理步），并检查相机帧推进、
+推理期间物理步不变以及查询状态与实时关节/TCP一致，避免沿用旧的固定五步检查。
+
+继续保存10ms关节/物体轨迹、驱动力、滑移和物体速度检查，长轨迹压缩为JSONL.GZ。
+结果目录diagnostics/execution_hybrid/<UTC>/；new_policy_queries为实际收到响应次数，参考组为0。
+summary.grasp_result.policy_approach中查看最近距离、模型闭合请求、被拦截请求、handoff和逐动作决策；
+handoff_refinement、close_check、hold_check、physics_checks中查看程序辅助及真实物体随动结果。
+completed只表示该测试流程结束，未交接、预算耗尽或抓持失败均单独记录outcome，不能当作成功。
+方块、桌面和渲染仍属于Isaac代理场景，与LIBERO原生黑碗任务存在域差异；本轮不报告原生基准成功率。
+
+```bash
+git add -- diagnostics/execution_hybrid/
+git commit -m "Add live OpenPI approach and program grasp handoff results"
+git push origin main
+```

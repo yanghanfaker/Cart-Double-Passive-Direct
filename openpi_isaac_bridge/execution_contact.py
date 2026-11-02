@@ -44,9 +44,12 @@ def contact_scene(config,settings):
     return result
 
 
-def run_contact_experiment(read_state,step_goal,case):
+def run_contact_experiment(read_state,step_goal,case,handoff=False):
     """Fixed world goals, common feedback tolerances; step_goal advances 50 ms."""
-    if case not in contact_cases():raise ValueError('undeclared contact case')
+    if case not in contact_cases():
+        from execution_hybrid import hybrid_cases
+        if case not in hybrid_cases():raise ValueError('undeclared contact case')
+    if handoff and case.get('hybrid_role')!='policy':raise ValueError('handoff requires declared live policy case')
     initial=copy.deepcopy(read_state());obj=list(initial['object_pos_world_m'])
     q,yaw=down_quat_from_object(initial['object_quat_world_xyzw'])
     grasp=[obj[0],obj[1],obj[2]+case['grasp_height_m']]
@@ -71,7 +74,7 @@ def run_contact_experiment(read_state,step_goal,case):
         speed=math.dist(s['object_pos_world_m'],last['object_pos_world_m'])/.05;last=s
         if speed>.5:raise GraspAbort('object speed exceeded 0.5m/s control estimate')
         if s['object_pos_world_m'][2]<obj[2]-.01:raise GraspAbort('object fell below initial support')
-        if phase in ('orient','above','descend','close') and math.dist(s['object_pos_world_m'],obj)>.02:raise GraspAbort('object moved >2cm before lift')
+        if phase in ('orient','above','descend','refine','close') and math.dist(s['object_pos_world_m'],obj)>.02:raise GraspAbort('object moved >2cm before lift')
         return s
     def move(label,p,quat,grip,limit):
         tail=[]
@@ -83,10 +86,15 @@ def run_contact_experiment(read_state,step_goal,case):
         raise GraspAbort(label+' target timeout')
     try:
         if min(initial['finger_positions_m'])<.035:raise GraspAbort('initial gripper not open')
-        if initial['tcp_world_m'][2]<obj[2]+.08:raise GraspAbort('initial TCP below orientation clearance')
-        move('orient',initial['tcp_world_m'],q,1.,1000)
-        move('above',above,q,1.,1000)
-        move('descend',grasp,q,1.,2500)
+        if handoff:
+            if not close_gate(initial)['allowed']:raise GraspAbort('program handoff outside close gate')
+            report['handoff_refinement']={'start':copy.deepcopy(initial),'scope':'program truth refines position and yaw-aligned down orientation after policy approach'}
+            move('refine',grasp,q,1.,1200)
+        else:
+            if initial['tcp_world_m'][2]<obj[2]+.08:raise GraspAbort('initial TCP below orientation clearance')
+            move('orient',initial['tcp_world_m'],q,1.,1000)
+            move('above',above,q,1.,1000)
+            move('descend',grasp,q,1.,2500)
         if not close_gate(last)['allowed']:raise GraspAbort('deterministic close gate rejected')
         report['close_attempted']=not case['negative_control'];report['close_gate']=close_gate(last)
         grip=1. if case['negative_control'] else -1.
@@ -126,23 +134,29 @@ def run_contact_experiment(read_state,step_goal,case):
 def run_contact_runtime(r,settings,first,report,save,recorder,override):
     from openpi_grasp_logic import bounded_goal_target
     case=settings['execution_case']
-    def step_goal(p,q,grip,phase):
-        before=r.state();target=bounded_goal_target(before['hand_position_world_m'],before['hand_quat_world_xyzw'],p,q)
+    def execute(target,grip,phase,fixed_goal,raw_action=None):
+        before=r.state()
         override.begin(-grip);index=r.controls+1
         recorder.begin_control({'case':case['name'],'phase':phase,'case_control_step':index})
-        runtime_phase='approach' if phase in ('orient','above','descend') else phase
-        try:after=r.step(target,grip,runtime_phase,{'tcp_world_m':p,'hand_quat_world_xyzw':q,'program_phase':phase})
+        runtime_phase='approach' if phase in ('orient','above','descend','refine','policy-approach') else phase
+        try:after=r.step(target,grip,runtime_phase,fixed_goal)
         except Exception as error:report['execution_abort']=str(error);raise
         finally:
             if recorder.pending is None and recorder.period_substeps==5:recorder.end_control()
             if r.controls==index:
-                report['trace'].append({'step':index,'phase':phase,'before':before,'after':r.state(),'raw_action':None,
-                    'target':target,'fixed_goal':{'tcp_world_m':p,'hand_quat_world_xyzw':q},'native_gripper_sign':-grip,
+                report['trace'].append({'step':index,'phase':phase,'before':before,'after':r.state(),'raw_action':raw_action,
+                    'target':target,'fixed_goal':fixed_goal,'native_gripper_sign':-grip,
                     'gripper_apply_calls':override.calls,'ramp_target_m':override.value})
             save()
         if override.calls!=5:raise RuntimeError('expected five gripper substeps')
         return after
-    result=run_contact_experiment(r.state,step_goal,case)
+    def step_goal(p,q,grip,phase):
+        before=r.state();target=bounded_goal_target(before['hand_position_world_m'],before['hand_quat_world_xyzw'],p,q)
+        return execute(target,grip,phase,{'tcp_world_m':p,'hand_quat_world_xyzw':q,'program_phase':phase})
+    if case.get('hybrid_role')=='policy':
+        from execution_hybrid import run_hybrid_runtime
+        result=run_hybrid_runtime(r,settings,report,save,step_goal,execute)
+    else:result=run_contact_experiment(r.state,step_goal,case)
     rows=recorder.rows
     result['physics_checks']={'samples':len(rows),
         'max_object_speed_10ms_estimate_m_s':max((x['object_speed_10ms_estimate_m_s'] for x in rows),default=0.),
@@ -150,6 +164,11 @@ def run_contact_runtime(r,settings,first,report,save,recorder,override):
         'finger_force_scope':'computed/applied drive buffers, not object contact forces'}
     if result['physics_checks']['max_object_speed_10ms_estimate_m_s']>.5 or result['physics_checks']['min_object_height_from_initial_m']<-.01:
         result.update(success=False,outcome='10ms_object_motion_check_failed')
+    held=[x['after'] for x in report['trace'] if x['phase']=='hold']
+    if held:
+        result['physics_checks']['minimum_hold_lift_from_scene_initial_m']=min(x['object_pos_world_m'][2]-first['object_pos_world_m'][2] for x in held)
+        if result['physics_checks']['minimum_hold_lift_from_scene_initial_m']<.035:
+            result.update(success=False,outcome='scene_initial_lift_check_failed')
     report['grasp_result']=result;save()
     if report.get('execution_abort'):raise RuntimeError(report['execution_abort'])
     if case['negative_control'] and not result.get('negative_check_passed',False):raise RuntimeError('open negative control did not reject grasp candidate')

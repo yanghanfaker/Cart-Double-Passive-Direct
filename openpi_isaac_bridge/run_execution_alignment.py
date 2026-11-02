@@ -14,7 +14,17 @@ from execution_focus_cases import focus_cases
 from execution_sync_cases import sync_cases
 from execution_generalization import generalization_cases
 from execution_contact import contact_cases
+from execution_hybrid import hybrid_cases,validate_contact_source
 from native_libero_rollout import save_json
+
+
+def missing_prerequisites(case,rows):
+    done={x['case']['name']:x for x in rows}
+    missing=[name for name in case.get('requires',[]) if done.get(name,{}).get('status')!='completed']
+    for name in case.get('requires_success',[]):
+        prior=done.get(name,{})
+        if not (prior.get('summary',{}).get('grasp_result') or {}).get('success',False):missing.append(name+' grasp success')
+    return missing
 
 
 def summarize(result):
@@ -23,6 +33,7 @@ def summarize(result):
     if not trace_path.exists() and not compressed.exists():
         if r['status']=='completed':raise RuntimeError('completed case missing physics trace')
         return {'status':r['status'],'error':r.get('error'),'controls':len(r.get('trace',[])),'physics_samples':0,
+            'policy_queries':r.get('policy_queries',0),'inference_attempts':r.get('inference_attempts',0),
             'result_sha256':hashlib.sha256(result.read_bytes()).hexdigest()}
     if trace_path.exists():lines=trace_path.read_text().splitlines()
     else:
@@ -36,6 +47,7 @@ def summarize(result):
         'peak_requested_fraction_per_joint':np.max([np.abs(x['computed_torque']['value'])/np.array(x['effort_limits']['value']) for x in effort_rows],axis=0).tolist() if effort_rows else None,
         'scope':'computed versus applied buffer difference; not an independent solver-force measurement'}
     return {'status':r['status'],'error':r.get('error'),'controls':len(r['trace']),'physics_samples':len(rows),
+        'policy_queries':r.get('policy_queries',0),'inference_attempts':r.get('inference_attempts',0),
         'saturation':saturation,
         'max_tcp_linearization_residual_m':max((x['kinematic_decomposition']['actual_linearization_residual_m'] for x in rows),default=None),
         'initial_tcp_error_m':r['initial_tcp_error_m'],
@@ -59,10 +71,10 @@ def summarize(result):
 def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
-    p.add_argument('--suite',choices=['alignment','coverage','focus','sync','generalization','contact'],default='alignment')
+    p.add_argument('--suite',choices=['alignment','coverage','focus','sync','generalization','contact','hybrid'],default='alignment')
     p.add_argument('--output-root',type=Path)
-    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()],nargs='+')
-    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases,'generalization':generalization_cases,'contact':contact_cases}[args.suite]()
+    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()],nargs='+')
+    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases,'generalization':generalization_cases,'contact':contact_cases,'hybrid':hybrid_cases}[args.suite]()
     if args.only:
         wanted=set(args.only);declared={c['name']:c for c in selected}
         if wanted-set(declared):p.error('--only must belong to selected suite')
@@ -76,22 +88,35 @@ def main():
     report={'status':'running','new_policy_queries':0,'cases':[],
         'suite':args.suite,'scope':'independent fresh no-contact scenes; prerequisite failures skip dependent cases; synthetic preconditioning changes pose and velocity, not native dynamic restoration; no grasp success claim'}
     report['code_sha256']={name:hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','execution_generalization.py','execution_contact.py','grasp_probe.py','openpi_grasp_logic.py','libero_reference_audit.py','run_multipose_geometry.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
+        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','execution_generalization.py','execution_contact.py','execution_hybrid.py','live_grasp_query.py','online_registered_probe.py','replanning_probe.py','openpi_health.py','grasp_probe.py','openpi_grasp_logic.py','libero_reference_audit.py','run_multipose_geometry.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
     if args.suite=='generalization':
         report.update(pose_reference_root='pose_references',scope='three static native-FK checked starting poses; same archived actions reused counterfactually; no new inference, contact, or grasp success claim')
     if args.suite=='contact':report['scope']='ten fresh deterministic cube approach/closure/lift diagnostics; two repeats per height/finger and open negative controls; success reported separately from completed execution; no VLA inference or measured contact force'
-    def save():save_json(folder/'run.json',report)
+    if args.suite=='hybrid':report['scope']='eight live cube-proxy policy approaches plus two program references; 1/5 action prefixes and geometry/model-close handoff; program-assisted refinement and grasp, not autonomous VLA or native LIBERO evaluation'
+    def save():
+        report['new_policy_queries']=sum(x.get('summary',{}).get('policy_queries',0) for x in report['cases'])
+        save_json(folder/'run.json',report)
     save();translation_failed=False
     env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.pop('PYTHONPATH',None)
     try:
+        if args.suite=='hybrid':
+            try:
+                source=next((p for p in sorted((repo/'diagnostics/execution_contact').glob('*/run.json'),reverse=True) if json.loads(p.read_bytes()).get('status')=='completed'),None)
+                if source is None:raise ValueError('completed prior contact suite required')
+                report['validated_contact_source']=validate_contact_source(source)
+                (folder/'source_contact_run.json').write_bytes(source.read_bytes())
+                if any(c['hybrid_role']=='policy' for c in selected):
+                    from openpi_health import check_openpi_health
+                    report['server_health']=check_openpi_health('127.0.0.1',8000)
+            except Exception as error:
+                report.update(status='preflight-failed',error=str(error));print('[Execution alignment] Preflight failed: '+str(error),flush=True);return 1
         for case in selected:
             row={'case':case,'status':'pending'};report['cases'].append(row)
             if 'pose_variant' in case:
                 cache_manifest=folder/'pose_references'/case['pose_variant']/'run.json'
                 if cache_manifest.exists() and json.loads(cache_manifest.read_bytes()).get('status')=='failed':
                     row.update(status='skipped',reason='native pose reference preparation failed',pose_manifest=cache_manifest.relative_to(folder).as_posix());save();continue
-            done={x['case']['name']:x['status'] for x in report['cases']}
-            missing=[name for name in case.get('requires',[]) if done.get(name)!='completed']
+            missing=missing_prerequisites(case,report['cases'])
             if missing:
                 row.update(status='skipped',reason='prerequisites not completed',prerequisites=missing);save();continue
             if case['kind']=='translation' and translation_failed:
@@ -109,6 +134,8 @@ def main():
                 result=results[0];row['result']=result.relative_to(folder).as_posix()
                 row['summary']=summarize(result)
                 if code or row['summary']['status']!='completed':raise RuntimeError(row['summary'].get('error') or 'case failed; inspect native result and physics trace')
+                if case.get('hybrid_role')=='reference' and not (row['summary'].get('grasp_result') or {}).get('success',False):
+                    raise RuntimeError('program reference grasp did not pass')
                 row['status']='completed'
             except Exception as error:
                 row.update(status='failed',error=str(error))
