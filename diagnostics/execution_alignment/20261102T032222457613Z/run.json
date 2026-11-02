@@ -1,0 +1,2724 @@
+{
+  "status": "completed",
+  "new_policy_queries": 0,
+  "cases": [
+    {
+      "case": {
+        "name": "gripper-binary",
+        "kind": "gripper",
+        "gripper_mode": "binary",
+        "cap_m": 0.0005
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/gripper-binary/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/gripper-binary/runs"
+      ],
+      "exit_code": 0,
+      "result": "gripper-binary/runs/20261102T032222574792Z/capture/20261102T032222602561Z/online_registered_result.json",
+      "summary": {
+        "status": "completed",
+        "error": null,
+        "controls": 36,
+        "physics_samples": 180,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": [
+          2.0638108253479004e-06,
+          8.940696716308594e-07,
+          3.293156623840332e-06,
+          8.344650268554688e-07,
+          4.112720489501953e-06,
+          1.1920928955078125e-06,
+          7.152557373046875e-07
+        ],
+        "peak_abs_joint_velocity_rad_s": [
+          0.0001626266457606107,
+          5.2804862207267433e-05,
+          0.0002292976132594049,
+          4.0691898902878165e-05,
+          0.00022077842731960118,
+          0.00011869403533637524,
+          2.639385093061719e-05
+        ],
+        "min_joint_limit_margin_rad": [
+          2.7950451001524925,
+          1.1394829750061035,
+          2.769973546266556,
+          1.3008102178573608,
+          2.7093267887830734,
+          1.3167150020599365,
+          1.8327041864395142
+        ],
+        "controls_with_translation_cap": 0,
+        "actual_tcp_delta_m": [
+          1.0967794139560283e-07,
+          -1.4738362447141995e-08,
+          -2.6988018744789066e-07
+        ],
+        "finger_controls": [
+          {
+            "step": 1,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 2,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 3,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 4,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 5,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.008627843111753464,
+              0.008605978451669216
+            ]
+          },
+          {
+            "step": 6,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              2.6058911473114676e-08,
+              2.607291449407967e-08
+            ]
+          },
+          {
+            "step": 7,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              5.8175531059134755e-09,
+              5.829064786411209e-09
+            ]
+          },
+          {
+            "step": 8,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              7.270934071837432e-13,
+              1.6329758725786014e-11
+            ]
+          },
+          {
+            "step": 9,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -1.2163108307743239e-15,
+              1.1610101768866343e-11
+            ]
+          },
+          {
+            "step": 10,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -1.584113077021112e-15,
+              9.076931914431263e-12
+            ]
+          },
+          {
+            "step": 11,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -2.706801356135418e-15,
+              7.345116702361931e-12
+            ]
+          },
+          {
+            "step": 12,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -7.406320565520041e-16,
+              6.2489696577017195e-12
+            ]
+          },
+          {
+            "step": 13,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              5.901199261236847e-14,
+              5.599173468623375e-12
+            ]
+          },
+          {
+            "step": 14,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -3.5162296404216533e-15,
+              4.895676745941824e-12
+            ]
+          },
+          {
+            "step": 15,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -1.6213614567557382e-15,
+              4.56666171891329e-12
+            ]
+          },
+          {
+            "step": 16,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              7.945122966653007e-14,
+              4.483169478014526e-12
+            ]
+          },
+          {
+            "step": 17,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -4.454412861921173e-16,
+              4.120352063013977e-12
+            ]
+          },
+          {
+            "step": 18,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -1.472614106767529e-15,
+              4.036053609379753e-12
+            ]
+          },
+          {
+            "step": 19,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -4.228479528735297e-16,
+              3.957742553822863e-12
+            ]
+          },
+          {
+            "step": 20,
+            "sign": 1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              -1.8403175677968436e-15,
+              3.866496966348221e-12
+            ]
+          },
+          {
+            "step": 21,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.031372152268886566,
+              0.03139401599764824
+            ]
+          },
+          {
+            "step": 22,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 23,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 24,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 25,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 26,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 27,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 28,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 29,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 30,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 31,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 32,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 33,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 34,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 35,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 36,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999998793005943,
+              0.039999984204769135
+            ]
+          }
+        ],
+        "result_sha256": "d72108c0e28c848c1cc092d050041e2a6fc299c4f10b0a37e9bc1efdd390c5de"
+      }
+    },
+    {
+      "case": {
+        "name": "gripper-period",
+        "kind": "gripper",
+        "gripper_mode": "period",
+        "cap_m": 0.0005
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/gripper-period/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/gripper-period/runs"
+      ],
+      "exit_code": 0,
+      "result": "gripper-period/runs/20261102T032241102104Z/capture/20261102T032241131783Z/online_registered_result.json",
+      "summary": {
+        "status": "completed",
+        "error": null,
+        "controls": 36,
+        "physics_samples": 180,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": [
+          5.960464477539062e-07,
+          6.556510925292969e-07,
+          4.76837158203125e-07,
+          8.344650268554688e-07,
+          7.301568984985352e-07,
+          7.152557373046875e-07,
+          5.960464477539062e-07
+        ],
+        "peak_abs_joint_velocity_rad_s": [
+          2.2624515622737817e-05,
+          2.5588427888578735e-05,
+          3.042607022507582e-05,
+          2.9976892619743012e-05,
+          4.0650844312040135e-05,
+          2.5093078875215724e-05,
+          1.9735885871341452e-05
+        ],
+        "min_joint_limit_margin_rad": [
+          2.7950474247336388,
+          1.139483630657196,
+          2.769976571202278,
+          1.3008102178573608,
+          2.709329530596733,
+          1.3167150020599365,
+          1.8327041864395142
+        ],
+        "controls_with_translation_cap": 0,
+        "actual_tcp_delta_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "finger_controls": [
+          {
+            "step": 1,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 2,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 3,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 4,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 5,
+            "sign": 1.0,
+            "ramp_target_m": 0.035,
+            "finger_positions_m": [
+              0.03607848659157753,
+              0.03607575595378876
+            ]
+          },
+          {
+            "step": 6,
+            "sign": 1.0,
+            "ramp_target_m": 0.030000000000000002,
+            "finger_positions_m": [
+              0.030499089509248734,
+              0.030495036393404007
+            ]
+          },
+          {
+            "step": 7,
+            "sign": 1.0,
+            "ramp_target_m": 0.025,
+            "finger_positions_m": [
+              0.02538907714188099,
+              0.025385351851582527
+            ]
+          },
+          {
+            "step": 8,
+            "sign": 1.0,
+            "ramp_target_m": 0.02,
+            "finger_positions_m": [
+              0.020456021651625633,
+              0.020452439785003662
+            ]
+          },
+          {
+            "step": 9,
+            "sign": 1.0,
+            "ramp_target_m": 0.015,
+            "finger_positions_m": [
+              0.01546709518879652,
+              0.015463474206626415
+            ]
+          },
+          {
+            "step": 10,
+            "sign": 1.0,
+            "ramp_target_m": 0.009999999999999998,
+            "finger_positions_m": [
+              0.010459392331540585,
+              0.010455755516886711
+            ]
+          },
+          {
+            "step": 11,
+            "sign": 1.0,
+            "ramp_target_m": 0.0049999999999999975,
+            "finger_positions_m": [
+              0.005458297207951546,
+              0.005454665515571833
+            ]
+          },
+          {
+            "step": 12,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              0.0004591826000250876,
+              0.00045555265387520194
+            ]
+          },
+          {
+            "step": 13,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              3.723596764260151e-09,
+              3.7107372730105226e-09
+            ]
+          },
+          {
+            "step": 14,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              3.463708486695083e-10,
+              3.2926214532658094e-10
+            ]
+          },
+          {
+            "step": 15,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              1.7469893804147874e-12,
+              1.7720392861408918e-11
+            ]
+          },
+          {
+            "step": 16,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              1.2624692090346112e-11,
+              -3.9901394498611034e-14
+            ]
+          },
+          {
+            "step": 17,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              8.875068215064008e-12,
+              1.1456569200263278e-12
+            ]
+          },
+          {
+            "step": 18,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              6.919322319970389e-12,
+              3.0900978255149134e-14
+            ]
+          },
+          {
+            "step": 19,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              6.089702093287075e-12,
+              -5.416378015722515e-15
+            ]
+          },
+          {
+            "step": 20,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              6.8920667783967104e-12,
+              8.954923391354952e-13
+            ]
+          },
+          {
+            "step": 21,
+            "sign": -1.0,
+            "ramp_target_m": 0.005000000000000001,
+            "finger_positions_m": [
+              0.003921519499272108,
+              0.003924252465367317
+            ]
+          },
+          {
+            "step": 22,
+            "sign": -1.0,
+            "ramp_target_m": 0.010000000000000002,
+            "finger_positions_m": [
+              0.009500902146100998,
+              0.009504956193268299
+            ]
+          },
+          {
+            "step": 23,
+            "sign": -1.0,
+            "ramp_target_m": 0.015000000000000003,
+            "finger_positions_m": [
+              0.014610919170081615,
+              0.014614641666412354
+            ]
+          },
+          {
+            "step": 24,
+            "sign": -1.0,
+            "ramp_target_m": 0.020000000000000004,
+            "finger_positions_m": [
+              0.019543977454304695,
+              0.019547559320926666
+            ]
+          },
+          {
+            "step": 25,
+            "sign": -1.0,
+            "ramp_target_m": 0.025000000000000005,
+            "finger_positions_m": [
+              0.024532904848456383,
+              0.024536525830626488
+            ]
+          },
+          {
+            "step": 26,
+            "sign": -1.0,
+            "ramp_target_m": 0.030000000000000006,
+            "finger_positions_m": [
+              0.02954060025513172,
+              0.02954423613846302
+            ]
+          },
+          {
+            "step": 27,
+            "sign": -1.0,
+            "ramp_target_m": 0.035,
+            "finger_positions_m": [
+              0.034541696310043335,
+              0.03454532474279404
+            ]
+          },
+          {
+            "step": 28,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.039540816098451614,
+              0.039544444531202316
+            ]
+          },
+          {
+            "step": 29,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.04000000283122063,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 30,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.04000000283122063,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 31,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.04000000283122063,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 32,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.04000000283122063,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 33,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.04000000283122063,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 34,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.04000000283122063,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 35,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.04000000283122063,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 36,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.04000000283122063,
+              0.03999999910593033
+            ]
+          }
+        ],
+        "result_sha256": "d8ba4502af825a2ce5f9772a08c30c8a086ceb00606f72da6b46aa58ef771d2b"
+      }
+    },
+    {
+      "case": {
+        "name": "gripper-substep",
+        "kind": "gripper",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/gripper-substep/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/gripper-substep/runs"
+      ],
+      "exit_code": 0,
+      "result": "gripper-substep/runs/20261102T032259613965Z/capture/20261102T032259632299Z/online_registered_result.json",
+      "summary": {
+        "status": "completed",
+        "error": null,
+        "controls": 36,
+        "physics_samples": 180,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": [
+          8.195638656616211e-07,
+          7.152557373046875e-07,
+          4.76837158203125e-07,
+          9.5367431640625e-07,
+          6.407499313354492e-07,
+          9.5367431640625e-07,
+          9.5367431640625e-07
+        ],
+        "peak_abs_joint_velocity_rad_s": [
+          1.6890880942810327e-05,
+          2.4759076040936634e-05,
+          1.6803280232124962e-05,
+          3.134896178380586e-05,
+          2.6445357434567995e-05,
+          3.354478030814789e-05,
+          3.238347198930569e-05
+        ],
+        "min_joint_limit_margin_rad": [
+          2.795047104358673,
+          1.139483630657196,
+          2.769976496696472,
+          1.3008102178573608,
+          2.709329828619957,
+          1.3167150020599365,
+          1.8327041864395142
+        ],
+        "controls_with_translation_cap": 0,
+        "actual_tcp_delta_m": [
+          -2.2995886306276248e-08,
+          1.0145112633308528e-07,
+          -1.971659200350473e-07
+        ],
+        "finger_controls": [
+          {
+            "step": 1,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 2,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 3,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 4,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 5,
+            "sign": 1.0,
+            "ramp_target_m": 0.034999999999999996,
+            "finger_positions_m": [
+              0.037894416600465775,
+              0.03789574280381203
+            ]
+          },
+          {
+            "step": 6,
+            "sign": 1.0,
+            "ramp_target_m": 0.029999999999999992,
+            "finger_positions_m": [
+              0.0326475091278553,
+              0.03264646604657173
+            ]
+          },
+          {
+            "step": 7,
+            "sign": 1.0,
+            "ramp_target_m": 0.024999999999999988,
+            "finger_positions_m": [
+              0.02732791192829609,
+              0.027326764538884163
+            ]
+          },
+          {
+            "step": 8,
+            "sign": 1.0,
+            "ramp_target_m": 0.019999999999999983,
+            "finger_positions_m": [
+              0.0223615150898695,
+              0.022360635921359062
+            ]
+          },
+          {
+            "step": 9,
+            "sign": 1.0,
+            "ramp_target_m": 0.014999999999999979,
+            "finger_positions_m": [
+              0.017396681010723114,
+              0.017395809292793274
+            ]
+          },
+          {
+            "step": 10,
+            "sign": 1.0,
+            "ramp_target_m": 0.009999999999999974,
+            "finger_positions_m": [
+              0.012392266653478146,
+              0.012391363270580769
+            ]
+          },
+          {
+            "step": 11,
+            "sign": 1.0,
+            "ramp_target_m": 0.004999999999999972,
+            "finger_positions_m": [
+              0.007388410624116659,
+              0.007387506775557995
+            ]
+          },
+          {
+            "step": 12,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              0.002388975815847516,
+              0.0023880754597485065
+            ]
+          },
+          {
+            "step": 13,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              4.0526044325917e-11,
+              5.378163192570895e-11
+            ]
+          },
+          {
+            "step": 14,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              2.642566027111215e-11,
+              5.7332628228268234e-11
+            ]
+          },
+          {
+            "step": 15,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              1.0491772381437947e-11,
+              1.903385088430909e-11
+            ]
+          },
+          {
+            "step": 16,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              2.383835143171531e-11,
+              6.40339018788405e-13
+            ]
+          },
+          {
+            "step": 17,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              2.8962304776669612e-11,
+              1.4895180575069666e-11
+            ]
+          },
+          {
+            "step": 18,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              6.451920595007543e-12,
+              -8.187149417616946e-15
+            ]
+          },
+          {
+            "step": 19,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              8.208382758223554e-12,
+              1.5122529964384235e-12
+            ]
+          },
+          {
+            "step": 20,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              9.401531636532567e-12,
+              2.7948838989683145e-12
+            ]
+          },
+          {
+            "step": 21,
+            "sign": -1.0,
+            "ramp_target_m": 0.005,
+            "finger_positions_m": [
+              0.002105579013004899,
+              0.0021042535081505775
+            ]
+          },
+          {
+            "step": 22,
+            "sign": -1.0,
+            "ramp_target_m": 0.010000000000000002,
+            "finger_positions_m": [
+              0.007352497894316912,
+              0.007353540975600481
+            ]
+          },
+          {
+            "step": 23,
+            "sign": -1.0,
+            "ramp_target_m": 0.015000000000000006,
+            "finger_positions_m": [
+              0.012672089971601963,
+              0.01267323736101389
+            ]
+          },
+          {
+            "step": 24,
+            "sign": -1.0,
+            "ramp_target_m": 0.02000000000000001,
+            "finger_positions_m": [
+              0.01763848587870598,
+              0.017639365047216415
+            ]
+          },
+          {
+            "step": 25,
+            "sign": -1.0,
+            "ramp_target_m": 0.025000000000000015,
+            "finger_positions_m": [
+              0.022603319957852364,
+              0.022604191675782204
+            ]
+          },
+          {
+            "step": 26,
+            "sign": -1.0,
+            "ramp_target_m": 0.03000000000000002,
+            "finger_positions_m": [
+              0.027607735246419907,
+              0.027608638629317284
+            ]
+          },
+          {
+            "step": 27,
+            "sign": -1.0,
+            "ramp_target_m": 0.035000000000000024,
+            "finger_positions_m": [
+              0.03261159360408783,
+              0.03261249512434006
+            ]
+          },
+          {
+            "step": 28,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03761102259159088,
+              0.03761192411184311
+            ]
+          },
+          {
+            "step": 29,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 30,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 31,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 32,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 33,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 34,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 35,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 36,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999538064003
+            ]
+          }
+        ],
+        "result_sha256": "421c53ebea19833f6673bb8c9860e508f56594f499cfc5858ceab8e261f5fcff"
+      }
+    },
+    {
+      "case": {
+        "name": "gripper-reverse",
+        "kind": "gripper",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005,
+        "reverse": true
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/gripper-reverse/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/gripper-reverse/runs"
+      ],
+      "exit_code": 0,
+      "result": "gripper-reverse/runs/20261102T032317952854Z/capture/20261102T032317983150Z/online_registered_result.json",
+      "summary": {
+        "status": "completed",
+        "error": null,
+        "controls": 36,
+        "physics_samples": 180,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": [
+          6.780028343200684e-07,
+          7.152557373046875e-07,
+          8.642673492431641e-07,
+          9.5367431640625e-07,
+          8.642673492431641e-07,
+          9.5367431640625e-07,
+          8.344650268554688e-07
+        ],
+        "peak_abs_joint_velocity_rad_s": [
+          1.4518847819999792e-05,
+          2.230227619293146e-05,
+          2.5547669793013483e-05,
+          3.134896178380586e-05,
+          3.0263789085438475e-05,
+          3.675433617900126e-05,
+          2.8451615435187705e-05
+        ],
+        "min_joint_limit_margin_rad": [
+          2.795046903192997,
+          1.139483630657196,
+          2.769976496696472,
+          1.3008102178573608,
+          2.7093293517827988,
+          1.3167150020599365,
+          1.8327041864395142
+        ],
+        "controls_with_translation_cap": 0,
+        "actual_tcp_delta_m": [
+          5.999206809104152e-08,
+          2.0193935773571425e-08,
+          2.9638423798550306e-08
+        ],
+        "finger_controls": [
+          {
+            "step": 1,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 2,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 3,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 4,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 5,
+            "sign": 1.0,
+            "ramp_target_m": 0.034999999999999996,
+            "finger_positions_m": [
+              0.037894416600465775,
+              0.03789574280381203
+            ]
+          },
+          {
+            "step": 6,
+            "sign": 1.0,
+            "ramp_target_m": 0.029999999999999992,
+            "finger_positions_m": [
+              0.0326475091278553,
+              0.03264646604657173
+            ]
+          },
+          {
+            "step": 7,
+            "sign": 1.0,
+            "ramp_target_m": 0.024999999999999988,
+            "finger_positions_m": [
+              0.02732791192829609,
+              0.027326764538884163
+            ]
+          },
+          {
+            "step": 8,
+            "sign": 1.0,
+            "ramp_target_m": 0.019999999999999983,
+            "finger_positions_m": [
+              0.0223615150898695,
+              0.022360635921359062
+            ]
+          },
+          {
+            "step": 9,
+            "sign": -1.0,
+            "ramp_target_m": 0.024999999999999988,
+            "finger_positions_m": [
+              0.021607844159007072,
+              0.021604320034384727
+            ]
+          },
+          {
+            "step": 10,
+            "sign": -1.0,
+            "ramp_target_m": 0.029999999999999992,
+            "finger_positions_m": [
+              0.02709725685417652,
+              0.027098439633846283
+            ]
+          },
+          {
+            "step": 11,
+            "sign": -1.0,
+            "ramp_target_m": 0.034999999999999996,
+            "finger_positions_m": [
+              0.03273259103298187,
+              0.0327339842915535
+            ]
+          },
+          {
+            "step": 12,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.037665955722332,
+              0.037666816264390945
+            ]
+          },
+          {
+            "step": 13,
+            "sign": 1.0,
+            "ramp_target_m": 0.034999999999999996,
+            "finger_positions_m": [
+              0.03838488459587097,
+              0.03838838264346123
+            ]
+          },
+          {
+            "step": 14,
+            "sign": 1.0,
+            "ramp_target_m": 0.029999999999999992,
+            "finger_positions_m": [
+              0.032899804413318634,
+              0.03289862349629402
+            ]
+          },
+          {
+            "step": 15,
+            "sign": 1.0,
+            "ramp_target_m": 0.024999999999999988,
+            "finger_positions_m": [
+              0.027268288657069206,
+              0.02726689912378788
+            ]
+          },
+          {
+            "step": 16,
+            "sign": 1.0,
+            "ramp_target_m": 0.019999999999999983,
+            "finger_positions_m": [
+              0.02233436517417431,
+              0.022333504632115364
+            ]
+          },
+          {
+            "step": 17,
+            "sign": 1.0,
+            "ramp_target_m": 0.014999999999999979,
+            "finger_positions_m": [
+              0.01740386337041855,
+              0.017403017729520798
+            ]
+          },
+          {
+            "step": 18,
+            "sign": 1.0,
+            "ramp_target_m": 0.009999999999999974,
+            "finger_positions_m": [
+              0.012395170517265797,
+              0.012394264340400696
+            ]
+          },
+          {
+            "step": 19,
+            "sign": 1.0,
+            "ramp_target_m": 0.004999999999999972,
+            "finger_positions_m": [
+              0.007387551944702864,
+              0.0073866453021764755
+            ]
+          },
+          {
+            "step": 20,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              0.0023886680137366056,
+              0.0023877681232988834
+            ]
+          },
+          {
+            "step": 21,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              5.242807923910853e-12,
+              -5.109856019759086e-14
+            ]
+          },
+          {
+            "step": 22,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              8.594768126368724e-12,
+              -5.830665218356382e-15
+            ]
+          },
+          {
+            "step": 23,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              8.215803905253782e-12,
+              1.1225907356471332e-12
+            ]
+          },
+          {
+            "step": 24,
+            "sign": 1.0,
+            "ramp_target_m": 0.0,
+            "finger_positions_m": [
+              6.0015547219405274e-12,
+              1.5750068079172647e-13
+            ]
+          },
+          {
+            "step": 25,
+            "sign": -1.0,
+            "ramp_target_m": 0.005,
+            "finger_positions_m": [
+              0.0021055785473436117,
+              0.0021042530424892902
+            ]
+          },
+          {
+            "step": 26,
+            "sign": -1.0,
+            "ramp_target_m": 0.010000000000000002,
+            "finger_positions_m": [
+              0.007352497428655624,
+              0.007353540509939194
+            ]
+          },
+          {
+            "step": 27,
+            "sign": -1.0,
+            "ramp_target_m": 0.015000000000000006,
+            "finger_positions_m": [
+              0.012672088108956814,
+              0.01267323549836874
+            ]
+          },
+          {
+            "step": 28,
+            "sign": -1.0,
+            "ramp_target_m": 0.02000000000000001,
+            "finger_positions_m": [
+              0.01763848401606083,
+              0.017639363184571266
+            ]
+          },
+          {
+            "step": 29,
+            "sign": -1.0,
+            "ramp_target_m": 0.025000000000000015,
+            "finger_positions_m": [
+              0.022603318095207214,
+              0.022604191675782204
+            ]
+          },
+          {
+            "step": 30,
+            "sign": -1.0,
+            "ramp_target_m": 0.03000000000000002,
+            "finger_positions_m": [
+              0.027607733383774757,
+              0.027608636766672134
+            ]
+          },
+          {
+            "step": 31,
+            "sign": -1.0,
+            "ramp_target_m": 0.035000000000000024,
+            "finger_positions_m": [
+              0.03261159360408783,
+              0.03261249512434006
+            ]
+          },
+          {
+            "step": 32,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03761102259159088,
+              0.03761192411184311
+            ]
+          },
+          {
+            "step": 33,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 34,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 35,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999910593033
+            ]
+          },
+          {
+            "step": 36,
+            "sign": -1.0,
+            "ramp_target_m": 0.04,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999999910593033
+            ]
+          }
+        ],
+        "result_sha256": "bc4984c0765aa4365748b50757c819532455711765dbea353eab6c37544565b1"
+      }
+    },
+    {
+      "case": {
+        "name": "translation-0.5mm",
+        "kind": "translation",
+        "gripper_mode": "binary",
+        "cap_m": 0.0005
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/translation-0.5mm/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/translation-0.5mm/runs"
+      ],
+      "exit_code": 0,
+      "result": "translation-0.5mm/runs/20261102T032336341953Z/capture/20261102T032336358664Z/online_registered_result.json",
+      "summary": {
+        "status": "completed",
+        "error": null,
+        "controls": 25,
+        "physics_samples": 125,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": [
+          0.00032339245080947876,
+          0.0007944703102111816,
+          0.00013588368892669678,
+          0.00032639503479003906,
+          0.0001825392246246338,
+          0.0006706714630126953,
+          0.00038683414459228516
+        ],
+        "peak_abs_joint_velocity_rad_s": [
+          0.00549059035256505,
+          0.02690780535340309,
+          0.004722231533378363,
+          0.012875237502157688,
+          0.006003041751682758,
+          0.03346548601984978,
+          0.016475917771458626
+        ],
+        "min_joint_limit_margin_rad": [
+          2.794218175113201,
+          1.1351063251495361,
+          2.769977420568466,
+          1.300424337387085,
+          2.708366423845291,
+          1.3128087520599365,
+          1.8316220045089722
+        ],
+        "controls_with_translation_cap": 5,
+        "actual_tcp_delta_m": [
+          -0.00016394850366341363,
+          0.00022143313386030483,
+          -0.0024493354174325577
+        ],
+        "finger_controls": [
+          {
+            "step": 1,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999538064003,
+              0.03999998793005943
+            ]
+          },
+          {
+            "step": 2,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.03999999165534973
+            ]
+          },
+          {
+            "step": 3,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997302889824,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 4,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 5,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.03999997302889824
+            ]
+          },
+          {
+            "step": 6,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 7,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 8,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 9,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 10,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 11,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 12,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 13,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 14,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 15,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 16,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 17,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 18,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 19,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 20,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 21,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 22,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 23,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 24,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 25,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.039999961853027344
+            ]
+          }
+        ],
+        "result_sha256": "8c56eb3ad6b2a1ad29b2522f495902fc1ff084393237f14741a1a8ba13a34364"
+      }
+    },
+    {
+      "case": {
+        "name": "translation-1mm",
+        "kind": "translation",
+        "gripper_mode": "binary",
+        "cap_m": 0.001
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/translation-1mm/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/translation-1mm/runs"
+      ],
+      "exit_code": 0,
+      "result": "translation-1mm/runs/20261102T032354275957Z/capture/20261102T032354291688Z/online_registered_result.json",
+      "summary": {
+        "status": "completed",
+        "error": null,
+        "controls": 25,
+        "physics_samples": 125,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": [
+          0.0006468147039413452,
+          0.0015944838523864746,
+          0.0002727210521697998,
+          0.0006520748138427734,
+          0.00036519765853881836,
+          0.0013413429260253906,
+          0.000773310661315918
+        ],
+        "peak_abs_joint_velocity_rad_s": [
+          0.0109974080696702,
+          0.05408361926674843,
+          0.009445585310459137,
+          0.026259928941726685,
+          0.012001927010715008,
+          0.0669216588139534,
+          0.03294799476861954
+        ],
+        "min_joint_limit_margin_rad": [
+          2.7933847308158875,
+          1.1307066679000854,
+          2.769977420568466,
+          1.3000439405441284,
+          2.707405164837837,
+          1.3089241981506348,
+          1.8305398225784302
+        ],
+        "controls_with_translation_cap": 5,
+        "actual_tcp_delta_m": [
+          -0.00032720351664972114,
+          0.00044339614287877693,
+          -0.004896612317929372
+        ],
+        "finger_controls": [
+          {
+            "step": 1,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999165534973,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 2,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 3,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999958127737045,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 4,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999961853027344,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 5,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999958127737045,
+              0.03999997302889824
+            ]
+          },
+          {
+            "step": 6,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 7,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 8,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 9,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 10,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 11,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 12,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 13,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 14,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 15,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 16,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 17,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 18,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 19,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 20,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 21,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 22,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 23,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 24,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          },
+          {
+            "step": 25,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.03999996557831764
+            ]
+          }
+        ],
+        "result_sha256": "8794c070b4422f0ce9ae9063104ccba7dfd453bd049286d917b7a29227ef4ada"
+      }
+    },
+    {
+      "case": {
+        "name": "translation-2mm",
+        "kind": "translation",
+        "gripper_mode": "binary",
+        "cap_m": 0.002
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/translation-2mm/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/translation-2mm/runs"
+      ],
+      "exit_code": 0,
+      "result": "translation-2mm/runs/20261102T032412170934Z/capture/20261102T032412187265Z/online_registered_result.json",
+      "summary": {
+        "status": "completed",
+        "error": null,
+        "controls": 25,
+        "physics_samples": 125,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": [
+          0.001293666660785675,
+          0.003210783004760742,
+          0.0005485042929649353,
+          0.0013045072555541992,
+          0.0007304251194000244,
+          0.002682209014892578,
+          0.0015465021133422852
+        ],
+        "peak_abs_joint_velocity_rad_s": [
+          0.02206818200647831,
+          0.10923483967781067,
+          0.01889231614768505,
+          0.05456685647368431,
+          0.024011924862861633,
+          0.13382822275161743,
+          0.06589210033416748
+        ],
+        "min_joint_limit_margin_rad": [
+          2.791704699397087,
+          1.1218369007110596,
+          2.769977420568466,
+          1.2992987632751465,
+          2.705489367246628,
+          1.3012056350708008,
+          1.8283816576004028
+        ],
+        "controls_with_translation_cap": 5,
+        "actual_tcp_delta_m": [
+          -0.0006581878589581036,
+          0.0008859858901031081,
+          -0.009792764155246159
+        ],
+        "finger_controls": [
+          {
+            "step": 1,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999961853027344
+            ]
+          },
+          {
+            "step": 2,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999995440244675,
+              0.03999999165534973
+            ]
+          },
+          {
+            "step": 3,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999996557831764,
+              0.04000000283122063
+            ]
+          },
+          {
+            "step": 4,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999994695186615,
+              0.03999997302889824
+            ]
+          },
+          {
+            "step": 5,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.04000000283122063
+            ]
+          },
+          {
+            "step": 6,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999984204769135,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 7,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999984204769135,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 8,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999984204769135,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 9,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999984204769135,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 10,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999984204769135,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 11,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 12,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 13,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 14,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 15,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 16,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 17,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 18,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 19,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 20,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 21,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 22,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 23,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 24,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 25,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.039999980479478836
+            ]
+          }
+        ],
+        "result_sha256": "9bd6ed9dd8de7147d0a4311466e409b371c29c6837e75b4f02448810e0c96219"
+      }
+    },
+    {
+      "case": {
+        "name": "translation-5mm",
+        "kind": "translation",
+        "gripper_mode": "binary",
+        "cap_m": 0.005
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/translation-5mm/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_alignment/20261102T032222457613Z/translation-5mm/runs"
+      ],
+      "exit_code": 0,
+      "result": "translation-5mm/runs/20261102T032430559631Z/capture/20261102T032430576860Z/online_registered_result.json",
+      "summary": {
+        "status": "completed",
+        "error": null,
+        "controls": 25,
+        "physics_samples": 125,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": [
+          0.0032342150807380676,
+          0.008189558982849121,
+          0.001399897038936615,
+          0.003260970115661621,
+          0.0018261373043060303,
+          0.006705760955810547,
+          0.003866434097290039
+        ],
+        "peak_abs_joint_velocity_rad_s": [
+          0.055712293833494186,
+          0.28105294704437256,
+          0.04723309725522995,
+          0.1518172025680542,
+          0.06009120121598244,
+          0.33456212282180786,
+          0.16472449898719788
+        ],
+        "min_joint_limit_margin_rad": [
+          2.78656929731369,
+          1.0946932435035706,
+          2.769977420568466,
+          1.2971985340118408,
+          2.699817046523094,
+          1.2784981727600098,
+          1.8219419717788696
+        ],
+        "controls_with_translation_cap": 5,
+        "actual_tcp_delta_m": [
+          -0.0016771350554455333,
+          0.0022010965244193548,
+          -0.02447080247439329
+        ],
+        "finger_controls": [
+          {
+            "step": 1,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999910593033,
+              0.039999958127737045
+            ]
+          },
+          {
+            "step": 2,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999991714954376,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 3,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999913424253464,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 4,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999935775995255,
+              0.03999999165534973
+            ]
+          },
+          {
+            "step": 5,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999994322657585,
+              0.03999999538064003
+            ]
+          },
+          {
+            "step": 6,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999165534973,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 7,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999165534973,
+              0.03999997302889824
+            ]
+          },
+          {
+            "step": 8,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999165534973,
+              0.03999997302889824
+            ]
+          },
+          {
+            "step": 9,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999999165534973,
+              0.039999984204769135
+            ]
+          },
+          {
+            "step": 10,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.039999980479478836,
+              0.03999998793005943
+            ]
+          },
+          {
+            "step": 11,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999998793005943
+            ]
+          },
+          {
+            "step": 12,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999998793005943
+            ]
+          },
+          {
+            "step": 13,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.039999980479478836
+            ]
+          },
+          {
+            "step": 14,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997302889824
+            ]
+          },
+          {
+            "step": 15,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997302889824
+            ]
+          },
+          {
+            "step": 16,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997302889824
+            ]
+          },
+          {
+            "step": 17,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 18,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 19,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 20,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 21,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 22,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 23,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 24,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997675418854
+            ]
+          },
+          {
+            "step": 25,
+            "sign": -1.0,
+            "ramp_target_m": null,
+            "finger_positions_m": [
+              0.03999997675418854,
+              0.03999997675418854
+            ]
+          }
+        ],
+        "result_sha256": "063290a88b188a84e6948ac07ef9ef873ba89146820106bd63a7be52667e4954"
+      }
+    }
+  ],
+  "scope": "four isolated gripper cases and four translation-only cap levels; independent fresh scenes; later translation levels skipped after failure; no grasp success claim",
+  "code_sha256": {
+    "run_execution_alignment.py": "da478c781fe8f4f30c83b2a69c84ff69a19e305bb97657fb14358d10e7225a2c",
+    "execution_alignment_probe.py": "3098f2bc6e2b3e81a4b2d257454745acc70bcbe49027ab50da591c2d79a70efb",
+    "isaac_native_segment.py": "b65ed199a7cacd2c0114938dd4e8a1b8f51260ce584f57678c9a1d3044f8c1df",
+    "openpi_grasp_runtime.py": "61c8fd3e44bf2f912a8c1982bb9e6df5405f12986f3f4ce3db339122d18443cc",
+    "registered_replay_probe.py": "113d929fc8046c7570b80a2810f326f9530f936c9bdfa3a2842261fa98afc20e",
+    "physics_trace.py": "1cd31e4480fd8b3d504abaaa7ca9947734f74813b771500e2d544b8349c95d55"
+  }
+}

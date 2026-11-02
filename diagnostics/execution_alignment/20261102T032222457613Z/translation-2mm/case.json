@@ -1,0 +1,6 @@
+{
+  "name": "translation-2mm",
+  "kind": "translation",
+  "gripper_mode": "binary",
+  "cap_m": 0.002
+}

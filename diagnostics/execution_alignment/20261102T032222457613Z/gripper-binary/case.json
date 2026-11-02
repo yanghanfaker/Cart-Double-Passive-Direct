@@ -1,0 +1,6 @@
+{
+  "name": "gripper-binary",
+  "kind": "gripper",
+  "gripper_mode": "binary",
+  "cap_m": 0.0005
+}

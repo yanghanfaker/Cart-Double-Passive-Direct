@@ -1,0 +1,11 @@
+{
+  "controls": 36,
+  "substeps": 180,
+  "complete": true,
+  "case": {
+    "name": "gripper-period",
+    "kind": "gripper",
+    "gripper_mode": "period",
+    "cap_m": 0.0005
+  }
+}

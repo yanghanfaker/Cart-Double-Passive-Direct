@@ -1,0 +1,11 @@
+{
+  "controls": 36,
+  "substeps": 180,
+  "complete": true,
+  "case": {
+    "name": "gripper-binary",
+    "kind": "gripper",
+    "gripper_mode": "binary",
+    "cap_m": 0.0005
+  }
+}

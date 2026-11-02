@@ -1,0 +1,6 @@
+{
+  "name": "gripper-substep",
+  "kind": "gripper",
+  "gripper_mode": "substep",
+  "cap_m": 0.0005
+}

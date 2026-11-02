@@ -1,0 +1,6 @@
+{
+  "name": "gripper-period",
+  "kind": "gripper",
+  "gripper_mode": "period",
+  "cap_m": 0.0005
+}

@@ -1,0 +1,7 @@
+{
+  "name": "gripper-reverse",
+  "kind": "gripper",
+  "gripper_mode": "substep",
+  "cap_m": 0.0005,
+  "reverse": true
+}
