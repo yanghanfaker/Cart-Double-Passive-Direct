@@ -1,0 +1,10 @@
+{
+  "name": "sync-combined-k1687p5-d50-0.1",
+  "kind": "combined",
+  "cap_m": 0.002,
+  "rotation_cap_deg": 0.1,
+  "arm_profile": "k1687p5-d50",
+  "gripper_mode": "binary",
+  "force_open": true,
+  "requires": []
+}

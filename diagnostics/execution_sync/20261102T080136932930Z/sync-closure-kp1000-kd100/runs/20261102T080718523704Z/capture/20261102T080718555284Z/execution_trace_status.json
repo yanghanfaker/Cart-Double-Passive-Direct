@@ -1,0 +1,18 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "sync-closure-kp1000-kd100",
+    "kind": "combined",
+    "cap_m": 0.002,
+    "rotation_cap_deg": 0.1,
+    "arm_profile": "baseline",
+    "finger_profile": "kp1000-kd100",
+    "gripper_mode": "substep",
+    "requires": [
+      "sync-combined-baseline-0.1"
+    ],
+    "finger_armature": 1.0
+  }
+}

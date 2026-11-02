@@ -1,0 +1,15 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "sync-combined-d50-0.1",
+    "kind": "combined",
+    "cap_m": 0.002,
+    "rotation_cap_deg": 0.1,
+    "arm_profile": "d50",
+    "gripper_mode": "binary",
+    "force_open": true,
+    "requires": []
+  }
+}

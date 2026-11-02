@@ -1,0 +1,12 @@
+{
+  "name": "sync-rx-baseline-0.5",
+  "kind": "rotation",
+  "axis": 0,
+  "sign": 1,
+  "rotation_cap_deg": 0.5,
+  "reference_mode": "anchored_tcp",
+  "arm_profile": "baseline",
+  "cap_m": 0.0005,
+  "gripper_mode": "binary",
+  "requires": []
+}

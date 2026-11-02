@@ -1,0 +1,10 @@
+{
+  "name": "sync-combined-baseline-0.1",
+  "kind": "combined",
+  "cap_m": 0.002,
+  "rotation_cap_deg": 0.1,
+  "arm_profile": "baseline",
+  "gripper_mode": "binary",
+  "force_open": true,
+  "requires": []
+}
