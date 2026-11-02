@@ -3174,3 +3174,51 @@ git add -- diagnostics/action_cap_audit/
 git commit -m "Add paired translation cap audit results"
 git push origin main
 ```
+
+## 原生LIBERO策略基线（三个初始状态）
+
+`native_libero_rollout.py`检查同一OpenPI服务在原生LIBERO任务中能否完成任务。
+默认`libero_spatial`任务0，使用其任务提示词和基准初始状态0、1、2，种子7；每回合先10步零臂动作/张爪等待，
+再执行最多220个模型控制步。每次新推理取前5步，按20Hz仿真控制周期直接调用原生`env.step`。
+模型控制夹爪，不经过Isaac坐标转换、IK、增益设置、0.5mm限幅或强制张爪逻辑；原生OSC自身的裁剪/缩放仍生效。
+
+采用官方OpenPI示例的双相机256RGB、180度旋转、224缩放、原生末端位置/有符号旋转向量/夹爪状态。
+保留原生状态dtype和原始第二夹爪关节符号，不应用Isaac适配。沿用`env.step`返回的观测，不额外插入forward/传感器刷新。
+参考： https://github.com/Physical-Intelligence/openpi/blob/main/examples/libero/main.py
+任务成功调用LIBERO的`check_success()`；`done`但未成功单独记录。预算耗尽是完成测试但任务未成功。
+参考： https://github.com/Lifelong-Robot-Learning/LIBERO/blob/master/libero/libero/envs/env_wrapper.py
+
+输出`diagnostics/native_libero_rollout/<UTC>/`：
+- `run.json`外层进程状态；`report.json`任务、初始化SHA、控制器参数、服务元数据和3回合结果。
+- `worker.log`实时查询进度；初始化缺失/加载失败会明确终止，不退回普通reset。
+- 每回合`queries.zip`包含实际发送的两张PNG、保留dtype的state.npy、提示词/输入指纹、完整响应及响应SHA。
+- 每回合`report.json`记录动作执行前后观测、原生物体位置观测、闭爪请求、reward/done/成功条件。
+- 每回合`preview.gif`左右双视角，每两个控制步一帧，名义10fps；不是Viser实时播放。
+- 基准初始状态、BDDL、场景XML、已安装控制器源码和本机OpenPI示例留档。
+
+这一轮只有一个任务的3个初始状态，不是全量基准成功率；本地随机种子不控制服务端采样。
+原生任务物体与Isaac方块场景不同，本轮只建立原生服务/策略基线，不能单独定位哪种跨仿真差异导致失败。
+服务元数据不等于checkpoint及归一化文件身份验证。请继续使用原来的LIBERO模型服务，不要换成别的机器人checkpoint。
+
+保持OpenPI服务在127.0.0.1:8000运行，在另一个Spark终端执行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/native_libero_rollout.py
+```
+
+无需启动Isaac或Viser。脚本使用现有LIBERO虚拟环境与EGL，不安装包、不下载新模型/数据。
+外层进程最多等待30分钟，进度写入输出目录的`worker.log`，其中每次查询都有一行记录。
+支持`--task-id`、`--seed`和`--server-host/--server-port`；本轮先使用默认参数。
+275项本地CPU测试通过，包括前缀重规划、原样动作/夹爪传递、观测方向/符号、成功提前结束、失败保存与无效未来动作拒绝。
+本地没有原生MuJoCo/LIBERO运行环境；真实渲染、接触和模型成功情况待Spark运行。
+
+运行后推送：
+
+```bash
+git add -- diagnostics/native_libero_rollout/
+git commit -m "Add native LIBERO three-episode rollout results"
+git push origin main
+```
