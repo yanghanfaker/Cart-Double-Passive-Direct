@@ -3074,3 +3074,56 @@ git add -- diagnostics/near_descent_reference_ab/
 git commit -m "Add near-descent open-gripper comparison results"
 git push origin main
 ```
+
+## 低位冻结观测与动作方向审计（不执行动作）
+
+上一轮2918ed5006ed的六次60mm下降均完成，但从100mm继续下降时两组横向偏差都增大。
+`low_pose_policy_audit.py`固定这些低位输入，重复新模型推理，检查“向外动作是否稳定出现”和“坐标/限幅如何影响动作”，
+本轮不启动Isaac或MuJoCo，不执行机械臂动作；不属于原生LIBERO对照或抓取成功验证。
+
+默认从最新完整的`diagnostics/near_descent_reference_ab/*/run.json`取源，跳过较新的running快照。
+要求两种模式各3次、120查询预算的源运行均到达60mm边界，验证子结果/配准/选中查询ZIP的SHA链、来源增益、初始化和输入一致性。
+从每次运行选取最接近100、80、60mm高度的真实模型查询帧，共18个观测；容差2mm，记录实际高度和查询编号，
+不会将控制周期检查点误当成恰好同一时刻的相机图像。
+18个观测的224RGB、精确左右翻转、float32状态、提示词和输入指纹必须与原始发送值一致。
+传感器/刚体TCP重建允许1e-7m数值差，并记录实测差值；这不是重新放宽全局标定误差阈值。
+
+每个观测默认重复5次，共90次新推理，轮次间反转观测顺序。每次发送数组副本并验证输入没有被客户端改写。
+保存每次完整模型输出，包括不在原执行前缀内的未来动作；无效响应会保留并停止。
+每个观测保留上一轮原输出的同类分析，用于与本轮新输出比较。
+
+分析前5步和前10步：
+
+- 按既有LIBERO控制输入裁剪及OSC缩放解码后、桥接限幅前的世界位移。
+- 使用既有0.5mm/0.1度限幅和同一配准后的位移；核对坐标往返及与实际桥接函数一致。
+- 沿冻结观测中“横向远离物体方向”的净投影：正值表示向外，负值表示向内。它是固定轴净投影，不是实际路径长度。
+- 固定起点的假想平移终点、横向误差变化、限幅动作数及保留幅度比例。
+- 首个闭爪请求的预测步号，以及依次积分平移时该步执行前的假想高度。它不代表已经闭爪或物理接触。
+
+单步正比例限幅保持该步平移方向，但各步缩放比例不同，整段的合成方向可能改变；报告同时保留两者。
+假想轨迹没有IK、执行器响应、接触、未来观测更新或真实闭环，不能据此断言放开限幅会改善抓取。
+统计先对每个源观测的重复推理求均值，再对同一模式/高度的3个源观测求样本统计，
+不会把15次重复查询当成15次独立机器人实验。原生LIBERO同阶段图像/动作对照仍需另做。
+
+保持OpenPI服务在127.0.0.1:8000运行，在Spark另一个终端执行（无需Viser）：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/low_pose_policy_audit.py --repeats 5
+```
+
+可用`--source-manifest /绝对路径/run.json`指定完整60mm结果，重复数支持3、5、10。
+输出到`diagnostics/low_pose_policy_audit/<UTC>/report.json`，附18份原查询ZIP、重建输入、原响应和每次新响应。
+259项本地测试通过，覆盖18份输入重建、float32数值误差、来源损坏拒绝、坐标/限幅解码、近零横向方向、未来无效动作、
+输入副本、分层统计、跳过未完成来源、失败保存及完整零动作流程。真实2918ed5006ed的18个观测也已离线核对；
+实际重复模型推理待Spark执行。本轮不能独立确定视觉、策略、场景或缩放时序中的唯一根因。
+
+运行后推送：
+
+```bash
+git add -- diagnostics/low_pose_policy_audit/
+git commit -m "Add low-pose frozen policy direction audit results"
+git push origin main
+```
