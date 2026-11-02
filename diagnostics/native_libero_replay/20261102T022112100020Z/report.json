@@ -1,0 +1,113 @@
+{
+  "status": "completed",
+  "episodes": [
+    {
+      "episode_index": 0,
+      "status": "completed",
+      "dummy_wait_steps": 10,
+      "result": "episode-00/report.json",
+      "success": true,
+      "action_steps": 106,
+      "policy_queries": 22,
+      "stop_reason": "task_success"
+    },
+    {
+      "episode_index": 1,
+      "status": "completed",
+      "dummy_wait_steps": 10,
+      "result": "episode-01/report.json",
+      "success": true,
+      "action_steps": 78,
+      "policy_queries": 16,
+      "stop_reason": "task_success"
+    },
+    {
+      "episode_index": 2,
+      "status": "completed",
+      "dummy_wait_steps": 10,
+      "result": "episode-02/report.json",
+      "success": true,
+      "action_steps": 84,
+      "policy_queries": 17,
+      "stop_reason": "task_success"
+    }
+  ],
+  "suite": "libero_spatial",
+  "task_id": 0,
+  "seed": 7,
+  "scope": "native task baseline, not matched Isaac cube scene or full benchmark; local seed does not seed server inference",
+  "prompt": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "bddl_sha256": "9b59eb1287802868ad9bc78d58e6d36d4ba31134e679cfdbdf4b0feb660c959b",
+  "init_sha256": "cbbc73792ce546c9bec181fd328a411d3183074840b282671dee481511381d0a",
+  "initialization": "benchmark states 0,1,2; restricted torch loader; ten dummy wait steps each",
+  "server_health": {
+    "status": "offline_replay_no_network"
+  },
+  "server_metadata": {
+    "status": "reported",
+    "value": {
+      "mode": "archived_responses",
+      "new_policy_queries": 0
+    },
+    "note": "server supplied; does not independently verify checkpoint or normalization statistics"
+  },
+  "controller": {
+    "name": "OSC_POSE",
+    "input_min": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+    ],
+    "input_max": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "output_min": [
+      -0.05,
+      -0.05,
+      -0.05,
+      -0.5,
+      -0.5,
+      -0.5
+    ],
+    "output_max": [
+      0.05,
+      0.05,
+      0.05,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "kp": [
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0
+    ],
+    "kd": [
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178
+    ],
+    "damping_ratio": null,
+    "control_delta": null,
+    "use_delta": true,
+    "policy_freq": null
+  },
+  "control_frequency_hz": 20.0,
+  "installed_example_sha256": "d53748c95804ada559e3ca867305b8f755d8651c4c7f4e2723ef80aea55a3943",
+  "successes": 3,
+  "completed_episodes": 3
+}
