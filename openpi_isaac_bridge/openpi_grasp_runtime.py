@@ -20,6 +20,11 @@ class GraspRuntime:
         self.env=env;self.base=base;self.arm=arm;self.settings=settings;self.output=Path(output);self.tensor=tensor
         self.report=report;self.save=save;self.np=np;self.controls=0;self.phase_counts={};self.path=0.;self.last_phase=None
         self.query_index=0;self.prefix_index=0
+        self.period_translation_limit=.0015
+        if 'execution_case' in settings:
+            from execution_alignment_probe import validate_case
+            case=validate_case(settings['execution_case'])
+            self.period_translation_limit=max(.0015,1.5*case['cap_m'])
         self.geometry=json.loads((self.output/'geometry_audit.json').read_bytes());g=self.geometry
         if not g['same_sensor_ik_body'] or not g['sensor_offset_closure']['within_0p1mm_0p05deg'] or not g['ik_offset_closure']['within_0p1mm_0p05deg']:
             raise RuntimeError('invalid hand/IK geometry')
@@ -72,7 +77,7 @@ class GraspRuntime:
         tp=rotate(inverse(rq),(np.array(target['ik107_target_world_m'])-rp).tolist());tq=multiply(inverse(rq),target['hand_target_quat_world_xyzw'])
         cp,cq=self.arm._compute_frame_pose();cp=tensor(cp);cq=tensor(cq)
         pe,re=compute_pose_error(cp,cq,torch.tensor([tp],device=cp.device,dtype=cp.dtype),torch.tensor([tq],device=cq.device,dtype=cq.dtype),rot_error_type='axis_angle')
-        if not bool(torch.isfinite(pe).all() and torch.isfinite(re).all()) or float(pe.norm())>.0015 or float(re.norm())>math.radians(.3):raise GraspAbort('IK correction outside local grasp envelope')
+        if not bool(torch.isfinite(pe).all() and torch.isfinite(re).all()) or float(pe.norm())>self.period_translation_limit or float(re.norm())>math.radians(.3):raise GraspAbort('IK correction outside local grasp envelope')
         values=(pe[0]/self.scale).detach().cpu().tolist()+(re[0]/self.scale).detach().cpu().tolist()+[float(gripper)]
         attempt={'event':'attempt','control':self.controls+1,'phase':phase,'before':before,'target':target,'fixed_goal':fixed_goal,
             'gripper_applied':gripper,'raw_isaac_action':values,'ik107_target_root_m':tp,'ik107_target_root_quat_xyzw':tq}
@@ -94,7 +99,7 @@ class GraspRuntime:
         try:
             if bool(tensor(result[2]).any()) or bool(tensor(result[3]).any()):raise GraspAbort('environment ended during grasp')
             if row['physics_substeps']!=5:raise GraspAbort('unexpected physics substep count')
-            if np.linalg.norm(delta)>.0015 or quaternion_distance_deg(after['hand_quat_world_xyzw'],before['hand_quat_world_xyzw'])>.3:raise GraspAbort('period motion exceeded 1.5mm/0.3deg')
+            if np.linalg.norm(delta)>self.period_translation_limit or quaternion_distance_deg(after['hand_quat_world_xyzw'],before['hand_quat_world_xyzw'])>.3:raise GraspAbort(f'period motion exceeded {self.period_translation_limit*1000:g}mm/0.3deg')
             if row['total_tcp_displacement_m']>.35 or row['total_hand_rotation_deg']>90 or self.path>.85:raise GraspAbort('overall grasp motion envelope exceeded')
             q=tensor(robot.data.joint_pos)[0,self.joints];limits=tensor(robot.data.soft_joint_pos_limits)[0,self.joints]
             if not bool(((q>=limits[:,0]-.001)&(q<=limits[:,1]+.001)).all()):raise GraspAbort('soft joint limit violation')

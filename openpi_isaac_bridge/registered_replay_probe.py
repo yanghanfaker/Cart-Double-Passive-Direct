@@ -29,14 +29,16 @@ def validate_replay(request):
     return request
 
 
-def target_from_action(hand_position,hand_quat_xyzw,world_rotation,action):
+def target_from_action(hand_position,hand_quat_xyzw,world_rotation,action,*,translation_cap=TRANSLATION_CAP):
     import numpy as np
     from geometry_audit import multiply
     from kinematic_attribution import rotate
     validate_action_chunk([list(action)])
+    if not math.isfinite(translation_cap) or not 0<translation_cap<=.005:raise ValueError('translation cap must be in (0,5mm]')
     R=np.array(world_rotation);clipped=np.clip(action,-1,1)
     dp=clipped[:3]*.05;dr=clipped[3:6]*.5
-    for vector,cap in ((dp,TRANSLATION_CAP),(dr,ROTATION_CAP)):
+    decoded_dp=dp.copy()
+    for vector,cap in ((dp,translation_cap),(dr,ROTATION_CAP)):
         norm=np.linalg.norm(vector)
         if norm>cap:vector*=cap/norm
     delta=R.T@dp;rotation=R.T@dr;angle=float(np.linalg.norm(rotation))
@@ -45,7 +47,9 @@ def target_from_action(hand_position,hand_quat_xyzw,world_rotation,action):
     tcp=np.asarray(hand_position)+rotate(hand_quat_xyzw,[0,0,.097])
     tcp_target=tcp+delta
     ik_target=tcp_target+rotate(q,[0,0,.010])
-    return {'bounded_delta_L_m':dp.tolist(),'bounded_rotation_L_rad':dr.tolist(),
+    return {'decoded_delta_L_m':decoded_dp.tolist(),'translation_cap_m':translation_cap,
+        'translation_cap_triggered':bool(np.linalg.norm(decoded_dp)>translation_cap),
+        'bounded_delta_L_m':dp.tolist(),'bounded_rotation_L_rad':dr.tolist(),
         'bounded_delta_I_m':delta.tolist(),'bounded_rotation_I_rad':rotation.tolist(),
         'tcp97_before_world_m':tcp.tolist(),'tcp97_target_world_m':tcp_target.tolist(),
         'ik107_target_world_m':ik_target.tolist(),'hand_target_quat_world_xyzw':q,

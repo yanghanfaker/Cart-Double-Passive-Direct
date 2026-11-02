@@ -93,6 +93,9 @@ def run_segment(env,base,arm,settings,output,tensor):
         if error>.0005 or rotation>.1 or report['initial_joint_error_rad']>.001:raise RuntimeError('native/Isaac initial pose mismatch')
         if min(first['finger_positions_m'])<.035 or math.dist(first['tcp_world_m'],first['object_pos_world_m'])<.12:raise RuntimeError('need open gripper and distant cube')
         report.update(initial=first,initial_tcp_error_m=error,initial_rotation_error_deg=rotation);save()
+        if 'execution_case' in settings:
+            from execution_alignment_probe import run_alignment
+            return run_alignment(runtime,R,settings,first,report,save)
         gripper=1.;target=None
         for i in range(25):
             before=runtime.state()
@@ -116,6 +119,7 @@ def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--native-report',type=Path);p.add_argument('--scene-manifest',type=Path)
     p.add_argument('--pose-refresh-manifest',type=Path)
+    p.add_argument('--execution-case-json',type=Path)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
     p.add_argument('--output-root',type=Path,default=repo/'diagnostics/isaac_native_segment');args=p.parse_args()
     native=args.native_report or next((f for f in sorted((repo/'diagnostics/native_libero_replay').glob('*/report.json'),reverse=True) if read(f.parent/'replay_checks.json').get('status')=='completed'),None)
@@ -128,6 +132,9 @@ def main():
     refresh=args.pose_refresh_manifest or next((f for f in sorted((repo/'diagnostics/native_pose_refresh').glob('*/run.json'),reverse=True) if read(f).get('status')=='completed'),None)
     if refresh is None:p.error('completed native static refresh required')
     settings,reference_files=use_static_reference(settings,refresh)
+    if args.execution_case_json:
+        from execution_alignment_probe import validate_case
+        settings['execution_case']=validate_case(read(args.execution_case_json))
     config['reference_eef_position_world_m']=settings['native_initial']['robot0_eef_pos']
     folder=args.output_root.absolute()/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ');folder.mkdir(parents=True)
     reference_folder=folder/'static_reference';reference_folder.mkdir()

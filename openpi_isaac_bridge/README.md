@@ -3377,3 +3377,46 @@ git add -- diagnostics/native_gripper_audit/
 git commit -m "Add native gripper command increment audit results"
 git push origin main
 ```
+
+## 执行时序与动作限幅对照测试
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_execution_alignment.py
+```
+
+无需启动OpenPI服务。依赖之前已通过的native_libero_replay、near_descent_reference_ab和native_pose_refresh记录。
+共8个独立Isaac场景，均保持方块远离TCP，禁止接触，不作为抓取成功测试：
+
+| 用例 | 变化 | 固定条件 |
+|---|---|---|
+| gripper-binary | 直接全开/全闭 | 末端固定，4周期开、16周期闭、16周期开 |
+| gripper-period | 单指目标每50ms变化5mm | 同一动作序列 |
+| gripper-substep | 单指目标每10ms变化1mm | 同一动作序列，周期末目标与period一致 |
+| gripper-reverse | 闭合中途反向后再次闭合、张开 | 子步增量，检查目标连续性 |
+| translation-0.5mm/1mm/2mm/5mm | 四档平移范数限幅 | 同一归档片段前5步，仅平移，旋转置零、夹爪全开，之后20周期固定目标保持 |
+
+逐档增大平移限幅；某档失败后更大档跳过，保留已有结果。夹爪各用例独立运行。
+夹爪通过gripper_action.apply_actions实例包装器，在原动作应用之后覆写手指位置和零速度目标；
+每周期核对调用5次，并在物理写入后验证目标没有被覆盖。退出时恢复原方法。
+所有用例每10ms记录七关节目标、实际位置/速度、手指目标与响应、可用的computed/applied torque、
+速度/力矩限制、软关节余量、实际IK雅可比及奇异值。不可用SDK字段明确标记，不当作零值。
+雅可比条件数混合平移/旋转单位，不能仅凭该数值认定奇异；力矩字段也不视为接触力测量。
+位置误差需结合目标大小、触顶情况和方向解释，运行completed只表示流程完成，不自动证明原生等价。
+
+诊断专属IK修正/周期位移边界=max(1.5mm,1.5×当前平移限幅)，最大7.5mm；
+常规抓取默认1.5mm、旋转0.3deg边界保持原值。软关节限位、整体运动边界、方块漂移2mm及TCP距离100mm检查保留。
+每个用例独立初始化并核对静态TCP、姿态及关节参考；初始速度仍为静止，不宣称与原生动态状态一致。
+
+输出diagnostics/execution_alignment/<UTC>/run.json及各用例完整capture、physics_joint_trace.jsonl和motion.jsonl。
+汇总含逐关节峰值跟踪误差、速度、限位余量、夹爪响应、限幅次数和结果SHA；首次失败看对应console.log和result。
+只跑部分用例可加 --only gripper-substep translation-0.5mm；完整首轮建议使用默认8用例。
+后续的旋转限幅、初始速度/预运行、当前姿态与累积目标，以及接触抓取组合实验尚未纳入本轮。
+
+```bash
+git add -- diagnostics/execution_alignment/
+git commit -m "Add execution timing and translation cap comparison results"
+git push origin main
+```
