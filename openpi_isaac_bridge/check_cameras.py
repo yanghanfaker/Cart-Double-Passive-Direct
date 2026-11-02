@@ -229,6 +229,12 @@ def main():
         cfg.scene.robot.init_state.joint_pos.update({"panda_finger_joint1": .04, "panda_finger_joint2": .04})
     joint_overrides = json.loads(args.joint_gains_json.read_text(encoding="utf-8")) if args.joint_gains_json else None
     gain_config = configure_gain_profile(cfg.scene.robot.actuators, args.gain_profile, joint_overrides)
+    finger_gain_audit = None
+    if online_registered is not None and 'execution_case' in online_registered:
+        from execution_alignment_probe import validate_case
+        from execution_coverage_cases import configure_finger_profile
+        execution_case=validate_case(online_registered['execution_case'])
+        finger_gain_audit=configure_finger_profile(cfg.scene.robot.actuators,execution_case.get('finger_profile','inherited'))
     cfg.scene.num_envs = 1
     cfg.episode_length_s = 60.0
     if args.motion_test in ("geometry-audit", "libero-map", "libero-stream", "step-response", "joint-step", "grasp", "openpi-step", *REPLAY_MODES):
@@ -352,6 +358,8 @@ def main():
 
                 output = args.output.expanduser().resolve()
                 output.mkdir(parents=True, exist_ok=True)
+                if finger_gain_audit is not None:
+                    (output/'finger_gain_configuration.json').write_text(json.dumps(finger_gain_audit,indent=2),encoding='utf-8')
                 images = {}
                 image_report = {}
                 for name in ("external_camera", "wrist_camera"):

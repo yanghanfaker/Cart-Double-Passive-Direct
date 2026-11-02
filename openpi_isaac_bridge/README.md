@@ -3420,3 +3420,49 @@ git add -- diagnostics/execution_alignment/
 git commit -m "Add execution timing and translation cap comparison results"
 git push origin main
 ```
+
+## 执行覆盖测试：夹爪动态、旋转、移动闭合与起动状态
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_execution_alignment.py --suite coverage
+```
+
+共22个独立初始化、远离方块的Isaac用例，无需OpenPI服务，不进行接触抓取。
+
+| 类别 | 用例数 | 对照因素 |
+|---|---:|---|
+| 夹爪动态 | 4 | 继承USD驱动，以及主动手指显式kp/kd=1000/10、1000/50、250/10；统一每10ms增量1mm |
+| 旋转方向与幅度 | 12 | 世界注册坐标系rx/ry/rz正负方向，各0.1和0.5deg/周期；5步命令+20周期保持 |
+| 移动与闭合组合 | 4 | 同一原生归档5步平移+旋转+夹爪指令；2mm/0.1deg和5mm/0.5deg，各配直接闭合或子步增量 |
+| 目标参考 | 1 | 2mm组合子步夹爪改用累积目标，与对应当前实际姿态参考组比较 |
+| 起动状态敏感性 | 1 | 同一起点先执行5步2mm、仅平移、夹爪全开的合成预运动，再执行相同组合片段 |
+
+夹爪为finger1主动驱动、finger2被动/mimic结构。参数用例只改主动手指刚度/阻尼，
+保留第二根零驱动和原力矩限制；若分组不是该结构则拒绝运行。三个显式参数是探索值，
+不是把原生kp数值直接等价移植。构造前记录配置，运行后读取实际两指刚度/阻尼并核对显式值。
+每个用例保存finger_dynamics_audit.json：实际增益/限制、资产路径、可获取的USD手指质量、驱动、摩擦和mimic等已著作属性。
+USD属性不一定是最终求解器解析值；获取不到时标明unavailable。手指computed/applied torque及限制进入10ms记录。
+
+较大旋转要求同轴同方向小旋转先完成；组合用例要求对应档位旋转先完成，5mm组合还要求同夹爪2mm组合完成。
+累积目标和预运动依赖2mm子步组合。前置失败只跳过依赖它的用例，其余方向继续运行。
+--only会自动加入同套件前置用例，例如 --suite coverage --only combined-2mm-substep。
+completed表示执行和保护检查完成，不能当作轨迹符合原生或抓取成功。
+
+组合片段仅第5步开始闭合，随后20周期保持最后绝对末端目标和最后夹爪指令；
+这是固定片段对照，未复现原生后续继续运动。累积目标组可能更早触发修正边界，需保留停止证据。
+预运动同时改变位置和速度，不能单独归因于初速度，也不等于恢复原生初始关节速度。
+所有组都保存原生动态初速度、Isaac初始化速度，预运动组额外保存组合命令开始前的完整状态。
+
+默认抓取参数保持原值。诊断平移修正/周期边界最大7.5mm，旋转边界=max(0.3deg,1.5×本档旋转限幅)，最大0.75deg。
+软关节限位、整体位移/角度、100mm物体距离、2mm方块漂移检查保留。每组静态初始化仍需通过0.5mm/0.1deg/0.001rad检查。
+输出diagnostics/execution_coverage/<UTC>/，包含run.json、每用例日志、配置与完整物理步记录。
+CPU与mock验证仅检查流程、数学映射和参数隔离；新增显式夹爪增益在当前SDK上的实际效果待Spark验证。
+
+```bash
+git add -- diagnostics/execution_coverage/
+git commit -m "Add gripper rotation and coupled execution coverage results"
+git push origin main
+```
