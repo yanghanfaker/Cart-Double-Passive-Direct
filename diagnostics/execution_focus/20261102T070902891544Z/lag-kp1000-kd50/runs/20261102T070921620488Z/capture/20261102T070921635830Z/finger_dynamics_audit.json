@@ -1,0 +1,188 @@
+{
+  "joint_stiffness": {
+    "value": [
+      1000.0,
+      0.0
+    ],
+    "status": "available"
+  },
+  "joint_damping": {
+    "value": [
+      50.0,
+      0.0
+    ],
+    "status": "available"
+  },
+  "joint_effort_limits": {
+    "value": [
+      200.0,
+      200.0
+    ],
+    "status": "available"
+  },
+  "joint_vel_limits": {
+    "value": [
+      3.4028234663852886e+38,
+      3.4028234663852886e+38
+    ],
+    "status": "available"
+  },
+  "joint_armature": {
+    "value": [
+      0.10000000149011612,
+      0.10000000149011612
+    ],
+    "status": "available"
+  },
+  "asset": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/franka_panda.usda",
+  "note": "finger1 active; finger2 passive/mimic; authored USD fields may differ from resolved solver properties",
+  "usd_authored_attributes": {
+    "status": "available",
+    "prims": [
+      {
+        "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger",
+        "attributes": {
+          "physics:angularVelocity": "(0, 0, 0)",
+          "physics:centerOfMass": "(0, 0, 0)",
+          "physics:density": "0.0",
+          "physics:diagonalInertia": "(0.000002375, 0.000002375, 7.5e-7)",
+          "physics:kinematicEnabled": "False",
+          "physics:mass": "0.014999999664723873",
+          "physics:principalAxes": "(1, 0, 0, 0)",
+          "physics:rigidBodyEnabled": "True",
+          "physics:startsAsleep": "False",
+          "physics:velocity": "(0, 0, 0)",
+          "physxRigidBody:angularDamping": "0.05000000074505806",
+          "physxRigidBody:cfmScale": "0.02500000037252903",
+          "physxRigidBody:contactSlopCoefficient": "0.0",
+          "physxRigidBody:disableGravity": "True",
+          "physxRigidBody:enableCCD": "False",
+          "physxRigidBody:enableGyroscopicForces": "True",
+          "physxRigidBody:enableSpeculativeCCD": "False",
+          "physxRigidBody:linearDamping": "0.0",
+          "physxRigidBody:lockedPosAxis": "0",
+          "physxRigidBody:lockedRotAxis": "0",
+          "physxRigidBody:maxAngularVelocity": "5729.580078125",
+          "physxRigidBody:maxContactImpulse": "inf",
+          "physxRigidBody:maxDepenetrationVelocity": "5.0",
+          "physxRigidBody:maxLinearVelocity": "inf",
+          "physxRigidBody:retainAccelerations": "False",
+          "physxRigidBody:sleepThreshold": "4.999999873689376e-05",
+          "physxRigidBody:solveContact": "True",
+          "physxRigidBody:solverPositionIterationCount": "16",
+          "physxRigidBody:solverVelocityIterationCount": "1",
+          "physxRigidBody:stabilizationThreshold": "9.999999747378752e-06"
+        }
+      },
+      {
+        "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/panda_finger_joint1",
+        "attributes": {
+          "drive:linear:physics:damping": "10.0",
+          "drive:linear:physics:maxForce": "200.0",
+          "drive:linear:physics:stiffness": "350.0",
+          "drive:linear:physics:targetPosition": "0.0",
+          "drive:linear:physics:targetVelocity": "0.0",
+          "drive:linear:physics:type": "force",
+          "physics:axis": "Y",
+          "physics:breakForce": "inf",
+          "physics:breakTorque": "inf",
+          "physics:collisionEnabled": "False",
+          "physics:excludeFromArticulation": "False",
+          "physics:jointEnabled": "True",
+          "physics:localPos0": "(6.938894e-18, 0, 0.0584)",
+          "physics:localPos1": "(0, 0, 0)",
+          "physics:localRot0": "(1, 0, 0, 0)",
+          "physics:localRot1": "(1, 0, 0, 0)",
+          "physics:lowerLimit": "0.0",
+          "physics:upperLimit": "0.03999999910593033",
+          "physxJoint:armature": "0.10000000149011612",
+          "physxJoint:jointFriction": "0.0",
+          "physxJoint:maxJointVelocity": "inf"
+        }
+      },
+      {
+        "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/left_finger_pad",
+        "attributes": {
+          "physics:centerOfMass": "(-inf, -inf, -inf)",
+          "physics:collisionEnabled": "True",
+          "physics:density": "1000.0",
+          "physics:diagonalInertia": "(0, 0, 0)",
+          "physics:mass": "0.0",
+          "physics:principalAxes": "(0, 0, 0, 0)"
+        }
+      },
+      {
+        "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger",
+        "attributes": {
+          "physics:angularVelocity": "(0, 0, 0)",
+          "physics:centerOfMass": "(0, 0, 0)",
+          "physics:density": "0.0",
+          "physics:diagonalInertia": "(0.000002375, 0.000002375, 7.5e-7)",
+          "physics:kinematicEnabled": "False",
+          "physics:mass": "0.014999999664723873",
+          "physics:principalAxes": "(1, 0, 0, 0)",
+          "physics:rigidBodyEnabled": "True",
+          "physics:startsAsleep": "False",
+          "physics:velocity": "(0, 0, 0)",
+          "physxRigidBody:angularDamping": "0.05000000074505806",
+          "physxRigidBody:cfmScale": "0.02500000037252903",
+          "physxRigidBody:contactSlopCoefficient": "0.0",
+          "physxRigidBody:disableGravity": "True",
+          "physxRigidBody:enableCCD": "False",
+          "physxRigidBody:enableGyroscopicForces": "True",
+          "physxRigidBody:enableSpeculativeCCD": "False",
+          "physxRigidBody:linearDamping": "0.0",
+          "physxRigidBody:lockedPosAxis": "0",
+          "physxRigidBody:lockedRotAxis": "0",
+          "physxRigidBody:maxAngularVelocity": "5729.580078125",
+          "physxRigidBody:maxContactImpulse": "inf",
+          "physxRigidBody:maxDepenetrationVelocity": "5.0",
+          "physxRigidBody:maxLinearVelocity": "inf",
+          "physxRigidBody:retainAccelerations": "False",
+          "physxRigidBody:sleepThreshold": "4.999999873689376e-05",
+          "physxRigidBody:solveContact": "True",
+          "physxRigidBody:solverPositionIterationCount": "16",
+          "physxRigidBody:solverVelocityIterationCount": "1",
+          "physxRigidBody:stabilizationThreshold": "9.999999747378752e-06"
+        }
+      },
+      {
+        "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/panda_finger_joint2",
+        "attributes": {
+          "drive:linear:physics:damping": "0.0",
+          "drive:linear:physics:maxForce": "inf",
+          "drive:linear:physics:stiffness": "0.0",
+          "drive:linear:physics:targetPosition": "0.0",
+          "drive:linear:physics:targetVelocity": "0.0",
+          "drive:linear:physics:type": "force",
+          "physics:axis": "Y",
+          "physics:breakForce": "inf",
+          "physics:breakTorque": "inf",
+          "physics:collisionEnabled": "False",
+          "physics:excludeFromArticulation": "False",
+          "physics:jointEnabled": "True",
+          "physics:localPos0": "(6.938894e-18, 0, 0.0584)",
+          "physics:localPos1": "(0, 0, 0)",
+          "physics:localRot0": "(-1.6653345e-16, -6.674186e-17, -1.1669192e-16, -1)",
+          "physics:localRot1": "(1, 0, 0, 0)",
+          "physics:lowerLimit": "0.0",
+          "physics:upperLimit": "0.03999999910593033",
+          "physxJoint:armature": "0.10000000149011612",
+          "physxJoint:jointFriction": "0.0",
+          "physxJoint:maxJointVelocity": "inf"
+        }
+      },
+      {
+        "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/right_finger_pad",
+        "attributes": {
+          "physics:centerOfMass": "(-inf, -inf, -inf)",
+          "physics:collisionEnabled": "True",
+          "physics:density": "1000.0",
+          "physics:diagonalInertia": "(0, 0, 0)",
+          "physics:mass": "0.0",
+          "physics:principalAxes": "(0, 0, 0, 0)"
+        }
+      }
+    ]
+  }
+}

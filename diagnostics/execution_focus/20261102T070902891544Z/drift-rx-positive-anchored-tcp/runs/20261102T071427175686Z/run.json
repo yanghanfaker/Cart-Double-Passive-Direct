@@ -1,0 +1,17 @@
+{
+  "status": "failed",
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+    "--isaaclab-root",
+    "/home/test/Robot/IsaacLab",
+    "--output-root",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_focus/20261102T070902891544Z/drift-rx-positive-anchored-tcp/runs/20261102T071427175686Z/capture",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_focus/20261102T070902891544Z/drift-rx-positive-anchored-tcp/runs/20261102T071427175686Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_focus/20261102T070902891544Z/drift-rx-positive-anchored-tcp/runs/20261102T071427175686Z/segment_settings.json"
+  ],
+  "policy_queries": 0,
+  "error": "segment failed; inspect capture console and result"
+}

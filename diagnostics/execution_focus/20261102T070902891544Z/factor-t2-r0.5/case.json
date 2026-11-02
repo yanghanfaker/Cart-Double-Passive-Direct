@@ -1,0 +1,12 @@
+{
+  "name": "factor-t2-r0.5",
+  "kind": "combined",
+  "cap_m": 0.002,
+  "rotation_cap_deg": 0.5,
+  "gripper_mode": "binary",
+  "force_open": true,
+  "requires": [
+    "factor-translation5",
+    "factor-rotation0.5"
+  ]
+}

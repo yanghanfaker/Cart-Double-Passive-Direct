@@ -1,0 +1,16 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "drift-rx-negative-current",
+    "kind": "rotation",
+    "axis": 0,
+    "sign": -1,
+    "rotation_cap_deg": 0.5,
+    "reference_mode": "current",
+    "cap_m": 0.0005,
+    "gripper_mode": "binary",
+    "requires": []
+  }
+}

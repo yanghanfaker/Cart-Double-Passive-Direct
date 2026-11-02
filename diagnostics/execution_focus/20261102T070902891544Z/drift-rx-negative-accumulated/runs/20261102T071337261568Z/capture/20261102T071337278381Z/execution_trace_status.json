@@ -1,0 +1,18 @@
+{
+  "controls": 7,
+  "substeps": 30,
+  "complete": false,
+  "case": {
+    "name": "drift-rx-negative-accumulated",
+    "kind": "rotation",
+    "axis": 0,
+    "sign": -1,
+    "rotation_cap_deg": 0.5,
+    "reference_mode": "accumulated",
+    "cap_m": 0.0005,
+    "gripper_mode": "binary",
+    "requires": [
+      "drift-rx-negative-current"
+    ]
+  }
+}

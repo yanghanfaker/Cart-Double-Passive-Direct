@@ -1,0 +1,12 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "factor-translation5",
+    "kind": "translation",
+    "gripper_mode": "binary",
+    "cap_m": 0.005,
+    "requires": []
+  }
+}

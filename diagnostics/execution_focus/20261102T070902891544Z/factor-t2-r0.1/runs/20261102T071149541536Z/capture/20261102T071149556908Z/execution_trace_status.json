@@ -1,0 +1,17 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "factor-t2-r0.1",
+    "kind": "combined",
+    "cap_m": 0.002,
+    "rotation_cap_deg": 0.1,
+    "gripper_mode": "binary",
+    "force_open": true,
+    "requires": [
+      "factor-translation5",
+      "factor-rotation0.1"
+    ]
+  }
+}

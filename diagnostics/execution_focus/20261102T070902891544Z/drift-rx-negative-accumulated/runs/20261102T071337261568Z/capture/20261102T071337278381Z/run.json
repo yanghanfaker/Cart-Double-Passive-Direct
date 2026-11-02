@@ -1,0 +1,31 @@
+{
+  "status": "failed",
+  "command": [
+    "uv",
+    "run",
+    "--extra",
+    "viser",
+    "--extra",
+    "openpi",
+    "isaaclab",
+    "-p",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py",
+    "--viz",
+    "viser",
+    "--motion-test",
+    "geometry-audit",
+    "--gain-profile",
+    "kp2p25-kd0p25",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_focus/20261102T070902891544Z/drift-rx-negative-accumulated/runs/20261102T071337261568Z/capture/20261102T071337278381Z/joint_gains.json",
+    "--output",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_focus/20261102T070902891544Z/drift-rx-negative-accumulated/runs/20261102T071337261568Z/capture/20261102T071337278381Z",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_focus/20261102T070902891544Z/drift-rx-negative-accumulated/runs/20261102T071337261568Z/capture/20261102T071337278381Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_focus/20261102T070902891544Z/drift-rx-negative-accumulated/runs/20261102T071337261568Z/capture/20261102T071337278381Z/online_registered_settings.json"
+  ],
+  "output": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_focus/20261102T070902891544Z/drift-rx-negative-accumulated/runs/20261102T071337261568Z/capture/20261102T071337278381Z",
+  "scope": "current clean capture, one live registered query, bounded five-action execution and fixed-target hold",
+  "exit_code": 1
+}

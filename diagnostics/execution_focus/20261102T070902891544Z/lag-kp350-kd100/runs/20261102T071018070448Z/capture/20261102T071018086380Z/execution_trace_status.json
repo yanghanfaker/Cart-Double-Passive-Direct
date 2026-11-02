@@ -1,0 +1,15 @@
+{
+  "controls": 36,
+  "substeps": 180,
+  "complete": true,
+  "case": {
+    "name": "lag-kp350-kd100",
+    "kind": "gripper",
+    "gripper_mode": "substep",
+    "cap_m": 0.0005,
+    "finger_profile": "kp350-kd100",
+    "requires": [
+      "lag-inherited"
+    ]
+  }
+}

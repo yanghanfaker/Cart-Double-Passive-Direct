@@ -1,0 +1,10 @@
+{
+  "name": "lag-kp1000-kd50",
+  "kind": "gripper",
+  "gripper_mode": "substep",
+  "cap_m": 0.0005,
+  "finger_profile": "kp1000-kd50",
+  "requires": [
+    "lag-inherited"
+  ]
+}

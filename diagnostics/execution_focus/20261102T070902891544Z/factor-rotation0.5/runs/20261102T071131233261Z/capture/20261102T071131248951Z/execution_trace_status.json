@@ -1,0 +1,15 @@
+{
+  "controls": 25,
+  "substeps": 125,
+  "complete": true,
+  "case": {
+    "name": "factor-rotation0.5",
+    "kind": "recorded-rotation",
+    "gripper_mode": "binary",
+    "cap_m": 0.0005,
+    "rotation_cap_deg": 0.5,
+    "requires": [
+      "factor-rotation0.1"
+    ]
+  }
+}
