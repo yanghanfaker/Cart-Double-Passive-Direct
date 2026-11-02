@@ -16,7 +16,8 @@ def validate_case(case):
     from execution_coverage_cases import coverage_cases
     from execution_focus_cases import focus_cases
     from execution_sync_cases import sync_cases
-    if case not in cases()+coverage_cases()+focus_cases()+sync_cases():raise ValueError('execution case must exactly match a declared no-contact diagnostic')
+    from execution_generalization import generalization_cases
+    if case not in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases():raise ValueError('execution case must exactly match a declared no-contact diagnostic')
     return case
 
 
@@ -156,7 +157,7 @@ def run_alignment(runtime,R,settings,first,report,save):
     dynamic=settings.get('native_dynamic_initial',settings['native_initial'])
     report['initial_velocity_comparison']={'native_joint_velocity_rad_s':dynamic.get('robot0_joint_vel'),
         'isaac_joint_velocity_rad_s':first['joint_velocities_rad_s'],
-        'scope':'recorded native dynamic state versus held Isaac start; no native velocity restoration'}
+        'scope':'original recorded native dynamic state versus held Isaac start; for pose variants original velocities belong to the original pose, not a matched initial dynamic reference'}
     report['execution_envelopes']={'translation_m':r.period_translation_limit,'rotation_deg':r.period_rotation_limit_deg}
     save()
     def command():

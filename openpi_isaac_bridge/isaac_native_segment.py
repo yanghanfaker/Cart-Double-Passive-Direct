@@ -67,6 +67,7 @@ def prepare(native, scene, calibration):
     for a,b in [('reference_world_rotation','world_from_isaac_rotation'),('reference_world_translation_m','world_from_isaac_translation_m')]:
         if not np.allclose(config[a],calibration[b],atol=1e-12,rtol=0):raise ValueError('scene calibration mismatch')
     return config,{'mode':'native-segment','calibration':calibration,'native_initial':first,'native_segment':segment,
+        'source_native_bddl_sha256':m.get('bddl_sha256'),
         'raw_actions':actions,'source_native_report_sha256':sha(native.read_bytes()),'source_episode':0,'source_query':q['query'],
         'scope':'same raw commands, matched joint start; capped Isaac IK and binary gripper versus recorded native OSC; cube moved away, no contact; not controller equivalence'}
 
@@ -120,6 +121,7 @@ def main():
     p.add_argument('--native-report',type=Path);p.add_argument('--scene-manifest',type=Path)
     p.add_argument('--pose-refresh-manifest',type=Path)
     p.add_argument('--execution-case-json',type=Path)
+    p.add_argument('--pose-cache-root',type=Path)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
     p.add_argument('--output-root',type=Path,default=repo/'diagnostics/isaac_native_segment');args=p.parse_args()
     native=args.native_report or next((f for f in sorted((repo/'diagnostics/native_libero_replay').glob('*/report.json'),reverse=True) if read(f.parent/'replay_checks.json').get('status')=='completed'),None)
@@ -132,9 +134,14 @@ def main():
     refresh=args.pose_refresh_manifest or next((f for f in sorted((repo/'diagnostics/native_pose_refresh').glob('*/run.json'),reverse=True) if read(f).get('status')=='completed'),None)
     if refresh is None:p.error('completed native static refresh required')
     settings,reference_files=use_static_reference(settings,refresh)
+    pose_files=None
     if args.execution_case_json:
         from execution_alignment_probe import validate_case
         settings['execution_case']=validate_case(read(args.execution_case_json))
+        if 'pose_variant' in settings['execution_case']:
+            from execution_generalization import prepare_pose
+            if args.pose_cache_root is None:p.error('pose variant requires --pose-cache-root')
+            settings,config,pose_files=prepare_pose(settings,config,settings['execution_case']['pose_variant'],args.pose_cache_root)
         if 'arm_profile' in settings['execution_case']:
             from execution_sync_cases import gain_plan
             audit_path=(scene.parent/m['cases'][0]['result']).parent/'actuator_audit.json'
@@ -147,6 +154,9 @@ def main():
     folder=args.output_root.absolute()/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ');folder.mkdir(parents=True)
     reference_folder=folder/'static_reference';reference_folder.mkdir()
     for name,payload in reference_files.items():(reference_folder/name).write_bytes(payload)
+    if pose_files is not None:
+        pose_folder=folder/'pose_reference';pose_folder.mkdir()
+        for name,payload in pose_files.items():(pose_folder/name).write_bytes(payload)
     save_json(folder/'clean_scene_request.json',config);save_json(folder/'segment_settings.json',settings)
     command=[sys.executable,str(Path(__file__).with_name('run_geometry_audit.py')),'--isaaclab-root',str(args.isaaclab_root.absolute()),'--output-root',str(folder/'capture'),
         '--clean-scene-json',str(folder/'clean_scene_request.json'),'--online-registered-json',str(folder/'segment_settings.json')]

@@ -3560,3 +3560,47 @@ git add -- diagnostics/execution_sync/
 git commit -m "Add J1 J3 synchronization and small rotation comparison results"
 git push origin main
 ```
+
+## 三姿态下机械臂与夹爪候选交叉验证
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_execution_alignment.py --suite generalization
+```
+
+共27个独立无接触用例，不需要OpenPI服务。需要原有LIBERO样例虚拟环境及其MuJoCo依赖，
+以及已完成的native replay、near-descent和static refresh来源记录。
+本轮用同一归档5步动作测试不同姿态下的执行响应；不重新推理，不代表新姿态下模型会输出这些动作。
+
+三个起始姿态：原姿态center；shoulder-up在原姿态基础上J2=-0.035rad、J4=+0.025rad；
+shoulder-down取相反偏移。名称只是实验编号，不作为实际TCP运动方向判定。
+每个姿态各9组：
+
+| 分组 | 每姿态数量 | 参数与目的 |
+|---|---:|---|
+| 机械臂基线 | 1 | J1/J3=1125/25，夹爪350/50，平移2mm、旋转0.1deg |
+| 候选交叉 | 4 | J1/J3=1125/50或1687.5/50 × 夹爪350/50或1000/100+armature1；2mm/0.1deg |
+| 组合幅度 | 2 | 两组候选机械臂、夹爪350/50，2mm/0.25deg；各自依赖同姿态同机械臂0.1deg完成 |
+| 固定TCP绕X | 2 | 两组候选机械臂、夹爪350/50且全开；正向0.25deg，检查换姿态后的TCP漂移 |
+
+每个新姿态先运行隔离的原生LIBERO静态FK worker：直接设置七关节和两指位置，forward而不执行控制动作，
+保存pose_references/<pose>/的关节赋值、EEF参考、时间、BDDL摘要、依赖预检及源请求。
+缓存复用前检查请求摘要、参考文件摘要、九关节目标与实际值、关节顺序、手指符号、零动作和时间不变。
+请求文件只声明关节位置，不伪装为已经测量的Isaac几何；每个工况仍需实测Isaac初始化并通过
+位置0.5mm、姿态0.1deg、关节0.001rad门槛，未放宽坐标/TCP校验。
+原静态来源、原始动态状态、原动作与原执行器审计分别保留，避免用新姿态覆盖来源证据。
+新姿态的零速起点与原归档动态速度不构成匹配动力学初态。
+
+方块统一移到世界XY=[0.7,-0.25]，保留支撑高度和无接触距离检查。
+继续核对七关节刚度/阻尼、两指参数实读，记录10ms目标/响应、雅可比分解、力矩削顶与50ms控制误差。
+只改声明的增益/手指armature，不提高力矩、速度或运动保护限制。
+原生FK准备失败时跳过同姿态剩余工况；单个控制工况停止不阻断其他独立候选。
+completed仅表示工况运行完成；应比较误差、保持段、夹爪时序和削顶，不能据此认定抓取成功。
+
+```bash
+git add -- diagnostics/execution_generalization/
+git commit -m "Add cross pose arm and gripper candidate validation results"
+git push origin main
+```

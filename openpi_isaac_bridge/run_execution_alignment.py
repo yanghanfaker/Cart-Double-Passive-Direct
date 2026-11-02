@@ -12,6 +12,7 @@ from execution_alignment_probe import cases
 from execution_coverage_cases import coverage_cases
 from execution_focus_cases import focus_cases
 from execution_sync_cases import sync_cases
+from execution_generalization import generalization_cases
 from native_libero_rollout import save_json
 
 
@@ -51,10 +52,10 @@ def summarize(result):
 def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
-    p.add_argument('--suite',choices=['alignment','coverage','focus','sync'],default='alignment')
+    p.add_argument('--suite',choices=['alignment','coverage','focus','sync','generalization'],default='alignment')
     p.add_argument('--output-root',type=Path)
-    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()],nargs='+')
-    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases}[args.suite]()
+    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()],nargs='+')
+    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases,'generalization':generalization_cases}[args.suite]()
     if args.only:
         wanted=set(args.only);declared={c['name']:c for c in selected}
         if wanted-set(declared):p.error('--only must belong to selected suite')
@@ -68,13 +69,19 @@ def main():
     report={'status':'running','new_policy_queries':0,'cases':[],
         'suite':args.suite,'scope':'independent fresh no-contact scenes; prerequisite failures skip dependent cases; synthetic preconditioning changes pose and velocity, not native dynamic restoration; no grasp success claim'}
     report['code_sha256']={name:hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
+        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','execution_generalization.py','libero_reference_audit.py','run_multipose_geometry.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
+    if args.suite=='generalization':
+        report.update(pose_reference_root='pose_references',scope='three static native-FK checked starting poses; same archived actions reused counterfactually; no new inference, contact, or grasp success claim')
     def save():save_json(folder/'run.json',report)
     save();translation_failed=False
     env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.pop('PYTHONPATH',None)
     try:
         for case in selected:
             row={'case':case,'status':'pending'};report['cases'].append(row)
+            if 'pose_variant' in case:
+                cache_manifest=folder/'pose_references'/case['pose_variant']/'run.json'
+                if cache_manifest.exists() and json.loads(cache_manifest.read_bytes()).get('status')=='failed':
+                    row.update(status='skipped',reason='native pose reference preparation failed',pose_manifest=cache_manifest.relative_to(folder).as_posix());save();continue
             done={x['case']['name']:x['status'] for x in report['cases']}
             missing=[name for name in case.get('requires',[]) if done.get(name)!='completed']
             if missing:
@@ -84,6 +91,7 @@ def main():
             dest=folder/case['name'];dest.mkdir();request=dest/'case.json';save_json(request,case)
             command=[sys.executable,str(Path(__file__).with_name('isaac_native_segment.py')),
                 '--execution-case-json',str(request),'--isaaclab-root',str(args.isaaclab_root.absolute()),'--output-root',str(dest/'runs')]
+            if 'pose_variant' in case:command+=['--pose-cache-root',str(folder/'pose_references')]
             row.update(status='running',command=command);save();print('[Execution alignment] START '+case['name'],flush=True)
             with (dest/'console.log').open('w',encoding='utf-8') as log:
                 code=subprocess.call(command,env=env,stdout=log,stderr=subprocess.STDOUT)
