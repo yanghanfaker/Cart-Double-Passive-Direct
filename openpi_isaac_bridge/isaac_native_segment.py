@@ -38,6 +38,9 @@ def use_static_reference(settings, manifest):
     for key in ('isaac_minus_dynamic','static_minus_dynamic','isaac_minus_static'):
         if not np.allclose(analysis[key]['vector_mm'],stored[key]['vector_mm'],atol=1e-8,rtol=0):raise ValueError('static analysis disagrees')
     result=copy.deepcopy(settings);result['native_dynamic_initial']=copy.deepcopy(settings['native_initial'])
+    # prepare() initially shares this object with native_segment[0]['before'].
+    # Break that alias before replacing the initialization comparison pose.
+    result['native_initial']=copy.deepcopy(settings['native_initial'])
     for key in ('robot0_eef_pos','robot0_eef_quat'):
         result['native_initial'][key]=ref['observation'][key]
     result['initial_reference']='static native FK at recorded arm joints; original dynamic pose retained separately'

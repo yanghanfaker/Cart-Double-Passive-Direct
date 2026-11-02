@@ -3345,3 +3345,35 @@ git add -- diagnostics/isaac_native_segment/
 git commit -m "Add Isaac segment replay with static FK initialization"
 git push origin main
 ```
+
+## 原生夹爪内部增量与调用频率审计
+
+先测量原生控制目标，再确定Isaac增量映射参数：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/native_libero_replay.py --gripper-audit
+```
+
+无需OpenPI或Isaac。重放同一批3次成功的55份归档响应与268步动作，仍检查输入指纹及轨迹复现。
+在每个env.step之前安装仅计数的实例format_action包装器，返回原函数结果不变；记录每50ms实际调用次数，
+归一化current_action、执行器ctrl/范围/增益与偏置参数，并保存已安装夹爪类源码及SHA。
+ctrl是执行器输入，不能未经模型确认当作实际力或关节位置。实际手指位置仍在每步after里。
+包装器跨控制周期不重复叠加；不更改原生动作、映射、控制器增益或目标值。
+
+输出`diagnostics/native_gripper_audit/<UTC>/`，每回合report.json的trace新增`gripper_diagnostic`，
+`replay_checks.json`仍核对成功和轨迹；初始化10步等待不计入模型控制步的映射调用统计。
+18项原生相关CPU测试通过，涵盖包装器输出等价、周期计数、避免重复包装、非有限输入拒绝及既有回放检查。
+原生SDK实际审计待Spark；本轮不宣称已验证Isaac的增量夹爪映射。
+参考原生映射定义：https://github.com/ARISE-Initiative/robosuite/blob/v1.4.1/robosuite/models/grippers/panda_gripper.py
+
+同时修复静态初始化时的对象别名：native_initial与native_segment首条before必须分离，
+防止更新静态比较姿态时改写原生动态参考。已在真实共享引用来源上验证动态轨迹和动作保留。
+
+```bash
+git add -- diagnostics/native_gripper_audit/
+git commit -m "Add native gripper command increment audit results"
+git push origin main
+```

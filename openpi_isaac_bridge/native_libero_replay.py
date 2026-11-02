@@ -67,9 +67,9 @@ def compare_trace(original,replay):
     return maxima
 
 
-def run_worker(folder,args):
+def run_worker(folder,args,client_class=ReplayClient):
     m,original,responses=load_source(args.source_report)
-    client=ReplayClient(responses);report={'status':'running','new_policy_queries':0,'source_report_sha256':sha(args.source_report.read_bytes())}
+    client=client_class(responses);report={'status':'running','new_policy_queries':0,'source_report_sha256':sha(args.source_report.read_bytes())}
     (folder/'source_report.json').write_bytes(args.source_report.read_bytes())
     args.task_id=m['task_id'];args.seed=m['seed'];args.server_host='127.0.0.1';args.server_port=8000
     try:
@@ -91,17 +91,24 @@ def run_worker(folder,args):
 def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--source-report',type=Path);p.add_argument('--openpi-root',type=Path,default=Path('/home/test/Robot/openpi'))
+    p.add_argument('--gripper-audit',action='store_true')
     p.add_argument('--output-root',type=Path,default=repo/'diagnostics/native_libero_replay');p.add_argument('--worker',type=Path,help=argparse.SUPPRESS);args=p.parse_args()
-    if args.worker:return run_worker(args.worker,args)
+    if args.worker:
+        if args.gripper_audit:
+            from native_gripper_audit import NativeGripperClient
+            return run_worker(args.worker,args,client_class=NativeGripperClient)
+        return run_worker(args.worker,args)
     args.source_report=args.source_report or next((f for f in sorted((repo/'diagnostics/native_libero_rollout').glob('*/report.json'),reverse=True) if read(f).get('status')=='completed'),None)
     if args.source_report is None:p.error('no completed native rollout source')
     load_source(args.source_report)
+    if args.gripper_audit and args.output_root==repo/'diagnostics/native_libero_replay':args.output_root=repo/'diagnostics/native_gripper_audit'
     folder=args.output_root.absolute()/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ');folder.mkdir(parents=True)
     report={'status':'preflight','new_policy_queries':0}
     try:
         from run_multipose_geometry import preflight_reference
         python=(args.openpi_root/'examples/libero/.venv/bin/python').absolute();report['preflight']=preflight_reference(python,args.openpi_root.absolute(),folder)
         command=[str(python),str(Path(__file__).absolute()),'--worker',str(folder),'--source-report',str(args.source_report.absolute()),'--openpi-root',str(args.openpi_root.absolute())]
+        if args.gripper_audit:command.append('--gripper-audit')
         env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.update(PYTHONPATH=str(args.openpi_root/'third_party/libero'),MUJOCO_GL='egl',PYOPENGL_PLATFORM='egl',PYNPUT_BACKEND='dummy')
         report.update(status='running',command=command);save_json(folder/'run.json',report)
         print(f'[Native replay] Output: {folder}',flush=True)

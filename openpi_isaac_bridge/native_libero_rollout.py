@@ -99,12 +99,16 @@ def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220):
                     print(f'[Native LIBERO] {folder.name} query={number}, action step={step+1}', flush=True)
                 before = snapshot(obs, env); action = chunk.pop(0)
                 report['step_attempts'] += 1; report['pending_action'] = {'step': step+1, 'action': action}; save()
+                before_hook=getattr(client,'before_step',None)
+                if callable(before_hook):before_hook(env)
                 obs, reward, done, _ = env.step(action)
                 report['action_steps'] += 1; query['executed_prefix_steps'] += 1; report.pop('pending_action')
                 success = bool(env.check_success())
                 report['trace'].append({'step': step+1, 'query': query['query'], 'prefix_index': query['executed_prefix_steps'],
                     'action': action, 'close_requested': action[6] > 0, 'before': before, 'after': snapshot(obs, env),
                     'reward': float(reward), 'done': bool(done), 'task_success': success})
+                after_hook=getattr(client,'observe_step',None)
+                if callable(after_hook):report['trace'][-1]['gripper_diagnostic']=after_hook(env)
                 if step % 2 == 0 or success or done:
                     external = np.asarray(obs['agentview_image'])[::-1, ::-1]
                     wrist = np.asarray(obs['robot0_eye_in_hand_image'])[::-1, ::-1]
