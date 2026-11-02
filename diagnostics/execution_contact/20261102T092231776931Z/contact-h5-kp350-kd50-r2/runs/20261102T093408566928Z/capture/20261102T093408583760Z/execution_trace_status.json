@@ -1,0 +1,19 @@
+{
+  "controls": 578,
+  "substeps": 2890,
+  "complete": true,
+  "case": {
+    "name": "contact-h5-kp350-kd50-r2",
+    "kind": "contact-grasp",
+    "arm_profile": "k1687p5-d50",
+    "finger_profile": "kp350-kd50",
+    "gripper_mode": "substep",
+    "cap_m": 0.0005,
+    "rotation_cap_deg": 0.1,
+    "grasp_height_m": 0.005,
+    "repeat": 2,
+    "negative_control": false,
+    "requires": []
+  },
+  "trace_file": "physics_joint_trace.jsonl.gz"
+}

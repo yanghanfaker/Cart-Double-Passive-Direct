@@ -1,0 +1,7 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_contact/20261102T092231776931Z/contact-h0-kp1000-kd100-r1/runs/20261102T092650254154Z/capture/20261102T092650272111Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_contact/20261102T092231776931Z/contact-h0-kp1000-kd100-r1/runs/20261102T092650254154Z/capture/20261102T092650272111Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.6296063861905085e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0449003940998118e-08, 'rotation_error_deg': 3.658629775063962e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_contact/20261102T092231776931Z/contact-h0-kp1000-kd100-r1/runs/20261102T092650254154Z/capture/20261102T092650272111Z/geometry_audit.json
+[Clean scene] {"case": "deterministic-contact", "geometry": true, "projections": {"external_camera": [174.62862525702874, 166.63096722908494], "wrist_camera": [125.23220152737552, 167.16435229514326]}}
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_contact/20261102T092231776931Z/contact-h0-kp1000-kd100-r1/runs/20261102T092650254154Z/capture/20261102T092650272111Z/run.json
+[Isaac native segment] completed: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_contact/20261102T092231776931Z/contact-h0-kp1000-kd100-r1/runs/20261102T092650254154Z/run.json

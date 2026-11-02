@@ -1,0 +1,20 @@
+{
+  "controls": 577,
+  "substeps": 2885,
+  "complete": true,
+  "case": {
+    "name": "contact-h5-kp1000-kd100-r1",
+    "kind": "contact-grasp",
+    "arm_profile": "k1687p5-d50",
+    "finger_profile": "kp1000-kd100",
+    "gripper_mode": "substep",
+    "cap_m": 0.0005,
+    "rotation_cap_deg": 0.1,
+    "grasp_height_m": 0.005,
+    "repeat": 1,
+    "negative_control": false,
+    "requires": [],
+    "finger_armature": 1.0
+  },
+  "trace_file": "physics_joint_trace.jsonl.gz"
+}

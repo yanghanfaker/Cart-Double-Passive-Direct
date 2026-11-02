@@ -1,0 +1,356 @@
+    def set_world_poses(
+        self,
+        positions: torch.Tensor | None = None,
+        orientations: torch.Tensor | None = None,
+        env_ids: Sequence[int] | None = None,
+        convention: Literal["opengl", "ros", "world"] = "ros",
+    ):
+        r"""Set the pose of the camera w.r.t. the world frame using specified convention.
+
+        Since different fields use different conventions for camera orientations, the method allows users to
+        set the camera poses in the specified convention. Possible conventions are:
+
+        - :obj:`"opengl"` - forward axis: -Z - up axis +Y - Offset is applied in the OpenGL (Usd.Camera) convention
+        - :obj:`"ros"`    - forward axis: +Z - up axis -Y - Offset is applied in the ROS convention
+        - :obj:`"world"`  - forward axis: +X - up axis +Z - Offset is applied in the World Frame convention
+
+        See :meth:`isaaclab.sensors.camera.utils.convert_camera_frame_orientation_convention` for more details
+        on the conventions.
+
+        Args:
+            positions: The cartesian coordinates (in meters). Shape is (N, 3).
+                Defaults to None, in which case the camera position in not changed.
+            orientations: The quaternion orientation in (x, y, z, w). Shape is (N, 4).
+                Defaults to None, in which case the camera orientation in not changed.
+            env_ids: A sensor ids to manipulate. Defaults to None, which means all sensor indices.
+            convention: The convention in which the poses are fed. Defaults to "ros".
+
+        Raises:
+            RuntimeError: If the camera prim is not set. Need to call :meth:`initialize` method first.
+        """
+        pos_wp = None
+        if positions is not None:
+            positions = self._as_device_tensor(positions, 3)
+            pos_wp = wp.from_torch(positions.contiguous(), dtype=wp.vec3f)
+        ori_wp = None
+        if orientations is not None:
+            orientations = self._as_device_tensor(orientations, 4)
+            orientations = convert_camera_frame_orientation_convention(orientations, origin=convention, target="opengl")
+            ori_wp = wp.from_torch(orientations.contiguous(), dtype=wp.vec4f)
+        idx_wp = self._resolve_env_ids_wp(env_ids)
+        with self._view.xform_world_space_writer() as writer:
+            writer.set_poses(pos_wp, ori_wp, idx_wp)
+        # write through to the data buffers so explicitly set poses are never stale,
+        # regardless of :attr:`CameraCfg.update_latest_camera_pose`
+        self._update_poses(env_ids=idx_wp, frame_op=0)
+        wp.indexedarray(self._is_outdated, idx_wp).fill_(True)
+        self._data_dirty = True
+
+
+    def set_intrinsic_matrices(
+        self,
+        matrices: np.ndarray | torch.Tensor | wp.array,
+        focal_length: float | None = None,
+        env_ids: Sequence[int] | torch.Tensor | wp.array | slice | None = None,
+    ):
+        """Set runtime camera calibration without authoring USD.
+
+        Camera buffers own the active calibration. The renderer receives device arrays directly:
+        Kit writes Fabric, OVRTX writes its scene, and Newton updates its persistent ray field.
+        USD is read at initialization; saving USD does not save these runtime overrides. To persist
+        calibration, configure :meth:`PinholeCameraCfg.from_intrinsic_matrix` when spawning cameras.
+
+        Ordinary pinhole cameras retain square pixels and a centered principal point: ``fx/fy`` are
+        averaged and ``cx/cy`` become half the image dimensions. OpenCV distortion cameras retain
+        their spawn-time calibration and are skipped with a warning.
+
+        All three backends support uniform runtime updates to ordinary pinhole cameras: all
+        environments in a camera batch use the same new calibration.
+
+        .. warning::
+            Different intrinsics per environment are unsupported in the tested tiled configurations:
+
+            * Kit/OVRTX update per-view attributes and reported intrinsic matrices, but rendered
+              views still use the first camera's projection. This also occurs with direct USD writes.
+            * Newton Warp shares one ray field across environments. It raises :class:`ValueError`
+              if the resulting calibration differs between environments, leaving active calibration
+              unchanged.
+
+            Per-environment intrinsic randomization therefore requires additional renderer support;
+            successful attribute updates alone do not establish correct independent projections.
+
+        Initialization builds calibration in NumPy without compiling this setter's Warp kernels.
+        Runtime selection and projection conversion execute on the camera device, including for host
+        inputs, which are uploaded first. Matrix and index batches are never copied back to the CPU.
+
+        Shape and batch cardinality are checked before any changes. Index validation and projection
+        warnings transfer one status integer to the host, so this method is not CUDA graph capturable.
+        Backend validation completes before the public calibration buffers are committed. The first
+        runtime update may compile Warp kernels; repeated updates reuse the compiled kernels.
+
+        Args:
+            matrices: NumPy or Torch intrinsic matrices [pixel], shape (N, 3, 3), or a Warp array of ``wp.mat33f`` /
+                ``wp.mat33d``. A single (3, 3) matrix is accepted for one selected camera.
+            focal_length: Perspective focal length in the scene's camera length units. If None,
+                a pixel size of 1 / width is used to derive the focal length from the matrix.
+            env_ids: Sensor indices in matrix order. Defaults to all cameras. Repeated indices
+                retain the last matrix. Newton requires the resulting calibration to be shared
+                across environments because its native ray field has no world dimension.
+
+        Raises:
+            TypeError: If the matrices or indices have unsupported types.
+            ValueError: If matrix shape, batch cardinality, or a backend calibration constraint fails.
+            IndexError: If a selected camera index is out of range.
+        """
+        if isinstance(matrices, torch.Tensor):
+            if matrices.ndim == 2:
+                matrices = matrices.unsqueeze(0)
+            matrices = wp.from_torch(matrices)
+        elif isinstance(matrices, np.ndarray):
+            matrices = wp.array(matrices, device=self._device)
+        elif not isinstance(matrices, wp.array):
+            raise TypeError(f"Unsupported matrices: {type(matrices)}. Expected np.ndarray, torch.Tensor or wp.array.")
+        if matrices.dtype in (wp.mat33f, wp.mat33d):
+            matrices = matrices.view(wp.float32 if matrices.dtype == wp.mat33f else wp.float64)
+        if matrices.ndim == 2:
+            matrices = matrices.contiguous().reshape((1, *matrices.shape))
+        if matrices.ndim != 3 or matrices.shape[1:] != (3, 3):
+            raise ValueError(f"Expected intrinsic matrices with shape (N, 3, 3), got {matrices.shape}.")
+        indices = self._ALL_INDICES if env_ids is None else self._resolve_env_ids_wp(env_ids)
+        if matrices.shape[0] != indices.shape[0]:
+            raise ValueError(
+                "The number of intrinsic matrices must match the number of selected cameras: "
+                f"got {matrices.shape[0]} matrices for {indices.shape[0]} cameras."
+            )
+        if indices.shape[0] == 0:
+            return
+        matrices = matrices.to(self._device)
+        height, width = self.image_shape
+        self._intrinsic_rows.fill_(-1)
+        self._intrinsic_status.zero_()
+        wp.launch(
+            _camera_select_intrinsics_kernel,
+            dim=indices.shape[0],
+            inputs=[
+                matrices,
+                indices,
+                self._intrinsic_fixed,
+                width,
+                height,
+                self._intrinsic_rows,
+                self._intrinsic_status,
+            ],
+            device=self._device,
+        )
+        # Synchronize to raise index errors before backend writes, without downloading the input batch.
+        status = int(self._intrinsic_status.numpy()[0])
+        if status & 1:
+            raise IndexError("Camera indices are out of range.")
+        if status & 2:
+            logger.warning("Camera non square pixels are not supported; the average of f_x and f_y is used.")
+        if status & 4:
+            logger.warning("Camera aperture offsets are not supported; c_x and c_y are half of width and height.")
+        if status & 8:
+            logger.warning("set_intrinsic_matrices() skipped cameras with an OpenCV lens-distortion model.")
+        wp.launch(
+            _camera_set_intrinsics_kernel,
+            dim=self._view.count,
+            inputs=[
+                matrices,
+                self._intrinsic_rows,
+                width,
+                height,
+                wp.float64(focal_length or 0.0),
+                focal_length is not None,
+                self._data.intrinsic_matrices.warp,
+                self._intrinsic_parameters,
+                self._intrinsic_pending,
+                self._intrinsic_parameters_pending,
+            ],
+            device=self._device,
+        )
+        # Let the backend validate its constraints before committing the public calibration buffers.
+        self._renderer.update_camera_intrinsics(
+            self._render_data, self._intrinsic_pending, self._intrinsic_parameters_pending
+        )
+        wp.copy(self._data.intrinsic_matrices.warp, self._intrinsic_pending)
+        wp.copy(self._intrinsic_parameters, self._intrinsic_parameters_pending)
+
+
+    def set_world_poses(
+        self,
+        positions: torch.Tensor | None = None,
+        orientations: torch.Tensor | None = None,
+        env_ids: Sequence[int] | None = None,
+        convention: Literal["opengl", "ros", "world"] = "ros",
+    ):
+        r"""Set the pose of the camera w.r.t. the world frame using specified convention.
+
+        Since different fields use different conventions for camera orientations, the method allows users to
+        set the camera poses in the specified convention. Possible conventions are:
+
+        - :obj:`"opengl"` - forward axis: -Z - up axis +Y - Offset is applied in the OpenGL (Usd.Camera) convention
+        - :obj:`"ros"`    - forward axis: +Z - up axis -Y - Offset is applied in the ROS convention
+        - :obj:`"world"`  - forward axis: +X - up axis +Z - Offset is applied in the World Frame convention
+
+        See :meth:`isaaclab.sensors.camera.utils.convert_camera_frame_orientation_convention` for more details
+        on the conventions.
+
+        Args:
+            positions: The cartesian coordinates (in meters). Shape is (N, 3).
+                Defaults to None, in which case the camera position in not changed.
+            orientations: The quaternion orientation in (x, y, z, w). Shape is (N, 4).
+                Defaults to None, in which case the camera orientation in not changed.
+            env_ids: A sensor ids to manipulate. Defaults to None, which means all sensor indices.
+            convention: The convention in which the poses are fed. Defaults to "ros".
+
+        Raises:
+            RuntimeError: If the camera prim is not set. Need to call :meth:`initialize` method first.
+        """
+        pos_wp = None
+        if positions is not None:
+            positions = self._as_device_tensor(positions, 3)
+            pos_wp = wp.from_torch(positions.contiguous(), dtype=wp.vec3f)
+        ori_wp = None
+        if orientations is not None:
+            orientations = self._as_device_tensor(orientations, 4)
+            orientations = convert_camera_frame_orientation_convention(orientations, origin=convention, target="opengl")
+            ori_wp = wp.from_torch(orientations.contiguous(), dtype=wp.vec4f)
+        idx_wp = self._resolve_env_ids_wp(env_ids)
+        with self._view.xform_world_space_writer() as writer:
+            writer.set_poses(pos_wp, ori_wp, idx_wp)
+        # write through to the data buffers so explicitly set poses are never stale,
+        # regardless of :attr:`CameraCfg.update_latest_camera_pose`
+        self._update_poses(env_ids=idx_wp, frame_op=0)
+        wp.indexedarray(self._is_outdated, idx_wp).fill_(True)
+        self._data_dirty = True
+
+
+    def set_intrinsic_matrices(
+        self,
+        matrices: np.ndarray | torch.Tensor | wp.array,
+        focal_length: float | None = None,
+        env_ids: Sequence[int] | torch.Tensor | wp.array | slice | None = None,
+    ):
+        """Set runtime camera calibration without authoring USD.
+
+        Camera buffers own the active calibration. The renderer receives device arrays directly:
+        Kit writes Fabric, OVRTX writes its scene, and Newton updates its persistent ray field.
+        USD is read at initialization; saving USD does not save these runtime overrides. To persist
+        calibration, configure :meth:`PinholeCameraCfg.from_intrinsic_matrix` when spawning cameras.
+
+        Ordinary pinhole cameras retain square pixels and a centered principal point: ``fx/fy`` are
+        averaged and ``cx/cy`` become half the image dimensions. OpenCV distortion cameras retain
+        their spawn-time calibration and are skipped with a warning.
+
+        All three backends support uniform runtime updates to ordinary pinhole cameras: all
+        environments in a camera batch use the same new calibration.
+
+        .. warning::
+            Different intrinsics per environment are unsupported in the tested tiled configurations:
+
+            * Kit/OVRTX update per-view attributes and reported intrinsic matrices, but rendered
+              views still use the first camera's projection. This also occurs with direct USD writes.
+            * Newton Warp shares one ray field across environments. It raises :class:`ValueError`
+              if the resulting calibration differs between environments, leaving active calibration
+              unchanged.
+
+            Per-environment intrinsic randomization therefore requires additional renderer support;
+            successful attribute updates alone do not establish correct independent projections.
+
+        Initialization builds calibration in NumPy without compiling this setter's Warp kernels.
+        Runtime selection and projection conversion execute on the camera device, including for host
+        inputs, which are uploaded first. Matrix and index batches are never copied back to the CPU.
+
+        Shape and batch cardinality are checked before any changes. Index validation and projection
+        warnings transfer one status integer to the host, so this method is not CUDA graph capturable.
+        Backend validation completes before the public calibration buffers are committed. The first
+        runtime update may compile Warp kernels; repeated updates reuse the compiled kernels.
+
+        Args:
+            matrices: NumPy or Torch intrinsic matrices [pixel], shape (N, 3, 3), or a Warp array of ``wp.mat33f`` /
+                ``wp.mat33d``. A single (3, 3) matrix is accepted for one selected camera.
+            focal_length: Perspective focal length in the scene's camera length units. If None,
+                a pixel size of 1 / width is used to derive the focal length from the matrix.
+            env_ids: Sensor indices in matrix order. Defaults to all cameras. Repeated indices
+                retain the last matrix. Newton requires the resulting calibration to be shared
+                across environments because its native ray field has no world dimension.
+
+        Raises:
+            TypeError: If the matrices or indices have unsupported types.
+            ValueError: If matrix shape, batch cardinality, or a backend calibration constraint fails.
+            IndexError: If a selected camera index is out of range.
+        """
+        if isinstance(matrices, torch.Tensor):
+            if matrices.ndim == 2:
+                matrices = matrices.unsqueeze(0)
+            matrices = wp.from_torch(matrices)
+        elif isinstance(matrices, np.ndarray):
+            matrices = wp.array(matrices, device=self._device)
+        elif not isinstance(matrices, wp.array):
+            raise TypeError(f"Unsupported matrices: {type(matrices)}. Expected np.ndarray, torch.Tensor or wp.array.")
+        if matrices.dtype in (wp.mat33f, wp.mat33d):
+            matrices = matrices.view(wp.float32 if matrices.dtype == wp.mat33f else wp.float64)
+        if matrices.ndim == 2:
+            matrices = matrices.contiguous().reshape((1, *matrices.shape))
+        if matrices.ndim != 3 or matrices.shape[1:] != (3, 3):
+            raise ValueError(f"Expected intrinsic matrices with shape (N, 3, 3), got {matrices.shape}.")
+        indices = self._ALL_INDICES if env_ids is None else self._resolve_env_ids_wp(env_ids)
+        if matrices.shape[0] != indices.shape[0]:
+            raise ValueError(
+                "The number of intrinsic matrices must match the number of selected cameras: "
+                f"got {matrices.shape[0]} matrices for {indices.shape[0]} cameras."
+            )
+        if indices.shape[0] == 0:
+            return
+        matrices = matrices.to(self._device)
+        height, width = self.image_shape
+        self._intrinsic_rows.fill_(-1)
+        self._intrinsic_status.zero_()
+        wp.launch(
+            _camera_select_intrinsics_kernel,
+            dim=indices.shape[0],
+            inputs=[
+                matrices,
+                indices,
+                self._intrinsic_fixed,
+                width,
+                height,
+                self._intrinsic_rows,
+                self._intrinsic_status,
+            ],
+            device=self._device,
+        )
+        # Synchronize to raise index errors before backend writes, without downloading the input batch.
+        status = int(self._intrinsic_status.numpy()[0])
+        if status & 1:
+            raise IndexError("Camera indices are out of range.")
+        if status & 2:
+            logger.warning("Camera non square pixels are not supported; the average of f_x and f_y is used.")
+        if status & 4:
+            logger.warning("Camera aperture offsets are not supported; c_x and c_y are half of width and height.")
+        if status & 8:
+            logger.warning("set_intrinsic_matrices() skipped cameras with an OpenCV lens-distortion model.")
+        wp.launch(
+            _camera_set_intrinsics_kernel,
+            dim=self._view.count,
+            inputs=[
+                matrices,
+                self._intrinsic_rows,
+                width,
+                height,
+                wp.float64(focal_length or 0.0),
+                focal_length is not None,
+                self._data.intrinsic_matrices.warp,
+                self._intrinsic_parameters,
+                self._intrinsic_pending,
+                self._intrinsic_parameters_pending,
+            ],
+            device=self._device,
+        )
+        # Let the backend validate its constraints before committing the public calibration buffers.
+        self._renderer.update_camera_intrinsics(
+            self._render_data, self._intrinsic_pending, self._intrinsic_parameters_pending
+        )
+        wp.copy(self._data.intrinsic_matrices.warp, self._intrinsic_pending)
+        wp.copy(self._intrinsic_parameters, self._intrinsic_parameters_pending)
