@@ -1,0 +1,7 @@
+{
+  "benchmark_root": "/home/test/Robot/openpi/third_party/libero/libero/libero",
+  "bddl_files": "/home/test/Robot/openpi/third_party/libero/libero/libero/bddl_files",
+  "init_states": "/home/test/Robot/openpi/third_party/libero/libero/libero/init_files",
+  "datasets": "/home/test/Robot/openpi/third_party/libero/libero/datasets",
+  "assets": "/home/test/Robot/openpi/third_party/libero/libero/libero/assets"
+}
