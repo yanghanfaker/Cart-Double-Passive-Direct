@@ -15,7 +15,8 @@ def cases():
 def validate_case(case):
     from execution_coverage_cases import coverage_cases
     from execution_focus_cases import focus_cases
-    if case not in cases()+coverage_cases()+focus_cases():raise ValueError('execution case must exactly match a declared no-contact diagnostic')
+    from execution_sync_cases import sync_cases
+    if case not in cases()+coverage_cases()+focus_cases()+sync_cases():raise ValueError('execution case must exactly match a declared no-contact diagnostic')
     return case
 
 
@@ -120,6 +121,12 @@ def run_alignment(runtime,R,settings,first,report,save):
             if not np.isfinite(values).all():raise RuntimeError('nonfinite velocity target')
             return {'value':values.tolist(),'status':'available'}
         except (AttributeError,NotImplementedError) as error:return {'value':None,'status':'unavailable','reason':str(error)}
+    if 'expected_runtime_arm_gains' in settings:
+        arm_audit={key:optional('joint_'+key,r.joints) for key in ('stiffness','damping')}
+        save_json(r.output/'arm_gain_readback.json',arm_audit)
+        for key,expected in settings['expected_runtime_arm_gains'].items():
+            if arm_audit[key]['status']!='available' or not np.allclose(arm_audit[key]['value'],expected,rtol=0,atol=1e-4):
+                raise RuntimeError('requested arm gains not confirmed: '+key)
     # Read actual buffers, including USD-inherited active gains and zero passive drive.
     finger_audit={key:optional(key,r.fingers) for key in ('joint_stiffness','joint_damping','joint_effort_limits','joint_vel_limits','joint_armature')}
     finger_audit['asset']=str(getattr(getattr(r.robot.cfg,'spawn',None),'usd_path','unavailable'))

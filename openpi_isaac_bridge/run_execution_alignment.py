@@ -11,6 +11,7 @@ import numpy as np
 from execution_alignment_probe import cases
 from execution_coverage_cases import coverage_cases
 from execution_focus_cases import focus_cases
+from execution_sync_cases import sync_cases
 from native_libero_rollout import save_json
 
 
@@ -32,6 +33,8 @@ def summarize(result):
         'max_tcp_linearization_residual_m':max((x['kinematic_decomposition']['actual_linearization_residual_m'] for x in rows),default=None),
         'initial_tcp_error_m':r['initial_tcp_error_m'],
         'joint_max_abs_tracking_error_rad':np.max(np.abs(errors),axis=0).tolist() if len(rows) else None,
+        'joint_rms_tracking_error_rad':np.sqrt(np.mean(errors**2,axis=0)).tolist() if len(rows) else None,
+        'peak_tcp_distance_from_start_m':max((float(np.linalg.norm(np.array(x['tcp_world_m'])-r['initial']['tcp_world_m'])) for x in rows),default=None),
         'peak_abs_joint_velocity_rad_s':np.max(np.abs([x['velocity_rad_s'] for x in rows]),axis=0).tolist() if rows else None,
         'min_joint_limit_margin_rad':np.min([x['joint_limit_margin_rad'] for x in rows],axis=0).tolist() if rows else None,
         'controls_with_translation_cap':sum(x['target']['translation_cap_triggered'] for x in r['trace'] if x['raw_action'] is not None),
@@ -48,10 +51,10 @@ def summarize(result):
 def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
-    p.add_argument('--suite',choices=['alignment','coverage','focus'],default='alignment')
+    p.add_argument('--suite',choices=['alignment','coverage','focus','sync'],default='alignment')
     p.add_argument('--output-root',type=Path)
-    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()],nargs='+')
-    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases}[args.suite]()
+    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()],nargs='+')
+    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases}[args.suite]()
     if args.only:
         wanted=set(args.only);declared={c['name']:c for c in selected}
         if wanted-set(declared):p.error('--only must belong to selected suite')
@@ -65,7 +68,7 @@ def main():
     report={'status':'running','new_policy_queries':0,'cases':[],
         'suite':args.suite,'scope':'independent fresh no-contact scenes; prerequisite failures skip dependent cases; synthetic preconditioning changes pose and velocity, not native dynamic restoration; no grasp success claim'}
     report['code_sha256']={name:hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','check_cameras.py','isaac_native_segment.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
+        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
     def save():save_json(folder/'run.json',report)
     save();translation_failed=False
     env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.pop('PYTHONPATH',None)

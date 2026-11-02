@@ -135,6 +135,14 @@ def main():
     if args.execution_case_json:
         from execution_alignment_probe import validate_case
         settings['execution_case']=validate_case(read(args.execution_case_json))
+        if 'arm_profile' in settings['execution_case']:
+            from execution_sync_cases import gain_plan
+            audit_path=(scene.parent/m['cases'][0]['result']).parent/'actuator_audit.json'
+            audit_bytes=audit_path.read_bytes()
+            settings['source_joint_gains']=copy.deepcopy(settings['expected_joint_gains'])
+            settings['source_arm_audit_sha256']=sha(audit_bytes)
+            settings['expected_joint_gains'],settings['expected_runtime_arm_gains']=gain_plan(
+                settings['source_joint_gains'],json.loads(audit_bytes),settings['execution_case']['arm_profile'])
     config['reference_eef_position_world_m']=settings['native_initial']['robot0_eef_pos']
     folder=args.output_root.absolute()/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ');folder.mkdir(parents=True)
     reference_folder=folder/'static_reference';reference_folder.mkdir()
@@ -142,6 +150,10 @@ def main():
     save_json(folder/'clean_scene_request.json',config);save_json(folder/'segment_settings.json',settings)
     command=[sys.executable,str(Path(__file__).with_name('run_geometry_audit.py')),'--isaaclab-root',str(args.isaaclab_root.absolute()),'--output-root',str(folder/'capture'),
         '--clean-scene-json',str(folder/'clean_scene_request.json'),'--online-registered-json',str(folder/'segment_settings.json')]
+    if 'source_joint_gains' in settings:
+        (folder/'source_arm_actuator_audit.json').write_bytes(audit_bytes)
+        save_json(folder/'execution_joint_gains.json',settings['expected_joint_gains'])
+        command+=['--joint-gains-json',str(folder/'execution_joint_gains.json')]
     report={'status':'running','command':command,'policy_queries':0};save_json(folder/'run.json',report)
     try:
         child_env=os.environ.copy();child_env.pop('VIRTUAL_ENV',None);child_env.pop('PYTHONPATH',None)

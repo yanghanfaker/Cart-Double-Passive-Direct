@@ -3511,3 +3511,52 @@ git add -- diagnostics/execution_focus/
 git commit -m "Add gripper lag J6 saturation and TCP drift decomposition results"
 git push origin main
 ```
+
+## J1/J3同步性与小旋转组合测试
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_execution_alignment.py --suite sync
+```
+
+共20个独立无接触用例，无需OpenPI服务，保持原力矩限制与运动保护：
+
+| 分组 | 数量 | 对照 |
+|---|---:|---|
+| 绕X轴与J1/J3增益 | 12 | 0.25deg正向六种增益、其中三组负向；另设0.1deg小幅基线、0.25deg当前参考基线、0.5deg固定TCP停止复现 |
+| 小旋转组合 | 6 | 平移2mm，旋转0.1/0.25deg；baseline、d50、k1687p5-d50三组，夹爪全开 |
+| 夹爪候选配合 | 2 | 原机械臂增益、2mm/0.1deg；分别使用350/50和1000/100+armature1的子步夹爪，按原5步指令闭合后保持 |
+
+六种机械臂配置只改变J1/J3，其他五关节、手指及力矩限制保持各自对照条件：
+
+| 名称 | J1刚度/阻尼 | J3刚度/阻尼 |
+|---|---|---|
+| baseline | 1125/25 | 1125/25 |
+| d50 | 1125/50 | 1125/50 |
+| k1687p5 | 1687.5/25 | 1687.5/25 |
+| k1687p5-d50 | 1687.5/50 | 1687.5/50 |
+| j1-d50 | 1125/50 | 1125/25 |
+| j3-d50 | 1125/25 | 1125/50 |
+
+目的不是预先认定“更高刚度更好”，而是区分阻尼、刚度及单关节响应对TCP误差的影响。
+绕X主对照固定初始TCP位置，姿态从当前实际值更新；baseline-current对照允许位置误差随当前参考更新。
+前轮固定TCP/累积目标因1.5mm边界停止，本轮不放宽该边界；0.5deg复现项可能再次按保护停止。
+独立增益试验不依赖baseline完成，避免baseline停止后无法获得改善证据；小旋转组合的0.25deg依赖同增益0.1deg组。
+
+静态参考先用原始源增益完成来源核验，再生成单独execution_joint_gains.json传给geometry runner，
+保存source_arm_actuator_audit.json与SHA、source_joint_gains和requested expected_joint_gains。
+源报告必须确认J1/J3=1125/25，关节顺序正确；运行后核对七关节实际刚度/阻尼，写arm_gain_readback.json。
+这避免仅改settings而实际驱动仍用旧参数。关节初始位置/TCP参考、原始动作和原力矩限制不改。
+
+沿用10ms关节/手指目标与响应、PD项、雅可比分解及削顶记录，新增逐关节RMS跟踪误差和相对初始TCP峰值偏移。
+比较需同时看J1/J3误差、TCP误差、振荡/保持阶段响应以及新增削顶；completed不代表增益已最优。
+夹爪候选组仍是远离物体的运动闭合时序验证，不报告抓取成功。
+结果输出diagnostics/execution_sync/<UTC>/，失败和停止前的全部记录也需推送。
+
+```bash
+git add -- diagnostics/execution_sync/
+git commit -m "Add J1 J3 synchronization and small rotation comparison results"
+git push origin main
+```

@@ -17,6 +17,7 @@ def main():
     parser.add_argument('--clean-scene-json',type=Path)
     parser.add_argument('--registered-replay-json',type=Path)
     parser.add_argument('--online-registered-json',type=Path)
+    parser.add_argument('--joint-gains-json',type=Path)
     args=parser.parse_args()
     if args.clean_scene_json and (args.geometry_joints_json or args.camera_alignment_json):
         parser.error('clean scene input cannot combine pose or marker-camera inputs')
@@ -28,6 +29,9 @@ def main():
     cases=validate_gain_cases(json.loads(script.with_name('openpi_j13_candidate_cases.json').read_text()))
     if len(cases)!=1:parser.error('geometry audit expects exactly one candidate gain case')
     case=cases[0]
+    if args.joint_gains_json:
+        from gain_probe import validate_joint_overrides
+        case={**case,'name':'execution-joint-gain-override','joint_overrides':validate_joint_overrides(json.loads(args.joint_gains_json.read_bytes()))}
     folder=args.output_root.expanduser().resolve()/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     folder.mkdir(parents=True,exist_ok=False)
     (folder/'source_case.json').write_text(json.dumps(case,indent=2),encoding='utf-8')
@@ -61,6 +65,7 @@ def main():
         (folder/'online_registered_settings.json').write_bytes(payload)
         command += ['--online-registered-json',str(folder/'online_registered_settings.json')]
         manifest['scope']='current clean capture, one live registered query, bounded five-action execution and fixed-target hold'
+        if json.loads(payload).get('mode')=='native-segment':manifest['scope']='archived native segment diagnostic; no new inference; requested settings and actuator readback define each execution case'
         if json.loads(payload).get('mode')=='three-round-replan':manifest['scope']='one continuing clean scene, three current-observation queries and fifteen actions; final ten-period hold'
         if json.loads(payload).get('mode')=='openpi-grasp':manifest['scope']='OpenPI approach and gated model closure; program lift/hold verification; success reported separately'
         if json.loads(payload).get('mode')=='target-reference-ab':manifest['scope']='fixed recorded stream target-reference comparison; no policy service connection'
