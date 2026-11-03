@@ -1,0 +1,24 @@
+{
+  "name": "online-caps-0.5mm-p5-r1",
+  "kind": "contact-grasp",
+  "arm_profile": "k1687p5-d50",
+  "finger_profile": "kp350-kd50",
+  "gripper_mode": "substep",
+  "cap_m": 0.0005,
+  "rotation_cap_deg": 0.1,
+  "grasp_height_m": 0.005,
+  "repeat": 1,
+  "negative_control": false,
+  "requires": [
+    "online-caps-reference-start"
+  ],
+  "hybrid_role": "policy",
+  "prefix_length": 5,
+  "handoff_mode": "geometry",
+  "max_approach_controls": 600,
+  "prompt": "pick up the cube",
+  "requires_success": [
+    "online-caps-reference-start"
+  ],
+  "collision_geometry": true
+}

@@ -1,0 +1,22 @@
+{
+  "name": "online-caps-replay-p5-2mm",
+  "kind": "contact-grasp",
+  "arm_profile": "k1687p5-d50",
+  "finger_profile": "kp350-kd50",
+  "gripper_mode": "substep",
+  "cap_m": 0.002,
+  "rotation_cap_deg": 0.1,
+  "grasp_height_m": 0.005,
+  "repeat": 1,
+  "negative_control": false,
+  "requires": [
+    "online-caps-reference-start"
+  ],
+  "limit_audit_role": "replay",
+  "source_prefix": 5,
+  "replay_controls": 100,
+  "requires_success": [
+    "online-caps-reference-start"
+  ],
+  "collision_geometry": true
+}

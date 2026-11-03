@@ -1,0 +1,132 @@
+{
+  "status": "partial",
+  "errors": [],
+  "scope": "authored collision geometry AABBs plus live rigid-body poses; not solver contact shapes, exact fingertip distances or contact forces",
+  "contact_forces": {
+    "status": "unavailable",
+    "reason": "no contact sensor configured"
+  },
+  "usd_api_reference": "https://openusd.org/release/api/class_usd_geom_b_box_cache.html",
+  "fingers": [
+    {
+      "name": "panda_leftfinger",
+      "body_id": 9,
+      "body_path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger",
+      "shapes": [
+        {
+          "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/left_finger_pad",
+          "local_corners_m": [
+            [
+              -0.008750000037252906,
+              -2.0000128149990668e-05,
+              0.03700000004470337
+            ],
+            [
+              -0.008750000037252906,
+              -2.0000128149990668e-05,
+              0.0534999999552964
+            ],
+            [
+              -0.008750000037252906,
+              0.01518000012814998,
+              0.03700000004470337
+            ],
+            [
+              -0.008750000037252906,
+              0.01518000012814998,
+              0.0534999999552964
+            ],
+            [
+              0.008750000037252893,
+              -2.0000128149990668e-05,
+              0.03700000004470337
+            ],
+            [
+              0.008750000037252893,
+              -2.0000128149990668e-05,
+              0.0534999999552964
+            ],
+            [
+              0.008750000037252893,
+              0.01518000012814998,
+              0.03700000004470337
+            ],
+            [
+              0.008750000037252893,
+              0.01518000012814998,
+              0.0534999999552964
+            ]
+          ],
+          "baked_body_scale": [
+            0.9999999999999997,
+            0.9999999999999998,
+            0.9999999999999996
+          ],
+          "authored_offsets": {}
+        }
+      ]
+    },
+    {
+      "name": "panda_rightfinger",
+      "body_id": 10,
+      "body_path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger",
+      "shapes": [
+        {
+          "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/right_finger_pad",
+          "local_corners_m": [
+            [
+              -0.008750000037252901,
+              -2.0000128149997604e-05,
+              0.03700000004470337
+            ],
+            [
+              -0.008750000037252901,
+              -2.0000128149997604e-05,
+              0.0534999999552964
+            ],
+            [
+              -0.008750000037252901,
+              0.01518000012814997,
+              0.03700000004470337
+            ],
+            [
+              -0.008750000037252901,
+              0.01518000012814997,
+              0.0534999999552964
+            ],
+            [
+              0.008750000037252901,
+              -2.0000128149997604e-05,
+              0.03700000004470337
+            ],
+            [
+              0.008750000037252901,
+              -2.0000128149997604e-05,
+              0.0534999999552964
+            ],
+            [
+              0.008750000037252901,
+              0.01518000012814997,
+              0.03700000004470337
+            ],
+            [
+              0.008750000037252901,
+              0.01518000012814997,
+              0.0534999999552964
+            ]
+          ],
+          "baked_body_scale": [
+            0.9999999999999998,
+            0.9999999999999997,
+            0.9999999999999996
+          ],
+          "authored_offsets": {}
+        }
+      ]
+    }
+  ],
+  "object_shapes": [],
+  "static_support_candidates": [],
+  "support_selection": "static collider AABBs under initial object XY, box top within -80/+5mm of object root; no support identity assumed",
+  "transform_note": "local bounds captured once with positive orthogonal body scale baked in; live physics poses used every sample; shear/reflection rejected; collision/drive properties unchanged"
+}

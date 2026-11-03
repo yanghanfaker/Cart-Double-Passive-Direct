@@ -1,0 +1,85 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_online_caps/20261103T054720266719Z/online-caps-1mm-p5-r1/runs/20261103T060109109829Z/capture/20261103T060109126273Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_online_caps/20261103T054720266719Z/online-caps-1mm-p5-r1/runs/20261103T060109109829Z/capture/20261103T060109126273Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.6296063861905085e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0449003940998118e-08, 'rotation_error_deg': 3.658629775063962e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_online_caps/20261103T054720266719Z/online-caps-1mm-p5-r1/runs/20261103T060109109829Z/capture/20261103T060109126273Z/geometry_audit.json
+[Clean scene] {"case": "deterministic-contact", "geometry": true, "projections": {"external_camera": [174.62862525702874, 166.63096722908494], "wrist_camera": [125.23220152737552, 167.16435229514326]}}
+[Geometry audit] sensor closure={'position_error_m': 3.365484083923239e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 7.538351609315054e-08, 'rotation_error_deg': 8.293314658129438e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_bqjxvjpf/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.1905644319241143e-08, 'rotation_error_deg': 1.2740841158938657e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.3765245303396306e-08, 'rotation_error_deg': 4.428358133217718e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_ecnf0dhk/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.6676973978451554e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.002809707391122e-08, 'rotation_error_deg': 4.003782551072084e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_dsk3pwf7/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.0131144323981546e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.5448633379756883e-08, 'rotation_error_deg': 6.706823342958601e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_b6p1r_fg/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.9099458180935193e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.986278962522845e-08, 'rotation_error_deg': 2.894993027844355e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_u0nsy17o/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.665859450508509e-08, 'rotation_error_deg': 1.2736188103396442e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 9.560696778043925e-09, 'rotation_error_deg': 1.1269459435481047e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_kb2t8hm_/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.6802514531456134e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.085070651490878e-08, 'rotation_error_deg': 2.4785357734465733e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_wr1cbqn2/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.4560855573160134e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.742725139919542e-08, 'rotation_error_deg': 1.5127399939075414e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture__fzoosbz/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3245256045756668e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.528240433887524e-08, 'rotation_error_deg': 4.1081317952303993e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_o74jew11/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.369167216779095e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.7050985705830464e-08, 'rotation_error_deg': 1.1250199651898013e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_luxu5atf/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.360554154464694e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.768566424274216e-08, 'rotation_error_deg': 1.4561078773291343e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_147gyld1/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.030977662686133e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.0862387472749047e-08, 'rotation_error_deg': 7.711598390522066e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_ma1hrecy/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.514832260658718e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.225023162000784e-08, 'rotation_error_deg': 1.0337645894215105e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_w3wu2xt5/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.233538592504412e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.307843733455376e-08, 'rotation_error_deg': 4.1142455414430807e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_aza3czei/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.623724620441902e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.651364606884514e-08, 'rotation_error_deg': 9.447147638644517e-08, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_3scef8t8/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.7622993057834592e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.266932956789673e-08, 'rotation_error_deg': 2.095377958503936e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_s2eu_tgj/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.5019351719480426e-08, 'rotation_error_deg': 1.2734733674876435e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.781729038470931e-08, 'rotation_error_deg': 2.990729808404059e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_31v95rlo/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.2691441376053118e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.3603486861025984e-08, 'rotation_error_deg': 2.4097124922589627e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_bj0mszun/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.706113826463418e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.910524223179287e-08, 'rotation_error_deg': 4.302498650887703e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_9hzbsj2z/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0908978919309569e-08, 'rotation_error_deg': 1.2753265213940781e-14, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.605349683713317e-08, 'rotation_error_deg': 2.7335278947118474e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_sxmdommd/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.0437172236397889e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.916749358507599e-08, 'rotation_error_deg': 5.914593683367277e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_416mehfr/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.8410372497469634e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 1.4766856018729893e-08, 'rotation_error_deg': 5.376921105658969e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_qekp3eq6/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2652304422417573e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.4935320456379692e-08, 'rotation_error_deg': 4.673391705441968e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_ee8yxd65/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3558197960066388e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.586292493107303e-08, 'rotation_error_deg': 5.330505623914804e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_k_n9oqaa/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 9.139204183511833e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 5.710211495356248e-08, 'rotation_error_deg': 1.216195119798304e-06, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_3865i0lx/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.2447119198571921e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.079517401383119e-08, 'rotation_error_deg': 4.5738548499389896e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_9pik195x/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.1545575592893288e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.920065350566996e-08, 'rotation_error_deg': 4.537194123033263e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture__a9rwmg5/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3234641430394251e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 8.770111708706423e-09, 'rotation_error_deg': 3.588666543083712e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_ojx7cz9l/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.396142640400543e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.920022598920131e-08, 'rotation_error_deg': 3.9798551396576876e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_pyxalz80/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.190195246863133e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.4847139030458695e-08, 'rotation_error_deg': 5.885675578354722e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_9q7idwxs/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.7564173394357818e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.1957899012368175e-08, 'rotation_error_deg': 1.7523600220169453e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_il97o4ca/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 4.199561104448316e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.266284674799405e-08, 'rotation_error_deg': 8.534901066901203e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_x5wpzdsg/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.1910519446675574e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.6500052563176704e-08, 'rotation_error_deg': 4.904450658031092e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_h3tukpnm/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 3.0281945656116795e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.5934996399639e-08, 'rotation_error_deg': 8.798194326199302e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_qk6_apip/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.3479277029511008e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 8.695709695230103e-09, 'rotation_error_deg': 3.454411884172055e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_qnasdznb/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.9095837007909384e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.6222026774715296e-08, 'rotation_error_deg': 5.14553875205802e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_lob_n23f/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.1518326466045317e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.516654026105771e-08, 'rotation_error_deg': 4.43732973282671e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_r8v5a_n5/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 7.314939163427527e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.6396692020689725e-08, 'rotation_error_deg': 6.18729391293722e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_yfn5fvc_/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 2.2803938075244495e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.59149127937171e-08, 'rotation_error_deg': 9.107444553064568e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_vglq8tpg/geometry_audit.json
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_online_caps/20261103T054720266719Z/online-caps-1mm-p5-r1/runs/20261103T060109109829Z/capture/20261103T060109126273Z/run.json
+[Isaac native segment] completed: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_online_caps/20261103T054720266719Z/online-caps-1mm-p5-r1/runs/20261103T060109109829Z/run.json
