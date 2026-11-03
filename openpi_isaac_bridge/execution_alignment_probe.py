@@ -19,7 +19,8 @@ def validate_case(case):
     from execution_generalization import generalization_cases
     from execution_contact import contact_cases
     from execution_hybrid import hybrid_cases
-    if case not in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases():raise ValueError('execution case must exactly match a declared diagnostic')
+    from execution_limit_audit import limit_cases
+    if case not in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()+limit_cases():raise ValueError('execution case must exactly match a declared diagnostic')
     return case
 
 

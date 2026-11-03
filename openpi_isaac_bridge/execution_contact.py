@@ -48,7 +48,9 @@ def run_contact_experiment(read_state,step_goal,case,handoff=False):
     """Fixed world goals, common feedback tolerances; step_goal advances 50 ms."""
     if case not in contact_cases():
         from execution_hybrid import hybrid_cases
-        if case not in hybrid_cases():raise ValueError('undeclared contact case')
+        if case not in hybrid_cases():
+            from execution_limit_audit import limit_cases
+            if case not in limit_cases():raise ValueError('undeclared contact case')
     if handoff and case.get('hybrid_role')!='policy':raise ValueError('handoff requires declared live policy case')
     initial=copy.deepcopy(read_state());obj=list(initial['object_pos_world_m'])
     q,yaw=down_quat_from_object(initial['object_quat_world_xyzw'])
@@ -153,7 +155,13 @@ def run_contact_runtime(r,settings,first,report,save,recorder,override):
     def step_goal(p,q,grip,phase):
         before=r.state();target=bounded_goal_target(before['hand_position_world_m'],before['hand_quat_world_xyzw'],p,q)
         return execute(target,grip,phase,{'tcp_world_m':p,'hand_quat_world_xyzw':q,'program_phase':phase})
-    if case.get('hybrid_role')=='policy':
+    if case.get('limit_audit_role')=='frozen':
+        from execution_limit_audit import run_frozen
+        result=run_frozen(r,settings,report,save)
+    elif case.get('limit_audit_role')=='replay':
+        from execution_limit_audit import run_replay
+        result=run_replay(r,settings,report,save,execute)
+    elif case.get('hybrid_role')=='policy':
         from execution_hybrid import run_hybrid_runtime
         result=run_hybrid_runtime(r,settings,report,save,step_goal,execute)
     else:result=run_contact_experiment(r.state,step_goal,case)

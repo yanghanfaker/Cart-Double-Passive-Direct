@@ -3715,3 +3715,61 @@ git add -- diagnostics/execution_hybrid/
 git commit -m "Add live OpenPI approach and program grasp handoff results"
 git push origin main
 ```
+
+## 模型方向、输入敏感性与动作限幅覆盖测试
+
+保持原OpenPI LIBERO模型服务在127.0.0.1:8000运行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_execution_alignment.py --suite limits
+```
+
+共16个独立工况，固定J1/J3=1687.5/50、夹爪350/50、既有相机与静态初始化检查。
+先后各跑一次中心上方5mm的程序抓取参考，参考必须实际成功；其余工况不尝试抓取。
+需要上一轮完整diagnostics/execution_hybrid数据及推理ZIP，源清单、两次程序参考和选定动作的推理归档均会校验。
+
+| 分组 | 工况数 | 变化与判断目标 |
+|---|---:|---|
+| 冻结物体位置 | 5 | 中心、X±20mm、Y±20mm；固定机器人，检查模型方向是否随目标位置变化 |
+| 冻结输入敏感性 | 3 | 中心位置分别屏蔽外部图像、屏蔽腕部图像、提示词改为pick up the object |
+| 相同归档动作回放 | 6 | 上轮前1步/前5步重规划各取一段实际执行的前100步 × 平移限幅0.5/1/2mm |
+| 程序抓取参考 | 2 | 前后各一次，核对执行链路仍能抓持 |
+
+冻结组每个工况只采集一次输入，查询6次，共48次推理，不执行模型动作。
+物体位置在场景初始化时改变，六次查询间不移动物体或机器人。
+保存实际发送的两幅图像、8维float32状态、提示词、输入摘要、6个完整动作块与耗时，
+并逐次检查输入摘要相同、物理步数不变、机器人/物体状态不变。
+原始相机图像保留，屏蔽干预在正常flip_x预处理之后将对应224RGB图像置黑。
+屏蔽图像属于刻意的分布外诊断，结果只能说明输入敏感性，不能单独证明相机损坏或某一路没有作用。
+物体真值只用于离线计算目标相对方向，不加入模型状态或生成动作。
+报告首步与前5步平均解码世界位移、与物体/声明抓取点的方向余弦，以及6次首步位移均值和标准差。
+方向余弦不作为路径规划成功判据；模型也可能产生绕行轨迹，六次查询不视为严格配对随机种子实验。
+
+回放组不查询OpenPI，使用hybrid-p1-geometry-r1与hybrid-p5-geometry-r1的实际前100个动作。
+两段源动作各自在三档限幅中逐值一致，保持顺序、50ms周期、当前实际姿态参考、旋转限幅0.1deg和张开夹爪。
+保存replay_inputs中的源run.json、两个完整源结果、动作输入和SHA，
+每段还校验对应历史推理ZIP摘要以及响应前缀与实际源轨迹一致。
+原始动作只改变平移向量模长上限，不改变其方向或LIBERO缩放定义。
+
+局部IK修正/实测运动检查边界沿用1.5倍声明限幅、至少1.5mm的规则：
+0.5mm与1mm组为1.5mm，2mm组为3mm，以允许该工况的2mm目标。
+关节软限位、力矩/速度上限、旋转边界、总体路径及物体速度/跌落检查保持原值。
+另保留TCP低于初始物体中心1cm、物体距离比起点增加2cm的停止检查。
+大幅组可能因边界停止，保留已执行前缀，其他独立组继续；比较时应使用共同执行前缀。
+0.5mm组必须复现对应源轨迹：100个周期的TCP偏差<=0.1mm、七关节偏差<=0.001rad，
+否则标记该基线failed，不能把初始化/控制差异误当作限幅效应。
+
+仍保存10ms物理轨迹和真实执行器读回；冻结组物理轨迹应为零行。
+frozen_query_bundle.zip保存实际输入、原始响应与逐样本请求，physics_joint_trace.jsonl.gz保留回放物理步。
+报告completed表示诊断流程完成；冻结和回放的success=False表示未进行抓取，不是模型任务成功率。
+只在程序参考组报告抓取success。未放宽15mm抓取门控，也未将限幅诊断结果直接替换为日常控制参数。
+结果目录为diagnostics/execution_limits/<UTC>/，所有失败、停止和输入归档一起推送。
+
+```bash
+git add -- diagnostics/execution_limits/
+git commit -m "Add frozen input direction and matched action cap coverage results"
+git push origin main
+```

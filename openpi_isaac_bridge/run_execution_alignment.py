@@ -15,6 +15,7 @@ from execution_sync_cases import sync_cases
 from execution_generalization import generalization_cases
 from execution_contact import contact_cases
 from execution_hybrid import hybrid_cases,validate_contact_source
+from execution_limit_audit import limit_cases,prepare_replay_sources
 from native_libero_rollout import save_json
 
 
@@ -62,6 +63,7 @@ def summarize(result):
         'stream_initial':r.get('stream_initial'),'initial_velocity_comparison':r.get('initial_velocity_comparison'),
         'finger_dynamics_audit':json.loads((result.parent/'finger_dynamics_audit.json').read_bytes()) if (result.parent/'finger_dynamics_audit.json').exists() else None,
         'grasp_result':r.get('grasp_result'),
+        'frozen_queries':r.get('frozen_queries'),'frozen_input':r.get('frozen_input'),'replay_result':r.get('replay_result'),
         'actual_tcp_delta_m':(np.array(r.get('final',r.get('last_state',r['initial']))['tcp_world_m'])-r['initial']['tcp_world_m']).tolist(),
         'finger_controls':[{'step':x['step'],'sign':x['native_gripper_sign'],
             'ramp_target_m':x['ramp_target_m'],'finger_positions_m':x['after']['finger_positions_m']} for x in r['trace']],
@@ -71,10 +73,10 @@ def summarize(result):
 def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
-    p.add_argument('--suite',choices=['alignment','coverage','focus','sync','generalization','contact','hybrid'],default='alignment')
+    p.add_argument('--suite',choices=['alignment','coverage','focus','sync','generalization','contact','hybrid','limits'],default='alignment')
     p.add_argument('--output-root',type=Path)
-    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()],nargs='+')
-    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases,'generalization':generalization_cases,'contact':contact_cases,'hybrid':hybrid_cases}[args.suite]()
+    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()+limit_cases()],nargs='+')
+    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases,'generalization':generalization_cases,'contact':contact_cases,'hybrid':hybrid_cases,'limits':limit_cases}[args.suite]()
     if args.only:
         wanted=set(args.only);declared={c['name']:c for c in selected}
         if wanted-set(declared):p.error('--only must belong to selected suite')
@@ -88,17 +90,30 @@ def main():
     report={'status':'running','new_policy_queries':0,'cases':[],
         'suite':args.suite,'scope':'independent fresh no-contact scenes; prerequisite failures skip dependent cases; synthetic preconditioning changes pose and velocity, not native dynamic restoration; no grasp success claim'}
     report['code_sha256']={name:hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','execution_generalization.py','execution_contact.py','execution_hybrid.py','live_grasp_query.py','online_registered_probe.py','replanning_probe.py','openpi_health.py','grasp_probe.py','openpi_grasp_logic.py','libero_reference_audit.py','run_multipose_geometry.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
+        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','execution_generalization.py','execution_contact.py','execution_hybrid.py','execution_limit_audit.py','live_grasp_query.py','online_registered_probe.py','replanning_probe.py','openpi_health.py','grasp_probe.py','openpi_grasp_logic.py','libero_reference_audit.py','run_multipose_geometry.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
     if args.suite=='generalization':
         report.update(pose_reference_root='pose_references',scope='three static native-FK checked starting poses; same archived actions reused counterfactually; no new inference, contact, or grasp success claim')
     if args.suite=='contact':report['scope']='ten fresh deterministic cube approach/closure/lift diagnostics; two repeats per height/finger and open negative controls; success reported separately from completed execution; no VLA inference or measured contact force'
     if args.suite=='hybrid':report['scope']='eight live cube-proxy policy approaches plus two program references; 1/5 action prefixes and geometry/model-close handoff; program-assisted refinement and grasp, not autonomous VLA or native LIBERO evaluation'
+    if args.suite=='limits':report['scope']='eight frozen input variants, six matched first100-action cap replays and two program references; not online policy grasp or native benchmark evaluation'
     def save():
         report['new_policy_queries']=sum(x.get('summary',{}).get('policy_queries',0) for x in report['cases'])
         save_json(folder/'run.json',report)
     save();translation_failed=False
     env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.pop('PYTHONPATH',None)
+    replay_sources={}
     try:
+        if args.suite=='limits':
+            try:
+                source=next((p for p in sorted((repo/'diagnostics/execution_hybrid').glob('*/run.json'),reverse=True) if json.loads(p.read_bytes()).get('status')=='completed'),None)
+                if source is None:raise ValueError('completed prior hybrid suite required')
+                replay_sources=prepare_replay_sources(source,folder/'replay_inputs')
+                report['source_hybrid_manifest_sha256']=hashlib.sha256(source.read_bytes()).hexdigest()
+                if any(c.get('limit_audit_role')=='frozen' for c in selected):
+                    from openpi_health import check_openpi_health
+                    report['server_health']=check_openpi_health('127.0.0.1',8000)
+            except Exception as error:
+                report.update(status='preflight-failed',error=str(error));print('[Execution alignment] Preflight failed: '+str(error),flush=True);return 1
         if args.suite=='hybrid':
             try:
                 source=next((p for p in sorted((repo/'diagnostics/execution_contact').glob('*/run.json'),reverse=True) if json.loads(p.read_bytes()).get('status')=='completed'),None)
@@ -125,6 +140,7 @@ def main():
             command=[sys.executable,str(Path(__file__).with_name('isaac_native_segment.py')),
                 '--execution-case-json',str(request),'--isaaclab-root',str(args.isaaclab_root.absolute()),'--output-root',str(dest/'runs')]
             if 'pose_variant' in case:command+=['--pose-cache-root',str(folder/'pose_references')]
+            if case.get('limit_audit_role')=='replay':command+=['--limit-replay-json',str(replay_sources[case['source_prefix']])]
             row.update(status='running',command=command);save();print('[Execution alignment] START '+case['name'],flush=True)
             with (dest/'console.log').open('w',encoding='utf-8') as log:
                 code=subprocess.call(command,env=env,stdout=log,stderr=subprocess.STDOUT)
@@ -136,6 +152,8 @@ def main():
                 if code or row['summary']['status']!='completed':raise RuntimeError(row['summary'].get('error') or 'case failed; inspect native result and physics trace')
                 if case.get('hybrid_role')=='reference' and not (row['summary'].get('grasp_result') or {}).get('success',False):
                     raise RuntimeError('program reference grasp did not pass')
+                if case.get('limit_audit_role')=='replay' and case['cap_m']==.0005:
+                    if not (row['summary'].get('replay_result') or {}).get('baseline_replay_matches_source',False):raise RuntimeError('0.5mm archived replay did not match source')
                 row['status']='completed'
             except Exception as error:
                 row.update(status='failed',error=str(error))

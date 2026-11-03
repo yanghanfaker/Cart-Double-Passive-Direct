@@ -126,6 +126,7 @@ def main():
     p.add_argument('--pose-refresh-manifest',type=Path)
     p.add_argument('--execution-case-json',type=Path)
     p.add_argument('--pose-cache-root',type=Path)
+    p.add_argument('--limit-replay-json',type=Path)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
     p.add_argument('--output-root',type=Path,default=repo/'diagnostics/isaac_native_segment');args=p.parse_args()
     native=args.native_report or next((f for f in sorted((repo/'diagnostics/native_libero_replay').glob('*/report.json'),reverse=True) if read(f.parent/'replay_checks.json').get('status')=='completed'),None)
@@ -146,9 +147,19 @@ def main():
             from execution_contact import contact_scene
             config=contact_scene(config,settings)
             settings['scope']='deterministic cube contact/lift diagnostic with fixed arm gains and two finger candidates; no policy inference or native scene equivalence claim'
-            if settings['execution_case'].get('hybrid_role')=='policy':
+            case=settings['execution_case']
+            if case.get('limit_audit_role')=='frozen':
+                config['object_xy_world_m']=[a+b for a,b in zip(config['object_xy_world_m'],case['object_offset_xy_m'])]
+                validate_clean_scene(config)
+            if case.get('limit_audit_role')=='replay':
+                from execution_limit_audit import load_replay
+                if args.limit_replay_json is None:p.error('archived cap test requires --limit-replay-json')
+                request,_=load_replay(args.limit_replay_json)
+                if request['source_prefix']!=case['source_prefix']:raise ValueError('wrong archived prefix source')
+                settings['limit_replay_path']=str(args.limit_replay_json.absolute())
+            if case.get('hybrid_role')=='policy' or case.get('limit_audit_role')=='frozen':
                 settings.update(server_host='127.0.0.1',server_port=8000,prompt=settings['execution_case']['prompt'],
-                    scope='live policy approach followed by explicit program refinement and verified grasp; cube proxy domain, not native LIBERO task')
+                    scope='declared cube-proxy policy input diagnostic; interventions and action execution reported explicitly; not native LIBERO evaluation')
         if 'pose_variant' in settings['execution_case']:
             from execution_generalization import prepare_pose
             if args.pose_cache_root is None:p.error('pose variant requires --pose-cache-root')
