@@ -142,9 +142,9 @@ def baseline_source(path):
     return r
 
 
-def worker(folder,args):
+def worker(folder,args,*,declared_cases=None,action_transform=None,pose_intervention=False):
     case=read(folder/'case.json')
-    if case not in comparison_cases():raise ValueError('undeclared comparison case')
+    if case not in (comparison_cases() if declared_cases is None else declared_cases):raise ValueError('undeclared comparison case')
     report={'status':'starting','case':case};env=None;client=None
     def save():save_json(folder/'report.json',report)
     save()
@@ -200,13 +200,19 @@ def worker(folder,args):
             client=WebsocketClientPolicy(host=args.server_host,port=args.server_port)
         report['server_metadata']=read_server_metadata(client);report['status']='running';save()
         result=rollout(env,client,obs,str(task.language),folder/'episode',image_tools,max_steps=budget,
-            action_transform=force_open if case['mode'].startswith('open') else None,
-            record_gripper=True,query_origin='archive' if replay else 'live')
+            action_transform=action_transform if action_transform is not None else (force_open if case['mode'].startswith('open') else None),
+            record_gripper=True,query_origin='archive' if replay else 'live',
+            allow_pose_intervention=pose_intervention,record_controller=pose_intervention)
         report['episode']='episode/report.json'
         report['metrics']=episode_metrics(result,report['target']['observation_key'])
         if replay:
             report['replay_input_checks']=client.checks
-            if client.index!=len(responses) or result['action_steps']!=budget:raise RuntimeError('frozen replay ended before exact source control count')
+            if result['action_steps']>budget or client.index>len(responses):raise RuntimeError('replay exceeded archived source')
+            if not pose_intervention and (client.index!=len(responses) or result['action_steps']!=budget):raise RuntimeError('frozen replay ended before exact source control count')
+            if pose_intervention:
+                report['replay_horizon']={'source_controls':budget,'executed_controls':result['action_steps'],
+                    'early_terminal':result['action_steps']<budget,'stop_reason':result['stop_reason'],
+                    'scope':'fixed source horizon; no padding, no extra settling; stop on success/done'}
         report['status']='completed';return 0
     except Exception as error:
         report.update(status='failed',error=type(error).__name__+': '+str(error));print(report['error'],flush=True);return 1

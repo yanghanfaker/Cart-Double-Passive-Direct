@@ -3779,6 +3779,7 @@ git push origin main
 官方抓取基线与 Spark ARM64 的运行边界见 [OFFICIAL_BASELINE.md](OFFICIAL_BASELINE.md)：
 Arena 当前固定版本仅支持 Linux x86_64，Spark 上先运行未修改的官方 OpenPI LIBERO 客户端，单独记录模型原生表现。
 官方原生基线完成后的24回合夹爪干预与匹配回放测试见 [NATIVE_GRIPPER_COMPARISON.md](NATIVE_GRIPPER_COMPARISON.md)。
+后续60回合固定源动作限幅/闭合延迟配对回放见 [NATIVE_EXECUTION_COMPARISON.md](NATIVE_EXECUTION_COMPARISON.md)，零新推理，独立检查动作幅度与夹爪时序。
 
 保持已验证的OpenPI模型服务在127.0.0.1:8000运行：
 

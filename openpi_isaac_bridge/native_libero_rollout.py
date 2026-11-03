@@ -77,8 +77,22 @@ def gripper_command_state(env):
     except Exception as error:return {'status':'unavailable','reason':type(error).__name__+': '+str(error)}
 
 
+def controller_tracking(env):
+    """Read controller-owned buffers after a control; never refresh simulator state."""
+    try:
+        c=env.robots[0].controller
+        fields=('goal_pos','ee_pos','ee_pos_vel','goal_ori','ee_ori_mat','ee_ori_vel','joint_pos','joint_vel','torques')
+        values={k:np.asarray(getattr(c,k),dtype=float).tolist() for k in fields}
+        if not all(np.isfinite(np.asarray(v)).all() for v in values.values()):raise ValueError('nonfinite controller buffer')
+        values.update(status='available',position_error_m=float(np.linalg.norm(np.array(values['goal_pos'])-values['ee_pos'])),
+            scope='last controller evaluation buffers; may precede final integration; torques are commands, not contact force')
+        return values
+    except Exception as error:return {'status':'unavailable','reason':type(error).__name__+': '+str(error)}
+
+
 def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220,
-            action_transform=None,record_gripper=False,query_origin='live'):
+            action_transform=None,record_gripper=False,query_origin='live',
+            allow_pose_intervention=False,record_controller=False):
     if query_origin not in ('live','archive'):raise ValueError('unknown query origin')
     folder.mkdir(); frames = []
     report = {'status': 'running', 'success': False, 'stop_reason': None, 'policy_queries': 0,
@@ -87,6 +101,9 @@ def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220,
               'initial': snapshot(obs, env), 'replan_steps': 5, 'budget': max_steps,
               'action_semantics': 'raw server actions passed directly to native env.step; native controller clipping/scaling applies; no Isaac bridge caps or forced-open gripper'}
     if action_transform is not None:report['action_semantics']='raw actions archived; only selected native gripper sign transformed; first six pose components unchanged'
+    if allow_pose_intervention:
+        if query_origin!='archive' or action_transform is None:raise ValueError('pose intervention requires explicit archived replay transform')
+        report['action_semantics']='explicit archived pose/gripper intervention; raw and executed actions both preserved; native controller unchanged'
     def save(): save_json(folder/'report.json', report)
     save(); chunk = []; query = None
     try:
@@ -125,7 +142,8 @@ def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220,
                 before = snapshot(obs, env); raw_action=list(chunk.pop(0));action=list(raw_action)
                 if action_transform is not None:
                     action=list(action_transform(list(raw_action)))
-                    if len(action)!=7 or not np.isfinite(action).all() or action[:6]!=raw_action[:6]:raise ValueError('gripper intervention must preserve first six action components')
+                    if len(action)!=7 or not np.isfinite(action).all():raise ValueError('invalid transformed action')
+                    if not allow_pose_intervention and action[:6]!=raw_action[:6]:raise ValueError('gripper intervention must preserve first six action components')
                 report['step_attempts'] += 1; report['pending_action'] = {'step': step+1, 'action': action}; save()
                 before_hook=getattr(client,'before_step',None)
                 if callable(before_hook):before_hook(env)
@@ -139,6 +157,7 @@ def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220,
                 after_hook=getattr(client,'observe_step',None)
                 if callable(after_hook):report['trace'][-1]['gripper_diagnostic']=after_hook(env)
                 if record_gripper:report['trace'][-1]['native_gripper_command']=gripper_command_state(env)
+                if record_controller:report['trace'][-1]['controller_tracking']=controller_tracking(env)
                 if step % 2 == 0 or success or done:
                     external = np.asarray(obs['agentview_image'])[::-1, ::-1]
                     wrist = np.asarray(obs['robot0_eye_in_hand_image'])[::-1, ::-1]
