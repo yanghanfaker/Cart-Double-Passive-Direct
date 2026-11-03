@@ -1,0 +1,23 @@
+{
+  "name": "hybrid-p1-model-close-r1",
+  "kind": "contact-grasp",
+  "arm_profile": "k1687p5-d50",
+  "finger_profile": "kp350-kd50",
+  "gripper_mode": "substep",
+  "cap_m": 0.0005,
+  "rotation_cap_deg": 0.1,
+  "grasp_height_m": 0.005,
+  "repeat": 1,
+  "negative_control": false,
+  "requires": [
+    "hybrid-reference-start"
+  ],
+  "hybrid_role": "policy",
+  "prefix_length": 1,
+  "handoff_mode": "model-close",
+  "max_approach_controls": 600,
+  "prompt": "pick up the cube",
+  "requires_success": [
+    "hybrid-reference-start"
+  ]
+}
