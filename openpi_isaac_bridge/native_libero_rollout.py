@@ -60,12 +60,33 @@ def controller_record(controller):
              'damping_ratio', 'control_delta', 'use_delta', 'policy_freq')}
 
 
-def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220):
+def gripper_command_state(env):
+    """Read native command state; no formatter interception or control writes."""
+    try:
+        gripper=env.robots[0].gripper;sim=env.sim
+        actuators=[]
+        for name in gripper.actuators:
+            aid=sim.model.actuator_name2id(name)
+            actuators.append({'name':name,'ctrl':float(sim.data.ctrl[aid]),
+                              'ctrlrange':np.asarray(sim.model.actuator_ctrlrange[aid]).tolist()})
+        current=np.asarray(gripper.current_action,dtype=float)
+        if not actuators:raise ValueError('no native gripper actuators')
+        if not np.isfinite(current).all() or not all(math.isfinite(a['ctrl']) for a in actuators):raise ValueError('nonfinite native command')
+        return {'status':'available','class':type(gripper).__name__,'normalized_current_action':current.tolist(),
+                'actuators':actuators,'scope':'actuator input and formatter state, not measured contact force'}
+    except Exception as error:return {'status':'unavailable','reason':type(error).__name__+': '+str(error)}
+
+
+def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220,
+            action_transform=None,record_gripper=False,query_origin='live'):
+    if query_origin not in ('live','archive'):raise ValueError('unknown query origin')
     folder.mkdir(); frames = []
     report = {'status': 'running', 'success': False, 'stop_reason': None, 'policy_queries': 0,
-              'inference_attempts': 0, 'action_steps': 0, 'step_attempts': 0, 'queries': [], 'trace': [],
+              'inference_attempts': 0, 'new_policy_queries':0,'query_origin':query_origin,
+              'action_steps': 0, 'step_attempts': 0, 'queries': [], 'trace': [],
               'initial': snapshot(obs, env), 'replan_steps': 5, 'budget': max_steps,
               'action_semantics': 'raw server actions passed directly to native env.step; native controller clipping/scaling applies; no Isaac bridge caps or forced-open gripper'}
+    if action_transform is not None:report['action_semantics']='raw actions archived; only selected native gripper sign transformed; first six pose components unchanged'
     def save(): save_json(folder/'report.json', report)
     save(); chunk = []; query = None
     try:
@@ -85,8 +106,11 @@ def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220):
                     archive.writestr(f'{prefix}/request.json', json.dumps(request, allow_nan=False))
                     query = dict(request, query=number, status='querying', executed_prefix_steps=0)
                     report['queries'].append(query); report['inference_attempts'] += 1; save()
+                    query['sim_time_before_infer_s']=float(env.sim.data.time)
                     start = time.perf_counter(); response = client.infer(element)
                     query['latency_s'] = time.perf_counter()-start; report['policy_queries'] += 1
+                    report['new_policy_queries']+=int(query_origin=='live')
+                    query['sim_time_after_infer_s']=float(env.sim.data.time)
                     actions = response['actions']; actions = actions.tolist() if hasattr(actions, 'tolist') else actions
                     archive.writestr(f'{prefix}/response.txt', repr(actions))
                     validate_action_chunk(actions)
@@ -94,10 +118,14 @@ def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220):
                     if digest_observation(element) != fingerprint: raise ValueError('client mutated input')
                     payload = json.dumps({'actions': actions}, allow_nan=False).encode()
                     archive.writestr(f'{prefix}/response.json', payload)
+                    if abs(query['sim_time_after_infer_s']-query['sim_time_before_infer_s'])>1e-12:raise RuntimeError('native simulation advanced during inference')
                     query.update(status='validated', response_sha256=hashlib.sha256(payload).hexdigest(), predicted_steps=len(actions))
                     chunk = [list(a) for a in actions[:5]]; save()
                     print(f'[Native LIBERO] {folder.name} query={number}, action step={step+1}', flush=True)
-                before = snapshot(obs, env); action = chunk.pop(0)
+                before = snapshot(obs, env); raw_action=list(chunk.pop(0));action=list(raw_action)
+                if action_transform is not None:
+                    action=list(action_transform(list(raw_action)))
+                    if len(action)!=7 or not np.isfinite(action).all() or action[:6]!=raw_action[:6]:raise ValueError('gripper intervention must preserve first six action components')
                 report['step_attempts'] += 1; report['pending_action'] = {'step': step+1, 'action': action}; save()
                 before_hook=getattr(client,'before_step',None)
                 if callable(before_hook):before_hook(env)
@@ -105,10 +133,12 @@ def rollout(env, client, obs, prompt, folder, image_tools, max_steps=220):
                 report['action_steps'] += 1; query['executed_prefix_steps'] += 1; report.pop('pending_action')
                 success = bool(env.check_success())
                 report['trace'].append({'step': step+1, 'query': query['query'], 'prefix_index': query['executed_prefix_steps'],
-                    'action': action, 'close_requested': action[6] > 0, 'before': before, 'after': snapshot(obs, env),
+                    'action': action, 'raw_action':raw_action,'model_close_requested':raw_action[6]>0,
+                    'close_requested': action[6] > 0, 'before': before, 'after': snapshot(obs, env),
                     'reward': float(reward), 'done': bool(done), 'task_success': success})
                 after_hook=getattr(client,'observe_step',None)
                 if callable(after_hook):report['trace'][-1]['gripper_diagnostic']=after_hook(env)
+                if record_gripper:report['trace'][-1]['native_gripper_command']=gripper_command_state(env)
                 if step % 2 == 0 or success or done:
                     external = np.asarray(obs['agentview_image'])[::-1, ::-1]
                     wrist = np.asarray(obs['robot0_eye_in_hand_image'])[::-1, ::-1]
@@ -192,7 +222,8 @@ def worker(folder, args, client_factory=None):
                 obs, _, done, _ = env.step([0.]*6+[-1.]); row['dummy_wait_steps'] += 1
                 if done or env.check_success(): raise RuntimeError('task already terminal during initial wait')
             row.update(status='running', result=f'episode-{index:02d}/report.json'); save()
-            result = rollout(env, client, obs, str(task.language), folder/f'episode-{index:02d}', image_tools)
+            result = rollout(env, client, obs, str(task.language), folder/f'episode-{index:02d}', image_tools,
+                             query_origin='archive' if client_factory is not None else 'live')
             row.update(status=result['status'], success=result['success'], action_steps=result['action_steps'], policy_queries=result['policy_queries'], stop_reason=result['stop_reason']); save()
         report.update(status='completed', successes=sum(e['success'] for e in report['episodes']), completed_episodes=3)
         return 0
