@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "command": [
+    "uv",
+    "run",
+    "--extra",
+    "viser",
+    "--extra",
+    "openpi",
+    "isaaclab",
+    "-p",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/check_cameras.py",
+    "--viz",
+    "viser",
+    "--motion-test",
+    "geometry-audit",
+    "--gain-profile",
+    "kp2p25-kd0p25",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_limits/20261103T030926823739Z/limits-replay-p5-cap1/runs/20261103T031535262257Z/capture/20261103T031535290862Z/joint_gains.json",
+    "--output",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_limits/20261103T030926823739Z/limits-replay-p5-cap1/runs/20261103T031535262257Z/capture/20261103T031535290862Z",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_limits/20261103T030926823739Z/limits-replay-p5-cap1/runs/20261103T031535262257Z/capture/20261103T031535290862Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_limits/20261103T030926823739Z/limits-replay-p5-cap1/runs/20261103T031535262257Z/capture/20261103T031535290862Z/online_registered_settings.json"
+  ],
+  "output": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_limits/20261103T030926823739Z/limits-replay-p5-cap1/runs/20261103T031535262257Z/capture/20261103T031535290862Z",
+  "scope": "archived native segment diagnostic; no new inference; requested settings and actuator readback define each execution case",
+  "exit_code": 0
+}

@@ -1,0 +1,32 @@
+{
+  "controls": 0,
+  "substeps": 0,
+  "complete": true,
+  "case": {
+    "name": "limits-frozen-x-plus",
+    "kind": "contact-grasp",
+    "arm_profile": "k1687p5-d50",
+    "finger_profile": "kp350-kd50",
+    "gripper_mode": "substep",
+    "cap_m": 0.0005,
+    "rotation_cap_deg": 0.1,
+    "grasp_height_m": 0.005,
+    "repeat": 1,
+    "negative_control": false,
+    "requires": [
+      "limits-reference-start"
+    ],
+    "limit_audit_role": "frozen",
+    "object_offset_xy_m": [
+      0.02,
+      0.0
+    ],
+    "views": "both",
+    "prompt": "pick up the cube",
+    "query_repeats": 6,
+    "requires_success": [
+      "limits-reference-start"
+    ]
+  },
+  "trace_file": "physics_joint_trace.jsonl.gz"
+}

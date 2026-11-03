@@ -1,0 +1,81 @@
+{
+  "status": "completed",
+  "case": "deterministic-contact",
+  "policy_queries": 0,
+  "model_actions_executed": 0,
+  "calibration_markers_present": false,
+  "arm_max_position_error_rad": 1.918788161414664e-07,
+  "cube_requested_xy_world_m": [
+    0.66617062664541,
+    0.12076943451333418
+  ],
+  "cube_actual_world_m": [
+    0.6661700010299683,
+    0.12077049911022186,
+    0.020999586209654808
+  ],
+  "cube_xy_error_m": 1.2348122182230376e-06,
+  "cube_rest_z_change_from_baseline_m": 1.862645149230957e-09,
+  "mapped_tcp_position_difference_from_benchmark_m": 9.526625953321516e-05,
+  "geometry_checks_passed": true,
+  "thresholds": {
+    "arm_rad": 0.001,
+    "object_xy_m": 0.001,
+    "rest_height_change_m": 0.002
+  },
+  "scope": "arm initialization and cube proxy XY only; cube height rests on original support; not full LIBERO scene or object reproduction",
+  "cameras": {
+    "external_camera": {
+      "object_center_projection_px": [
+        168.00335508135709,
+        166.63091037692394
+      ],
+      "center_margin_px": 86.99664491864291,
+      "camera_parameters_passed": true,
+      "camera_position_error_m": 2.8749685302561765e-08,
+      "camera_rotation_error_deg": 0.0,
+      "K_max_abs_error_px": 1.2160775099800958e-05,
+      "center_at_least_8px_inside": true,
+      "color_hint": {
+        "colored_pixels": 386,
+        "roi_xyxy": [
+          150,
+          148,
+          187,
+          185
+        ],
+        "note": "heuristic saturation count near projected cube center; background may contribute, occlusion not ruled out"
+      },
+      "frames": {
+        "no_flip": "external_camera_policy224.png",
+        "horizontal_flip": "external_camera_policy224_flip_x.png"
+      }
+    },
+    "wrist_camera": {
+      "object_center_projection_px": [
+        142.23622960177406,
+        168.14943135150193
+      ],
+      "center_margin_px": 86.85056864849807,
+      "camera_parameters_passed": true,
+      "camera_position_error_m": 2.1421937162832778e-08,
+      "camera_rotation_error_deg": 4.676310850554341e-06,
+      "K_max_abs_error_px": 3.2284740996146866e-06,
+      "center_at_least_8px_inside": true,
+      "color_hint": {
+        "colored_pixels": 1115,
+        "roi_xyxy": [
+          124,
+          150,
+          161,
+          187
+        ],
+        "note": "heuristic saturation count near projected cube center; background may contribute, occlusion not ruled out"
+      },
+      "frames": {
+        "no_flip": "wrist_camera_policy224.png",
+        "horizontal_flip": "wrist_camera_policy224_flip_x.png"
+      }
+    }
+  }
+}

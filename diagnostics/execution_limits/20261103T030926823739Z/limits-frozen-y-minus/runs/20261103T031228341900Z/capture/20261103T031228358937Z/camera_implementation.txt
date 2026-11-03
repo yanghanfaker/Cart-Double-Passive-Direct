@@ -1,0 +1,111 @@
+
+external_camera: pos_w
+    @property
+    def pos_w(self) -> ProxyArray:
+        """Position of the sensor origin in world frame [m], following ROS convention.
+
+        Shape is (N,), dtype ``wp.vec3f``. In torch this resolves to (N, 3),
+        where N is the number of sensors. Use ``.warp`` for the underlying
+        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.
+        """
+        return self._pos_w
+
+
+external_camera: quat_w_world
+    @property
+    def quat_w_world(self) -> ProxyArray:
+        """Quaternion orientation ``(x, y, z, w)`` of the sensor origin in world frame,
+        following the world coordinate frame convention.
+
+        .. note::
+            World frame convention follows the camera aligned with forward axis +X and up axis +Z.
+
+        Shape is (N,), dtype ``wp.quatf``. In torch this resolves to (N, 4),
+        where N is the number of sensors. Use ``.warp`` for the underlying
+        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.
+        """
+        return self._quat_w_world
+
+
+external_camera: quat_w_ros
+    @property
+    def quat_w_ros(self) -> ProxyArray:
+        """Quaternion orientation ``(x, y, z, w)`` of the sensor origin in the world frame, following ROS convention.
+
+        .. note::
+            ROS convention follows the camera aligned with forward axis +Z and up axis -Y.
+
+        Shape is (N,), dtype ``wp.quatf``. In torch this resolves to (N, 4),
+        where N is the number of sensors. Use ``.warp`` for the underlying
+        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.
+        """
+        convert_camera_frame_orientation_convention_wp(self._quat_w_world.warp, self._quat_w_ros.warp, "world", "ros")
+        return self._quat_w_ros
+
+
+external_camera: intrinsic_matrices
+    @property
+    def intrinsic_matrices(self) -> ProxyArray:
+        """The intrinsic matrices for the camera.
+
+        Shape is (N,), dtype ``wp.mat33f``. In torch this resolves to (N, 3, 3),
+        where N is the number of sensors. Use ``.warp`` for the underlying
+        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.
+        """
+        return self._intrinsic_matrices
+
+
+wrist_camera: pos_w
+    @property
+    def pos_w(self) -> ProxyArray:
+        """Position of the sensor origin in world frame [m], following ROS convention.
+
+        Shape is (N,), dtype ``wp.vec3f``. In torch this resolves to (N, 3),
+        where N is the number of sensors. Use ``.warp`` for the underlying
+        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.
+        """
+        return self._pos_w
+
+
+wrist_camera: quat_w_world
+    @property
+    def quat_w_world(self) -> ProxyArray:
+        """Quaternion orientation ``(x, y, z, w)`` of the sensor origin in world frame,
+        following the world coordinate frame convention.
+
+        .. note::
+            World frame convention follows the camera aligned with forward axis +X and up axis +Z.
+
+        Shape is (N,), dtype ``wp.quatf``. In torch this resolves to (N, 4),
+        where N is the number of sensors. Use ``.warp`` for the underlying
+        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.
+        """
+        return self._quat_w_world
+
+
+wrist_camera: quat_w_ros
+    @property
+    def quat_w_ros(self) -> ProxyArray:
+        """Quaternion orientation ``(x, y, z, w)`` of the sensor origin in the world frame, following ROS convention.
+
+        .. note::
+            ROS convention follows the camera aligned with forward axis +Z and up axis -Y.
+
+        Shape is (N,), dtype ``wp.quatf``. In torch this resolves to (N, 4),
+        where N is the number of sensors. Use ``.warp`` for the underlying
+        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.
+        """
+        convert_camera_frame_orientation_convention_wp(self._quat_w_world.warp, self._quat_w_ros.warp, "world", "ros")
+        return self._quat_w_ros
+
+
+wrist_camera: intrinsic_matrices
+    @property
+    def intrinsic_matrices(self) -> ProxyArray:
+        """The intrinsic matrices for the camera.
+
+        Shape is (N,), dtype ``wp.mat33f``. In torch this resolves to (N, 3, 3),
+        where N is the number of sensors. Use ``.warp`` for the underlying
+        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.
+        """
+        return self._intrinsic_matrices
