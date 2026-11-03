@@ -1,0 +1,13 @@
+{
+  "name": "t2-s1-delay10-replay",
+  "task_id": 2,
+  "state_index": 1,
+  "mode": "delay10-replay",
+  "seed": 7,
+  "prefix_steps": 5,
+  "max_controls": 220,
+  "translation_cap_m": null,
+  "rotation_cap_deg": null,
+  "close_delay_controls": 10,
+  "force_open": false
+}

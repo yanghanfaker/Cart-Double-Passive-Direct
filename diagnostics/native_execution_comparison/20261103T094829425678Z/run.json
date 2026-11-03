@@ -1,0 +1,4650 @@
+{
+  "status": "completed",
+  "cases": [
+    {
+      "case": {
+        "name": "t0-s0-identity-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "identity-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-identity-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-identity-replay/report.json",
+      "result_sha256": "3f89ebb83636c874da56556d7ed47374accd41cdee94982b74d87805326416ee",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.0,
+        "max_eef_difference_m": 0.0,
+        "max_orientation_difference_deg": 0.0,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.05278134111183344,
+        "identity_reproduction_passed": true,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": true,
+      "metrics": {
+        "controls": 111,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.0403456177988069,
+        "final_eef_minus_target_body_origin_m": [
+          -0.04073033240809975,
+          -0.0236786500938396,
+          0.017304965754781354
+        ],
+        "target_max_displacement_m": 0.15183150551555336,
+        "first100_eef_delta_m": [
+          0.20739936467811046,
+          0.18709337666802783,
+          -0.15486299339945475
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s0-open-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "open-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": true
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-open-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-open-replay/report.json",
+      "result_sha256": "a9120de09992bcd7c4b6573f35772299307c10cff25ecf99919542d4b7e101b1",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6417025923728943,
+        "max_eef_difference_m": 0.004707281289101605,
+        "max_orientation_difference_deg": 0.21347020213718465,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 111,
+        "translation_clipped_controls": 0,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.05283297870447418,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 56,
+        "executed_close_controls": 0,
+        "minimum_eef_to_target_body_origin_m": 0.04601071234693228,
+        "final_eef_minus_target_body_origin_m": [
+          0.08024136634353438,
+          -0.0390561830389759,
+          0.030333335733432887
+        ],
+        "target_max_displacement_m": 0.004506385381174172,
+        "first100_eef_delta_m": [
+          0.21005306871175247,
+          0.18670783304708863,
+          -0.1532873378055606
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s0-delay5-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-delay5-replay/report.json",
+      "result_sha256": "f5fb4f7d07a7023364773bc05bb96a86a78d13e62e5601140dd0410d91a94774",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 107,
+        "early_terminal": true,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.558906078338623,
+        "max_eef_difference_m": 0.004710022485133785,
+        "max_orientation_difference_deg": 0.21347020213718465,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 10,
+        "translation_clipped_controls": 0,
+        "controller_samples": 107,
+        "max_last_controller_position_error_m": 0.05283321884270074,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 107,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 40,
+        "model_close_requests": 55,
+        "executed_close_controls": 45,
+        "minimum_eef_to_target_body_origin_m": 0.04587341752127131,
+        "final_eef_minus_target_body_origin_m": [
+          -0.024470721761734135,
+          -0.04001050772394951,
+          0.0518385356119484
+        ],
+        "target_max_displacement_m": 0.12490331647825516,
+        "first100_eef_delta_m": [
+          0.20950873984806928,
+          0.1852835424667412,
+          -0.15387180541196632
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 107,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s0-delay10-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "delay10-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 10,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-delay10-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-delay10-replay/report.json",
+      "result_sha256": "0b4cc4ffcbfc0a54ece589a45f63e76858e2ac2d8f1ef40e31288dbcb62b8c78",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6410416960716248,
+        "max_eef_difference_m": 0.004699839566889175,
+        "max_orientation_difference_deg": 0.21347020213718465,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 20,
+        "translation_clipped_controls": 0,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.05283309827944085,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 56,
+        "executed_close_controls": 36,
+        "minimum_eef_to_target_body_origin_m": 0.04604237065842369,
+        "final_eef_minus_target_body_origin_m": [
+          0.07993221028319765,
+          -0.03894367085822148,
+          0.030206513247224342
+        ],
+        "target_max_displacement_m": 0.004506385381174172,
+        "first100_eef_delta_m": [
+          0.20980353971277899,
+          0.18678299384618507,
+          -0.15341218316480187
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s0-translation0p5-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "translation0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-translation0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-translation0p5-replay/report.json",
+      "result_sha256": "150e2a1639dfa8a143c428d780b3fa00765a2d4d6d726c777cc6db8777fbcf0f",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.729590654373169,
+        "max_eef_difference_m": 0.3726836073664914,
+        "max_orientation_difference_deg": 5.114039565809245,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 111,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.002551537131979433,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.37356721312671465,
+        "final_eef_minus_target_body_origin_m": [
+          -0.1424603336105708,
+          -0.21213596416770433,
+          0.2731491054321643
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.002817186386199211,
+          0.001853547580097547,
+          -0.0034757774865337154
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s0-translation1-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "translation1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.001,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-translation1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-translation1-replay/report.json",
+      "result_sha256": "5c11e72b66eddeb5d9a5901b13b889eafff6163104fc48895ad211ecc8228aa8",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.729559302330017,
+        "max_eef_difference_m": 0.36913404667101,
+        "max_orientation_difference_deg": 5.037558707576099,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 111,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.00303189123197712,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.371037491999493,
+        "final_eef_minus_target_body_origin_m": [
+          -0.13889777762921818,
+          -0.21112880083187685,
+          0.2716631320187407
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.006164416701483211,
+          0.003023103580462991,
+          -0.0040395050920050135
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s0-translation2-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "translation2-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.002,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-translation2-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-translation2-replay/report.json",
+      "result_sha256": "be630fd2c1d721c40167baae30a8035e87946b8b0f8b1cdd58786fa8bf2514ea",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.7295191287994385,
+        "max_eef_difference_m": 0.36205211335343035,
+        "max_orientation_difference_deg": 4.903904848542286,
+        "pose_changed_controls": 110,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 110,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.004009013750572934,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.36502261346095594,
+        "final_eef_minus_target_body_origin_m": [
+          -0.13194556429042298,
+          -0.2090434520229956,
+          0.26857533685775736
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.01268744477515113,
+          0.005423010125941888,
+          -0.005275188355767124
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s0-rotation0p1-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "rotation0p1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-rotation0p1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-rotation0p1-replay/report.json",
+      "result_sha256": "f910886eebb9c2c9d85504e9a1d0bf48b9bdf4a541cd51500dbbeca246144682",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5839163661003113,
+        "max_eef_difference_m": 0.019953348957437226,
+        "max_orientation_difference_deg": 33.87997705933235,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.05132726227638137,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.04518215817631261,
+        "final_eef_minus_target_body_origin_m": [
+          -0.02458498938348902,
+          -0.03716947640163931,
+          0.0222526354840058
+        ],
+        "target_max_displacement_m": 0.1470752885396411,
+        "first100_eef_delta_m": [
+          0.21619479683215714,
+          0.190513175873289,
+          -0.1480545678732239
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s0-both0p5-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "both0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-both0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-both0p5-replay/report.json",
+      "result_sha256": "f73c2adc16dff295594c4dd49f1036338a55ad290c57651e254a9fb20084857e",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5737341046333313,
+        "max_eef_difference_m": 0.3755627641288574,
+        "max_orientation_difference_deg": 34.699847184706364,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 111,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.000498041630610627,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.3764011558482336,
+        "final_eef_minus_target_body_origin_m": [
+          -0.1450058684288372,
+          -0.2126416214177855,
+          0.27484677701835236
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.002419115892309559,
+          0.00046736763037755723,
+          -0.00044892812218200184
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s0-both0p5-delay5-replay",
+        "task_id": 0,
+        "state_index": 0,
+        "mode": "both0p5-delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s0-both0p5-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s0-model-live/episode/report.json"
+      ],
+      "result": "t0-s0-both0p5-delay5-replay/report.json",
+      "result_sha256": "55734983d7c603e26c4093b208de0a40289e9464fa6693921e9f7d155bdd831a",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5737348198890686,
+        "max_eef_difference_m": 0.3755631208849212,
+        "max_orientation_difference_deg": 34.699728399347684,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 10,
+        "translation_clipped_controls": 111,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.000498041630610627,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 56,
+        "executed_close_controls": 46,
+        "minimum_eef_to_target_body_origin_m": 0.3764012860728805,
+        "final_eef_minus_target_body_origin_m": [
+          -0.14500586623595213,
+          -0.21264236797317745,
+          0.27484679270974566
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.002419118213903615,
+          0.0004666164431161371,
+          -0.00044891229960475343
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          18.418065676885334,
+          14.385120492221944,
+          -11.381886534493097
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-identity-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "identity-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-identity-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-identity-replay/report.json",
+      "result_sha256": "c3ae2c1054c1e146afe0073da504d4114e66dcf456206c67aad97f2ac55c7400",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.0,
+        "max_eef_difference_m": 0.0,
+        "max_orientation_difference_deg": 0.0,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.049819366381427255,
+        "identity_reproduction_passed": true,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": true,
+      "metrics": {
+        "controls": 111,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.05445348367914388,
+        "final_eef_minus_target_body_origin_m": [
+          -0.017160693699214483,
+          -0.04181215942883487,
+          0.039285013635132704
+        ],
+        "target_max_displacement_m": 0.16610405798383657,
+        "first100_eef_delta_m": [
+          0.24322795678269052,
+          0.17195975533762872,
+          -0.12298174683119512
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-open-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "open-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": true
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-open-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-open-replay/report.json",
+      "result_sha256": "3940acfbef971107a58585747945e69ab7a1ff5582665d48eb4c7e9b4d27c1d4",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.15263354778289795,
+        "max_eef_difference_m": 0.0022786148684250268,
+        "max_orientation_difference_deg": 0.07131284650376526,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 111,
+        "translation_clipped_controls": 0,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.04980966616631693,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 61,
+        "executed_close_controls": 0,
+        "minimum_eef_to_target_body_origin_m": 0.056220114375790324,
+        "final_eef_minus_target_body_origin_m": [
+          0.10691381120085806,
+          -0.04348640307847371,
+          0.05040448967606892
+        ],
+        "target_max_displacement_m": 0.00221558119189552,
+        "first100_eef_delta_m": [
+          0.24331046135768492,
+          0.17383314127370195,
+          -0.12204521082600195
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-delay5-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-delay5-replay/report.json",
+      "result_sha256": "0b03cd6fcb1b653e88bf2057eac1e0f5dce3b70dd656b5770d0515ecda491324",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.18542897701263428,
+        "max_eef_difference_m": 0.004774606691554665,
+        "max_orientation_difference_deg": 0.24001064954951662,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 10,
+        "translation_clipped_controls": 0,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.04980976081387479,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 61,
+        "executed_close_controls": 51,
+        "minimum_eef_to_target_body_origin_m": 0.05633106373973006,
+        "final_eef_minus_target_body_origin_m": [
+          0.10510647398145036,
+          -0.038483422601529566,
+          0.05124960205799933
+        ],
+        "target_max_displacement_m": 0.005388572787047896,
+        "first100_eef_delta_m": [
+          0.24484639133421393,
+          0.17576143374452477,
+          -0.12140645052092158
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-delay10-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "delay10-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 10,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-delay10-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-delay10-replay/report.json",
+      "result_sha256": "f80d68f57a0c7b04b9ac3a973fea4d687ceb2b489a4d190b697d938532a70785",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.1490941047668457,
+        "max_eef_difference_m": 0.0021808280836534398,
+        "max_orientation_difference_deg": 0.08117723667430427,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 20,
+        "translation_clipped_controls": 0,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.04980976465805484,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 61,
+        "executed_close_controls": 41,
+        "minimum_eef_to_target_body_origin_m": 0.05624830838494302,
+        "final_eef_minus_target_body_origin_m": [
+          0.10705009502054004,
+          -0.04370789169392347,
+          0.0502720385146026
+        ],
+        "target_max_displacement_m": 0.00233369995877439,
+        "first100_eef_delta_m": [
+          0.2433098114952275,
+          0.17378989864894215,
+          -0.12217091788230539
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-translation0p5-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "translation0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-translation0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-translation0p5-replay/report.json",
+      "result_sha256": "afcbd690f5c30f2ec2ab32c8291c28d85829fbebe07969b5a78859f67564f215",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5309600234031677,
+        "max_eef_difference_m": 0.37400411920040166,
+        "max_orientation_difference_deg": 5.201879987453534,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 111,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.0023001077331388435,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.3745883692799727,
+        "final_eef_minus_target_body_origin_m": [
+          -0.13810500877877405,
+          -0.21708257210937032,
+          0.27272417323646636
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.0022029095510508467,
+          0.0018273692582620425,
+          -0.00343414284056065
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-translation1-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "translation1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.001,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-translation1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-translation1-replay/report.json",
+      "result_sha256": "12bf656c6f7043614212850d0b019e169bed33e5d46dc41258d9f7bc22c67c93",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5309789776802063,
+        "max_eef_difference_m": 0.3704409286631117,
+        "max_orientation_difference_deg": 5.151986700603012,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 111,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.0024245315075933404,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.3719055723480605,
+        "final_eef_minus_target_body_origin_m": [
+          -0.13501101970316745,
+          -0.21547427108105924,
+          0.2713975272627508
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.005239769453761561,
+          0.0034633182852387527,
+          -0.0036153892106021157
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-translation2-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "translation2-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.002,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-translation2-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-translation2-replay/report.json",
+      "result_sha256": "0ee2a03e36d85f877fe5e90bb583348fa9ea56e00b132c49ea7325f5baf9927e",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5310304760932922,
+        "max_eef_difference_m": 0.3632374193441374,
+        "max_orientation_difference_deg": 5.053619070192567,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 111,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.0030218226600333526,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.36593480847825155,
+        "final_eef_minus_target_body_origin_m": [
+          -0.12847293246064406,
+          -0.2123443050178268,
+          0.2689105535442474
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.01164402838230727,
+          0.006652421138897635,
+          -0.003829223154285799
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-rotation0p1-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "rotation0p1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-rotation0p1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-rotation0p1-replay/report.json",
+      "result_sha256": "1b52693d0b95cf897cbc9efd0266da6ffb1a1e6aab26cb12f0f7c9441d684fa8",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 110,
+        "early_terminal": true,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5406605005264282,
+        "max_eef_difference_m": 0.018823192377085237,
+        "max_orientation_difference_deg": 22.585013304759105,
+        "pose_changed_controls": 110,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 110,
+        "max_last_controller_position_error_m": 0.048357001731078826,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 110,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 40,
+        "model_close_requests": 60,
+        "executed_close_controls": 60,
+        "minimum_eef_to_target_body_origin_m": 0.05445489164257233,
+        "final_eef_minus_target_body_origin_m": [
+          -0.0025114835953438733,
+          -0.041757745046322875,
+          0.0451250425326305
+        ],
+        "target_max_displacement_m": 0.1570332960301022,
+        "first100_eef_delta_m": [
+          0.25250037433437544,
+          0.1728514710412924,
+          -0.12123750477480666
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 110,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-both0p5-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "both0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-both0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-both0p5-replay/report.json",
+      "result_sha256": "924f68659ac49a345888d64706ff77df48645203e3206f2d48972479d158bd2d",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4809553027153015,
+        "max_eef_difference_m": 0.3764836824486178,
+        "max_orientation_difference_deg": 23.471518591740082,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 111,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.00048588322982250277,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.37696114769963335,
+        "final_eef_minus_target_body_origin_m": [
+          -0.14041251174863803,
+          -0.21707656442915294,
+          0.2743388390204696
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.0017691612123902634,
+          0.0020281411131941977,
+          -0.0007081646174282863
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s1-both0p5-delay5-replay",
+        "task_id": 0,
+        "state_index": 1,
+        "mode": "both0p5-delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s1-both0p5-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s1-model-live/episode/report.json"
+      ],
+      "result": "t0-s1-both0p5-delay5-replay/report.json",
+      "result_sha256": "b7be116e5302794962a509efb47daa2139ba032a67f50f242004e0d2e7d61624",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 111,
+        "common_controls": 111,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4809558391571045,
+        "max_eef_difference_m": 0.37648420772613445,
+        "max_orientation_difference_deg": 23.47138881311602,
+        "pose_changed_controls": 111,
+        "gripper_changed_controls": 10,
+        "translation_clipped_controls": 111,
+        "controller_samples": 111,
+        "max_last_controller_position_error_m": 0.0004858831471243498,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 111,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 23,
+        "first_model_close_control": 40,
+        "model_close_requests": 61,
+        "executed_close_controls": 51,
+        "minimum_eef_to_target_body_origin_m": 0.3769617893732275,
+        "final_eef_minus_target_body_origin_m": [
+          -0.14041255514297601,
+          -0.21707765077474556,
+          0.27433883891969046
+        ],
+        "target_max_displacement_m": 2.9346246836127675e-07,
+        "first100_eef_delta_m": [
+          0.001769119418400189,
+          0.0020270825251483514,
+          -0.0007081645424853455
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          21.50584166179783,
+          13.177390723168436,
+          -8.976010969838622
+        ],
+        "gripper_command_available_controls": 111,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-identity-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "identity-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-identity-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-identity-replay/report.json",
+      "result_sha256": "c171bcc1a5d886a763c05f025d7e924330507dfc96ca5a064ae24536277d037e",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.0,
+        "max_eef_difference_m": 0.0,
+        "max_orientation_difference_deg": 0.0,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.050420881882308095,
+        "identity_reproduction_passed": true,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": true,
+      "metrics": {
+        "controls": 106,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.05063097993184385,
+        "final_eef_minus_target_body_origin_m": [
+          -0.03095578317971596,
+          -0.027162983931000112,
+          0.03993048095663643
+        ],
+        "target_max_displacement_m": 0.1694884602599962,
+        "first100_eef_delta_m": [
+          0.21839338238101194,
+          0.20309569714859457,
+          -0.17171673404831989
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-open-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "open-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": true
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-open-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-open-replay/report.json",
+      "result_sha256": "4083881c75dd6f93781fc2cb97512f5c165a11a333b63e1249babb107fdee170",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.7687366604804993,
+        "max_eef_difference_m": 0.006231981426496296,
+        "max_orientation_difference_deg": 0.18746507130195783,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 106,
+        "translation_clipped_controls": 0,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.05038703334483437,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 106,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 0,
+        "minimum_eef_to_target_body_origin_m": 0.053302299007412776,
+        "final_eef_minus_target_body_origin_m": [
+          0.1299671752304663,
+          -0.015144243138081465,
+          0.05381484211130727
+        ],
+        "target_max_displacement_m": 0.0043990726414140325,
+        "first100_eef_delta_m": [
+          0.21796395861958495,
+          0.19941777698693483,
+          -0.17118921081749372
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-delay5-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-delay5-replay/report.json",
+      "result_sha256": "7b8291d1f30ace1fb67d1a69d1a7578ae9e79648ab93db48991180b5f64f8fb8",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.8071134090423584,
+        "max_eef_difference_m": 0.006003493518590867,
+        "max_orientation_difference_deg": 0.17946428905946737,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 10,
+        "translation_clipped_controls": 0,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.05038927433306083,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 106,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 46,
+        "minimum_eef_to_target_body_origin_m": 0.05297944261784292,
+        "final_eef_minus_target_body_origin_m": [
+          0.12437028645326373,
+          -0.01605507902789688,
+          0.05393744244912646
+        ],
+        "target_max_displacement_m": 0.014023429656493943,
+        "first100_eef_delta_m": [
+          0.21844657680633586,
+          0.2005237434524267,
+          -0.17109579165861621
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-delay10-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "delay10-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 10,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-delay10-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-delay10-replay/report.json",
+      "result_sha256": "a8651df1f49f9ff4345253b3c2f975ad1c5b3f447921449559723a2096a9e796",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.7689644694328308,
+        "max_eef_difference_m": 0.006215362194307845,
+        "max_orientation_difference_deg": 0.18746507130195783,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 20,
+        "translation_clipped_controls": 0,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.05038731941692701,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 106,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 36,
+        "minimum_eef_to_target_body_origin_m": 0.052938564945686974,
+        "final_eef_minus_target_body_origin_m": [
+          0.1304177152142133,
+          -0.014804485816278634,
+          0.0539576333338857
+        ],
+        "target_max_displacement_m": 0.0043990726414140325,
+        "first100_eef_delta_m": [
+          0.2183658100006844,
+          0.2004434179271429,
+          -0.1710724499748617
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-translation0p5-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "translation0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-translation0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-translation0p5-replay/report.json",
+      "result_sha256": "d80ce90e9a69f2615b0ffbfab0948a5e901eff6411106fff07658313f57518ec",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.7938628196716309,
+        "max_eef_difference_m": 0.37516093653909627,
+        "max_orientation_difference_deg": 5.424723797051311,
+        "pose_changed_controls": 106,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 106,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.0019893202315846717,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 106,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.36171568677122723,
+        "final_eef_minus_target_body_origin_m": [
+          -0.09576635114757523,
+          -0.19876488077711965,
+          0.28838828148167284
+        ],
+        "target_max_displacement_m": 0.0003803363014556668,
+        "first100_eef_delta_m": [
+          0.005696904342695708,
+          0.002471631781648725,
+          0.00017378174598303708
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-translation1-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "translation1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.001,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-translation1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-translation1-replay/report.json",
+      "result_sha256": "74a0fc1ab23d93159c3fda2b50cfc13d9dd1145b106c763a6f9d7ac369fb5cb7",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.7938535809516907,
+        "max_eef_difference_m": 0.37169646588590394,
+        "max_orientation_difference_deg": 5.363559318198699,
+        "pose_changed_controls": 106,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 106,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.002396604169628882,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 106,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.359200721840037,
+        "final_eef_minus_target_body_origin_m": [
+          -0.09339853050545954,
+          -0.196362491193166,
+          0.2870328102781766
+        ],
+        "target_max_displacement_m": 0.0003803363014556668,
+        "first100_eef_delta_m": [
+          0.007937130518117619,
+          0.005023891008212723,
+          -0.0005482649096537617
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-translation2-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "translation2-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.002,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-translation2-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-translation2-replay/report.json",
+      "result_sha256": "e5866797f53cd21620bb48ae78a3230f449a86a78d15bfc55b45ce158ebaeabe",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.7938635349273682,
+        "max_eef_difference_m": 0.3648977201459909,
+        "max_orientation_difference_deg": 5.250605946784711,
+        "pose_changed_controls": 106,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 106,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.00321790694885828,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 106,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.3541449701532561,
+        "final_eef_minus_target_body_origin_m": [
+          -0.08871052330989433,
+          -0.1916098961777217,
+          0.28442597286613236
+        ],
+        "target_max_displacement_m": 0.00038033630145565503,
+        "first100_eef_delta_m": [
+          0.012426713536751927,
+          0.010067304222585421,
+          -0.0018447518462310075
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-rotation0p1-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "rotation0p1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-rotation0p1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-rotation0p1-replay/report.json",
+      "result_sha256": "3043166e1df45ded82232644477f22a782602fc156e6207cb51261e438233cf2",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.634318768978119,
+        "max_eef_difference_m": 0.010615837478117394,
+        "max_orientation_difference_deg": 38.84361768464073,
+        "pose_changed_controls": 106,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.04944059076711368,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 106,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.050235630690746914,
+        "final_eef_minus_target_body_origin_m": [
+          -0.004047342970942551,
+          -0.04055196338983735,
+          0.03856728712670987
+        ],
+        "target_max_displacement_m": 0.15280211720966,
+        "first100_eef_delta_m": [
+          0.2229518944488836,
+          0.1999106497529905,
+          -0.17231799310362184
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-both0p5-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "both0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-both0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-both0p5-replay/report.json",
+      "result_sha256": "7447fc07531744c4fa5dcd13d1664d6118d4854374a3767f80f2e2ccf96393b1",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.622367262840271,
+        "max_eef_difference_m": 0.37743630161813774,
+        "max_orientation_difference_deg": 40.49058948416176,
+        "pose_changed_controls": 106,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 106,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.0005003334190582213,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 106,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.3639119271289441,
+        "final_eef_minus_target_body_origin_m": [
+          -0.0998795662991265,
+          -0.19959897146838254,
+          0.28743036292529034
+        ],
+        "target_max_displacement_m": 0.0003803363014558592,
+        "first100_eef_delta_m": [
+          0.002165710180509872,
+          0.0012633807062244272,
+          -0.0005086875812267966
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t0-s2-both0p5-delay5-replay",
+        "task_id": 0,
+        "state_index": 2,
+        "mode": "both0p5-delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t0-s2-both0p5-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t0-s2-model-live/episode/report.json"
+      ],
+      "result": "t0-s2-both0p5-delay5-replay/report.json",
+      "result_sha256": "1a4b8d684b996c0be29da4acbe2e67d5ad20ac492f6c564f2ac2e06eb60f1916",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 106,
+        "common_controls": 106,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6223675608634949,
+        "max_eef_difference_m": 0.3774359382386239,
+        "max_orientation_difference_deg": 40.49055000097701,
+        "pose_changed_controls": 106,
+        "gripper_changed_controls": 10,
+        "translation_clipped_controls": 106,
+        "controller_samples": 106,
+        "max_last_controller_position_error_m": 0.0005003334082125774,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 106,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 22,
+        "first_model_close_control": 38,
+        "model_close_requests": 56,
+        "executed_close_controls": 46,
+        "minimum_eef_to_target_body_origin_m": 0.36391153431570095,
+        "final_eef_minus_target_body_origin_m": [
+          -0.0998795592516502,
+          -0.19959825170801268,
+          0.2874303678576926
+        ],
+        "target_max_displacement_m": 0.0003803363014558781,
+        "first100_eef_delta_m": [
+          0.002165716913468091,
+          0.001264096833486026,
+          -0.0005086828687792533
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          15.620158791799925,
+          15.386146531239978,
+          -16.33961911351293
+        ],
+        "gripper_command_available_controls": 106,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-identity-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "identity-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-identity-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-identity-replay/report.json",
+      "result_sha256": "f41854a2c45ef34630dddc22d5dc067c41f8c4bb8a490246c7a04a4d44fabe65",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 124,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.0,
+        "max_eef_difference_m": 0.0,
+        "max_orientation_difference_deg": 0.0,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 124,
+        "max_last_controller_position_error_m": 0.043652748882648675,
+        "identity_reproduction_passed": true,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": true,
+      "metrics": {
+        "controls": 124,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 60,
+        "executed_close_controls": 60,
+        "minimum_eef_to_target_body_origin_m": 0.06082446902061154,
+        "final_eef_minus_target_body_origin_m": [
+          0.00804439566805372,
+          0.041440305626911034,
+          0.048942190072307934
+        ],
+        "target_max_displacement_m": 0.2503167174479707,
+        "first100_eef_delta_m": [
+          0.22996491743139408,
+          0.17057190960305538,
+          -0.09211021072198489
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 124,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-open-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "open-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": true
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-open-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-open-replay/report.json",
+      "result_sha256": "c6bc71624d2f18fd17d6e0bcf2ff1a50f628abcac3b665b9d1869daa19a82d27",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 124,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4355084300041199,
+        "max_eef_difference_m": 0.0008484385097310205,
+        "max_orientation_difference_deg": 0.044663126851356774,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 124,
+        "translation_clipped_controls": 0,
+        "controller_samples": 124,
+        "max_last_controller_position_error_m": 0.04364339786266985,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 124,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 60,
+        "executed_close_controls": 0,
+        "minimum_eef_to_target_body_origin_m": 0.06078780719879617,
+        "final_eef_minus_target_body_origin_m": [
+          0.16651167226273833,
+          0.2220922946318798,
+          0.05938544064165008
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.22953102447242926,
+          0.17036018203479852,
+          -0.09244541519344707
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 124,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-delay5-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-delay5-replay/report.json",
+      "result_sha256": "1a763b9883d54cde49e6a12b9f7dd67827aa5fd79dc430acd1f14b9dc71f6db7",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 124,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.418825924396515,
+        "max_eef_difference_m": 0.0007457108907907972,
+        "max_orientation_difference_deg": 0.053944077506357824,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 5,
+        "translation_clipped_controls": 0,
+        "controller_samples": 124,
+        "max_last_controller_position_error_m": 0.043651117442989364,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 124,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 60,
+        "executed_close_controls": 55,
+        "minimum_eef_to_target_body_origin_m": 0.06078848593454998,
+        "final_eef_minus_target_body_origin_m": [
+          0.00854448574969599,
+          0.04679254661775628,
+          0.050349305660679744
+        ],
+        "target_max_displacement_m": 0.24833258342444442,
+        "first100_eef_delta_m": [
+          0.22947326434488075,
+          0.17038105034239534,
+          -0.09256923895419389
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 124,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-delay10-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "delay10-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 10,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-delay10-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-delay10-replay/report.json",
+      "result_sha256": "1ba344af748a15c2d6424474bd51cb5b0fa1d8f8ee4176f948792441edeb993e",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 124,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4355083107948303,
+        "max_eef_difference_m": 0.0008662343520296738,
+        "max_orientation_difference_deg": 0.0451739717258196,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 10,
+        "translation_clipped_controls": 0,
+        "controller_samples": 124,
+        "max_last_controller_position_error_m": 0.043643838036225124,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 124,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 60,
+        "executed_close_controls": 50,
+        "minimum_eef_to_target_body_origin_m": 0.06078780719879617,
+        "final_eef_minus_target_body_origin_m": [
+          0.16651064852079164,
+          0.22206499050742937,
+          0.05938238883044422
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.2295302102213805,
+          0.17032932139628265,
+          -0.0924479475563198
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 124,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-translation0p5-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "translation0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-translation0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-translation0p5-replay/report.json",
+      "result_sha256": "aba4585f8147c29fad8d865944f164ac67fcd14fe28f79c148ab41b89cc74102",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 124,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6736834732462076,
+        "max_eef_difference_m": 0.441876405291132,
+        "max_orientation_difference_deg": 5.530921957075911,
+        "pose_changed_controls": 124,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 124,
+        "controller_samples": 124,
+        "max_last_controller_position_error_m": 0.0017406097403413335,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 124,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 60,
+        "executed_close_controls": 60,
+        "minimum_eef_to_target_body_origin_m": 0.31196843051495127,
+        "final_eef_minus_target_body_origin_m": [
+          -0.1288506845007415,
+          -0.017689231862919024,
+          0.2835748205734584
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          -0.0011120731802200523,
+          0.00039927198936349877,
+          -0.005583545246795607
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 124,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-translation1-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "translation1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.001,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-translation1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-translation1-replay/report.json",
+      "result_sha256": "4dd51fdac485f026131e1cce0eaf9b3536fcb66338c1121c75015e42a270d119",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 124,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6677155327922617,
+        "max_eef_difference_m": 0.43644641118831384,
+        "max_orientation_difference_deg": 5.489289360280596,
+        "pose_changed_controls": 124,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 123,
+        "controller_samples": 124,
+        "max_last_controller_position_error_m": 0.002073294598937653,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 124,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 60,
+        "executed_close_controls": 60,
+        "minimum_eef_to_target_body_origin_m": 0.3070403995902723,
+        "final_eef_minus_target_body_origin_m": [
+          -0.12551661757385807,
+          -0.015324232817429343,
+          0.2797937697339402
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.001559785855386575,
+          0.0021962695674403792,
+          -0.00711808396442648
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 124,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-translation2-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "translation2-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.002,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-translation2-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-translation2-replay/report.json",
+      "result_sha256": "410daef43af8cce3cc6fa3f914a1a6e9f2f7bfc5dd321c4036e9c5f7bc38ffa7",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 124,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6536814298342635,
+        "max_eef_difference_m": 0.4249150090117897,
+        "max_orientation_difference_deg": 5.451005501709672,
+        "pose_changed_controls": 118,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 117,
+        "controller_samples": 124,
+        "max_last_controller_position_error_m": 0.002768916118669231,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 124,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 60,
+        "executed_close_controls": 60,
+        "minimum_eef_to_target_body_origin_m": 0.29697672400001585,
+        "final_eef_minus_target_body_origin_m": [
+          -0.11860237420738433,
+          -0.00977909842707843,
+          0.2720900965932179
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.007118017990660336,
+          0.006249776066060911,
+          -0.010316817830609004
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 124,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-rotation0p1-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "rotation0p1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-rotation0p1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-rotation0p1-replay/report.json",
+      "result_sha256": "70bb93505b11afe5168e66c854197de85f3c86c89082000e57e5ebea1333e210",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 122,
+        "early_terminal": true,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4980512857437134,
+        "max_eef_difference_m": 0.011796738713932822,
+        "max_orientation_difference_deg": 14.746349038626967,
+        "pose_changed_controls": 117,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 122,
+        "max_last_controller_position_error_m": 0.042827162826076126,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 122,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 58,
+        "executed_close_controls": 58,
+        "minimum_eef_to_target_body_origin_m": 0.05971435976940366,
+        "final_eef_minus_target_body_origin_m": [
+          -0.0035065175221168227,
+          0.04273743319688633,
+          0.04890335241104726
+        ],
+        "target_max_displacement_m": 0.25288038232817023,
+        "first100_eef_delta_m": [
+          0.23448143842936325,
+          0.17016201639095438,
+          -0.09060546250979917
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 122,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-both0p5-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "both0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-both0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-both0p5-replay/report.json",
+      "result_sha256": "59dc4b62a290527800c319976615652dad18d0949cb14b77c0cab57e0470e48f",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 124,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6075061943227373,
+        "max_eef_difference_m": 0.4446276436811637,
+        "max_orientation_difference_deg": 15.687378600619576,
+        "pose_changed_controls": 124,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 124,
+        "controller_samples": 124,
+        "max_last_controller_position_error_m": 0.0004906794775389441,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 124,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 60,
+        "executed_close_controls": 60,
+        "minimum_eef_to_target_body_origin_m": 0.313312301945034,
+        "final_eef_minus_target_body_origin_m": [
+          -0.13221928371618097,
+          -0.01872723637757713,
+          0.28342891557026173
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.0011196017091924526,
+          1.3569703046344833e-05,
+          -0.0020512278517066385
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 124,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s0-both0p5-delay5-replay",
+        "task_id": 2,
+        "state_index": 0,
+        "mode": "both0p5-delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s0-both0p5-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s0-model-live/episode/report.json"
+      ],
+      "result": "t2-s0-both0p5-delay5-replay/report.json",
+      "result_sha256": "b49aed28ce233d3980d82974c897b8357788e7c05493b88fc084223a0dc02e96",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 124,
+        "common_controls": 124,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6075061912893283,
+        "max_eef_difference_m": 0.4446275843557832,
+        "max_orientation_difference_deg": 15.687352263547616,
+        "pose_changed_controls": 124,
+        "gripper_changed_controls": 5,
+        "translation_clipped_controls": 124,
+        "controller_samples": 124,
+        "max_last_controller_position_error_m": 0.0004906789093038125,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 124,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 25,
+        "first_model_close_control": 65,
+        "model_close_requests": 60,
+        "executed_close_controls": 55,
+        "minimum_eef_to_target_body_origin_m": 0.3133122946828782,
+        "final_eef_minus_target_body_origin_m": [
+          -0.13221928215154038,
+          -0.018727129197214074,
+          0.28342891535411996
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.001119603306148742,
+          1.3693398394049039e-05,
+          -0.00205122792145751
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.40526259921695,
+          13.907276635334544,
+          -5.471962078341722
+        ],
+        "gripper_command_available_controls": 124,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-identity-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "identity-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-identity-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-identity-replay/report.json",
+      "result_sha256": "c9c34197a82b901f7f4bc0fade95c91817d80d78f3573acaa8ae32b5110997f1",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.0,
+        "max_eef_difference_m": 0.0,
+        "max_orientation_difference_deg": 0.0,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.041075947537382265,
+        "identity_reproduction_passed": true,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": true,
+      "metrics": {
+        "controls": 105,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.06917523228707723,
+        "final_eef_minus_target_body_origin_m": [
+          0.01990516262231941,
+          0.04833945717710561,
+          0.051250737947512004
+        ],
+        "target_max_displacement_m": 0.2527707370657336,
+        "first100_eef_delta_m": [
+          0.30783981056016596,
+          0.23300883428971478,
+          -0.18980596500419655
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-open-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "open-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": true
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-open-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-open-replay/report.json",
+      "result_sha256": "cc37532eac87311fa10116db8245361f45d895e019ba0f8e5aff57ef77c78f3c",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.22897664516137084,
+        "max_eef_difference_m": 0.0026872072296093546,
+        "max_orientation_difference_deg": 0.1034043880209467,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 105,
+        "translation_clipped_controls": 0,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.041063230245474945,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 105,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 0,
+        "minimum_eef_to_target_body_origin_m": 0.06202675085748618,
+        "final_eef_minus_target_body_origin_m": [
+          0.16466592184896195,
+          0.22699815398475032,
+          0.059810508357362235
+        ],
+        "target_max_displacement_m": 2.934624683612874e-07,
+        "first100_eef_delta_m": [
+          0.30749543658326195,
+          0.23166269772987202,
+          -0.19020182239408845
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-delay5-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-delay5-replay/report.json",
+      "result_sha256": "94ebc9a952eabcc9991ff61779e478b69de3b4d0fa47287b39e7a820cbba6eee",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.24754385033151283,
+        "max_eef_difference_m": 0.0022213082368263684,
+        "max_orientation_difference_deg": 0.11501983618163089,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 5,
+        "translation_clipped_controls": 0,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.041064193520350976,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 105,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.06281970929992926,
+        "final_eef_minus_target_body_origin_m": [
+          0.16553894858326434,
+          0.24744088011105267,
+          0.060037933805364596
+        ],
+        "target_max_displacement_m": 0.020074725294309922,
+        "first100_eef_delta_m": [
+          0.30762830509901584,
+          0.23203199390397322,
+          -0.19000745051282464
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-delay10-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "delay10-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 10,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-delay10-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-delay10-replay/report.json",
+      "result_sha256": "bf8cf6dd6a73ea8631c05fe9afbba25bc56940a75905874534732f71e099f3d6",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.22894037624476227,
+        "max_eef_difference_m": 0.0027174568741516964,
+        "max_orientation_difference_deg": 0.10394066672485532,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 10,
+        "translation_clipped_controls": 0,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.04106351879341623,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 105,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 51,
+        "minimum_eef_to_target_body_origin_m": 0.06202685327857016,
+        "final_eef_minus_target_body_origin_m": [
+          0.16466211187216184,
+          0.22696042164803445,
+          0.05980485001312008
+        ],
+        "target_max_displacement_m": 2.934624683612874e-07,
+        "first100_eef_delta_m": [
+          0.30749313826046787,
+          0.23162361081065974,
+          -0.19020581479554255
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-translation0p5-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "translation0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-translation0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-translation0p5-replay/report.json",
+      "result_sha256": "45040303cb81c8c29df79ee7a086e55e551ae602afa592773e1d9724232ab638",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4720691205915626,
+        "max_eef_difference_m": 0.4280408501983011,
+        "max_orientation_difference_deg": 6.724582754923278,
+        "pose_changed_controls": 104,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 104,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.001636132305761085,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 105,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.30378133265552715,
+        "final_eef_minus_target_body_origin_m": [
+          -0.12150998751058024,
+          -0.0024963002406992556,
+          0.27872611620243426
+        ],
+        "target_max_displacement_m": 2.934624683612874e-07,
+        "first100_eef_delta_m": [
+          0.009100447486589336,
+          0.0006211304876412417,
+          0.0007988110900720713
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-translation1-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "translation1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.001,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-translation1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-translation1-replay/report.json",
+      "result_sha256": "27cc26d27d7aead3656ea5efb68ac1445357520bb9dc11324848328e69e354dd",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4640121746774015,
+        "max_eef_difference_m": 0.4227438138561754,
+        "max_orientation_difference_deg": 6.660560757964367,
+        "pose_changed_controls": 104,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 104,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.001938451501240089,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 105,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.29900079807206276,
+        "final_eef_minus_target_body_origin_m": [
+          -0.11802485477834344,
+          -0.0007783520314194898,
+          0.2747198665375269
+        ],
+        "target_max_displacement_m": 2.934624683612874e-07,
+        "first100_eef_delta_m": [
+          0.012885198912587104,
+          0.0024036753657678553,
+          -0.0026488705339633434
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-translation2-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "translation2-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.002,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-translation2-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-translation2-replay/report.json",
+      "result_sha256": "fb9f62341f37bd6af31bd394a1d743ec096a4223872098184fdd6d1e3c58f0c2",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4447345044251636,
+        "max_eef_difference_m": 0.4119270642517014,
+        "max_orientation_difference_deg": 6.608257244830581,
+        "pose_changed_controls": 103,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 103,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.0026042218117677675,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 105,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.288992200491973,
+        "final_eef_minus_target_body_origin_m": [
+          -0.11059721342833252,
+          0.0027901266789829883,
+          0.2669774588241408
+        ],
+        "target_max_displacement_m": 2.934624683612874e-07,
+        "first100_eef_delta_m": [
+          0.020923254163362437,
+          0.006090446424743024,
+          -0.009267316749433707
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-rotation0p1-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "rotation0p1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-rotation0p1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-rotation0p1-replay/report.json",
+      "result_sha256": "ddbee02ce84355d7f5cedcedeb6f5b4556887fe97ea3c6d11def4212e3853762",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5677500367164612,
+        "max_eef_difference_m": 0.013307082419056818,
+        "max_orientation_difference_deg": 32.64977002936831,
+        "pose_changed_controls": 101,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.04141087314341097,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 105,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.07228901088262865,
+        "final_eef_minus_target_body_origin_m": [
+          0.16593831939651654,
+          0.24217528850177125,
+          0.0529193957403169
+        ],
+        "target_max_displacement_m": 0.017785771566305626,
+        "first100_eef_delta_m": [
+          0.3014190635962658,
+          0.2310389509985745,
+          -0.20111712657102399
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-both0p5-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "both0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-both0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-both0p5-replay/report.json",
+      "result_sha256": "e7cdf4cac3232d82680fe654eb5f1035db59d2a58b41ce4536d0b624c5c38c57",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5659539103507996,
+        "max_eef_difference_m": 0.43011248644464317,
+        "max_orientation_difference_deg": 32.89439903699666,
+        "pose_changed_controls": 104,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 104,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.0004916158843979118,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 105,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 61,
+        "minimum_eef_to_target_body_origin_m": 0.3050313502197741,
+        "final_eef_minus_target_body_origin_m": [
+          -0.12448137676030128,
+          -0.002878662546240482,
+          0.2784604545688728
+        ],
+        "target_max_displacement_m": 2.9346246836128733e-07,
+        "first100_eef_delta_m": [
+          0.0029699166767432894,
+          0.0008340283999953013,
+          -0.0029654235638549853
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s1-both0p5-delay5-replay",
+        "task_id": 2,
+        "state_index": 1,
+        "mode": "both0p5-delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s1-both0p5-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s1-model-live/episode/report.json"
+      ],
+      "result": "t2-s1-both0p5-delay5-replay/report.json",
+      "result_sha256": "de66de0114b7b381b3a29e3f6c64e297738acc6a531e4a31ae7e5b4708138c12",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 105,
+        "common_controls": 105,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5659550428390503,
+        "max_eef_difference_m": 0.4301130076962367,
+        "max_orientation_difference_deg": 32.89425424063092,
+        "pose_changed_controls": 104,
+        "gripper_changed_controls": 5,
+        "translation_clipped_controls": 104,
+        "controller_samples": 105,
+        "max_last_controller_position_error_m": 0.0004916158843979118,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 105,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 21,
+        "first_model_close_control": 45,
+        "model_close_requests": 61,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.305031363820825,
+        "final_eef_minus_target_body_origin_m": [
+          -0.1244813823689263,
+          -0.002879620975070141,
+          0.2784604570508237
+        ],
+        "target_max_displacement_m": 2.9346246836128733e-07,
+        "first100_eef_delta_m": [
+          0.0029699112907694003,
+          0.0008330689152142509,
+          -0.0029654208786431546
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          24.214500511503683,
+          17.40165818095897,
+          -14.783751299578732
+        ],
+        "gripper_command_available_controls": 105,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-identity-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "identity-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-identity-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-identity-replay/report.json",
+      "result_sha256": "272d174c39fec24eb7850f2ae36e8b0dcdbe69085d5cb6001c81a613c8f95b87",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 92,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 0.0,
+        "max_eef_difference_m": 0.0,
+        "max_orientation_difference_deg": 0.0,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 92,
+        "max_last_controller_position_error_m": 0.04412785884077814,
+        "identity_reproduction_passed": true,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": true,
+      "metrics": {
+        "controls": 92,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.04191122634185111,
+        "final_eef_minus_target_body_origin_m": [
+          0.003731105844853977,
+          0.04017519089628341,
+          0.034463573100942724
+        ],
+        "target_max_displacement_m": 0.24770246864723533,
+        "first100_eef_delta_m": [
+          0.27243102147444676,
+          0.2407982416297234,
+          -0.2328721770320029
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.124959215576098,
+          18.17791562395071,
+          -19.22207265858597
+        ],
+        "gripper_command_available_controls": 92,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-open-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "open-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": true
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-open-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-open-replay/report.json",
+      "result_sha256": "1b11761c08b65f1a851dd2b81d1a08f53b3afb6ba6b6fe42ea5784322c229ee5",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 92,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4322547912597656,
+        "max_eef_difference_m": 0.0005156495577822808,
+        "max_orientation_difference_deg": 0.01349937548428914,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 92,
+        "translation_clipped_controls": 0,
+        "controller_samples": 92,
+        "max_last_controller_position_error_m": 0.04411893211758561,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 92,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 56,
+        "executed_close_controls": 0,
+        "minimum_eef_to_target_body_origin_m": 0.04191158488603021,
+        "final_eef_minus_target_body_origin_m": [
+          0.14980097410141852,
+          0.22597394318681066,
+          0.04958156359447086
+        ],
+        "target_max_displacement_m": 0.0015236678452178194,
+        "first100_eef_delta_m": [
+          0.27254784136237487,
+          0.24038688517344536,
+          -0.23270767824398964
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.124959215576098,
+          18.17791562395071,
+          -19.22207265858597
+        ],
+        "gripper_command_available_controls": 92,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-delay5-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-delay5-replay/report.json",
+      "result_sha256": "7c70547b8d4a6f4290c791090215ca0855504d4b74a6343fc37caef078a73f55",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 92,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4734609127044678,
+        "max_eef_difference_m": 0.00053864897604998,
+        "max_orientation_difference_deg": 0.013628749973545377,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 5,
+        "translation_clipped_controls": 0,
+        "controller_samples": 92,
+        "max_last_controller_position_error_m": 0.044118998115757556,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 92,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 56,
+        "executed_close_controls": 51,
+        "minimum_eef_to_target_body_origin_m": 0.04191158488603021,
+        "final_eef_minus_target_body_origin_m": [
+          0.1576328439057328,
+          0.22019562121325886,
+          0.049575974089446806
+        ],
+        "target_max_displacement_m": 0.01013564764631282,
+        "first100_eef_delta_m": [
+          0.2725491609518113,
+          0.2403572920294459,
+          -0.23271326774901369
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.124959215576098,
+          18.17791562395071,
+          -19.22207265858597
+        ],
+        "gripper_command_available_controls": 92,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-delay10-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "delay10-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 10,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-delay10-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-delay10-replay/report.json",
+      "result_sha256": "f6130b08c73ae889ef8fce348babd9aa2e69e9f2146e22e00abd78ecc438bd42",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 92,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4322545528411865,
+        "max_eef_difference_m": 0.0005766852017773122,
+        "max_orientation_difference_deg": 0.013546908429405301,
+        "pose_changed_controls": 0,
+        "gripper_changed_controls": 10,
+        "translation_clipped_controls": 0,
+        "controller_samples": 92,
+        "max_last_controller_position_error_m": 0.044119892523398686,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 92,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 56,
+        "executed_close_controls": 46,
+        "minimum_eef_to_target_body_origin_m": 0.04191158488603021,
+        "final_eef_minus_target_body_origin_m": [
+          0.14980944296415705,
+          0.2259056572811634,
+          0.049582619214875945
+        ],
+        "target_max_displacement_m": 0.0015236678452178194,
+        "first100_eef_delta_m": [
+          0.2725563102251134,
+          0.24031859926779808,
+          -0.23270662262358455
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.124959215576098,
+          18.17791562395071,
+          -19.22207265858597
+        ],
+        "gripper_command_available_controls": 92,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-translation0p5-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "translation0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-translation0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-translation0p5-replay/report.json",
+      "result_sha256": "57eef5a154716c6e973485fe5bfbc0142b5887e33c6aec10c54b5c81aafdad7b",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 92,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6004164398932406,
+        "max_eef_difference_m": 0.42664181097080267,
+        "max_orientation_difference_deg": 7.189243770951156,
+        "pose_changed_controls": 92,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 92,
+        "controller_samples": 92,
+        "max_last_controller_position_error_m": 0.001529358524003355,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 92,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.30441302142657695,
+        "final_eef_minus_target_body_origin_m": [
+          -0.11766387432182633,
+          -0.012999771129133812,
+          0.28045232436944645
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.00520425600100477,
+          0.0015581958144157849,
+          -0.0018369174690140433
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.124959215576098,
+          18.17791562395071,
+          -19.22207265858597
+        ],
+        "gripper_command_available_controls": 92,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-translation1-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "translation1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.001,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-translation1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-translation1-replay/report.json",
+      "result_sha256": "6690c16e4c5febecb5b6f2d259f86bf66d422deb8dff758706542dbdabb2705e",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 92,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5950031220065197,
+        "max_eef_difference_m": 0.42184181346284744,
+        "max_orientation_difference_deg": 7.1599102565628066,
+        "pose_changed_controls": 92,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 92,
+        "controller_samples": 92,
+        "max_last_controller_position_error_m": 0.0018434494509806591,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 92,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.30042650327476594,
+        "final_eef_minus_target_body_origin_m": [
+          -0.11498319995675434,
+          -0.010423552559356926,
+          0.2773559033978731
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.007884930366076764,
+          0.004134414384192672,
+          -0.004933338440587409
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.124959215576098,
+          18.17791562395071,
+          -19.22207265858597
+        ],
+        "gripper_command_available_controls": 92,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-translation2-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "translation2-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.002,
+        "rotation_cap_deg": null,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-translation2-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-translation2-replay/report.json",
+      "result_sha256": "a24fa7411034e91d7d5c13827632016fd0d68282516a03a24ad220381dd470f7",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 92,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.5836019482991142,
+        "max_eef_difference_m": 0.4122440052165896,
+        "max_orientation_difference_deg": 7.112882649052727,
+        "pose_changed_controls": 92,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 92,
+        "controller_samples": 92,
+        "max_last_controller_position_error_m": 0.002539471803843793,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 92,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.2925325327031973,
+        "final_eef_minus_target_body_origin_m": [
+          -0.10963873409864767,
+          -0.005255534149950288,
+          0.27115864366785714
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.013229396224183426,
+          0.009302432793599309,
+          -0.011130598170603356
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.124959215576098,
+          18.17791562395071,
+          -19.22207265858597
+        ],
+        "gripper_command_available_controls": 92,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-rotation0p1-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "rotation0p1-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": null,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-rotation0p1-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-rotation0p1-replay/report.json",
+      "result_sha256": "f8c502ec442796a5426b4d51e93c92f7cd3216f0cd473daa6cd7f18ae89e62f0",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 91,
+        "early_terminal": true,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.4385240077972412,
+        "max_eef_difference_m": 0.010155595990934786,
+        "max_orientation_difference_deg": 8.999263080061043,
+        "pose_changed_controls": 87,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 0,
+        "controller_samples": 91,
+        "max_last_controller_position_error_m": 0.04414274615552004,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": true,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 91,
+        "success": true,
+        "stop_reason": "task_success",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 55,
+        "executed_close_controls": 55,
+        "minimum_eef_to_target_body_origin_m": 0.03966960745236407,
+        "final_eef_minus_target_body_origin_m": [
+          -0.0014576744149543547,
+          0.04172914972690328,
+          0.04122537788660818
+        ],
+        "target_max_displacement_m": 0.25210624132898846,
+        "first100_eef_delta_m": [
+          0.27327694999142293,
+          0.2335434098502051,
+          -0.22846609039083488
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.433048176123485,
+          17.973347640056364,
+          -18.58379295001644
+        ],
+        "gripper_command_available_controls": 91,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-both0p5-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "both0p5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 0,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-both0p5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-both0p5-replay/report.json",
+      "result_sha256": "88d49a92be30fe5f64841abdce948c5bc11469a9026028838d9194cb10eab0a6",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 92,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6661539039864097,
+        "max_eef_difference_m": 0.4289159592601032,
+        "max_orientation_difference_deg": 5.8824795979853555,
+        "pose_changed_controls": 92,
+        "gripper_changed_controls": 0,
+        "translation_clipped_controls": 92,
+        "controller_samples": 92,
+        "max_last_controller_position_error_m": 0.0004832301166815892,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 92,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 56,
+        "executed_close_controls": 56,
+        "minimum_eef_to_target_body_origin_m": 0.3048692130025683,
+        "final_eef_minus_target_body_origin_m": [
+          -0.12134212777848523,
+          -0.014008658676206081,
+          0.2793297022249669
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.0015260025443458725,
+          0.0005493082673435163,
+          -0.0029595396134936003
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.124959215576098,
+          18.17791562395071,
+          -19.22207265858597
+        ],
+        "gripper_command_available_controls": 92,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    },
+    {
+      "case": {
+        "name": "t2-s2-both0p5-delay5-replay",
+        "task_id": 2,
+        "state_index": 2,
+        "mode": "both0p5-delay5-replay",
+        "seed": 7,
+        "prefix_steps": 5,
+        "max_controls": 220,
+        "translation_cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "close_delay_controls": 5,
+        "force_open": false
+      },
+      "status": "completed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/native_execution_comparison.py",
+        "--worker",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/t2-s2-both0p5-delay5-replay",
+        "--openpi-root",
+        "/home/test/Robot/openpi",
+        "--source-report",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_execution_comparison/20261103T094829425678Z/source_inputs/t2-s2-model-live/episode/report.json"
+      ],
+      "result": "t2-s2-both0p5-delay5-replay/report.json",
+      "result_sha256": "6aca5b23d7e2b11ed11326b40a0f777db5fe1c518109e660df6db6b161f2b89e",
+      "exit_code": 0,
+      "comparison": {
+        "source_controls": 92,
+        "common_controls": 92,
+        "early_terminal": false,
+        "paired_initial_max_abs_difference": 0.0,
+        "common_max_state_abs_difference": 1.6661538783757712,
+        "max_eef_difference_m": 0.42891646492082136,
+        "max_orientation_difference_deg": 5.882475407206375,
+        "pose_changed_controls": 92,
+        "gripper_changed_controls": 5,
+        "translation_clipped_controls": 92,
+        "controller_samples": 92,
+        "max_last_controller_position_error_m": 0.00048322988566920687,
+        "identity_reproduction_passed": null,
+        "source_success": true,
+        "replay_success": false,
+        "scope": "common archived-action prefix; altered-policy finite horizon, not an online success-rate estimate; controller buffers precede final integration"
+      },
+      "all_query_inputs_match_source": false,
+      "metrics": {
+        "controls": 92,
+        "success": false,
+        "stop_reason": "budget_exhausted",
+        "new_policy_queries": 0,
+        "response_requests": 19,
+        "first_model_close_control": 37,
+        "model_close_requests": 56,
+        "executed_close_controls": 51,
+        "minimum_eef_to_target_body_origin_m": 0.30486926258240543,
+        "final_eef_minus_target_body_origin_m": [
+          -0.1213421315221735,
+          -0.014009549747046383,
+          0.2793297100221891
+        ],
+        "target_max_displacement_m": 2.9346246836128723e-07,
+        "first100_eef_delta_m": [
+          0.0015259988006575964,
+          0.0005484171965032154,
+          -0.002959531816271399
+        ],
+        "first100_raw_translation_sum_controller_units": [
+          20.124959215576098,
+          18.17791562395071,
+          -19.22207265858597
+        ],
+        "gripper_command_available_controls": 92,
+        "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+      }
+    }
+  ],
+  "new_policy_queries": 0,
+  "scope": "six successful native sources x ten archived interventions; OSC, gains, scene and physics unchanged; no Isaac execution or online inference",
+  "code_sha256": {
+    "native_execution_comparison.py": "d59ae278b0d0e57a55b381437967d198c3ad6fe51d7f9ea1d2d96d3becf3cb1a",
+    "native_gripper_comparison.py": "e08e2a5965b03ac77d0bf5b6b61d40a326c8957f9397379a8c975b4011ad21ae",
+    "native_libero_rollout.py": "767a9ba7953ed070c8283626d60a98d5d437b725a4f3a91c62ebfc45472b1e02",
+    "official_libero_launcher.py": "9b7de1b1c23795cd573547456f0a7eb27f5ce79ee25c67d84ee6f29bfb271a33",
+    "official_libero_initial_states.json": "d5806802130391fee885e74975b226409e246f7d85d07a0fdd498efb22e6ded5"
+  },
+  "source_run_sha256": "42673343768d5089fe7bd4a028e0a54b6f41af3341dc70cee7a884c0170a1637",
+  "runtime_preflight": {
+    "python": "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "prefix": "/home/test/Robot/openpi/examples/libero/.venv",
+    "base_prefix": "/home/test/.local/share/uv/python/cpython-3.11.17-linux-aarch64-gnu",
+    "modules": {
+      "numpy": true,
+      "PIL": true,
+      "yaml": true,
+      "mujoco": true,
+      "robosuite": true,
+      "libero": true,
+      "openpi_client": true,
+      "torch": true
+    }
+  }
+}

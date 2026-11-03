@@ -1,0 +1,13 @@
+{
+  "name": "t0-s0-rotation0p1-replay",
+  "task_id": 0,
+  "state_index": 0,
+  "mode": "rotation0p1-replay",
+  "seed": 7,
+  "prefix_steps": 5,
+  "max_controls": 220,
+  "translation_cap_m": null,
+  "rotation_cap_deg": 0.1,
+  "close_delay_controls": 0,
+  "force_open": false
+}

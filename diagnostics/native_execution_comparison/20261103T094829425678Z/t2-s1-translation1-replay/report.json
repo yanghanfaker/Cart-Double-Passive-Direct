@@ -1,0 +1,262 @@
+{
+  "status": "completed",
+  "case": {
+    "name": "t2-s1-translation1-replay",
+    "task_id": 2,
+    "state_index": 1,
+    "mode": "translation1-replay",
+    "seed": 7,
+    "prefix_steps": 5,
+    "max_controls": 220,
+    "translation_cap_m": 0.001,
+    "rotation_cap_deg": null,
+    "close_delay_controls": 0,
+    "force_open": false
+  },
+  "prompt": "pick up the black bowl from table center and place it on the plate",
+  "init_sha256": "27d5b81d739f969e40c72b6c88699e57a91ea61209946b21c593aae5990689cb",
+  "bddl_sha256": "5e19880ebc844f86b89f63b172aab0b7a89f85b6e6955891f544f0ea7d0795d5",
+  "initial_state_sha256": "12c52488fae820054ecb6b5495cf5023ab25abd79b7af00755e320a374d739d6",
+  "target": {
+    "name": "akita_black_bowl_1",
+    "observation_key": "akita_black_bowl_1_pos",
+    "objects_of_interest": [
+      "akita_black_bowl_1",
+      "plate_1"
+    ]
+  },
+  "controller": {
+    "name": "OSC_POSE",
+    "input_min": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+    ],
+    "input_max": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "output_min": [
+      -0.05,
+      -0.05,
+      -0.05,
+      -0.5,
+      -0.5,
+      -0.5
+    ],
+    "output_max": [
+      0.05,
+      0.05,
+      0.05,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "kp": [
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0
+    ],
+    "kd": [
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178
+    ],
+    "damping_ratio": null,
+    "control_delta": null,
+    "use_delta": true,
+    "policy_freq": null
+  },
+  "control_frequency_hz": 20.0,
+  "source_report_sha256": "dab431c3a199e9d2e89187b10553393ae97077a44a9132a23049645c889b5ca3",
+  "source_controls": 105,
+  "server_metadata": {
+    "status": "reported",
+    "value": {
+      "mode": "frozen_counterfactual",
+      "new_policy_queries": 0
+    },
+    "note": "server supplied; does not independently verify checkpoint or normalization statistics"
+  },
+  "episode": "episode/report.json",
+  "metrics": {
+    "controls": 105,
+    "success": false,
+    "stop_reason": "budget_exhausted",
+    "new_policy_queries": 0,
+    "response_requests": 21,
+    "first_model_close_control": 45,
+    "model_close_requests": 61,
+    "executed_close_controls": 61,
+    "minimum_eef_to_target_body_origin_m": 0.29900079807206276,
+    "final_eef_minus_target_body_origin_m": [
+      -0.11802485477834344,
+      -0.0007783520314194898,
+      0.2747198665375269
+    ],
+    "target_max_displacement_m": 2.934624683612874e-07,
+    "first100_eef_delta_m": [
+      0.012885198912587104,
+      0.0024036753657678553,
+      -0.0026488705339633434
+    ],
+    "first100_raw_translation_sum_controller_units": [
+      24.214500511503683,
+      17.40165818095897,
+      -14.783751299578732
+    ],
+    "gripper_command_available_controls": 105,
+    "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+  },
+  "replay_input_checks": [
+    {
+      "query": 1,
+      "source_input_sha256": "05d317cf8346c50fa92d0521e82df9498e292f44ce8baf59dce5fc41f447ccc5",
+      "actual_input_sha256": "05d317cf8346c50fa92d0521e82df9498e292f44ce8baf59dce5fc41f447ccc5",
+      "exact_input_match": true
+    },
+    {
+      "query": 2,
+      "source_input_sha256": "48967f67c85c839b4b47277a4e1b75d874798e3c2bfda03a6626321ac4314fe7",
+      "actual_input_sha256": "2908699925456308ae9ab3120ff1a4a13fa266904e74fbe214e4398359e50839",
+      "exact_input_match": false
+    },
+    {
+      "query": 3,
+      "source_input_sha256": "ceecbc90c54af64a085a53b1d1fc444608511ac1543cc3bd6de7df4ef3e0f3c1",
+      "actual_input_sha256": "d10faadb935f349fc88d194f466ac10a92bc14814649ba6b2c0041df186e67b9",
+      "exact_input_match": false
+    },
+    {
+      "query": 4,
+      "source_input_sha256": "8bd672fedcb39c4df5c7687f9e288b4335575d17c817db4f3a5b939e11fdc098",
+      "actual_input_sha256": "99790402916f0839b9c1d1a57c7468e7b0e802c707cd5931ba5aa84edbf7710c",
+      "exact_input_match": false
+    },
+    {
+      "query": 5,
+      "source_input_sha256": "88e62ce3e504736378d34de93df061da78836575cf2d80eb9a2bbd98975531bc",
+      "actual_input_sha256": "7d8da00793bcae78f92a8fef5e6f2a94207843697cb301d3e1ce17080f077157",
+      "exact_input_match": false
+    },
+    {
+      "query": 6,
+      "source_input_sha256": "019c57a419d887b317f3bf4f312b5d019d2ccb20a772d086df8b743c030b4ce7",
+      "actual_input_sha256": "deef8aa5065e3b089f790b643930cbdfbcfaf1ba70e404eed8cc57915fa63504",
+      "exact_input_match": false
+    },
+    {
+      "query": 7,
+      "source_input_sha256": "824560ead0c4aa316f43e57f674361a74c836e99eb24893f214a3f67e79bc5c2",
+      "actual_input_sha256": "b06eb7537beb51a35eea3dbab32ccb767e9849d8d3c37becbad937f2135bf272",
+      "exact_input_match": false
+    },
+    {
+      "query": 8,
+      "source_input_sha256": "2133e6e35e99c413f50263a3b72171693b47a73cf46ef3c5ad4eaec6468603d1",
+      "actual_input_sha256": "4e439a1e8cfae2f2584e60a42a76b93437ec9c1fa8bb6fad38cdc36e7b7d647b",
+      "exact_input_match": false
+    },
+    {
+      "query": 9,
+      "source_input_sha256": "74e26f646c89afa0223443c1f5a9ac87a7210c48087cdfad13269db3de8a1040",
+      "actual_input_sha256": "797ceae9dd6b9e48d0f619874cbed42d1b5d3c42c91dded011aefa48dd78f5dd",
+      "exact_input_match": false
+    },
+    {
+      "query": 10,
+      "source_input_sha256": "e4c7aaa52e0d8e7c5d053dfb2e95c57231b6d9df807b5ae4e0e459dac43dc720",
+      "actual_input_sha256": "1b7b8b21bde7f52df0da72cf8c46ac425fc91c5f779cfad08924a5e10f361392",
+      "exact_input_match": false
+    },
+    {
+      "query": 11,
+      "source_input_sha256": "e685ae85af05b1cb3ae1f2f9a5c76496f17bde2006d2dfaba2b9bbb43565404a",
+      "actual_input_sha256": "625c851813917eca24ceee83542510295e29ce7cce3edd6ab932c0615324953b",
+      "exact_input_match": false
+    },
+    {
+      "query": 12,
+      "source_input_sha256": "b4f441f5f93445001e6ac97f123b2316c191ad242b7fb4c650b880b2efbf50f9",
+      "actual_input_sha256": "a8833e7d7bde2825c6ef49a362f23513e1866fea38fa5e1c0ab12d0cbbc163f9",
+      "exact_input_match": false
+    },
+    {
+      "query": 13,
+      "source_input_sha256": "275f1392264aabd500cf5af53978cffa7dbeb01f11e453500e163c38edd04a20",
+      "actual_input_sha256": "3814f503e3b5ec6c45066000f77aaffdcb698f55d81454cb08cb7afb74dcf931",
+      "exact_input_match": false
+    },
+    {
+      "query": 14,
+      "source_input_sha256": "6baeba26dcf968961fe3f525d146132dd77d749d831f40c8cdb1c94ac228f03a",
+      "actual_input_sha256": "70aefe1fda03691a7af03db089ba5bfb5993faa661073e0874c80f00c035e5b6",
+      "exact_input_match": false
+    },
+    {
+      "query": 15,
+      "source_input_sha256": "30357a64edc219b03a4b6ab69456c79c298588f4365756bd0a679db21fdc3d03",
+      "actual_input_sha256": "34039c754243e89db1f4c7b9a2dfb02683eb9407fca13737b5b2a79d61b8f8be",
+      "exact_input_match": false
+    },
+    {
+      "query": 16,
+      "source_input_sha256": "4d3162f778d35ec7409fcc749b1ae44041e6496fc2c3bf3c730ff46361859a9a",
+      "actual_input_sha256": "5e24f008b01886631e827d8298681d1f8be4a13df0c87834f48819201e4ba710",
+      "exact_input_match": false
+    },
+    {
+      "query": 17,
+      "source_input_sha256": "ad31cd05affa80899e394ef86a3253cff373621f3e7b71d9a75326028d09dce1",
+      "actual_input_sha256": "95fe748c7cb9ced691645626fc5c92c24555d2d8b9b5111771bd92cb8df115b5",
+      "exact_input_match": false
+    },
+    {
+      "query": 18,
+      "source_input_sha256": "06c32c6fc0b54c373a33c80b5b29ef6956688a93fb346cb2c01cbed528da015b",
+      "actual_input_sha256": "5742e2e9346efd42fb093063f8506736af5dfaa69d9122f6d286711800a6dc09",
+      "exact_input_match": false
+    },
+    {
+      "query": 19,
+      "source_input_sha256": "2496839b7cff7693f045aad451cdd0bcee353e167b29b6bf856ce5110e519b40",
+      "actual_input_sha256": "7d039c7a7812088a8263ec5138a0d6a0670e61552bb81b4ceacd38d710438150",
+      "exact_input_match": false
+    },
+    {
+      "query": 20,
+      "source_input_sha256": "99afec90e4efc782815bac6908e2b8ca316ca2f1394e65dc26099a6050ace3dd",
+      "actual_input_sha256": "907ce805ce08ced8d16a45143d7a229f3432903c78b667aa78e5b7bc380e2b1b",
+      "exact_input_match": false
+    },
+    {
+      "query": 21,
+      "source_input_sha256": "cec915dcc08c4553df00572c61be0cac16172fa19b8c978c8968a8ce60b5af66",
+      "actual_input_sha256": "434a917c0014398486c00674c8f7b1c8ee17a2301f3712e0ac41c689ff4378d4",
+      "exact_input_match": false
+    }
+  ],
+  "replay_horizon": {
+    "source_controls": 105,
+    "executed_controls": 105,
+    "early_terminal": false,
+    "stop_reason": "budget_exhausted",
+    "scope": "fixed source horizon; no padding, no extra settling; stop on success/done"
+  },
+  "episode_sha256": "11826e239200d7e66d2758536998d412554d3fe683d7890b34417c1e35388cc0",
+  "new_policy_queries": 0,
+  "inference_attempts": 21
+}

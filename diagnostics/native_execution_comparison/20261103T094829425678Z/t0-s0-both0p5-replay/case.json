@@ -1,0 +1,13 @@
+{
+  "name": "t0-s0-both0p5-replay",
+  "task_id": 0,
+  "state_index": 0,
+  "mode": "both0p5-replay",
+  "seed": 7,
+  "prefix_steps": 5,
+  "max_controls": 220,
+  "translation_cap_m": 0.0005,
+  "rotation_cap_deg": 0.1,
+  "close_delay_controls": 0,
+  "force_open": false
+}

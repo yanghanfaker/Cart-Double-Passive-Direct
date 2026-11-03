@@ -1,0 +1,13 @@
+{
+  "name": "t2-s2-both0p5-delay5-replay",
+  "task_id": 2,
+  "state_index": 2,
+  "mode": "both0p5-delay5-replay",
+  "seed": 7,
+  "prefix_steps": 5,
+  "max_controls": 220,
+  "translation_cap_m": 0.0005,
+  "rotation_cap_deg": 0.1,
+  "close_delay_controls": 5,
+  "force_open": false
+}

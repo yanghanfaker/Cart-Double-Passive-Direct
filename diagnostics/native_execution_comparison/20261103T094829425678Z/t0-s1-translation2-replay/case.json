@@ -1,0 +1,13 @@
+{
+  "name": "t0-s1-translation2-replay",
+  "task_id": 0,
+  "state_index": 1,
+  "mode": "translation2-replay",
+  "seed": 7,
+  "prefix_steps": 5,
+  "max_controls": 220,
+  "translation_cap_m": 0.002,
+  "rotation_cap_deg": null,
+  "close_delay_controls": 0,
+  "force_open": false
+}
