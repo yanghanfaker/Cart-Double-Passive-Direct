@@ -32,6 +32,25 @@ python3 openpi_isaac_bridge/official_arena_preflight.py
 保留之前已能推理的 OpenPI 服务在127.0.0.1:8000，确认加载的是 pi05_libero 和匹配的归一化数据。
 不要换成 DROID 模型，不要直接重装 JAX/torch，不要覆盖之前解决 ARM bf16 编译问题的运行环境。
 客户端使用现有 /home/test/Robot/openpi/examples/libero/.venv/bin/python；脚本保留这个路径，不 resolve 到系统 Python。
+官方入口比之前带记录的原生脚本多用到 imageio 视频依赖。先做一次无仿真、无服务连接的完整检查：
+
+```bash
+python3 openpi_isaac_bridge/run_official_libero_baseline.py --check-only
+```
+
+run.json 的 runtime.failures 一次列出全部导入错误和 FFmpeg 编码器问题。已确认本次缺 imageio，可只补官方版本的视频依赖：
+
+```bash
+uv pip install --python /home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  "imageio==2.35.1" "imageio-ffmpeg==0.5.1"
+```
+
+若还报告 tyro/tqdm 缺失，对应官方版本为 tyro==0.9.2、tqdm==4.67.1。按实际缺失项补装。
+若 imageio_ffmpeg 可导入但 FFmpeg 不可执行，先检查系统 ffmpeg -version；ARM64 不能假定包内携带可用的编码器。
+有系统编码器时可 export IMAGEIO_FFMPEG_EXE="$(command -v ffmpeg)" 后重查；系统未安装时需先安装适合该系统的 FFmpeg。
+不要为补视频工具执行整份旧 requirements 的 uv pip sync，它还固定了旧 NumPy、torch/CUDA版本，会影响现有 ARM 环境。
+视频依赖版本来源为该 OpenPI 提交的 examples/libero/requirements.txt。
+
 父脚本只依赖标准库，可以用 Spark 的 python3 运行；子进程使用上述专用 venv。
 需要当前网络能下载固定的 upstream main.py；下载字节必须匹配清单 SHA-256，否则拒绝执行。
 

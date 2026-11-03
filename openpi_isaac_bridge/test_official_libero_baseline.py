@@ -1,6 +1,9 @@
 import hashlib
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 from run_official_libero_baseline import child_command, parse_log, verified_source
+from libero_runtime_probe import MODULES, inspect_runtime
 
 
 def log(flags):
@@ -10,6 +13,25 @@ def log(flags):
 
 
 class OfficialLiberoBaselineTests(unittest.TestCase):
+    def test_probe_collects_all_import_errors(self):
+        attempted=[]
+        def importer(name):
+            attempted.append(name)
+            if name in ('imageio','imageio_ffmpeg','tyro'):raise ModuleNotFoundError(name)
+            return SimpleNamespace(__file__='/test/'+name)
+        with patch('libero_runtime_probe.importlib.util.find_spec',return_value=None):
+            result=inspect_runtime(importer)
+        self.assertEqual(attempted,list(MODULES))
+        self.assertTrue({'imageio','imageio_ffmpeg','tyro','libero_assets'}<=set(result['failures']))
+        self.assertEqual(result['modules']['mujoco']['status'],'available')
+
+    def test_probe_checks_encoder_executable(self):
+        def importer(name):
+            return SimpleNamespace(__file__='/test/'+name,get_ffmpeg_exe=lambda:'/missing/ffmpeg')
+        with patch('libero_runtime_probe.importlib.util.find_spec',return_value=None), patch('libero_runtime_probe.subprocess.run',side_effect=OSError('not found')):
+            result=inspect_runtime(importer)
+        self.assertIn('ffmpeg_executable',result['failures'])
+
     def test_complete_negative_is_not_grasp_success(self):
         result=parse_log(log([False]*10))
         self.assertTrue(result['complete']);self.assertEqual(result['successes'],0)

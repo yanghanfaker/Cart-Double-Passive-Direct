@@ -19,20 +19,7 @@ from openpi_health import check_openpi_health
 
 
 MANIFEST = Path(__file__).with_name('official_libero_manifest.json')
-RUNTIME_PROBE = r'''
-import importlib.metadata,importlib.util,json
-from pathlib import Path
-import numpy,imageio,tyro,tqdm,mujoco
-from openpi_client import image_tools,websocket_client_policy
-spec=importlib.util.find_spec('libero')
-if spec is None:raise RuntimeError('LIBERO package missing in this Python')
-root=next(Path(p)/'libero' for p in spec.submodule_search_locations if (Path(p)/'libero/assets').is_dir())
-versions={}
-for name in ('numpy','mujoco','robosuite','libero','openpi-client','tyro','imageio','torch','websockets'):
-    try:versions[name]=importlib.metadata.version(name)
-    except importlib.metadata.PackageNotFoundError:versions[name]=None
-print(json.dumps({'libero_root':str(root),'versions':versions,'openpi_client_module':str(Path(image_tools.__file__))}))
-'''
+RUNTIME_PROBE = Path(__file__).with_name('libero_runtime_probe.py')
 
 
 def verified_source(data, manifest):
@@ -97,6 +84,7 @@ def main():
     parser.add_argument('--output-root',type=Path)
     parser.add_argument('--seed',type=int,default=7)
     parser.add_argument('--timeout',type=int,default=3600)
+    parser.add_argument('--check-only',action='store_true',help='Inspect all client dependencies without contacting the server or starting simulation')
     args=parser.parse_args()
     if args.timeout < 60:parser.error('--timeout must be at least 60 seconds')
     root=args.openpi_root.absolute()
@@ -107,7 +95,7 @@ def main():
     folder.mkdir(parents=True,exist_ok=False)
     manifest=json.loads(MANIFEST.read_bytes())
     report={'status':'preflight','source':manifest,'platform':{'system':platform.system(),'machine':platform.machine()},
-            'seed':args.seed,'server':{'host':'127.0.0.1','port':8000,'expected_config':'pi05_libero',
+            'seed':args.seed,'check_only':args.check_only,'server':{'host':'127.0.0.1','port':8000,'expected_config':'pi05_libero',
             'identity_status':'unverified; health and endpoint are not proof of loaded weights',
             'candidate_processes':server_candidates()},'simulation_launch_attempted':False,'metrics':None,
             'scope':'unmodified official LIBERO client on existing ARM-compatible dependencies; not official Arena/Isaac baseline',
@@ -121,16 +109,22 @@ def main():
         if not python.is_file():raise RuntimeError('Missing LIBERO client Python: '+str(python))
         report['openpi_checkout']={'head':command(['git','rev-parse','HEAD'],root),
                                    'tracked_changes':command(['git','status','--porcelain','--untracked-files=no'],root)}
-        report['server']['health']=check_openpi_health()
         env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.pop('PYTHONHOME',None)
         env['PYTHONPATH']=str(root/'third_party/libero')
         env['MUJOCO_GL']=env.get('MUJOCO_GL','egl');env['PYTHONUNBUFFERED']='1'
         report['MUJOCO_GL']=env['MUJOCO_GL']
-        probe=subprocess.run([str(python),'-c',RUNTIME_PROBE],cwd=root,env=env,text=True,
+        report['runtime_probe_sha256']=hashlib.sha256(RUNTIME_PROBE.read_bytes()).hexdigest()
+        probe=subprocess.run([str(python),str(RUNTIME_PROBE.resolve())],cwd=root,env=env,text=True,
                              stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=60)
         (folder/'client_probe.log').write_text(probe.stdout,encoding='utf-8')
         if probe.returncode:raise RuntimeError('Client dependencies failed; inspect client_probe.log')
         runtime=json.loads(probe.stdout.strip().splitlines()[-1]);report['runtime']=runtime
+        if runtime['failures']:
+            raise RuntimeError('Client prerequisites unavailable: '+', '.join(runtime['failures'])+'; inspect runtime.failures in run.json')
+        if args.check_only:
+            report['status']='preflight-completed';save()
+            return 0
+        report['server']['health']=check_openpi_health()
         libero=Path(runtime['libero_root'])
         report['libero_checkout']={'head':command(['git','rev-parse','HEAD'],libero),
                                   'tracked_changes':command(['git','status','--porcelain','--untracked-files=no'],libero)}
@@ -169,9 +163,9 @@ def main():
         report['artifacts']=inventory(folder)
         report['large_files_over_95MiB']=[x['path'] for x in report['artifacts'] if x['bytes']>95*1024*1024]
         save()
-    print('[Official LIBERO]',report['status'],'metrics:',report['metrics'],flush=True)
-    print('Report:',folder/'run.json',flush=True)
-    return 0 if report['status']=='completed' else 1
+        print('[Official LIBERO]',report['status'],'metrics:',report['metrics'],flush=True)
+        print('Report:',folder/'run.json',flush=True)
+    return 0 if report['status'] in ('completed','preflight-completed') else 1
 
 
 if __name__=='__main__':raise SystemExit(main())
