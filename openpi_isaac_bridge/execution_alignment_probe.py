@@ -21,7 +21,8 @@ def validate_case(case):
     from execution_hybrid import hybrid_cases
     from execution_limit_audit import limit_cases
     from execution_online_caps import online_caps_cases
-    if case not in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()+limit_cases()+online_caps_cases():raise ValueError('execution case must exactly match a declared diagnostic')
+    from execution_policy_semantics import semantics_cases
+    if case not in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()+limit_cases()+online_caps_cases()+semantics_cases():raise ValueError('execution case must exactly match a declared diagnostic')
     return case
 
 

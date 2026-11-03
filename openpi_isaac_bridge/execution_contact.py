@@ -138,6 +138,7 @@ def run_contact_runtime(r,settings,first,report,save,recorder,override):
     from openpi_grasp_logic import bounded_goal_target
     case=settings['execution_case']
     def execute(target,grip,phase,fixed_goal,raw_action=None):
+        target={**target,'gripper_applied':float(grip)}
         before=r.state()
         override.begin(-grip);index=r.controls+1
         recorder.begin_control({'case':case['name'],'phase':phase,'case_control_step':index})
@@ -161,7 +162,10 @@ def run_contact_runtime(r,settings,first,report,save,recorder,override):
     def step_goal(p,q,grip,phase):
         before=r.state();target=bounded_goal_target(before['hand_position_world_m'],before['hand_quat_world_xyzw'],p,q)
         return execute(target,grip,phase,{'tcp_world_m':p,'hand_quat_world_xyzw':q,'program_phase':phase})
-    if case.get('limit_audit_role')=='frozen':
+    if case.get('semantics_role') in ('live','replay'):
+        from execution_policy_semantics import run_semantics_runtime
+        result=run_semantics_runtime(r,settings,report,save,execute)
+    elif case.get('limit_audit_role')=='frozen':
         from execution_limit_audit import run_frozen
         result=run_frozen(r,settings,report,save)
     elif case.get('limit_audit_role')=='replay':

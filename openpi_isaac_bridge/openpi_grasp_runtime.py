@@ -73,6 +73,10 @@ class GraspRuntime:
         from kinematic_attribution import rotate
         from replay_probe import quaternion_distance_deg
         from isaaclab.utils.math import compute_pose_error
+        if phase=='policy-model':
+            case=self.settings.get('execution_case',{})
+            if case.get('semantics_role') not in ('live','replay') or case.get('gripper_policy')!='model':
+                raise RuntimeError('model-controlled grip phase requires declared policy semantics case')
         target={**target,'gripper_applied':float(gripper)}
         before=self.state();tensor=self.tensor;robot=self.robot;np=self.np
         rp=tensor(robot.data.root_pos_w)[0].detach().cpu().tolist();rq=tensor(robot.data.root_quat_w)[0].detach().cpu().tolist()
@@ -106,9 +110,9 @@ class GraspRuntime:
             q=tensor(robot.data.joint_pos)[0,self.joints];limits=tensor(robot.data.soft_joint_pos_limits)[0,self.joints]
             if not bool(((q>=limits[:,0]-.001)&(q<=limits[:,1]+.001)).all()):raise GraspAbort('soft joint limit violation')
             if row['object_speed_estimate_m_s']>.5:raise GraspAbort('object speed exceeded 0.5m/s control estimate')
-            if phase in ('approach','close') and math.dist(after['object_pos_world_m'],self.initial['object_pos_world_m'])>.02:raise GraspAbort('object moved >2cm before lift')
+            if phase in ('approach','close','policy-open') and math.dist(after['object_pos_world_m'],self.initial['object_pos_world_m'])>.02:raise GraspAbort('object moved >2cm before lift')
             if after['object_pos_world_m'][2]<self.initial['object_pos_world_m'][2]-.01:raise GraspAbort('object fell below initial support')
-            if phase=='approach' and min(after['finger_positions_m'])<.03:raise GraspAbort('approach gripper not open')
+            if phase in ('approach','policy-open') and min(after['finger_positions_m'])<.03:raise GraspAbort('approach gripper not open')
             if self.controls%20==0 or self.last_phase!=phase:self.save_images(phase)
             self.last_phase=phase;row['status']='checked'
         except Exception as error:

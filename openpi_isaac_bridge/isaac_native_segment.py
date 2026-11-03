@@ -127,6 +127,7 @@ def main():
     p.add_argument('--execution-case-json',type=Path)
     p.add_argument('--pose-cache-root',type=Path)
     p.add_argument('--limit-replay-json',type=Path)
+    p.add_argument('--semantics-replay-json',type=Path)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
     p.add_argument('--output-root',type=Path,default=repo/'diagnostics/isaac_native_segment');args=p.parse_args()
     native=args.native_report or next((f for f in sorted((repo/'diagnostics/native_libero_replay').glob('*/report.json'),reverse=True) if read(f.parent/'replay_checks.json').get('status')=='completed'),None)
@@ -157,7 +158,12 @@ def main():
                 request,_=load_replay(args.limit_replay_json)
                 if request['source_prefix']!=case['source_prefix']:raise ValueError('wrong archived prefix source')
                 settings['limit_replay_path']=str(args.limit_replay_json.absolute())
-            if case.get('hybrid_role')=='policy' or case.get('limit_audit_role')=='frozen':
+            if case.get('semantics_role')=='replay':
+                from execution_policy_semantics import load_semantics_replay
+                if args.semantics_replay_json is None:p.error('semantics replay requires --semantics-replay-json')
+                load_semantics_replay(args.semantics_replay_json)
+                settings['semantics_replay_path']=str(args.semantics_replay_json.absolute())
+            if case.get('hybrid_role')=='policy' or case.get('limit_audit_role')=='frozen' or case.get('semantics_role')=='live':
                 settings.update(server_host='127.0.0.1',server_port=8000,prompt=settings['execution_case']['prompt'],
                     scope='declared cube-proxy policy input diagnostic; interventions and action execution reported explicitly; not native LIBERO evaluation')
         if 'pose_variant' in settings['execution_case']:
