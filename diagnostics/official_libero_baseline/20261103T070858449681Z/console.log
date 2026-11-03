@@ -1,0 +1,182 @@
+[robosuite WARNING] No private macro file found! (macros.py:53)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:54)
+[robosuite WARNING] To setup, run: python /home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py (macros.py:55)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+INFO:root:Task suite: libero_spatial
+INFO:root:Waiting for server at ws://127.0.0.1:8000...
+/home/test/Robot/openpi/packages/openpi-client/src/openpi_client/websocket_client_policy.py:40: DeprecationWarning: connect() must be used as a context manager: with connect(...) as websocket: ...; alternatively, use websocket = connect(..., legacy=True) to connect directly
+  metadata = msgpack_numpy.unpackb(conn.recv())
+  0%|          | 0/10 [00:00<?, ?it/s][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl between the plate and the ramekin and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: True
+INFO:root:# episodes completed so far: 1
+INFO:root:# successes: 1 (100.0%)
+
+100%|██████████| 1/1 [00:07<00:00,  7.29s/it][A100%|██████████| 1/1 [00:07<00:00,  7.29s/it]
+INFO:root:Current task success rate: 1.0
+INFO:root:Current total success rate: 1.0
+ 10%|█         | 1/10 [00:09<01:25,  9.45s/it][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl next to the ramekin and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: True
+INFO:root:# episodes completed so far: 2
+INFO:root:# successes: 2 (100.0%)
+
+100%|██████████| 1/1 [00:09<00:00,  9.53s/it][A100%|██████████| 1/1 [00:09<00:00,  9.53s/it]
+INFO:root:Current task success rate: 1.0
+INFO:root:Current total success rate: 1.0
+ 20%|██        | 2/10 [00:21<01:25, 10.71s/it][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl from table center and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: True
+INFO:root:# episodes completed so far: 3
+INFO:root:# successes: 3 (100.0%)
+
+100%|██████████| 1/1 [00:10<00:00, 10.05s/it][A100%|██████████| 1/1 [00:10<00:00, 10.05s/it]
+INFO:root:Current task success rate: 1.0
+INFO:root:Current total success rate: 1.0
+ 30%|███       | 3/10 [00:33<01:19, 11.30s/it][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl on the cookie box and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: True
+INFO:root:# episodes completed so far: 4
+INFO:root:# successes: 4 (100.0%)
+
+100%|██████████| 1/1 [00:08<00:00,  8.34s/it][A100%|██████████| 1/1 [00:08<00:00,  8.34s/it]
+INFO:root:Current task success rate: 1.0
+INFO:root:Current total success rate: 1.0
+ 40%|████      | 4/10 [00:43<01:05, 10.91s/it][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: False
+INFO:root:# episodes completed so far: 5
+INFO:root:# successes: 4 (80.0%)
+
+100%|██████████| 1/1 [00:16<00:00, 16.32s/it][A100%|██████████| 1/1 [00:16<00:00, 16.32s/it]
+INFO:root:Current task success rate: 0.0
+INFO:root:Current total success rate: 0.8
+ 50%|█████     | 5/10 [01:01<01:07, 13.60s/it][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl on the ramekin and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: True
+INFO:root:# episodes completed so far: 6
+INFO:root:# successes: 5 (83.3%)
+
+100%|██████████| 1/1 [00:08<00:00,  8.66s/it][A100%|██████████| 1/1 [00:08<00:00,  8.66s/it]
+INFO:root:Current task success rate: 1.0
+INFO:root:Current total success rate: 0.8333333333333334
+ 60%|██████    | 6/10 [01:12<00:50, 12.61s/it][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl next to the cookie box and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: True
+INFO:root:# episodes completed so far: 7
+INFO:root:# successes: 6 (85.7%)
+
+100%|██████████| 1/1 [00:09<00:00,  9.38s/it][A100%|██████████| 1/1 [00:09<00:00,  9.38s/it]
+INFO:root:Current task success rate: 1.0
+INFO:root:Current total success rate: 0.8571428571428571
+ 70%|███████   | 7/10 [01:23<00:36, 12.20s/it][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl on the stove and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: True
+INFO:root:# episodes completed so far: 8
+INFO:root:# successes: 7 (87.5%)
+
+100%|██████████| 1/1 [00:09<00:00,  9.80s/it][A100%|██████████| 1/1 [00:09<00:00,  9.80s/it]
+INFO:root:Current task success rate: 1.0
+INFO:root:Current total success rate: 0.875
+ 80%|████████  | 8/10 [01:35<00:24, 12.08s/it][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl next to the plate and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: True
+INFO:root:# episodes completed so far: 9
+INFO:root:# successes: 8 (88.9%)
+
+100%|██████████| 1/1 [00:08<00:00,  8.96s/it][A100%|██████████| 1/1 [00:08<00:00,  8.96s/it]
+INFO:root:Current task success rate: 1.0
+INFO:root:Current total success rate: 0.8888888888888888
+ 90%|█████████ | 9/10 [01:46<00:11, 11.73s/it][Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+[Warning]: datasets path /home/test/Robot/openpi/third_party/libero/libero/datasets does not exist!
+
+  0%|          | 0/1 [00:00<?, ?it/s][AINFO:root:
+Task: pick up the black bowl on the wooden cabinet and place it on the plate
+INFO:root:Starting episode 1...
+INFO:root:Success: True
+INFO:root:# episodes completed so far: 10
+INFO:root:# successes: 9 (90.0%)
+
+100%|██████████| 1/1 [00:11<00:00, 11.12s/it][A100%|██████████| 1/1 [00:11<00:00, 11.12s/it]
+INFO:root:Current task success rate: 1.0
+INFO:root:Current total success rate: 0.9
+100%|██████████| 10/10 [01:59<00:00, 12.16s/it]100%|██████████| 10/10 [01:59<00:00, 11.97s/it]
+INFO:root:Total success rate: 0.9
+INFO:root:Total episodes: 10
+Exception ignored in: <function MjRenderContext.__del__ at 0xfb03f63a5c60>
+Traceback (most recent call last):
+  File "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/robosuite/utils/binding_utils.py", line 199, in __del__
+    self.gl_ctx.free()
+  File "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/robosuite/renderers/context/egl_context.py", line 149, in free
+    EGL.eglMakeCurrent(EGL_DISPLAY, EGL.EGL_NO_SURFACE, EGL.EGL_NO_SURFACE, EGL.EGL_NO_CONTEXT)
+  File "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/OpenGL/error.py", line 230, in glCheckError
+    raise self._errorClass(
+OpenGL.raw.EGL._errors.EGLError: EGLError(
+	err = EGL_NOT_INITIALIZED,
+	baseOperation = eglMakeCurrent,
+	cArguments = (
+		<OpenGL._opaque.EGLDisplay_pointer object at 0xfb03dbe1da30>,
+		<OpenGL._opaque.EGLSurface_pointer object at 0xfb03f7725520>,
+		<OpenGL._opaque.EGLSurface_pointer object at 0xfb03f7725520>,
+		<OpenGL._opaque.EGLContext_pointer object at 0xfb03f7725400>,
+	),
+	result = 0
+)
+Exception ignored in: <function EGLGLContext.__del__ at 0xfb03f63a5b20>
+Traceback (most recent call last):
+  File "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/robosuite/renderers/context/egl_context.py", line 155, in __del__
+    self.free()
+  File "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/robosuite/renderers/context/egl_context.py", line 149, in free
+    EGL.eglMakeCurrent(EGL_DISPLAY, EGL.EGL_NO_SURFACE, EGL.EGL_NO_SURFACE, EGL.EGL_NO_CONTEXT)
+  File "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/OpenGL/error.py", line 230, in glCheckError
+    raise self._errorClass(
+OpenGL.raw.EGL._errors.EGLError: EGLError(
+	err = EGL_NOT_INITIALIZED,
+	baseOperation = eglMakeCurrent,
+	cArguments = (
+		<OpenGL._opaque.EGLDisplay_pointer object at 0xfb03dbe1da30>,
+		<OpenGL._opaque.EGLSurface_pointer object at 0xfb03f7725520>,
+		<OpenGL._opaque.EGLSurface_pointer object at 0xfb03f7725520>,
+		<OpenGL._opaque.EGLContext_pointer object at 0xfb03f7725400>,
+	),
+	result = 0
+)

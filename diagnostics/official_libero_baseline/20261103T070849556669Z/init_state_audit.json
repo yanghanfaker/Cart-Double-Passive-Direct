@@ -1,0 +1,141 @@
+{
+  "status": "states-validated",
+  "preflight_only": true,
+  "weights_only": true,
+  "scope": "byte-identical upstream client with scoped NumPy init-state compatibility; original actions/controller untouched",
+  "launcher_sha256": "9b7de1b1c23795cd573547456f0a7eb27f5ce79ee25c67d84ee6f29bfb271a33",
+  "updated_utc": "2026-11-03T07:08:50.271662+00:00",
+  "manifest_sha256": "d5806802130391fee885e74975b226409e246f7d85d07a0fdd498efb22e6ded5",
+  "reference_commit": "f78abd68ee283de9f9be3c8f7e2a9ad60246e95c",
+  "torch_version": "2.7.1+cpu",
+  "allowed_globals": [
+    "numpy.core.multiarray._reconstruct",
+    "numpy.ndarray",
+    "numpy.dtype",
+    "numpy.dtypes.Float64DType",
+    "numpy.dtypes.Float32DType"
+  ],
+  "files": [
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate.pruned_init",
+      "bytes": 44271,
+      "git_blob_sha1": "543deb5f5c1d2ca29426a7b77964c9273f71197d",
+      "sha256": "cbbc73792ce546c9bec181fd328a411d3183074840b282671dee481511381d0a",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "4e3eaf7a315bc3bafb6db4837c8eef0e5f8aea717782a2a3ea33139392d966ed"
+    },
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate.pruned_init",
+      "bytes": 43951,
+      "git_blob_sha1": "d2d1265c809a77a75676a16b19c97cca784ebf47",
+      "sha256": "27d5b81d739f969e40c72b6c88699e57a91ea61209946b21c593aae5990689cb",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "408c455fb617e5320060d643ef80ec2035d4e98600659cc3deb5a1e85482bf76"
+    },
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_in_the_top_drawer_of_the_wooden_cabinet_and_place_it_on_the_plate.pruned_init",
+      "bytes": 44591,
+      "git_blob_sha1": "c927f9b46e9d100902d5a08b061d600411249243",
+      "sha256": "deef3df529e0bb57658b973bbb3baf02b02922db065c025a73ebfcd11eb54d46",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "2e3f91b350eaef1b23c2d4ee14c513b2158a106bff7ed6c249b58e2cf89367f4"
+    },
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate.pruned_init",
+      "bytes": 44335,
+      "git_blob_sha1": "688d7bc03932f62bbe2be5ffa481fdcfc193d4da",
+      "sha256": "ab86fb7b5942dc0fec762eae57e72bf636106b1c10ad8ce57227723d8eb9a81b",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "d81530779b15be6bdfe4935a7a802102e3e3883823b29fefd40a2131e50fd515"
+    },
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate.pruned_init",
+      "bytes": 44079,
+      "git_blob_sha1": "f8e2aa1f726ae098dfd8007808bc3d9bec2289ee",
+      "sha256": "f43df2d80042130ac8770590d83f1a1e6fd4df7479aebc392aa2ed6e3bd0b83e",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "aef30979e2ee8c9893c9161c881264362f750a34df952f381e3969a567688451"
+    },
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate.pruned_init",
+      "bytes": 44207,
+      "git_blob_sha1": "83ad7a2aec0f77c4d6d0875560f3c36262894217",
+      "sha256": "9b6927b6ef03460ab055141e1a1154ad85e5e290058d8ed3a8a314aff911f864",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "d116842e01703fbea595511db813a3816c8d9f2302b4e979ebec4f15b7a750a2"
+    },
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate.pruned_init",
+      "bytes": 44143,
+      "git_blob_sha1": "430596fcb23b3ee1bcab20b79d71ce1a71100c03",
+      "sha256": "0627f5f5ce3ef23be546571012be8ef603d93bcb4032bc80feb34937ba580140",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "36424fa758f0e72399a35cefa285d0658e4b5bd17bfb3e2127f85aa2e0944517"
+    },
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate.pruned_init",
+      "bytes": 44079,
+      "git_blob_sha1": "0e3ecf39dd742a3e93cfa0c94925176dc4d6a3a7",
+      "sha256": "2d2c50b7dcbf861fffa94d576f217ed34153e57487010d7a109a220d4d97189b",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "63f019944e240d60a5770936f1eaa3853e38bbfeb1c26c987826fb004ed4346c"
+    },
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_on_the_stove_and_place_it_on_the_plate.pruned_init",
+      "bytes": 44335,
+      "git_blob_sha1": "9e2179796652ade754c4008387b69e516fcf2aed",
+      "sha256": "ea9cba2814bc166f3682f3f5a97329467839bcf584069cd419191b6c17adae25",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "501105aff4e1897d96cac0d0ee69fc702ad209e317511807e27df8b421ae1f2a"
+    },
+    {
+      "path": "libero_spatial/pick_up_the_black_bowl_on_the_wooden_cabinet_and_place_it_on_the_plate.pruned_init",
+      "bytes": 44335,
+      "git_blob_sha1": "847726c2c7cd1f3c32de485ab1238b6e29c45120",
+      "sha256": "08b0ac928dcc524a66d963851a6a4eece9aeb782b38466006e403a70e3287867",
+      "shape": [
+        50,
+        92
+      ],
+      "dtype": "float64",
+      "first_state_sha256": "885cdd89e3d71824f79e4f0ae4711f9ca04367c0011147cb657ecc32be3f375b"
+    }
+  ],
+  "config_init_states": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/official_libero_baseline/20261103T070849556669Z/verified_init_states"
+}

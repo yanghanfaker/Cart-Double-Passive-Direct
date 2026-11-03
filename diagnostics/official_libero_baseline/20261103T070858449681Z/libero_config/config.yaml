@@ -1,0 +1,7 @@
+{
+  "benchmark_root": "/home/test/Robot/openpi/third_party/libero/libero/libero",
+  "bddl_files": "/home/test/Robot/openpi/third_party/libero/libero/libero/bddl_files",
+  "assets": "/home/test/Robot/openpi/third_party/libero/libero/libero/assets",
+  "init_states": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/official_libero_baseline/20261103T070858449681Z/verified_init_states",
+  "datasets": "/home/test/Robot/openpi/third_party/libero/libero/datasets"
+}
