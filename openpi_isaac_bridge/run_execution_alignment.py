@@ -16,6 +16,7 @@ from execution_generalization import generalization_cases
 from execution_contact import contact_cases
 from execution_hybrid import hybrid_cases,validate_contact_source
 from execution_limit_audit import limit_cases,prepare_replay_sources
+from execution_online_caps import online_caps_cases
 from native_libero_rollout import save_json
 
 
@@ -73,10 +74,10 @@ def summarize(result):
 def main():
     repo=Path(__file__).resolve().parent.parent;p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--isaaclab-root',type=Path,default=Path('/home/test/Robot/IsaacLab'))
-    p.add_argument('--suite',choices=['alignment','coverage','focus','sync','generalization','contact','hybrid','limits'],default='alignment')
+    p.add_argument('--suite',choices=['alignment','coverage','focus','sync','generalization','contact','hybrid','limits','online_caps'],default='alignment')
     p.add_argument('--output-root',type=Path)
-    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()+limit_cases()],nargs='+')
-    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases,'generalization':generalization_cases,'contact':contact_cases,'hybrid':hybrid_cases,'limits':limit_cases}[args.suite]()
+    p.add_argument('--only',choices=[c['name'] for c in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()+limit_cases()+online_caps_cases()],nargs='+')
+    args=p.parse_args();selected={'alignment':cases,'coverage':coverage_cases,'focus':focus_cases,'sync':sync_cases,'generalization':generalization_cases,'contact':contact_cases,'hybrid':hybrid_cases,'limits':limit_cases,'online_caps':online_caps_cases}[args.suite]()
     if args.only:
         wanted=set(args.only);declared={c['name']:c for c in selected}
         if wanted-set(declared):p.error('--only must belong to selected suite')
@@ -90,12 +91,13 @@ def main():
     report={'status':'running','new_policy_queries':0,'cases':[],
         'suite':args.suite,'scope':'independent fresh no-contact scenes; prerequisite failures skip dependent cases; synthetic preconditioning changes pose and velocity, not native dynamic restoration; no grasp success claim'}
     report['code_sha256']={name:hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','execution_generalization.py','execution_contact.py','execution_hybrid.py','execution_limit_audit.py','live_grasp_query.py','online_registered_probe.py','replanning_probe.py','openpi_health.py','grasp_probe.py','openpi_grasp_logic.py','libero_reference_audit.py','run_multipose_geometry.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
+        for name in ('run_execution_alignment.py','execution_alignment_probe.py','execution_coverage_cases.py','execution_focus_cases.py','execution_sync_cases.py','execution_generalization.py','execution_contact.py','execution_hybrid.py','execution_limit_audit.py','execution_online_caps.py','collision_geometry.py','live_grasp_query.py','online_registered_probe.py','replanning_probe.py','openpi_health.py','grasp_probe.py','openpi_grasp_logic.py','libero_reference_audit.py','run_multipose_geometry.py','check_cameras.py','isaac_native_segment.py','run_geometry_audit.py','openpi_grasp_runtime.py','registered_replay_probe.py','physics_trace.py')}
     if args.suite=='generalization':
         report.update(pose_reference_root='pose_references',scope='three static native-FK checked starting poses; same archived actions reused counterfactually; no new inference, contact, or grasp success claim')
     if args.suite=='contact':report['scope']='ten fresh deterministic cube approach/closure/lift diagnostics; two repeats per height/finger and open negative controls; success reported separately from completed execution; no VLA inference or measured contact force'
     if args.suite=='hybrid':report['scope']='eight live cube-proxy policy approaches plus two program references; 1/5 action prefixes and geometry/model-close handoff; program-assisted refinement and grasp, not autonomous VLA or native LIBERO evaluation'
     if args.suite=='limits':report['scope']='eight frozen input variants, six matched first100-action cap replays and two program references; not online policy grasp or native benchmark evaluation'
+    if args.suite=='online_caps':report['scope']='eight online cap/prefix cases, two program references and two archived 2mm deflection reproductions; optional authored-bound geometry diagnostics, no measured contact force'
     def save():
         report['new_policy_queries']=sum(x.get('summary',{}).get('policy_queries',0) for x in report['cases'])
         save_json(folder/'run.json',report)
@@ -103,7 +105,7 @@ def main():
     env=os.environ.copy();env.pop('VIRTUAL_ENV',None);env.pop('PYTHONPATH',None)
     replay_sources={}
     try:
-        if args.suite=='limits':
+        if args.suite=='limits' or (args.suite=='online_caps' and any(c.get('limit_audit_role')=='replay' for c in selected)):
             try:
                 source=next((p for p in sorted((repo/'diagnostics/execution_hybrid').glob('*/run.json'),reverse=True) if json.loads(p.read_bytes()).get('status')=='completed'),None)
                 if source is None:raise ValueError('completed prior hybrid suite required')
@@ -114,13 +116,13 @@ def main():
                     report['server_health']=check_openpi_health('127.0.0.1',8000)
             except Exception as error:
                 report.update(status='preflight-failed',error=str(error));print('[Execution alignment] Preflight failed: '+str(error),flush=True);return 1
-        if args.suite=='hybrid':
+        if args.suite in ('hybrid','online_caps'):
             try:
                 source=next((p for p in sorted((repo/'diagnostics/execution_contact').glob('*/run.json'),reverse=True) if json.loads(p.read_bytes()).get('status')=='completed'),None)
                 if source is None:raise ValueError('completed prior contact suite required')
                 report['validated_contact_source']=validate_contact_source(source)
                 (folder/'source_contact_run.json').write_bytes(source.read_bytes())
-                if any(c['hybrid_role']=='policy' for c in selected):
+                if any(c.get('hybrid_role')=='policy' for c in selected):
                     from openpi_health import check_openpi_health
                     report['server_health']=check_openpi_health('127.0.0.1',8000)
             except Exception as error:

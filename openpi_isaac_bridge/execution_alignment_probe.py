@@ -20,7 +20,8 @@ def validate_case(case):
     from execution_contact import contact_cases
     from execution_hybrid import hybrid_cases
     from execution_limit_audit import limit_cases
-    if case not in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()+limit_cases():raise ValueError('execution case must exactly match a declared diagnostic')
+    from execution_online_caps import online_caps_cases
+    if case not in cases()+coverage_cases()+focus_cases()+sync_cases()+generalization_cases()+contact_cases()+hybrid_cases()+limit_cases()+online_caps_cases():raise ValueError('execution case must exactly match a declared diagnostic')
     return case
 
 
@@ -104,6 +105,13 @@ def run_alignment(runtime,R,settings,first,report,save):
     if not math.isclose(float(r.base.physics_dt),.01,abs_tol=1e-9):raise RuntimeError('expected 10ms Isaac physics period')
     if list(r.arm._joint_names)!=[f'panda_joint{i}' for i in range(1,8)] or not r.robot.is_fixed_base:
         raise RuntimeError('Jacobian decomposition requires fixed base and matching seven-joint order')
+    geometry_probe=None
+    if case.get('collision_geometry'):
+        from collision_geometry import CollisionGeometry
+        geometry_probe=CollisionGeometry(r)
+        save_json(r.output/'collision_geometry_model.json',geometry_probe.model)
+        report['collision_geometry_setup']={'status':geometry_probe.model['status'],'errors':geometry_probe.model['errors'],
+            'scope':geometry_probe.model['scope']};save()
     def optional(field,ids):
         try:
             data=tensor(getattr(r.robot.data,field))[0,ids].detach().cpu().numpy()
@@ -196,6 +204,7 @@ def run_alignment(runtime,R,settings,first,report,save):
         if case['kind']=='contact-grasp':
             result.update(object_pos_world_m=s['object_pos_world_m'],object_quat_world_xyzw=s['object_quat_world_xyzw'],
                 object_in_tcp_pos_m=s['object_in_tcp_pos_m'],object_in_tcp_quat_xyzw=s['object_in_tcp_quat_xyzw'])
+        if geometry_probe is not None:result['collision_geometry']=geometry_probe.sample()
         return result
     def enrich(row):
         from execution_focus_cases import linearized_tcp

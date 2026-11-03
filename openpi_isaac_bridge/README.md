@@ -3773,3 +3773,66 @@ git add -- diagnostics/execution_limits/
 git commit -m "Add frozen input direction and matched action cap coverage results"
 git push origin main
 ```
+
+## 在线限幅/前缀对照与夹爪约束几何记录
+
+保持已验证的OpenPI模型服务在127.0.0.1:8000运行：
+
+```bash
+cd /home/test/Robot/Cart-Double-Passive-Direct
+git pull --ff-only
+/home/test/Robot/openpi/examples/libero/.venv/bin/python \
+  openpi_isaac_bridge/run_execution_alignment.py --suite online_caps
+```
+
+共12个独立场景：8个在线组、2个程序抓取参考，以及2个已知异常的归档动作复现。
+
+| 分组 | 数量 | 条件 |
+|---|---:|---|
+| 在线交叉 | 8 | 平移限幅0.5/1mm × 每次执行前1/5步 × 两重复，第二轮反向顺序 |
+| 程序参考 | 2 | 前后各一次中心上方5mm程序抓取；必须实际抓持成功 |
+| 异常复现 | 2 | 前1/5步来源各一段相同前100步，2mm限幅，保持张开，不查询模型 |
+
+固定J1/J3=1687.5/50、主动夹爪350/50、提示词pick up the cube、现有图像/状态映射和相机场景。
+在线组统一geometry交接，先保持张开、记录模型第7维请求；几何到位后才进行已验证的程序细调、闭合、抬升和保持。
+各组最多600个50ms接近控制周期，前1步最多600次查询、前5步最多120次查询；
+保留每100周期至少2mm的进展检查、距离增加2cm、物体运动、关节和其他既有保护。
+0.5/1mm在线组的局部IK/实测位移边界均为1.5mm、旋转0.3deg，旋转指令限幅0.1deg。
+重复并不重置服务端随机状态，不将两次输出当作严格同随机种子配对。
+
+2mm归档组仍使用上一轮核验的hybrid-p1/p5-geometry-r1前100步，输入逐值相同，局部位移边界保持该工况原有3mm。
+预期可能再次触发approach gripper not open；不跳过该检查、不提高力矩或手指驱动。
+即使停止，其他独立在线组仍继续，保存导致停止的最后物理步。run.json因此可能为needs-inspection，需逐项解释。
+这两组用于带新几何记录复现已知异常，不是在线2mm策略测试，也不报告抓取成功。
+
+新增只读collision_geometry模块，按[OpenUSD BBoxCache接口](https://openusd.org/release/api/class_usd_geom_b_box_cache.html)采集：
+
+- 解析panda_leftfinger/rightfinger实际刚体及其CollisionAPI几何，按相对刚体的局部包围盒保存8角点。
+- 将正交正缩放烘焙进局部角点；拒绝不能正确处理的剪切/反射变换，不忽略缩放。
+- 每10ms使用物理引擎实时body位置/四元数变换局部角点，避免将未同步的USD世界位姿当作实时指位。
+- 对物体碰撞形状使用同样的实时变换。碰撞形状模板包含隐藏几何与guide/proxy用途。
+- 支撑候选来自没有启用RigidBodyAPI祖先的静态碰撞体，要求包围盒覆盖初始物体XY、顶面在物体根原点下80mm至上5mm之间。
+- 记录指体原点、碰撞几何世界AABB、指体与支撑/物体AABB距离、XY交叠和对包围盒顶面的带符号Z间隙。
+
+这里的支撑候选不预先认定为桌面；包围盒不是精确网格、真实指尖或PhysX最终凸分解/接触裕量。
+AABB相交只是一条几何线索，不代表真实接触、穿透深度或接触力。本轮不添加接触传感器，contact_force_status明确为unavailable。
+所有参数与碰撞属性均只读，不移除支撑、不关闭碰撞、不修改材质或几何。
+
+collision_geometry_model.json保存源USD路径、刚体索引、局部角点、缩放、支撑候选和错误原因。
+如果SDK接口、模型层级或包围盒无法解析，报告unavailable/partial并保留原因，不编造距离；在线控制仍使用已有保护继续。
+physics_joint_trace.jsonl.gz每个10ms物理步新增collision_geometry，
+grasp_result.collision_geometry_summary给出完整/部分/不可用样本数、最小AABB距离，以及第一次“张开目标下实际指位落后2mm”的记录。
+该2mm差值仅是诊断标记，实际开度<30mm的保护阈值保持原值。
+第一次在控制周期末发现该差值时额外保存open_deflection两路图片；相机图片与10ms首次标记可能相差一个控制周期内的时间。
+
+前置条件仍包括完整通过的contact实验；若选择异常复现，也需要完整hybrid来源与其推理ZIP。
+模型查询仍按实际前缀核对新图像/状态、推理期间物理步不变、实际收到的响应次数和执行前缀。
+结果目录diagnostics/execution_online_caps/<UTC>/。
+评估时先看程序参考与源核验，再比较在线最近XYZ距离、模型方向、交接/闭合请求、目标/实际关节与手指响应；
+最后把实际指位偏差与几何间隙、图片、驱动力缓冲对应起来，不将驱动力当作接触力。
+
+```bash
+git add -- diagnostics/execution_online_caps/
+git commit -m "Add online cap prefix and collider proximity comparison results"
+git push origin main
+```

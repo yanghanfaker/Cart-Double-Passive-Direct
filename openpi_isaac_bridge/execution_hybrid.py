@@ -43,7 +43,8 @@ def validate_contact_source(path):
 
 
 def run_policy_approach(read_state,query,step_model,case,on_update=lambda result:None):
-    if case not in hybrid_cases() or case.get('hybrid_role')!='policy':raise ValueError('declared live approach case required')
+    from execution_online_caps import online_caps_cases
+    if case not in hybrid_cases()+online_caps_cases() or case.get('hybrid_role')!='policy':raise ValueError('declared live approach case required')
     initial=read_state();distance=lambda s:math.dist(s['tcp_world_m'],s['object_pos_world_m'])
     initial_distance=distance(initial);previous_distance=initial_distance;last=initial
     result={'outcome':'running','handoff':False,'controls':0,'queries':0,'model_close_requests':0,

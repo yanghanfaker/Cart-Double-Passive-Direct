@@ -50,7 +50,8 @@ def run_contact_experiment(read_state,step_goal,case,handoff=False):
         from execution_hybrid import hybrid_cases
         if case not in hybrid_cases():
             from execution_limit_audit import limit_cases
-            if case not in limit_cases():raise ValueError('undeclared contact case')
+            from execution_online_caps import online_caps_cases
+            if case not in limit_cases()+online_caps_cases():raise ValueError('undeclared contact case')
     if handoff and case.get('hybrid_role')!='policy':raise ValueError('handoff requires declared live policy case')
     initial=copy.deepcopy(read_state());obj=list(initial['object_pos_world_m'])
     q,yaw=down_quat_from_object(initial['object_quat_world_xyzw'])
@@ -146,9 +147,14 @@ def run_contact_runtime(r,settings,first,report,save,recorder,override):
         finally:
             if recorder.pending is None and recorder.period_substeps==5:recorder.end_control()
             if r.controls==index:
-                report['trace'].append({'step':index,'phase':phase,'before':before,'after':r.state(),'raw_action':raw_action,
+                after_state=r.state()
+                report['trace'].append({'step':index,'phase':phase,'before':before,'after':after_state,'raw_action':raw_action,
                     'target':target,'fixed_goal':fixed_goal,'native_gripper_sign':-grip,
                     'gripper_apply_calls':override.calls,'ramp_target_m':override.value})
+                if case.get('collision_geometry') and override.value>=.039 and min(after_state['finger_positions_m'])<.038 and 'open_deflection_image_control' not in report:
+                    report['open_deflection_image_control']=index
+                    try:r.save_images('open_deflection')
+                    except Exception as error:report['open_deflection_image_error']=str(error)
             save()
         if override.calls!=5:raise RuntimeError('expected five gripper substeps')
         return after
@@ -166,6 +172,9 @@ def run_contact_runtime(r,settings,first,report,save,recorder,override):
         result=run_hybrid_runtime(r,settings,report,save,step_goal,execute)
     else:result=run_contact_experiment(r.state,step_goal,case)
     rows=recorder.rows
+    if case.get('collision_geometry'):
+        from collision_geometry import geometry_summary
+        result['collision_geometry_summary']=geometry_summary(rows)
     result['physics_checks']={'samples':len(rows),
         'max_object_speed_10ms_estimate_m_s':max((x['object_speed_10ms_estimate_m_s'] for x in rows),default=0.),
         'min_object_height_from_initial_m':min((x['object_pos_world_m'][2]-first['object_pos_world_m'][2] for x in rows),default=0.),
