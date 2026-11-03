@@ -3776,6 +3776,9 @@ git push origin main
 
 ## 在线限幅/前缀对照与夹爪约束几何记录
 
+官方抓取基线与 Spark ARM64 的运行边界见 [OFFICIAL_BASELINE.md](OFFICIAL_BASELINE.md)：
+Arena 当前固定版本仅支持 Linux x86_64，Spark 上先运行未修改的官方 OpenPI LIBERO 客户端，单独记录模型原生表现。
+
 保持已验证的OpenPI模型服务在127.0.0.1:8000运行：
 
 ```bash

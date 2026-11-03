@@ -1,0 +1,82 @@
+{
+  "repository": "https://github.com/isaac-sim/IsaacLab-Arena",
+  "commit": "3b0f10ce2df6c25649afbbf5aed0b1cd27d5cd66",
+  "openpi_commit": "c23745b5ad24e98f66967ea795a07b2588ed6c79",
+  "files": {
+    "pyproject.toml": {
+      "sha256": "ac298ba5d3152e1a64c68182b27ee1a756b7d2c1f3bb1961a90531960a45d742",
+      "git_blob_sha1": "02521cbbe874498fcc7496c78f0144a0fee17dec",
+      "bytes": 13259
+    },
+    ".python-version": {
+      "sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+      "git_blob_sha1": "e4fba2183587225f216eeada4c78dfab6b2e65f5",
+      "bytes": 5
+    },
+    ".gitmodules": {
+      "sha256": "8970bf016aaf0a9bfa6cc33a5754163aec99d56976ad131fc9af0bb39b2f80af",
+      "git_blob_sha1": "645b0151adc403679bf3b945f52ce5f9ee726c1a",
+      "bytes": 220
+    },
+    "docker/Dockerfile.isaaclab_arena": {
+      "sha256": "bc6ceecf8eba27bdddcedec930ab3c56b1a8764311215d93b6d133bfb030e8a2",
+      "git_blob_sha1": "98213f957d987d90b1f4227934b067e38193eb9e",
+      "bytes": 5041
+    },
+    "isaaclab_arena_openpi/docker/OPENPI_COMMIT": {
+      "sha256": "7c72767725d20715ada082ca533d7fcc2085e2bd4f4aa61823c7060c0f110d62",
+      "git_blob_sha1": "dedd58cb64b54f4c1c56e7410d0f165f88079609",
+      "bytes": 41
+    },
+    "isaaclab_arena_openpi/docker/run_openpi_server.sh": {
+      "sha256": "2460ab467359e89f0462cab78cd1eb7c1e753d2457aa15534f6ad48bdd06cace",
+      "git_blob_sha1": "c10b26c8e4e930cb059cbb36d00974b36508f99c",
+      "bytes": 3315
+    },
+    "isaaclab_arena_openpi/docker/build_server_image.sh": {
+      "sha256": "02ad1379235ff7491dd0e0e6d305b40e887503e26f5ed90571b1faad153fec39",
+      "git_blob_sha1": "805adb5643aa2d7fd57fd38944258e0732588696",
+      "bytes": 2067
+    },
+    "isaaclab_arena_openpi/policy/droid_adapter.py": {
+      "sha256": "bc2e299220e900d2d65bdb67ffbec24a02871c7e0a8df8cafb3addc2b4fcca2c",
+      "git_blob_sha1": "75504634230dbf4f194f06616934b328047ab5b2",
+      "bytes": 3190
+    },
+    "isaaclab_arena_openpi/policy/pi0_remote_policy.py": {
+      "sha256": "19db546cc607d78ea8de28b2ce248202fb4f2889b8631c4080e9b49155c6feea",
+      "git_blob_sha1": "74d1c12d6883b1675948239a1f0476bf5a848202",
+      "bytes": 3142
+    },
+    "isaaclab_arena/policy/remote_policy_base.py": {
+      "sha256": "a5772c747568ed98d021a71a67bc2b0f87d9a9599a8ad4246f80399e79900e86",
+      "git_blob_sha1": "b2da60e3a91fc1f65693bcf94f746d1b67a53ac8",
+      "bytes": 9273
+    },
+    "isaaclab_arena/embodiments/droid/droid.py": {
+      "sha256": "e50c3dc2d0e81dfebb529de014faee60bcca7dcaec68616250d01e7bd4789682",
+      "git_blob_sha1": "b0771ce687a43106886804ebceaf34e2de987e4d",
+      "bytes": 27822
+    },
+    "isaaclab_arena/embodiments/droid/actions.py": {
+      "sha256": "60759ad2caab4692a296f02e18b99d37907c4425214e82b80af248b08df6f35e",
+      "git_blob_sha1": "c9f68b7b1b91077e44f72feb2a78e39b9945ecfb",
+      "bytes": 1114
+    },
+    "isaaclab_arena/evaluation/experiment_runner.py": {
+      "sha256": "76111d71a364f0c444c8b14c7482cc73c23139551226e21764a0de85643e744e",
+      "git_blob_sha1": "50b0d30911a3a11c751588f759d9a4b3655c350a",
+      "bytes": 10434
+    },
+    "isaaclab_arena_environments/experiment_configs/droid_pnp_openpi_experiment.yaml": {
+      "sha256": "e604857f305353fb65dfda0cc41a66f2c67f9c5d9e785df7e3052c885f95e97d",
+      "git_blob_sha1": "1ef42cfe47b9636d24c569da9ffe153397de6cf7",
+      "bytes": 866
+    },
+    "docs/pages/quickstart/running_a_real_policy/openpi.rst": {
+      "sha256": "bdde7215e82562a5cf7e61c7ed7397e06d84af096b0a03650935b863d29822bb",
+      "git_blob_sha1": "5433fca1bd3396f1977820048c35e3a9e0eff7db",
+      "bytes": 10476
+    }
+  }
+}
