@@ -1,0 +1,10 @@
+{
+  "name": "t0-s2-model-replay",
+  "task_id": 0,
+  "state_index": 2,
+  "mode": "model-replay",
+  "seed": 7,
+  "prefix_steps": 5,
+  "max_controls": 220,
+  "source_name": "t0-s2-model-live"
+}

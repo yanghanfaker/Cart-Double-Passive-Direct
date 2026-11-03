@@ -1,0 +1,7 @@
+{
+  "benchmark_root": "/home/test/Robot/openpi/third_party/libero/libero/libero",
+  "bddl_files": "/home/test/Robot/openpi/third_party/libero/libero/libero/bddl_files",
+  "assets": "/home/test/Robot/openpi/third_party/libero/libero/libero/assets",
+  "init_states": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/native_gripper_comparison/20261103T080611371427Z/verified_init_states",
+  "datasets": "/home/test/Robot/openpi/third_party/libero/libero/datasets"
+}

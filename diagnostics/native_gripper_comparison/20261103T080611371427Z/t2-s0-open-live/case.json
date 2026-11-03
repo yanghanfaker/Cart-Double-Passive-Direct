@@ -1,0 +1,10 @@
+{
+  "name": "t2-s0-open-live",
+  "task_id": 2,
+  "state_index": 0,
+  "mode": "open-live",
+  "seed": 7,
+  "prefix_steps": 5,
+  "max_controls": 220,
+  "source_name": "t2-s0-model-live"
+}

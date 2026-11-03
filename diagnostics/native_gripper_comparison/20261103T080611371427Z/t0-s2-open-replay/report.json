@@ -1,0 +1,258 @@
+{
+  "status": "completed",
+  "case": {
+    "name": "t0-s2-open-replay",
+    "task_id": 0,
+    "state_index": 2,
+    "mode": "open-replay",
+    "seed": 7,
+    "prefix_steps": 5,
+    "max_controls": 220,
+    "source_name": "t0-s2-model-live"
+  },
+  "prompt": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "init_sha256": "cbbc73792ce546c9bec181fd328a411d3183074840b282671dee481511381d0a",
+  "bddl_sha256": "9b59eb1287802868ad9bc78d58e6d36d4ba31134e679cfdbdf4b0feb660c959b",
+  "initial_state_sha256": "5a22bed5962664504c91a9c6d1ecec83151f64dcf8a0e86da28be1e2b2e29409",
+  "target": {
+    "name": "akita_black_bowl_1",
+    "observation_key": "akita_black_bowl_1_pos",
+    "objects_of_interest": [
+      "akita_black_bowl_1",
+      "plate_1"
+    ]
+  },
+  "controller": {
+    "name": "OSC_POSE",
+    "input_min": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+    ],
+    "input_max": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "output_min": [
+      -0.05,
+      -0.05,
+      -0.05,
+      -0.5,
+      -0.5,
+      -0.5
+    ],
+    "output_max": [
+      0.05,
+      0.05,
+      0.05,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "kp": [
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0
+    ],
+    "kd": [
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178
+    ],
+    "damping_ratio": null,
+    "control_delta": null,
+    "use_delta": true,
+    "policy_freq": null
+  },
+  "control_frequency_hz": 20.0,
+  "source_report_sha256": "14fe25da1fd533cb7d0640a84e94c4adbca55484f1e2548da9042079157ce780",
+  "source_controls": 106,
+  "server_metadata": {
+    "status": "reported",
+    "value": {
+      "mode": "frozen_counterfactual",
+      "new_policy_queries": 0
+    },
+    "note": "server supplied; does not independently verify checkpoint or normalization statistics"
+  },
+  "episode": "episode/report.json",
+  "metrics": {
+    "controls": 106,
+    "success": false,
+    "stop_reason": "budget_exhausted",
+    "new_policy_queries": 0,
+    "response_requests": 22,
+    "first_model_close_control": 38,
+    "model_close_requests": 56,
+    "executed_close_controls": 0,
+    "minimum_eef_to_target_body_origin_m": 0.053302299007412776,
+    "final_eef_minus_target_body_origin_m": [
+      0.1299671752304663,
+      -0.015144243138081465,
+      0.05381484211130727
+    ],
+    "target_max_displacement_m": 0.0043990726414140325,
+    "first100_eef_delta_m": [
+      0.21796395861958495,
+      0.19941777698693483,
+      -0.17118921081749372
+    ],
+    "first100_raw_translation_sum_controller_units": [
+      15.620158791799925,
+      15.386146531239978,
+      -16.33961911351293
+    ],
+    "gripper_command_available_controls": 106,
+    "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+  },
+  "replay_input_checks": [
+    {
+      "query": 1,
+      "source_input_sha256": "dba976aef28551e169fdff04bfd94570fc83b0e74a14cbd19774d29ed8032b68",
+      "actual_input_sha256": "dba976aef28551e169fdff04bfd94570fc83b0e74a14cbd19774d29ed8032b68",
+      "exact_input_match": true
+    },
+    {
+      "query": 2,
+      "source_input_sha256": "cc0a8b79e20f2f1f49968918aad32e1063097f9a0a7054b807b4859b64b8e66d",
+      "actual_input_sha256": "cc0a8b79e20f2f1f49968918aad32e1063097f9a0a7054b807b4859b64b8e66d",
+      "exact_input_match": true
+    },
+    {
+      "query": 3,
+      "source_input_sha256": "ec1796a0aba7afe54f18c03f923cf8ce9ff22c1b1838a13afb0a67696f86827e",
+      "actual_input_sha256": "ec1796a0aba7afe54f18c03f923cf8ce9ff22c1b1838a13afb0a67696f86827e",
+      "exact_input_match": true
+    },
+    {
+      "query": 4,
+      "source_input_sha256": "3b8edf8735e62cebb9791b5c8ae57afcf21417d7fd7d3ce0a2613b5ca6f0acd4",
+      "actual_input_sha256": "3b8edf8735e62cebb9791b5c8ae57afcf21417d7fd7d3ce0a2613b5ca6f0acd4",
+      "exact_input_match": true
+    },
+    {
+      "query": 5,
+      "source_input_sha256": "bfa4d0adb0d74a06b6adb1392eec26497726aa95cefc87b674bead5379629968",
+      "actual_input_sha256": "bfa4d0adb0d74a06b6adb1392eec26497726aa95cefc87b674bead5379629968",
+      "exact_input_match": true
+    },
+    {
+      "query": 6,
+      "source_input_sha256": "b0c8ce171099b550c820017032de4c1e9c4e8e404b82f82df6a2fbb4d5ffca81",
+      "actual_input_sha256": "b0c8ce171099b550c820017032de4c1e9c4e8e404b82f82df6a2fbb4d5ffca81",
+      "exact_input_match": true
+    },
+    {
+      "query": 7,
+      "source_input_sha256": "76b8b6ed0d3c0cc889399d54e76828fba2fa5d88b4ae6e076a8f8fe511ec1ca7",
+      "actual_input_sha256": "76b8b6ed0d3c0cc889399d54e76828fba2fa5d88b4ae6e076a8f8fe511ec1ca7",
+      "exact_input_match": true
+    },
+    {
+      "query": 8,
+      "source_input_sha256": "d8bc589c6ac68c10e36f82fb7823a59b47a1240619287ca9df01a8bd4b12efbd",
+      "actual_input_sha256": "d8bc589c6ac68c10e36f82fb7823a59b47a1240619287ca9df01a8bd4b12efbd",
+      "exact_input_match": true
+    },
+    {
+      "query": 9,
+      "source_input_sha256": "f78906333f27203f9dc4a430046c8dc8779878a212733dbd41278fa07013d405",
+      "actual_input_sha256": "7d848de5118fec314e31e2c09e6ada6006304382de8d7c462c39d6307191c989",
+      "exact_input_match": false
+    },
+    {
+      "query": 10,
+      "source_input_sha256": "08c0ed9beedbbfffe8fe5a80b5cf8e4af0e1a023d59d6f04cca1137a4628dd39",
+      "actual_input_sha256": "5ab05262b4488b644314a24d6ae203f090b2d1f96ad4d37562a25c3e239d4159",
+      "exact_input_match": false
+    },
+    {
+      "query": 11,
+      "source_input_sha256": "78275f9f8344350b6bf11eaeba07ffb1d835486662044f72247ad1cbd38bb94c",
+      "actual_input_sha256": "cdf8dd6ada9232b1b8f30049a58b7368ca992cf68835b624a954226e57831a15",
+      "exact_input_match": false
+    },
+    {
+      "query": 12,
+      "source_input_sha256": "c34a5d58cb614b45cab29298c90c86051aa198aa247434c1199f1f5a07d3f6b9",
+      "actual_input_sha256": "c596a6d7bd3aa7811bbf6adc2792b8f61fbab3824426cf24e1ad2a5232acae80",
+      "exact_input_match": false
+    },
+    {
+      "query": 13,
+      "source_input_sha256": "c8850d566476bb15f28be59ee6c450646cf8349c1fd268d410b2f78a9a2ec633",
+      "actual_input_sha256": "3f85c15cbc89007a8f8c673f7bb4098504aa5e4cf8f513ae29ef82dba17676c8",
+      "exact_input_match": false
+    },
+    {
+      "query": 14,
+      "source_input_sha256": "bfa72990b5429053888b8e81838541d210d622a1d847c4329157c57279b509f1",
+      "actual_input_sha256": "8a271dd81167866a55504b5d98dbebf55a63ee9bf68a3b4c3d0af72c1d191e22",
+      "exact_input_match": false
+    },
+    {
+      "query": 15,
+      "source_input_sha256": "d0f95503ac8f353508d3e7b7d4df53be08b63be9b10ed58689306a410f838e69",
+      "actual_input_sha256": "0e480f25215d51bac0db08ffe23fdb5ab3e61ff8e80dc5ae8d92f5a08f5e2427",
+      "exact_input_match": false
+    },
+    {
+      "query": 16,
+      "source_input_sha256": "f91ce5c3af22842be7852ef40fd51772aabc8abaf7b87f972228ea96b1acd38e",
+      "actual_input_sha256": "22b7eacd26105f7008396fda1cdd91eba23b299270b85f39e73d40d620fe390d",
+      "exact_input_match": false
+    },
+    {
+      "query": 17,
+      "source_input_sha256": "73e1faf972c14734dab6439c1e67c01d794fe45e53799b01965b1edac3614a50",
+      "actual_input_sha256": "f2e81efe1610c34f23cac0bfbab586cc2d873dffa690a5a750998f3f04fb8734",
+      "exact_input_match": false
+    },
+    {
+      "query": 18,
+      "source_input_sha256": "4851a34d9421b4925856a577c8322c6f439718df5bb6bef660c47b10a190e2db",
+      "actual_input_sha256": "aa695dea8f3ffce75d657bbd0825c26a44a69ed8f567765f72c0969b345f793a",
+      "exact_input_match": false
+    },
+    {
+      "query": 19,
+      "source_input_sha256": "b08943baea50cf669084826fb3f0e716178d0a5fd334b551e89f7a38693d604b",
+      "actual_input_sha256": "30eed89c8de57c5dc1b88db0b7bba34e6941366db7997a1614f5e8e5b75b6ef9",
+      "exact_input_match": false
+    },
+    {
+      "query": 20,
+      "source_input_sha256": "cfb43bc1b304efd12973efc5115a29c4562de7857f22f3750fc98b3b8f896513",
+      "actual_input_sha256": "61c71dd5c86da6ecab9ba8010a34e05835d44711bcbdefe4517d3040801fbccd",
+      "exact_input_match": false
+    },
+    {
+      "query": 21,
+      "source_input_sha256": "20645fd26199db565bde3ef4d2e83141ead10017ecd267b6969975831272fbdc",
+      "actual_input_sha256": "ea2e5c9301acef023ee2777d202b02d7615d2e1c4050f77a4576530aaccc62f6",
+      "exact_input_match": false
+    },
+    {
+      "query": 22,
+      "source_input_sha256": "5e4a293a4207daeb2da4de3123245d92465a62f45918bc081bb236d077c4c93d",
+      "actual_input_sha256": "fd485a1148c2593756280a423157bcf8cf872fb21c5d436c981e1df0a83c004f",
+      "exact_input_match": false
+    }
+  ],
+  "episode_sha256": "a7162110e7f8fa705d2b10907b7a5f5735b8c99357580fa9c0e3d816606d0c52",
+  "new_policy_queries": 0,
+  "inference_attempts": 22
+}

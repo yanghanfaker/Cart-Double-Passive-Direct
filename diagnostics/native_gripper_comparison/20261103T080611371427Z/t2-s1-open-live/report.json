@@ -1,0 +1,127 @@
+{
+  "status": "completed",
+  "case": {
+    "name": "t2-s1-open-live",
+    "task_id": 2,
+    "state_index": 1,
+    "mode": "open-live",
+    "seed": 7,
+    "prefix_steps": 5,
+    "max_controls": 220,
+    "source_name": "t2-s1-model-live"
+  },
+  "prompt": "pick up the black bowl from table center and place it on the plate",
+  "init_sha256": "27d5b81d739f969e40c72b6c88699e57a91ea61209946b21c593aae5990689cb",
+  "bddl_sha256": "5e19880ebc844f86b89f63b172aab0b7a89f85b6e6955891f544f0ea7d0795d5",
+  "initial_state_sha256": "12c52488fae820054ecb6b5495cf5023ab25abd79b7af00755e320a374d739d6",
+  "target": {
+    "name": "akita_black_bowl_1",
+    "observation_key": "akita_black_bowl_1_pos",
+    "objects_of_interest": [
+      "akita_black_bowl_1",
+      "plate_1"
+    ]
+  },
+  "controller": {
+    "name": "OSC_POSE",
+    "input_min": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+    ],
+    "input_max": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "output_min": [
+      -0.05,
+      -0.05,
+      -0.05,
+      -0.5,
+      -0.5,
+      -0.5
+    ],
+    "output_max": [
+      0.05,
+      0.05,
+      0.05,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "kp": [
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0,
+      150.0
+    ],
+    "kd": [
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178,
+      24.49489742783178
+    ],
+    "damping_ratio": null,
+    "control_delta": null,
+    "use_delta": true,
+    "policy_freq": null
+  },
+  "control_frequency_hz": 20.0,
+  "server_health": {
+    "status": "healthy",
+    "path": "/healthz",
+    "http_status": 200,
+    "body": "OK",
+    "elapsed_s": 0.0016801673918962479,
+    "scope": "HTTP health route only; not checkpoint identity or inference validation"
+  },
+  "server_metadata": {
+    "status": "empty",
+    "value": {},
+    "note": "server supplied; does not independently verify checkpoint or normalization statistics"
+  },
+  "episode": "episode/report.json",
+  "metrics": {
+    "controls": 220,
+    "success": false,
+    "stop_reason": "budget_exhausted",
+    "new_policy_queries": 44,
+    "response_requests": 44,
+    "first_model_close_control": 43,
+    "model_close_requests": 173,
+    "executed_close_controls": 0,
+    "minimum_eef_to_target_body_origin_m": 0.0433680269138625,
+    "final_eef_minus_target_body_origin_m": [
+      -0.009484357540291949,
+      0.03841553530923074,
+      0.021463626261690738
+    ],
+    "target_max_displacement_m": 0.009509136116460698,
+    "first100_eef_delta_m": [
+      0.13097753010984925,
+      0.04394263724291802,
+      -0.2642659105716002
+    ],
+    "first100_raw_translation_sum_controller_units": [
+      6.846282622303119,
+      3.6274821347794464,
+      -23.512981202481583
+    ],
+    "gripper_command_available_controls": 220,
+    "distance_scope": "EEF to target rigid-body origin, not fingertip/grasp-surface distance or a close gate"
+  },
+  "episode_sha256": "a631cddf65fc6ffa07b2582ac08e6daa17f4762a8df89a37efb0f51d6ae83da2",
+  "new_policy_queries": 44,
+  "inference_attempts": 44
+}
