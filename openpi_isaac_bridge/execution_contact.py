@@ -51,7 +51,9 @@ def run_contact_experiment(read_state,step_goal,case,handoff=False):
         if case not in hybrid_cases():
             from execution_limit_audit import limit_cases
             from execution_online_caps import online_caps_cases
-            if case not in limit_cases()+online_caps_cases():raise ValueError('undeclared contact case')
+            from execution_policy_semantics import semantics_cases
+            references=[c for c in semantics_cases() if c.get('hybrid_role')=='reference']
+            if case not in limit_cases()+online_caps_cases()+references:raise ValueError('undeclared contact case')
     if handoff and case.get('hybrid_role')!='policy':raise ValueError('handoff requires declared live policy case')
     initial=copy.deepcopy(read_state());obj=list(initial['object_pos_world_m'])
     q,yaw=down_quat_from_object(initial['object_quat_world_xyzw'])

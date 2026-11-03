@@ -151,5 +151,27 @@ class PolicySemanticsTests(unittest.TestCase):
             self.assertEqual(result['new_policy_queries'],0);self.assertEqual(report['queries'],[])
             if grip=='open':self.assertTrue(result['identity_check']['passed'])
 
+    def test_both_program_references_execute_full_contact_sequence(self):
+        from execution_contact import run_contact_experiment
+        import test_execution_contact as contact_fixture
+        references=[c for c in semantics_cases() if c.get('hybrid_role')=='reference']
+        self.assertEqual(len(references),2)
+        for case in references:
+            read,step,calls=contact_fixture.ContactTests().simulator()
+            result=run_contact_experiment(read,step,case)
+            self.assertTrue(result['success'],case['name'])
+            self.assertEqual(result['outcome'],'verified_lift_hold')
+            self.assertTrue(result['close_attempted']);self.assertTrue(result['lift_attempted'])
+            self.assertEqual(sum(phase=='hold' for _,_,_,phase in calls),40)
+
+    def test_program_reference_registration_rejects_policy_and_mutated_reference(self):
+        from execution_contact import run_contact_experiment
+        import test_execution_contact as contact_fixture
+        altered=copy.deepcopy(semantics_cases()[0]);altered['grasp_height_m']=.03
+        for case in (altered,self.case()):
+            read,step,calls=contact_fixture.ContactTests().simulator()
+            with self.assertRaisesRegex(ValueError,'undeclared contact case'):run_contact_experiment(read,step,case)
+            self.assertEqual(calls,[])
+
 
 if __name__=='__main__':unittest.main()
