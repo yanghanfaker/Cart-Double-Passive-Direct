@@ -1,0 +1,1392 @@
+{
+  "status": "needs-inspection",
+  "new_policy_queries": 0,
+  "cases": [
+    {
+      "case": {
+        "name": "semantics-reference-start",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [],
+        "hybrid_role": "reference"
+      },
+      "status": "failed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102255462097Z/semantics-reference-start/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102255462097Z/semantics-reference-start/runs"
+      ],
+      "exit_code": 1,
+      "result": "semantics-reference-start/runs/20261103T102255721644Z/capture/20261103T102255739171Z/online_registered_result.json",
+      "summary": {
+        "status": "failed",
+        "error": "undeclared contact case",
+        "controls": 0,
+        "physics_samples": 0,
+        "policy_queries": 0,
+        "inference_attempts": 0,
+        "saturation": {
+          "sample_count": 0,
+          "clipped_samples": 0,
+          "peak_requested_fraction_per_joint": null,
+          "scope": "computed versus applied buffer difference; not an independent solver-force measurement"
+        },
+        "max_tcp_linearization_residual_m": null,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": null,
+        "joint_rms_tracking_error_rad": null,
+        "peak_tcp_distance_from_start_m": null,
+        "peak_abs_joint_velocity_rad_s": null,
+        "min_joint_limit_margin_rad": null,
+        "controls_with_translation_cap": 0,
+        "controls_with_rotation_cap": 0,
+        "max_period_end_tcp_error_m": null,
+        "stream_initial": null,
+        "initial_velocity_comparison": {
+          "native_joint_velocity_rad_s": [
+            0.1472415526350745,
+            0.16817838813061994,
+            0.03224955387032524,
+            -0.42903583901112086,
+            -0.2761409402531644,
+            0.7488256774534773,
+            0.3862529796028236
+          ],
+          "isaac_joint_velocity_rad_s": [
+            -2.0279626369301695e-06,
+            -1.9592946500779362e-06,
+            1.1832364634756232e-06,
+            -3.850649591186084e-06,
+            3.535557198119932e-06,
+            8.03148122940911e-06,
+            8.893226599582249e-09
+          ],
+          "scope": "original recorded native dynamic state versus held Isaac start; for pose variants original velocities belong to the original pose, not a matched initial dynamic reference"
+        },
+        "finger_dynamics_audit": {
+          "joint_stiffness": {
+            "value": [
+              350.0,
+              0.0
+            ],
+            "status": "available"
+          },
+          "joint_damping": {
+            "value": [
+              50.0,
+              0.0
+            ],
+            "status": "available"
+          },
+          "joint_effort_limits": {
+            "value": [
+              200.0,
+              200.0
+            ],
+            "status": "available"
+          },
+          "joint_vel_limits": {
+            "value": [
+              3.4028234663852886e+38,
+              3.4028234663852886e+38
+            ],
+            "status": "available"
+          },
+          "joint_armature": {
+            "value": [
+              0.10000000149011612,
+              0.10000000149011612
+            ],
+            "status": "available"
+          },
+          "asset": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/franka_panda.usda",
+          "note": "finger1 active; finger2 passive/mimic; authored USD fields may differ from resolved solver properties",
+          "usd_authored_attributes": {
+            "status": "available",
+            "prims": [
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger",
+                "attributes": {
+                  "physics:angularVelocity": "(0, 0, 0)",
+                  "physics:centerOfMass": "(0, 0, 0)",
+                  "physics:density": "0.0",
+                  "physics:diagonalInertia": "(0.000002375, 0.000002375, 7.5e-7)",
+                  "physics:kinematicEnabled": "False",
+                  "physics:mass": "0.014999999664723873",
+                  "physics:principalAxes": "(1, 0, 0, 0)",
+                  "physics:rigidBodyEnabled": "True",
+                  "physics:startsAsleep": "False",
+                  "physics:velocity": "(0, 0, 0)",
+                  "physxRigidBody:angularDamping": "0.05000000074505806",
+                  "physxRigidBody:cfmScale": "0.02500000037252903",
+                  "physxRigidBody:contactSlopCoefficient": "0.0",
+                  "physxRigidBody:disableGravity": "True",
+                  "physxRigidBody:enableCCD": "False",
+                  "physxRigidBody:enableGyroscopicForces": "True",
+                  "physxRigidBody:enableSpeculativeCCD": "False",
+                  "physxRigidBody:linearDamping": "0.0",
+                  "physxRigidBody:lockedPosAxis": "0",
+                  "physxRigidBody:lockedRotAxis": "0",
+                  "physxRigidBody:maxAngularVelocity": "5729.580078125",
+                  "physxRigidBody:maxContactImpulse": "inf",
+                  "physxRigidBody:maxDepenetrationVelocity": "5.0",
+                  "physxRigidBody:maxLinearVelocity": "inf",
+                  "physxRigidBody:retainAccelerations": "False",
+                  "physxRigidBody:sleepThreshold": "4.999999873689376e-05",
+                  "physxRigidBody:solveContact": "True",
+                  "physxRigidBody:solverPositionIterationCount": "16",
+                  "physxRigidBody:solverVelocityIterationCount": "1",
+                  "physxRigidBody:stabilizationThreshold": "9.999999747378752e-06"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/panda_finger_joint1",
+                "attributes": {
+                  "drive:linear:physics:damping": "10.0",
+                  "drive:linear:physics:maxForce": "200.0",
+                  "drive:linear:physics:stiffness": "350.0",
+                  "drive:linear:physics:targetPosition": "0.0",
+                  "drive:linear:physics:targetVelocity": "0.0",
+                  "drive:linear:physics:type": "force",
+                  "physics:axis": "Y",
+                  "physics:breakForce": "inf",
+                  "physics:breakTorque": "inf",
+                  "physics:collisionEnabled": "False",
+                  "physics:excludeFromArticulation": "False",
+                  "physics:jointEnabled": "True",
+                  "physics:localPos0": "(6.938894e-18, 0, 0.0584)",
+                  "physics:localPos1": "(0, 0, 0)",
+                  "physics:localRot0": "(1, 0, 0, 0)",
+                  "physics:localRot1": "(1, 0, 0, 0)",
+                  "physics:lowerLimit": "0.0",
+                  "physics:upperLimit": "0.03999999910593033",
+                  "physxJoint:armature": "0.10000000149011612",
+                  "physxJoint:jointFriction": "0.0",
+                  "physxJoint:maxJointVelocity": "inf"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/left_finger_pad",
+                "attributes": {
+                  "physics:centerOfMass": "(-inf, -inf, -inf)",
+                  "physics:collisionEnabled": "True",
+                  "physics:density": "1000.0",
+                  "physics:diagonalInertia": "(0, 0, 0)",
+                  "physics:mass": "0.0",
+                  "physics:principalAxes": "(0, 0, 0, 0)"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger",
+                "attributes": {
+                  "physics:angularVelocity": "(0, 0, 0)",
+                  "physics:centerOfMass": "(0, 0, 0)",
+                  "physics:density": "0.0",
+                  "physics:diagonalInertia": "(0.000002375, 0.000002375, 7.5e-7)",
+                  "physics:kinematicEnabled": "False",
+                  "physics:mass": "0.014999999664723873",
+                  "physics:principalAxes": "(1, 0, 0, 0)",
+                  "physics:rigidBodyEnabled": "True",
+                  "physics:startsAsleep": "False",
+                  "physics:velocity": "(0, 0, 0)",
+                  "physxRigidBody:angularDamping": "0.05000000074505806",
+                  "physxRigidBody:cfmScale": "0.02500000037252903",
+                  "physxRigidBody:contactSlopCoefficient": "0.0",
+                  "physxRigidBody:disableGravity": "True",
+                  "physxRigidBody:enableCCD": "False",
+                  "physxRigidBody:enableGyroscopicForces": "True",
+                  "physxRigidBody:enableSpeculativeCCD": "False",
+                  "physxRigidBody:linearDamping": "0.0",
+                  "physxRigidBody:lockedPosAxis": "0",
+                  "physxRigidBody:lockedRotAxis": "0",
+                  "physxRigidBody:maxAngularVelocity": "5729.580078125",
+                  "physxRigidBody:maxContactImpulse": "inf",
+                  "physxRigidBody:maxDepenetrationVelocity": "5.0",
+                  "physxRigidBody:maxLinearVelocity": "inf",
+                  "physxRigidBody:retainAccelerations": "False",
+                  "physxRigidBody:sleepThreshold": "4.999999873689376e-05",
+                  "physxRigidBody:solveContact": "True",
+                  "physxRigidBody:solverPositionIterationCount": "16",
+                  "physxRigidBody:solverVelocityIterationCount": "1",
+                  "physxRigidBody:stabilizationThreshold": "9.999999747378752e-06"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/panda_finger_joint2",
+                "attributes": {
+                  "drive:linear:physics:damping": "0.0",
+                  "drive:linear:physics:maxForce": "inf",
+                  "drive:linear:physics:stiffness": "0.0",
+                  "drive:linear:physics:targetPosition": "0.0",
+                  "drive:linear:physics:targetVelocity": "0.0",
+                  "drive:linear:physics:type": "force",
+                  "physics:axis": "Y",
+                  "physics:breakForce": "inf",
+                  "physics:breakTorque": "inf",
+                  "physics:collisionEnabled": "False",
+                  "physics:excludeFromArticulation": "False",
+                  "physics:jointEnabled": "True",
+                  "physics:localPos0": "(6.938894e-18, 0, 0.0584)",
+                  "physics:localPos1": "(0, 0, 0)",
+                  "physics:localRot0": "(-1.6653345e-16, -6.674186e-17, -1.1669192e-16, -1)",
+                  "physics:localRot1": "(1, 0, 0, 0)",
+                  "physics:lowerLimit": "0.0",
+                  "physics:upperLimit": "0.03999999910593033",
+                  "physxJoint:armature": "0.10000000149011612",
+                  "physxJoint:jointFriction": "0.0",
+                  "physxJoint:maxJointVelocity": "inf"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/right_finger_pad",
+                "attributes": {
+                  "physics:centerOfMass": "(-inf, -inf, -inf)",
+                  "physics:collisionEnabled": "True",
+                  "physics:density": "1000.0",
+                  "physics:diagonalInertia": "(0, 0, 0)",
+                  "physics:mass": "0.0",
+                  "physics:principalAxes": "(0, 0, 0, 0)"
+                }
+              }
+            ]
+          }
+        },
+        "grasp_result": null,
+        "frozen_queries": null,
+        "frozen_input": null,
+        "replay_result": null,
+        "actual_tcp_delta_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "finger_controls": [],
+        "result_sha256": "6722a8b9acd3b0e8b6102a231e6c9b891caa294bf762ec3357bb2d363e0d9d63"
+      },
+      "error": "undeclared contact case"
+    },
+    {
+      "case": {
+        "name": "semantics-live-open-0.5mm-0.1deg-r1",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-model-0.5mm-0.1deg-r1",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-open-2mm-0.1deg-r1",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.002,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-model-2mm-0.1deg-r1",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.002,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-open-5mm-0.1deg-r1",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-model-5mm-0.1deg-r1",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-open-5mm-0.5deg-r1",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.5,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-model-5mm-0.5deg-r1",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.5,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-model-5mm-0.5deg-r2",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.5,
+        "grasp_height_m": 0.005,
+        "repeat": 2,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-open-5mm-0.5deg-r2",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.5,
+        "grasp_height_m": 0.005,
+        "repeat": 2,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-model-5mm-0.1deg-r2",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 2,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-open-5mm-0.1deg-r2",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 2,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-model-2mm-0.1deg-r2",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.002,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 2,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-open-2mm-0.1deg-r2",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.002,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 2,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-model-0.5mm-0.1deg-r2",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 2,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-live-open-0.5mm-0.1deg-r2",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 2,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start"
+        ],
+        "semantics_role": "live",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 300,
+        "prompt": "pick up the cube",
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-replay-open-0.5mm-0.1deg",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start",
+          "semantics-live-open-0.5mm-0.1deg-r1"
+        ],
+        "semantics_role": "replay",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 100,
+        "replay_source": "semantics-live-open-0.5mm-0.1deg-r1",
+        "identity_replay": true,
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-live-open-0.5mm-0.1deg-r1",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-replay-model-0.5mm-0.1deg",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start",
+          "semantics-live-open-0.5mm-0.1deg-r1",
+          "semantics-replay-open-0.5mm-0.1deg"
+        ],
+        "semantics_role": "replay",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 100,
+        "replay_source": "semantics-live-open-0.5mm-0.1deg-r1",
+        "identity_replay": false,
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-live-open-0.5mm-0.1deg-r1",
+        "semantics-replay-open-0.5mm-0.1deg",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-replay-open-2mm-0.1deg",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.002,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start",
+          "semantics-live-open-0.5mm-0.1deg-r1",
+          "semantics-replay-open-0.5mm-0.1deg"
+        ],
+        "semantics_role": "replay",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 100,
+        "replay_source": "semantics-live-open-0.5mm-0.1deg-r1",
+        "identity_replay": false,
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-live-open-0.5mm-0.1deg-r1",
+        "semantics-replay-open-0.5mm-0.1deg",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-replay-model-2mm-0.1deg",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.002,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start",
+          "semantics-live-open-0.5mm-0.1deg-r1",
+          "semantics-replay-open-0.5mm-0.1deg"
+        ],
+        "semantics_role": "replay",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 100,
+        "replay_source": "semantics-live-open-0.5mm-0.1deg-r1",
+        "identity_replay": false,
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-live-open-0.5mm-0.1deg-r1",
+        "semantics-replay-open-0.5mm-0.1deg",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-replay-open-5mm-0.1deg",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start",
+          "semantics-live-open-0.5mm-0.1deg-r1",
+          "semantics-replay-open-0.5mm-0.1deg"
+        ],
+        "semantics_role": "replay",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 100,
+        "replay_source": "semantics-live-open-0.5mm-0.1deg-r1",
+        "identity_replay": false,
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-live-open-0.5mm-0.1deg-r1",
+        "semantics-replay-open-0.5mm-0.1deg",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-replay-model-5mm-0.1deg",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start",
+          "semantics-live-open-0.5mm-0.1deg-r1",
+          "semantics-replay-open-0.5mm-0.1deg"
+        ],
+        "semantics_role": "replay",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 100,
+        "replay_source": "semantics-live-open-0.5mm-0.1deg-r1",
+        "identity_replay": false,
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-live-open-0.5mm-0.1deg-r1",
+        "semantics-replay-open-0.5mm-0.1deg",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-replay-open-5mm-0.5deg",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.5,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start",
+          "semantics-live-open-0.5mm-0.1deg-r1",
+          "semantics-replay-open-0.5mm-0.1deg"
+        ],
+        "semantics_role": "replay",
+        "gripper_policy": "open",
+        "prefix_length": 5,
+        "max_policy_controls": 100,
+        "replay_source": "semantics-live-open-0.5mm-0.1deg-r1",
+        "identity_replay": false,
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-live-open-0.5mm-0.1deg-r1",
+        "semantics-replay-open-0.5mm-0.1deg",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-replay-model-5mm-0.5deg",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.005,
+        "rotation_cap_deg": 0.5,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [
+          "semantics-reference-start",
+          "semantics-live-open-0.5mm-0.1deg-r1",
+          "semantics-replay-open-0.5mm-0.1deg"
+        ],
+        "semantics_role": "replay",
+        "gripper_policy": "model",
+        "prefix_length": 5,
+        "max_policy_controls": 100,
+        "replay_source": "semantics-live-open-0.5mm-0.1deg-r1",
+        "identity_replay": false,
+        "requires_success": [
+          "semantics-reference-start"
+        ]
+      },
+      "status": "skipped",
+      "reason": "prerequisites not completed",
+      "prerequisites": [
+        "semantics-reference-start",
+        "semantics-live-open-0.5mm-0.1deg-r1",
+        "semantics-replay-open-0.5mm-0.1deg",
+        "semantics-reference-start grasp success"
+      ]
+    },
+    {
+      "case": {
+        "name": "semantics-reference-end",
+        "kind": "contact-grasp",
+        "arm_profile": "k1687p5-d50",
+        "finger_profile": "kp350-kd50",
+        "gripper_mode": "substep",
+        "cap_m": 0.0005,
+        "rotation_cap_deg": 0.1,
+        "grasp_height_m": 0.005,
+        "repeat": 1,
+        "negative_control": false,
+        "requires": [],
+        "hybrid_role": "reference"
+      },
+      "status": "failed",
+      "command": [
+        "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+        "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/isaac_native_segment.py",
+        "--execution-case-json",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102255462097Z/semantics-reference-end/case.json",
+        "--isaaclab-root",
+        "/home/test/Robot/IsaacLab",
+        "--output-root",
+        "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102255462097Z/semantics-reference-end/runs"
+      ],
+      "exit_code": 1,
+      "result": "semantics-reference-end/runs/20261103T102312205009Z/capture/20261103T102312221979Z/online_registered_result.json",
+      "summary": {
+        "status": "failed",
+        "error": "undeclared contact case",
+        "controls": 0,
+        "physics_samples": 0,
+        "policy_queries": 0,
+        "inference_attempts": 0,
+        "saturation": {
+          "sample_count": 0,
+          "clipped_samples": 0,
+          "peak_requested_fraction_per_joint": null,
+          "scope": "computed versus applied buffer difference; not an independent solver-force measurement"
+        },
+        "max_tcp_linearization_residual_m": null,
+        "initial_tcp_error_m": 9.52810552372024e-05,
+        "joint_max_abs_tracking_error_rad": null,
+        "joint_rms_tracking_error_rad": null,
+        "peak_tcp_distance_from_start_m": null,
+        "peak_abs_joint_velocity_rad_s": null,
+        "min_joint_limit_margin_rad": null,
+        "controls_with_translation_cap": 0,
+        "controls_with_rotation_cap": 0,
+        "max_period_end_tcp_error_m": null,
+        "stream_initial": null,
+        "initial_velocity_comparison": {
+          "native_joint_velocity_rad_s": [
+            0.1472415526350745,
+            0.16817838813061994,
+            0.03224955387032524,
+            -0.42903583901112086,
+            -0.2761409402531644,
+            0.7488256774534773,
+            0.3862529796028236
+          ],
+          "isaac_joint_velocity_rad_s": [
+            -2.0279626369301695e-06,
+            -1.9592946500779362e-06,
+            1.1832364634756232e-06,
+            -3.850649591186084e-06,
+            3.535557198119932e-06,
+            8.03148122940911e-06,
+            8.893226599582249e-09
+          ],
+          "scope": "original recorded native dynamic state versus held Isaac start; for pose variants original velocities belong to the original pose, not a matched initial dynamic reference"
+        },
+        "finger_dynamics_audit": {
+          "joint_stiffness": {
+            "value": [
+              350.0,
+              0.0
+            ],
+            "status": "available"
+          },
+          "joint_damping": {
+            "value": [
+              50.0,
+              0.0
+            ],
+            "status": "available"
+          },
+          "joint_effort_limits": {
+            "value": [
+              200.0,
+              200.0
+            ],
+            "status": "available"
+          },
+          "joint_vel_limits": {
+            "value": [
+              3.4028234663852886e+38,
+              3.4028234663852886e+38
+            ],
+            "status": "available"
+          },
+          "joint_armature": {
+            "value": [
+              0.10000000149011612,
+              0.10000000149011612
+            ],
+            "status": "available"
+          },
+          "asset": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Robots/FrankaEmika/franka_panda.usda",
+          "note": "finger1 active; finger2 passive/mimic; authored USD fields may differ from resolved solver properties",
+          "usd_authored_attributes": {
+            "status": "available",
+            "prims": [
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger",
+                "attributes": {
+                  "physics:angularVelocity": "(0, 0, 0)",
+                  "physics:centerOfMass": "(0, 0, 0)",
+                  "physics:density": "0.0",
+                  "physics:diagonalInertia": "(0.000002375, 0.000002375, 7.5e-7)",
+                  "physics:kinematicEnabled": "False",
+                  "physics:mass": "0.014999999664723873",
+                  "physics:principalAxes": "(1, 0, 0, 0)",
+                  "physics:rigidBodyEnabled": "True",
+                  "physics:startsAsleep": "False",
+                  "physics:velocity": "(0, 0, 0)",
+                  "physxRigidBody:angularDamping": "0.05000000074505806",
+                  "physxRigidBody:cfmScale": "0.02500000037252903",
+                  "physxRigidBody:contactSlopCoefficient": "0.0",
+                  "physxRigidBody:disableGravity": "True",
+                  "physxRigidBody:enableCCD": "False",
+                  "physxRigidBody:enableGyroscopicForces": "True",
+                  "physxRigidBody:enableSpeculativeCCD": "False",
+                  "physxRigidBody:linearDamping": "0.0",
+                  "physxRigidBody:lockedPosAxis": "0",
+                  "physxRigidBody:lockedRotAxis": "0",
+                  "physxRigidBody:maxAngularVelocity": "5729.580078125",
+                  "physxRigidBody:maxContactImpulse": "inf",
+                  "physxRigidBody:maxDepenetrationVelocity": "5.0",
+                  "physxRigidBody:maxLinearVelocity": "inf",
+                  "physxRigidBody:retainAccelerations": "False",
+                  "physxRigidBody:sleepThreshold": "4.999999873689376e-05",
+                  "physxRigidBody:solveContact": "True",
+                  "physxRigidBody:solverPositionIterationCount": "16",
+                  "physxRigidBody:solverVelocityIterationCount": "1",
+                  "physxRigidBody:stabilizationThreshold": "9.999999747378752e-06"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/panda_finger_joint1",
+                "attributes": {
+                  "drive:linear:physics:damping": "10.0",
+                  "drive:linear:physics:maxForce": "200.0",
+                  "drive:linear:physics:stiffness": "350.0",
+                  "drive:linear:physics:targetPosition": "0.0",
+                  "drive:linear:physics:targetVelocity": "0.0",
+                  "drive:linear:physics:type": "force",
+                  "physics:axis": "Y",
+                  "physics:breakForce": "inf",
+                  "physics:breakTorque": "inf",
+                  "physics:collisionEnabled": "False",
+                  "physics:excludeFromArticulation": "False",
+                  "physics:jointEnabled": "True",
+                  "physics:localPos0": "(6.938894e-18, 0, 0.0584)",
+                  "physics:localPos1": "(0, 0, 0)",
+                  "physics:localRot0": "(1, 0, 0, 0)",
+                  "physics:localRot1": "(1, 0, 0, 0)",
+                  "physics:lowerLimit": "0.0",
+                  "physics:upperLimit": "0.03999999910593033",
+                  "physxJoint:armature": "0.10000000149011612",
+                  "physxJoint:jointFriction": "0.0",
+                  "physxJoint:maxJointVelocity": "inf"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_leftfinger/left_finger_pad",
+                "attributes": {
+                  "physics:centerOfMass": "(-inf, -inf, -inf)",
+                  "physics:collisionEnabled": "True",
+                  "physics:density": "1000.0",
+                  "physics:diagonalInertia": "(0, 0, 0)",
+                  "physics:mass": "0.0",
+                  "physics:principalAxes": "(0, 0, 0, 0)"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger",
+                "attributes": {
+                  "physics:angularVelocity": "(0, 0, 0)",
+                  "physics:centerOfMass": "(0, 0, 0)",
+                  "physics:density": "0.0",
+                  "physics:diagonalInertia": "(0.000002375, 0.000002375, 7.5e-7)",
+                  "physics:kinematicEnabled": "False",
+                  "physics:mass": "0.014999999664723873",
+                  "physics:principalAxes": "(1, 0, 0, 0)",
+                  "physics:rigidBodyEnabled": "True",
+                  "physics:startsAsleep": "False",
+                  "physics:velocity": "(0, 0, 0)",
+                  "physxRigidBody:angularDamping": "0.05000000074505806",
+                  "physxRigidBody:cfmScale": "0.02500000037252903",
+                  "physxRigidBody:contactSlopCoefficient": "0.0",
+                  "physxRigidBody:disableGravity": "True",
+                  "physxRigidBody:enableCCD": "False",
+                  "physxRigidBody:enableGyroscopicForces": "True",
+                  "physxRigidBody:enableSpeculativeCCD": "False",
+                  "physxRigidBody:linearDamping": "0.0",
+                  "physxRigidBody:lockedPosAxis": "0",
+                  "physxRigidBody:lockedRotAxis": "0",
+                  "physxRigidBody:maxAngularVelocity": "5729.580078125",
+                  "physxRigidBody:maxContactImpulse": "inf",
+                  "physxRigidBody:maxDepenetrationVelocity": "5.0",
+                  "physxRigidBody:maxLinearVelocity": "inf",
+                  "physxRigidBody:retainAccelerations": "False",
+                  "physxRigidBody:sleepThreshold": "4.999999873689376e-05",
+                  "physxRigidBody:solveContact": "True",
+                  "physxRigidBody:solverPositionIterationCount": "16",
+                  "physxRigidBody:solverVelocityIterationCount": "1",
+                  "physxRigidBody:stabilizationThreshold": "9.999999747378752e-06"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/panda_finger_joint2",
+                "attributes": {
+                  "drive:linear:physics:damping": "0.0",
+                  "drive:linear:physics:maxForce": "inf",
+                  "drive:linear:physics:stiffness": "0.0",
+                  "drive:linear:physics:targetPosition": "0.0",
+                  "drive:linear:physics:targetVelocity": "0.0",
+                  "drive:linear:physics:type": "force",
+                  "physics:axis": "Y",
+                  "physics:breakForce": "inf",
+                  "physics:breakTorque": "inf",
+                  "physics:collisionEnabled": "False",
+                  "physics:excludeFromArticulation": "False",
+                  "physics:jointEnabled": "True",
+                  "physics:localPos0": "(6.938894e-18, 0, 0.0584)",
+                  "physics:localPos1": "(0, 0, 0)",
+                  "physics:localRot0": "(-1.6653345e-16, -6.674186e-17, -1.1669192e-16, -1)",
+                  "physics:localRot1": "(1, 0, 0, 0)",
+                  "physics:lowerLimit": "0.0",
+                  "physics:upperLimit": "0.03999999910593033",
+                  "physxJoint:armature": "0.10000000149011612",
+                  "physxJoint:jointFriction": "0.0",
+                  "physxJoint:maxJointVelocity": "inf"
+                }
+              },
+              {
+                "path": "/World/envs/env_0/Robot/Geometry/panda_link0/panda_link1/panda_link2/panda_link3/panda_link4/panda_link5/panda_link6/panda_link7/panda_hand/panda_rightfinger/right_finger_pad",
+                "attributes": {
+                  "physics:centerOfMass": "(-inf, -inf, -inf)",
+                  "physics:collisionEnabled": "True",
+                  "physics:density": "1000.0",
+                  "physics:diagonalInertia": "(0, 0, 0)",
+                  "physics:mass": "0.0",
+                  "physics:principalAxes": "(0, 0, 0, 0)"
+                }
+              }
+            ]
+          }
+        },
+        "grasp_result": null,
+        "frozen_queries": null,
+        "frozen_input": null,
+        "replay_result": null,
+        "actual_tcp_delta_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "finger_controls": [],
+        "result_sha256": "d351ba95564e8bf3cda5532bf38bcec031d9a460c892743a099cfa6a30d21a08"
+      },
+      "error": "undeclared contact case"
+    }
+  ],
+  "suite": "policy_semantics",
+  "scope": "16 live model/open-gripper cap cases, eight matched archived-action replays and two program references; fixed gains, no program handoff in policy groups; kinematic lift outcome, not native benchmark success",
+  "code_sha256": {
+    "run_execution_alignment.py": "64a6b572dcacb668c3b5431a8cfed8e72ceac7c2c3e31e17e20a89b608fa57a2",
+    "execution_alignment_probe.py": "d64414ceda85770e0b3f2a22ae19cbca6ee08214f3dfac6c4e38a056bf9928df",
+    "execution_coverage_cases.py": "02e98aad495c3217bbe7fca1beb793fd33984fa13e40485e8256b85253f113a3",
+    "execution_focus_cases.py": "fa0b4ececeebfb3fc5152abe1e8784a407fe6bcf17b72ded7bb54389039aeee4",
+    "execution_sync_cases.py": "d07565878e3300ae8ca1d30aef8eca50c4e778a1ad8086b1f9493fb93d2685af",
+    "execution_generalization.py": "034965f04134c06183f31e29c42ddd3f6de308327ac7e92ea5fba64fd1a64beb",
+    "execution_contact.py": "0e55e9adb60ee8642e34052a761d4a885951f17dfc1a9d14a1244ee7be888f82",
+    "execution_hybrid.py": "c4e5e95754a49cb773dcd9a39cf25ff2af9e9fce8e50c42cfe5bae1962874a5a",
+    "execution_limit_audit.py": "2a033ab7411e1919ed193c90e7350dba7f40b05ddf299243ec3505cfb4760311",
+    "execution_online_caps.py": "3f60d6b2cc360b60c4a64ba3741b0fc710a26099845ca1a08aedd995a27d7fe8",
+    "execution_policy_semantics.py": "dfea4071047c7188ab2e6477a673bc379d2ff20662f163a7894a35f1211c6e97",
+    "collision_geometry.py": "7a7e537047807373cd7c0c7d74a91aa7531188f11df75c88c2edccfb1b9b128b",
+    "live_grasp_query.py": "3f5a36ec815bed268e0a594d17b683bd5444e3f7e06a24fb107e70a4466b0161",
+    "online_registered_probe.py": "17bc392c3d198a205b087e1b06c7a8561c1372764b94585f133794bca8fd61eb",
+    "replanning_probe.py": "258a22c628348ec188932fb719d74934c1eec6374ece2a1c722865abc4210140",
+    "openpi_health.py": "1c99baa287569ece0f01973b914be6f0131a2baa65039c1c35b2019c0ff508ea",
+    "grasp_probe.py": "df423c9d080b5fad4b1c5c335348c4f00efd7c89fc44efe53860a57d68cb96f4",
+    "openpi_grasp_logic.py": "848d8c88919fd96d0e6666d4825167baf900ee6a6697584eed518605e5b1cf4a",
+    "libero_reference_audit.py": "bac40efee6348690d49bb77dbd42236b33113638e5fb07d1e5a40e254448add9",
+    "run_multipose_geometry.py": "d18d6fde3e7ec1336da18b74257cf7244d6674eadf4b26724c87e1b8c16897f7",
+    "check_cameras.py": "4f22222f3551647b6c9f5463d57b423b0551f2eb8864545adc46198a244f1c2f",
+    "isaac_native_segment.py": "8d6caac3ac66b95a172d49869380cdc678dc6a4a98ab11fc2dbef2cb78358f89",
+    "run_geometry_audit.py": "aa22635735528828720236478ef5fa708938e52608cc9171e0fdceecc313b6c9",
+    "openpi_grasp_runtime.py": "67c0dfd7d2a6ca76cebf886c8ad2ecf1e509259f052825947d61bd26880cfd95",
+    "registered_replay_probe.py": "f80322bd5c24655ff3fed74dd30166085fb8950a98b5ae553a2181f1deba68f1",
+    "physics_trace.py": "1cd31e4480fd8b3d504abaaa7ca9947734f74813b771500e2d544b8349c95d55"
+  },
+  "validated_contact_source": {
+    "manifest": "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_contact/20261102T092231776931Z/run.json",
+    "manifest_sha256": "18c2a0133e5396eef5bdf443830ce01410246e8cadb66af8ac445958cd0fcf7a",
+    "result_sha256": {
+      "contact-h0-kp350-kd50-r1": "5d5dcc650b6f53f8dd9cb1917935462a039ccb9c9bff73317a9313fdebba25db",
+      "contact-h0-kp350-kd50-r2": "51b5dd8e4ee207a307aaa392fad3b6c16d8c8abdefadba256d8ec1b3876a22ca",
+      "contact-h0-kp1000-kd100-r1": "c74982981fea5454f10a058bf1b0a75cc50f71bd79e700baa647b268d77a6a5c",
+      "contact-h0-kp1000-kd100-r2": "f77a4adb2443b4cc00a4e5f92788a8494f6ef5504b522f00f2525ab426a1fa79",
+      "contact-h0-open-negative": "8f08bb2d89e5c1729418b2f0fd955fa6c7d85557deb120f2889ca82737b0354b",
+      "contact-h5-kp350-kd50-r1": "f71101bcb5c444624370d7a198137119ae7edc959e7bff82f7daa4befc7dbaba",
+      "contact-h5-kp350-kd50-r2": "4acb5f5541b41c53e3b1464cced14766091ca1b9c442a979e1836593549623aa",
+      "contact-h5-kp1000-kd100-r1": "d7e652c6992d2072f2659bdf141b29ec369c3735ee8d995f7e762df39a205e5c",
+      "contact-h5-kp1000-kd100-r2": "2f3c0951bd118fb2cedb390a365f430697dcadd302f52a864de90ce0bad3f898",
+      "contact-h5-open-negative": "e1fd90846893a4d45adf73ccbc8205c453cc1730e36004ce22d0bf5fa179e7ee"
+    }
+  },
+  "server_health": {
+    "status": "healthy",
+    "path": "/healthz",
+    "http_status": 200,
+    "body": "OK",
+    "elapsed_s": 0.0017732791602611542,
+    "scope": "HTTP health route only; not checkpoint identity or inference validation"
+  }
+}
