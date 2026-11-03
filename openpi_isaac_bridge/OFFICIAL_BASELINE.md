@@ -75,6 +75,20 @@ python3 openpi_isaac_bridge/run_official_libero_baseline.py
 
 脚本下载固定官方文件到该次结果目录并直接运行，无 monkey-patch、无强制张开、无额外位移限幅、无 simulator-truth 接管。
 本机安装的 LIBERO、robosuite、MuJoCo和客户端依赖仍是已经适配 Spark 的环境，不宣称整套依赖是官方原始 Docker。
+当前 Spark 的 torch=2.7.1，LIBERO 旧版本的 get_task_init_states 使用未显式指定 weights_only 的 torch.load。
+PyTorch>=2.6 默认受限加载，因此先前原样入口在首个任务的 NumPy 状态反序列化处停止，尚无回合或模型推理成绩。
+现在官方入口源码仍逐字节核验，执行时由 official_libero_launcher.py 的 runpy 兼容层启动：
+
+- official_libero_initial_states.json 固定官方 LIBERO f78abd68 的10个 spatial pruned_init 文件哈希。
+- 先验证本机原始文件字节并复制到本次结果目录 verified_init_states，配置指向这些字节相同的快照。
+- 在 scoped safe_globals 中仅允许 NumPy ndarray、reconstruct、dtype 和 float32/64 dtype 类型；保留 weights_only=True。
+- 先在无仿真子进程中将全部10个状态文件加载为有限二维浮点数组，记录形状、类型和首个状态摘要。
+- 运行官方入口时保持相同的限定类型上下文；不改动作、控制器、任务顺序、提示词、重规划步数或成功判据。
+- 子进程显式启用 TORCH_FORCE_WEIGHTS_ONLY_LOAD=1，清除相反环境变量；不使用 weights_only=False，也不 monkey-patch torch.load。
+- --check-only 现在同时检查依赖和全部初始状态；init_state_preflight.log、init_state_audit.json 保存兼容层证据。
+
+这应称为“官方原始客户端 + 状态加载兼容层”的基线；不能声称与官方旧版完整依赖栈完全一致。
+PyTorch 接口依据：[2.7序列化说明](https://docs.pytorch.org/docs/2.7/notes/serialization.html#torch-load-with-weights-only-true)。
 只运行1回合/任务也避免该版本官方视频文件名没有 episode 编号导致重复覆盖。
 默认60分钟超时，失败或中断保留结果；官方日志直接写入 console.log。
 

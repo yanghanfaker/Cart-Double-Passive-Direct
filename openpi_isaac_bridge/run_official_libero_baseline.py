@@ -20,6 +20,7 @@ from openpi_health import check_openpi_health
 
 MANIFEST = Path(__file__).with_name('official_libero_manifest.json')
 RUNTIME_PROBE = Path(__file__).with_name('libero_runtime_probe.py')
+STATE_LAUNCHER = Path(__file__).with_name('official_libero_launcher.py')
 
 
 def verified_source(data, manifest):
@@ -98,7 +99,7 @@ def main():
             'seed':args.seed,'check_only':args.check_only,'server':{'host':'127.0.0.1','port':8000,'expected_config':'pi05_libero',
             'identity_status':'unverified; health and endpoint are not proof of loaded weights',
             'candidate_processes':server_candidates()},'simulation_launch_attempted':False,'metrics':None,
-            'scope':'unmodified official LIBERO client on existing ARM-compatible dependencies; not official Arena/Isaac baseline',
+            'scope':'byte-identical official LIBERO client with scoped NumPy init-state compatibility on existing ARM dependencies; not official Arena/Isaac baseline',
             'comparison_limit':'different scene and physics from Isaac cube proxy; success would establish native model operation, not isolate a specific bridge bug',
             'runner_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
     def save():
@@ -121,10 +122,6 @@ def main():
         runtime=json.loads(probe.stdout.strip().splitlines()[-1]);report['runtime']=runtime
         if runtime['failures']:
             raise RuntimeError('Client prerequisites unavailable: '+', '.join(runtime['failures'])+'; inspect runtime.failures in run.json')
-        if args.check_only:
-            report['status']='preflight-completed';save()
-            return 0
-        report['server']['health']=check_openpi_health()
         libero=Path(runtime['libero_root'])
         report['libero_checkout']={'head':command(['git','rev-parse','HEAD'],libero),
                                   'tracked_changes':command(['git','status','--porcelain','--untracked-files=no'],libero)}
@@ -136,10 +133,27 @@ def main():
         (config/'config.yaml').write_text(json.dumps({'benchmark_root':str(libero),'bddl_files':str(libero/'bddl_files'),
             'assets':str(libero/'assets'),'init_states':str(libero/'init_files'),'datasets':str(libero.parent/'datasets')},indent=2)+'\n',encoding='utf-8')
         env['LIBERO_CONFIG_PATH']=str(config)
+        env.pop('TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD',None)
+        env['TORCH_FORCE_WEIGHTS_ONLY_LOAD']='1'
+        report['state_launcher_sha256']=hashlib.sha256(STATE_LAUNCHER.read_bytes()).hexdigest()
+        report['state_preflight_command']=[str(python),str(STATE_LAUNCHER.resolve()),'--libero-root',str(libero),
+                                          '--output',str(folder),'--preflight-only']
+        with (folder/'init_state_preflight.log').open('w',encoding='utf-8') as log:
+            initial_check=subprocess.run(report['state_preflight_command'],cwd=root,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=120)
+        if (folder/'init_state_audit.json').is_file():report['init_state_preflight']=json.loads((folder/'init_state_audit.json').read_bytes())
+        state_check=report.get('init_state_preflight',{})
+        if initial_check.returncode or state_check.get('status')!='states-validated' or len(state_check.get('files',[]))!=10:
+            raise RuntimeError('Initial-state preflight failed; inspect init_state_audit.json and init_state_preflight.log')
+        if args.check_only:
+            report['status']='preflight-completed';save()
+            return 0
+        report['server']['health']=check_openpi_health()
         with urllib.request.urlopen(manifest['source_url'],timeout=45) as response:
             data=verified_source(response.read(),manifest)
         source=folder/'official_main.py';source.write_bytes(data)
-        report['command']=child_command(python,source,folder/'videos',args.seed)
+        report['official_command']=child_command(python,source,folder/'videos',args.seed)
+        report['command']=[str(python),'-u',str(STATE_LAUNCHER.resolve()),'--libero-root',str(libero),
+                           '--output',str(folder),'--source',str(source),'--',*report['official_command'][3:]]
         report.update(status='running',simulation_launch_attempted=True);save()
         print('[Official LIBERO] Ten native tasks, one episode each, prefix=5; log:',folder/'console.log',flush=True)
         with (folder/'console.log').open('w',encoding='utf-8') as log:
@@ -151,10 +165,11 @@ def main():
                 except subprocess.TimeoutExpired:process.kill();process.wait()
                 raise
         report['metrics']=parse_log((folder/'console.log').read_text(encoding='utf-8',errors='replace'))
+        report['init_state_rollout']=json.loads((folder/'init_state_audit.json').read_bytes())
         videos=list((folder/'videos').glob('*.mp4'))
         report['video_files']=len(videos)
         valid_videos=len(videos)==manifest['expected_episodes'] and all(p.stat().st_size>0 for p in videos)
-        report['status']='completed' if report['returncode']==0 and report['metrics']['complete'] and valid_videos else 'needs-inspection'
+        report['status']='completed' if report['returncode']==0 and report['metrics']['complete'] and valid_videos and report['init_state_rollout']['status']=='official-client-returned' else 'needs-inspection'
         # Even a completed zero-success run is a valid negative baseline, not a successful grasp.
         report['model_inference_count']='unavailable; unmodified upstream client does not archive queries'
     except KeyboardInterrupt:report.update(status='interrupted',error='KeyboardInterrupt')
