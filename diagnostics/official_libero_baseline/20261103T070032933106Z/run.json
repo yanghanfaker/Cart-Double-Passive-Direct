@@ -1,0 +1,153 @@
+{
+  "status": "failed",
+  "source": {
+    "repository": "https://github.com/Physical-Intelligence/openpi",
+    "commit": "c23745b5ad24e98f66967ea795a07b2588ed6c79",
+    "reference_libero_submodule_commit": "f78abd68ee283de9f9be3c8f7e2a9ad60246e95c",
+    "entrypoint": "examples/libero/main.py",
+    "source_url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/c23745b5ad24e98f66967ea795a07b2588ed6c79/examples/libero/main.py",
+    "sha256": "d53748c95804ada559e3ca867305b8f755d8651c4c7f4e2723ef80aea55a3943",
+    "git_blob_sha1": "dc015a61740f2d3174152bebb60176fac52f3f40",
+    "expected_policy_config": "pi05_libero",
+    "expected_checkpoint": "gs://openpi-assets/checkpoints/pi05_libero",
+    "suite": "libero_spatial",
+    "trials_per_task": 1,
+    "replan_steps": 5,
+    "expected_episodes": 10,
+    "scope": "official unmodified client, existing ARM-compatible installed dependencies; not pristine official Arena installation"
+  },
+  "platform": {
+    "system": "Linux",
+    "machine": "aarch64"
+  },
+  "seed": 7,
+  "check_only": false,
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8000,
+    "expected_config": "pi05_libero",
+    "identity_status": "unverified; health and endpoint are not proof of loaded weights",
+    "candidate_processes": [
+      {
+        "pid": 810926,
+        "argv": [
+          "uv",
+          "run",
+          "scripts/serve_policy.py",
+          "--env",
+          "LIBERO",
+          "--port",
+          "8000"
+        ]
+      },
+      {
+        "pid": 810929,
+        "argv": [
+          "/home/test/Robot/openpi/.venv/bin/python",
+          "scripts/serve_policy.py",
+          "--env",
+          "LIBERO",
+          "--port",
+          "8000"
+        ]
+      }
+    ]
+  },
+  "simulation_launch_attempted": false,
+  "metrics": null,
+  "scope": "unmodified official LIBERO client on existing ARM-compatible dependencies; not official Arena/Isaac baseline",
+  "comparison_limit": "different scene and physics from Isaac cube proxy; success would establish native model operation, not isolate a specific bridge bug",
+  "runner_sha256": "36b5d2082705dea091c7c0265738a8425e79d61c5f81df782462b3f06aea5d27",
+  "openpi_checkout": {
+    "head": {
+      "status": "completed",
+      "returncode": 0,
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "output": "215abfb217dbac7d5f1273282331b9b1866c0479\n"
+    },
+    "tracked_changes": {
+      "status": "completed",
+      "returncode": 0,
+      "command": [
+        "git",
+        "status",
+        "--porcelain",
+        "--untracked-files=no"
+      ],
+      "output": ""
+    }
+  },
+  "MUJOCO_GL": "egl",
+  "runtime_probe_sha256": "75e6adbaff891118327109e819a77246eace4936776f192fff6306ac63eff515",
+  "runtime": {
+    "modules": {
+      "numpy": {
+        "status": "available",
+        "file": "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/numpy/__init__.py"
+      },
+      "imageio": {
+        "status": "available",
+        "file": "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/imageio/__init__.py"
+      },
+      "imageio_ffmpeg": {
+        "status": "available",
+        "file": "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/imageio_ffmpeg/__init__.py"
+      },
+      "tyro": {
+        "status": "unavailable",
+        "reason": "ModuleNotFoundError: No module named 'tyro'"
+      },
+      "tqdm": {
+        "status": "unavailable",
+        "reason": "ModuleNotFoundError: No module named 'tqdm'"
+      },
+      "mujoco": {
+        "status": "available",
+        "file": "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/mujoco/__init__.py"
+      },
+      "openpi_client.image_tools": {
+        "status": "available",
+        "file": "/home/test/Robot/openpi/packages/openpi-client/src/openpi_client/image_tools.py"
+      },
+      "openpi_client.websocket_client_policy": {
+        "status": "available",
+        "file": "/home/test/Robot/openpi/packages/openpi-client/src/openpi_client/websocket_client_policy.py"
+      }
+    },
+    "failures": {
+      "tyro": "ModuleNotFoundError: No module named 'tyro'",
+      "tqdm": "ModuleNotFoundError: No module named 'tqdm'"
+    },
+    "versions": {
+      "numpy": "1.26.4",
+      "mujoco": "2.3.7",
+      "robosuite": "1.4.1",
+      "libero": "0.1.0",
+      "openpi-client": "0.1.0",
+      "tyro": null,
+      "imageio": "2.35.1",
+      "imageio-ffmpeg": "0.5.1",
+      "torch": "2.7.1",
+      "websockets": "17.3"
+    },
+    "libero_root": "/home/test/Robot/openpi/third_party/libero/libero/libero",
+    "openpi_client_module": "/home/test/Robot/openpi/packages/openpi-client/src/openpi_client/image_tools.py",
+    "ffmpeg": {
+      "executable": "/home/test/Robot/openpi/examples/libero/.venv/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linuxaarch64-v4.2.2",
+      "version": "ffmpeg version 4.2.2-static https://johnvansickle.com/ffmpeg/  Copyright (c) 2000-2019 the FFmpeg developers"
+    }
+  },
+  "error": "RuntimeError: Client prerequisites unavailable: tyro, tqdm; inspect runtime.failures in run.json",
+  "artifacts": [
+    {
+      "path": "client_probe.log",
+      "bytes": 1893,
+      "sha256": "6db3215cd529cfcf8626f35989d3119a3bd07c1c55b8023a755c52e669e0a862"
+    }
+  ],
+  "large_files_over_95MiB": []
+}
