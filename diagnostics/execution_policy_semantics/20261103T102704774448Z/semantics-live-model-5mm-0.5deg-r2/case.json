@@ -1,0 +1,23 @@
+{
+  "name": "semantics-live-model-5mm-0.5deg-r2",
+  "kind": "contact-grasp",
+  "arm_profile": "k1687p5-d50",
+  "finger_profile": "kp350-kd50",
+  "gripper_mode": "substep",
+  "cap_m": 0.005,
+  "rotation_cap_deg": 0.5,
+  "grasp_height_m": 0.005,
+  "repeat": 2,
+  "negative_control": false,
+  "requires": [
+    "semantics-reference-start"
+  ],
+  "semantics_role": "live",
+  "gripper_policy": "model",
+  "prefix_length": 5,
+  "max_policy_controls": 300,
+  "prompt": "pick up the cube",
+  "requires_success": [
+    "semantics-reference-start"
+  ]
+}

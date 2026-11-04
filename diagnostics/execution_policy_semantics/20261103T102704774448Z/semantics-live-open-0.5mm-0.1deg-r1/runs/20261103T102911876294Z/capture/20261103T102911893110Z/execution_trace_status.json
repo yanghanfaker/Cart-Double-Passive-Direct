@@ -1,0 +1,29 @@
+{
+  "controls": 300,
+  "substeps": 1500,
+  "complete": true,
+  "case": {
+    "name": "semantics-live-open-0.5mm-0.1deg-r1",
+    "kind": "contact-grasp",
+    "arm_profile": "k1687p5-d50",
+    "finger_profile": "kp350-kd50",
+    "gripper_mode": "substep",
+    "cap_m": 0.0005,
+    "rotation_cap_deg": 0.1,
+    "grasp_height_m": 0.005,
+    "repeat": 1,
+    "negative_control": false,
+    "requires": [
+      "semantics-reference-start"
+    ],
+    "semantics_role": "live",
+    "gripper_policy": "open",
+    "prefix_length": 5,
+    "max_policy_controls": 300,
+    "prompt": "pick up the cube",
+    "requires_success": [
+      "semantics-reference-start"
+    ]
+  },
+  "trace_file": "physics_joint_trace.jsonl.gz"
+}

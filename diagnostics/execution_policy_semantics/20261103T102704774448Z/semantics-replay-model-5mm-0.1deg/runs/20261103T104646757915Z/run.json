@@ -1,0 +1,19 @@
+{
+  "status": "failed",
+  "command": [
+    "/home/test/Robot/openpi/examples/libero/.venv/bin/python",
+    "/home/test/Robot/Cart-Double-Passive-Direct/openpi_isaac_bridge/run_geometry_audit.py",
+    "--isaaclab-root",
+    "/home/test/Robot/IsaacLab",
+    "--output-root",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102704774448Z/semantics-replay-model-5mm-0.1deg/runs/20261103T104646757915Z/capture",
+    "--clean-scene-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102704774448Z/semantics-replay-model-5mm-0.1deg/runs/20261103T104646757915Z/clean_scene_request.json",
+    "--online-registered-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102704774448Z/semantics-replay-model-5mm-0.1deg/runs/20261103T104646757915Z/segment_settings.json",
+    "--joint-gains-json",
+    "/home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102704774448Z/semantics-replay-model-5mm-0.1deg/runs/20261103T104646757915Z/execution_joint_gains.json"
+  ],
+  "policy_queries": 0,
+  "error": "segment failed; inspect capture console and result"
+}

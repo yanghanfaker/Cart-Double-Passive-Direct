@@ -1,0 +1,13 @@
+[Geometry runner] Output: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102704774448Z/semantics-live-model-5mm-0.5deg-r1/runs/20261103T103731923305Z/capture/20261103T103731939759Z
+[Actuator audit] profile=kp2p25-kd0p25; saved /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102704774448Z/semantics-live-model-5mm-0.5deg-r1/runs/20261103T103731923305Z/capture/20261103T103731939759Z/actuator_audit.json
+[Geometry audit] sensor closure={'position_error_m': 1.6296063861905085e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 2.0449003940998118e-08, 'rotation_error_deg': 3.658629775063962e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102704774448Z/semantics-live-model-5mm-0.5deg-r1/runs/20261103T103731923305Z/capture/20261103T103731939759Z/geometry_audit.json
+[Clean scene] {"case": "deterministic-contact", "geometry": true, "projections": {"external_camera": [174.62862525702874, 166.63096722908494], "wrist_camera": [125.23220152737552, 167.16435229514326]}}
+[Geometry audit] sensor closure={'position_error_m': 1.6430384544978592e-08, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 3.429634885994845e-08, 'rotation_error_deg': 2.1353714371745967e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_u2n67c_s/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 8.034270570721866e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 6.86881753736648e-08, 'rotation_error_deg': 1.2638685435631085e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_aov5rdwe/geometry_audit.json
+[Geometry audit] sensor closure={'position_error_m': 6.080499991129403e-09, 'rotation_error_deg': 0.0, 'within_0p1mm_0p05deg': True}; IK closure={'position_error_m': 4.1814718527891464e-08, 'rotation_error_deg': 3.174271834304101e-07, 'within_0p1mm_0p05deg': True}
+[Geometry audit] Report: /tmp/hybrid_capture_i6nbx598/geometry_audit.json
+[Geometry runner] Manifest: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102704774448Z/semantics-live-model-5mm-0.5deg-r1/runs/20261103T103731923305Z/capture/20261103T103731939759Z/run.json
+[Isaac native segment] completed: /home/test/Robot/Cart-Double-Passive-Direct/diagnostics/execution_policy_semantics/20261103T102704774448Z/semantics-live-model-5mm-0.5deg-r1/runs/20261103T103731923305Z/run.json

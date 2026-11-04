@@ -1,0 +1,27 @@
+{
+  "profile": "kp350-kd50",
+  "requested_active_gains": [
+    350.0,
+    50.0
+  ],
+  "requested_finger_armature": null,
+  "groups": [
+    {
+      "group": "panda_hand",
+      "joint": "panda_finger_joint1",
+      "original_stiffness": null,
+      "original_damping": null,
+      "original_armature": null,
+      "model": "ImplicitActuator"
+    },
+    {
+      "group": "panda_finger2_passive",
+      "joint": "panda_finger_joint2",
+      "original_stiffness": 0.0,
+      "original_damping": 0.0,
+      "original_armature": null,
+      "model": "ImplicitActuator"
+    }
+  ],
+  "scope": "explicit exploratory active-finger gains; passive drive and effort limits unchanged; no equivalence to native kp assumed"
+}

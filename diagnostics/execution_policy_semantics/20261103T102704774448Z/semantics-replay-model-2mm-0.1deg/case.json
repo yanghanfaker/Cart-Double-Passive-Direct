@@ -1,0 +1,26 @@
+{
+  "name": "semantics-replay-model-2mm-0.1deg",
+  "kind": "contact-grasp",
+  "arm_profile": "k1687p5-d50",
+  "finger_profile": "kp350-kd50",
+  "gripper_mode": "substep",
+  "cap_m": 0.002,
+  "rotation_cap_deg": 0.1,
+  "grasp_height_m": 0.005,
+  "repeat": 1,
+  "negative_control": false,
+  "requires": [
+    "semantics-reference-start",
+    "semantics-live-open-0.5mm-0.1deg-r1",
+    "semantics-replay-open-0.5mm-0.1deg"
+  ],
+  "semantics_role": "replay",
+  "gripper_policy": "model",
+  "prefix_length": 5,
+  "max_policy_controls": 100,
+  "replay_source": "semantics-live-open-0.5mm-0.1deg-r1",
+  "identity_replay": false,
+  "requires_success": [
+    "semantics-reference-start"
+  ]
+}

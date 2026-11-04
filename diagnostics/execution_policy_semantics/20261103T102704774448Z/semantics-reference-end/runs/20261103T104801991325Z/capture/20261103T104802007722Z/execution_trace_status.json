@@ -1,0 +1,20 @@
+{
+  "controls": 578,
+  "substeps": 2890,
+  "complete": true,
+  "case": {
+    "name": "semantics-reference-end",
+    "kind": "contact-grasp",
+    "arm_profile": "k1687p5-d50",
+    "finger_profile": "kp350-kd50",
+    "gripper_mode": "substep",
+    "cap_m": 0.0005,
+    "rotation_cap_deg": 0.1,
+    "grasp_height_m": 0.005,
+    "repeat": 1,
+    "negative_control": false,
+    "requires": [],
+    "hybrid_role": "reference"
+  },
+  "trace_file": "physics_joint_trace.jsonl.gz"
+}
